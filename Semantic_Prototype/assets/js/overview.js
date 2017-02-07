@@ -1,3 +1,0 @@
-$('#sidebarToggle')
-  .sidebar('toggle')
-;
