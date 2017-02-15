@@ -1,0 +1,3 @@
+$('#sidebarToggle')
+  .sidebar('toggle')
+;
