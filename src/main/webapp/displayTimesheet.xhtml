@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:outputStylesheet library="css" name="bootstrap.css" />
+    <h:outputStylesheet library="css" name="semantic.css" />
+
+    <h:outputScript library="javascript" name="jquery-3.1.1.min.js" />
+    <h:outputScript library="javascript" name="semantic.js" />
+    <h:outputScript library="javascript" name="site.js" />
+    <h:outputScript library="javascript" name="bootstrap.js" />
+
+
+    <title>Index</title>
+</h:head>
+<h:body>
+    <div
+        class="ui left demo vertical inverted sidebar labeled icon menu">
+        <a id="hide-sidebar" class="item"> <i class="sidebar icon"></i>
+        </a> <a class="item"> <i class="home icon"></i>
+        </a>
+    </div>
+
+    <div id="home" class="ui pusher">
+        <div class="ui top massive fixed menu">
+
+            <a id="show-sidebar" class="item"> <i
+                class="large sidebar icon"></i> <img
+                class="ui small image"
+                src='#{resource["images/logo.png"]}' alt="" />
+            </a> <a class="item"> Features </a> <a class="item"> About
+                Us </a> <a class="item"> Contact Us </a>
+            <div class="right menu">
+                <a class="item"> <i class="big announcement icon"></i>
+                </a>
+                <h:form>
+
+                    <h:commandLink class="item" value="Logout"
+                        action="#{Master.logout}">
+                        <i class="big sign out icon"></i>
+                    </h:commandLink>
+
+                </h:form>
+            </div>
+        </div>
+
+        <div class="ui segment grid">
+            <div class="row"></div>
+            <div class="row">
+                <div class="column">
+                    <h:dataTable
+                        value="#{controller.currentTimesheet.details}"
+                        var="row">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.projectID']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.projectID}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8" required="true">
+                                <f:convertNumber pattern="#####" />
+                            </h:inputText>
+                            <h:outputText value="#{row.projectID}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{msgs['timesheet.total']}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.workPackage']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.workPackage}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8" required="true" />
+                            <h:outputText value="#{row.workPackage}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.total']}" />
+                            </f:facet>
+                            <h:outputText value="#{row.getSum()}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{controller.currentTimesheet.getTotalHours()}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.saturday']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.saturday}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8">
+                                <f:convertNumber minFractionDigits="1" />
+                                <f:validateDoubleRange minimum="0"
+                                    maximum="24" />
+                            </h:inputText>
+                            <h:outputText value="#{row.saturday}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{controller.currentTimesheet.getDailyHours()[0]}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.sunday']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.sunday}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8">
+                                <f:convertNumber minFractionDigits="1" />
+                                <f:validateDoubleRange minimum="0"
+                                    maximum="24" />
+                            </h:inputText>
+                            <h:outputText value="#{row.sunday}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{controller.currentTimesheet.getDailyHours()[1]}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.monday']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.monday}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8">
+                                <f:convertNumber minFractionDigits="1" />
+                                <f:validateDoubleRange minimum="0"
+                                    maximum="24" />
+                            </h:inputText>
+                            <h:outputText value="#{row.monday}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{controller.currentTimesheet.getDailyHours()[2]}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.tuesday']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.tuesday}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8">
+                                <f:convertNumber minFractionDigits="1" />
+                                <f:validateDoubleRange minimum="0"
+                                    maximum="24" />
+                            </h:inputText>
+                            <h:outputText value="#{row.tuesday}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{controller.currentTimesheet.getDailyHours()[3]}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.wednesday']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.wednesday}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8">
+                                <f:convertNumber minFractionDigits="1" />
+                                <f:validateDoubleRange minimum="0"
+                                    maximum="24" />
+                            </h:inputText>
+                            <h:outputText value="#{row.wednesday}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{controller.currentTimesheet.getDailyHours()[4]}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.thursday']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.thursday}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8">
+                                <f:convertNumber minFractionDigits="1" />
+                                <f:validateDoubleRange minimum="0"
+                                    maximum="24" />
+                            </h:inputText>
+                            <h:outputText value="#{row.thursday}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{controller.currentTimesheet.getDailyHours()[5]}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.friday']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.friday}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8">
+                                <f:convertNumber minFractionDigits="1" />
+                                <f:validateDoubleRange minimum="0"
+                                    maximum="24" />
+                            </h:inputText>
+                            <h:outputText value="#{row.friday}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                            <f:facet name="footer">
+                                <h:outputText
+                                    value="#{controller.currentTimesheet.getDailyHours()[6]}" />
+                            </f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msgs['timesheet.notes']}" />
+                            </f:facet>
+                            <h:inputText value="#{row.notes}"
+                                rendered="#{controller.currentTimesheet.editing}"
+                                size="8" />
+                            <h:outputText value="#{row.notes}"
+                                rendered="#{not controller.currentTimesheet.editing}" />
+                        </h:column>
+                    </h:dataTable>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</h:body>
+</html>
+

@@ -1,11 +1,16 @@
 package manager;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
+import model.Employee;
 import model.Timesheet;
+import model.TimesheetId;
 
 
 @Dependent
@@ -16,21 +21,28 @@ public class TimesheetManager {
     public Timesheet find(int id) {
         return em.find(Timesheet.class, id);
     }
+    
+    public List<Timesheet> findbyEmpId(int empId) {
+        TypedQuery<TimesheetId> query = em.createNamedQuery(
+                            "SELECT s FROM TimesheetId as s WHERE s.tsEmpId = ?",
+                            TimesheetId.class);
+        
+    }
 
-    public void persist(Timesheet empTitle) {
-        em.persist(empTitle);
+    public void persist(Timesheet timesheet) {
+        em.persist(timesheet);
     }
     
-    public void update(Timesheet empTitle) {
-        em.merge(empTitle);  
+    public void update(Timesheet timesheet) {
+        em.persist(timesheet);  
     }
    
-    public void merge(Timesheet empTitle) {
-        em.merge(empTitle);
+    public void merge(Timesheet timesheet) {
+        em.merge(timesheet);
     } 
     
-    public void remove(Timesheet empTitle) {
-        em.remove(empTitle);
+    public void remove(Timesheet timesheet) {
+        em.remove(timesheet);
     }
     
 }
