@@ -57,20 +57,83 @@
                 </h:form>
              </div>
         </div>
-        <div class="ui segment grid">
+        <div class="ui segment grid" id="content">
             <div class="row"></div>
             <div class="row">
                 <div class="column">
                 </div>
             </div>
-            <h3>Admin</h3>
+          <h3>Admin</h3>
             <div class="container">
-	    		<h:inputText class = "form-control" id="inputNewFnm"  pt:placeholder="First name" value="#{Employee.emp.empFnm}"/>
-	    		<h:inputText class = "form-control" id="inputNewLnm"  pt:placeholder="Last name" value="#{Employee.emp.empFnm}"/>
+	    		      <h:inputText class = "form-control" id="inputNewFnm"  pt:placeholder="First name" value="#{Employee.emp.empFnm}"/>
+	    		      <h:inputText class = "form-control" id="inputNewLnm"  pt:placeholder="Last name" value="#{Employee.emp.empFnm}"/>
                 <h:inputText class = "form-control" id="inputNewPwd" pt:placeholder="Password" value="#{Employee.emp.empPw}"/>
                 <h:commandButton class="btn btn-lg btn-primary btn-block btn-signin" value="Save" action="#{Employee.add}"/>
-      		</div>
+      		 </div>
+
             
+            <div class="container text-centered">
+  				<div class="jumbotron">
+	    			<h1>Admin</h1>
+	    			<span></span> 
+  				</div> 
+			</div>
+            
+            <div class="container">
+	            <div class="row">
+	            
+		            <div class="col-md-12">
+		            	<h:dataTable class="table table-bordered" value="#{Employee.list}" var="s">
+							<h:column>
+								<f:facet name="header">Employee ID</f:facet>	
+								#{s.empId}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Name</f:facet>	
+								#{s.empFnm} #{s.empLnm} 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Departmnet</f:facet>	
+								#{s.empDept} 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Employee Sig</f:facet>	
+								#{s.empSig} 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Employee Flex Time</f:facet>	
+								#{s.empFlxTm} 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Labour Grade </f:facet>	
+								#{s.empLabGrd} 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Employee Sig</f:facet>	
+								#{s.empSig} 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Supervisor ID</f:facet>	
+								#{s.empSupId} 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Date of Hire</f:facet>	
+								#{s.empInsDt} 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Edit</f:facet>	
+								<button>Edit</button> 
+							</h:column>
+							<h:column>
+								<f:facet name="header">Delete</f:facet>	
+								<button>Delete</button> 
+							</h:column>
+						</h:dataTable>
+					</div>
+		            
+	            </div>
+            </div>
+
         </div>
     </div>
     
