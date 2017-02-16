@@ -13,7 +13,6 @@ import model.Emptitle;
 @Dependent
 @Stateless
 public class EmployeeTitleManager implements Serializable {
-
     @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
     
     public Emptitle find(int id) {

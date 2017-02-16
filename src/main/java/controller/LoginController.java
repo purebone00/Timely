@@ -7,9 +7,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import frontend.EmployeeProfile;
 import manager.EmployeeManager;
 import model.Employee;
+import view.EmployeeProfile;
 
 @SuppressWarnings("serial")
 @Named("Login")

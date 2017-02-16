@@ -1,4 +1,4 @@
-package frontend;
+package view;
 
 
 import java.io.Serializable;
@@ -11,12 +11,9 @@ import javax.inject.Named;
 
 import controller.LoginController;
 
-
-
-
 @Named("Master")
 @ConversationScoped
-public class FrontEndBoundary implements Serializable{
+public class Boundary implements Serializable{
     @Inject Conversation conversation;
     @Inject LoginController login;
     
@@ -44,17 +41,14 @@ public class FrontEndBoundary implements Serializable{
         end();
     }
     
-    public FrontEndBoundary() {
+    public Boundary() {
         
     }
     
     public String authenticate() {
         if(login.authUser()) {
             init();
-            if (login.isAdmin()) {
-                return "admin";
-            }
-            return "login";
+            return(login.isAdmin())?"admin":"login";           
         }
         return "fail";
     }

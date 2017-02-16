@@ -1,7 +1,8 @@
+C:\Users\JF\workspace\Timely\src\main\java\frontend\FrontEndBoundary.java
 C:\Users\JF\workspace\Timely\src\main\java\model\WpstarepId.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Employee.java
-C:\Users\JF\workspace\Timely\src\main\java\controller\EmployeeBean.java
 C:\Users\JF\workspace\Timely\src\main\java\model\EmpwpId.java
+C:\Users\JF\workspace\Timely\src\main\java\controller\LoginController.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Timesheet.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Title.java
 C:\Users\JF\workspace\Timely\src\main\java\manager\EmployeeManager.java
@@ -9,11 +10,12 @@ C:\Users\JF\workspace\Timely\src\main\java\model\Labgrd.java
 C:\Users\JF\workspace\Timely\src\main\java\model\EmptitleId.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Emptitle.java
 C:\Users\JF\workspace\Timely\src\main\java\model\TimesheetId.java
+C:\Users\JF\workspace\Timely\src\main\java\controller\EmployeeController.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Project.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Workpack.java
-C:\Users\JF\workspace\Timely\src\main\java\master\MasterController.java
 C:\Users\JF\workspace\Timely\src\main\java\model\WorkpackId.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Empwp.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Tsrow.java
 C:\Users\JF\workspace\Timely\src\main\java\model\Wpstarep.java
-C:\Users\JF\workspace\Timely\src\main\java\master\Login.java
+C:\Users\JF\workspace\Timely\src\main\java\frontend\EmployeeProfile.java
+C:\Users\JF\workspace\Timely\src\main\java\manager\EmployeeTitleManager.java
