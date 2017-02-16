@@ -32,29 +32,21 @@ public class Boundary implements Serializable{
     public void end() {
         conversation.end();
     }
-    
-    public void init() {
-        start();
-    }
-    
-    public void finish() {
-        end();
-    }
-    
+
     public Boundary() {
         
     }
     
     public String authenticate() {
         if(login.authUser()) {
-            init();
+            start();
             return(login.isAdmin())?"admin":"login";           
         }
         return "fail";
     }
     
     public String logout() {
-        finish();
+        end();
         return "logout";
     }
     
