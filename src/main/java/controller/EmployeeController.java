@@ -14,7 +14,7 @@ import model.Employee;
 
 @Named("Employee")
 @SessionScoped
-public class EmployeeBean implements Serializable{
+public class EmployeeController implements Serializable{
     @Inject private EmployeeManager employeeManager;
     
     private List<Employee> list;
@@ -26,21 +26,11 @@ public class EmployeeBean implements Serializable{
         return list;
     }
     
-    public boolean find(int id) {
-        Employee employee;
-        employee = employeeManager.find(id);
-        return (employee!=null)? true:false;
+    public Employee find(int id) {
+        return employeeManager.find(id);
     }
     
     private void refreshList() {
-        Employee[] employee = employeeManager.getAll();
-        list = new ArrayList<Employee>(Arrays.asList(employee));
-    }
-    
-    public EmployeeManager getEmployeeManager() {
-        return employeeManager;
-    }
-    public void setEmployeeManager(EmployeeManager employeeManager) {
-        this.employeeManager = employeeManager;
+        list = employeeManager.getAll();
     }
 }

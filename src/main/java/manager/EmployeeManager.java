@@ -1,6 +1,7 @@
 package manager;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
@@ -36,15 +37,12 @@ public class EmployeeManager implements Serializable{
         em.remove(employee);
     }
     
-    public Employee[] getAll() {
+    public List<Employee> getAll() {
         TypedQuery<Employee> query = em.createQuery("select s from Employee s",
                 Employee.class); 
-        java.util.List<Employee> employees = query.getResultList();
-        Employee[] emparray = new Employee[employees.size()];
-        for (int i=0; i < emparray.length; i++) {
-            emparray[i] = employees.get(i);
-        }
-        return emparray;
+        List<Employee> employees = query.getResultList();
+        
+        return employees;
     }
     
     

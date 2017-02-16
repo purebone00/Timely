@@ -1,4 +1,4 @@
-package master;
+package frontend;
 
 
 import java.io.Serializable;
@@ -9,20 +9,22 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import controller.LoginController;
+
 
 
 
 @Named("Master")
 @ConversationScoped
-public class MasterController implements Serializable{
+public class FrontEndBoundary implements Serializable{
     @Inject Conversation conversation;
-    @Inject Login login;
+    @Inject LoginController login;
     
-    public Login getLogin() {
+    public LoginController getLogin() {
         return login;
     }
 
-    public void setLogin(Login login) {
+    public void setLogin(LoginController login) {
         this.login = login;
     }
 
@@ -42,13 +44,16 @@ public class MasterController implements Serializable{
         end();
     }
     
-    public MasterController() {
+    public FrontEndBoundary() {
         
     }
     
     public String authenticate() {
         if(login.authUser()) {
             init();
+            if (login.isAdmin()) {
+                return "admin";
+            }
             return "login";
         }
         return "fail";

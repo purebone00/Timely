@@ -1,4 +1,4 @@
-package master;
+package controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,32 +7,39 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import controller.EmployeeBean;
+import frontend.EmployeeProfile;
+import manager.EmployeeManager;
 import model.Employee;
 
+@SuppressWarnings("serial")
 @Named("Login")
 @RequestScoped
-public class Login implements Serializable {
-    @Inject EmployeeBean empBean;
+public class LoginController implements Serializable {
+    @Inject EmployeeManager empManager;
+
+    @Inject EmployeeProfile currentEmployee;
     
     private String userName;
     
     private String password;
     
-    private List<Employee> list ;
+    private List<Employee> list;
     
-    public Login() {
+    public LoginController() {
         
     }
     
     public boolean authUser() {
-        list = empBean.getList();
+        list = empManager.getAll();
         boolean authenticated = false;
         
         for(int i = 0; i < list.size(); i++) {
             Employee employee = list.get(i);
             if(employee.getEmpLnm().equals(userName) && employee.getEmpPw().equals(password)) {
-                authenticated = empBean.find(employee.getEmpId());
+                currentEmployee.setCurrentEmployee(empManager.find(employee.getEmpId()));
+                if (currentEmployee.getCurrentEmployee() != null) {
+                    authenticated = true;
+                }
             }
         }
         return authenticated;
@@ -57,5 +64,9 @@ public class Login implements Serializable {
     
     public void setList(List<Employee> newList) {
         this.list = newList;
+    }
+    
+    public boolean isAdmin() {
+        return (currentEmployee.getCurrentEmployee().getEmpId().intValue() == 1);
     }
 }

@@ -74,7 +74,6 @@ public class Tsrow implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-
     @Column(name = "_id", unique = true, nullable = false)
     public Long getId() {
         return this.id;
