@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <h:outputStylesheet library="css" name="bootstrap.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:outputScript library="javascript" name="jquery-3.1.1.min.js" />
+    <h:outputScript library="javascript" name="bootstrap.js" />
+
+    <title><ui:insert name="title" /></title>
+</h:head>
+
+<h:body style="padding-top: 60px">
+
+    <!--Header Here-->
+    <div id="header">
+        <ui:insert name="header">
+            <ui:include src="/templates/header.xhtml" />
+        </ui:insert>
+    </div>
+
+    <div id="main">
+        <b:container fluid="true">
+            <b:row>
+                <!-- Navbar Here -->
+                <div id="sidebar">
+                    <ui:insert name="sidebar">
+                        <ui:include src="/templates/sidebar.xhtml" />
+                    </ui:insert>
+                </div>
+                <!-- Content Here -->
+                <div id="content">
+                    <ui:insert name="content">
+                        <b:column col-sm="3" offset-sm="2" col-md="11"
+                            offset="1" styleClass="main">
+								Place all main content here
+							</b:column>
+                    </ui:insert>
+                </div>
+            </b:row>
+        </b:container>
+    </div>
+</h:body>
+</html>

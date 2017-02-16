@@ -1,0 +1,80 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:b="http://bootsfaces.net/ui">
+    <b:column col-sm="2" col-md="1" styleClass="sidebar">
+        <b:listLinks rendered="true">
+            <b:navLink icon-size="2x" iconAwesome="user"
+                header="General Utilities" />
+            <b:navLink icon-size="lg" iconAwesome="calendar-plus-o"
+                href="#" value="Add or Modify Timesheet"
+                rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="archive" href="#"
+                value="View History" rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="calendar-times-o"
+                href="#" value="Fix Timesheets"
+                rendered="true" />
+        </b:listLinks>
+        <b:listLinks>
+            <b:navLink icon-size="2x" iconAwesome="sliders"
+                header="User Settings" />
+            <b:navLink icon-size="lg" iconAwesome="key" href="#"
+                value="Change Password"
+                rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="info" href="#"
+                value="Update User Info"
+                rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
+                value="Sign Out" rendered="true" />
+        </b:listLinks>
+        <b:listLinks rendered="true">
+            <b:navLink icon-size="2x" iconAwesome="calendar-check-o"
+                header="Timesheet Approver" />
+            <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
+                href="#" value="Add or Modify Timesheet"
+                rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="pencil-square"
+                href="#" value="Fix Timesheets"
+                rendered="true" />
+        </b:listLinks>
+        <b:listLinks rendered="true">
+            <b:navLink icon-size="2x" iconAwesome="wrench"
+                header="Responsible Engineer" />
+            <b:navLink icon-size="lg" iconAwesome="pencil-square-o"
+                href="#" value="New WorkPackage"
+                rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="archive" href="#"
+                value="Review WorkPackage"
+                rendered="true" />
+        </b:listLinks>
+        <b:listLinks rendered="true">
+            <b:navLink icon-size="2x" iconAwesome="cubes"
+                header="Project Manager" />
+            <b:navLink icon-size="lg" iconAwesome="list" href="#"
+                value="View Assigned Projects"
+                rendered="true" />
+        </b:listLinks>
+        <b:listLinks rendered="true">
+            <b:navLink icon-size="2x" iconAwesome="cube"
+                header="Supervisor" />
+            <b:navLink icon-size="lg" iconAwesome="list" href="#"
+                value="View Projects" rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="file-text" href="#"
+                value="View Weekly Reports"
+                rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="file-text-o" href="#"
+                value="Monthly Reports"
+                rendered="true" />
+        </b:listLinks>
+        <b:listLinks rendered="true">
+            <b:navLink icon-size="2x" iconAwesome="user-secret"
+                header="Admin" />
+            <b:navLink icon-size="lg" iconAwesome="user-plus" href="#"
+                value="Add User" rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
+                value="Sign Out" rendered="true" />
+        </b:listLinks>
+    </b:column>
+</ui:composition>
