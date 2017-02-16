@@ -3,7 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core" 
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
    <h:head>
       <h:outputStylesheet library="css" name="style.css"/>
       <h:outputStylesheet library="css" name="bootstrap.css"/>
@@ -62,10 +63,17 @@
                 <div class="column">
                 </div>
             </div>
-            
             <h3>Admin</h3>
+            <div class="container">
+	    		<h:inputText class = "form-control" id="inputNewFnm"  pt:placeholder="First name" value="#{Employee.emp.empFnm}"/>
+	    		<h:inputText class = "form-control" id="inputNewLnm"  pt:placeholder="Last name" value="#{Employee.emp.empFnm}"/>
+                <h:inputText class = "form-control" id="inputNewPwd" pt:placeholder="Password" value="#{Employee.emp.empPw}"/>
+                <h:commandButton class="btn btn-lg btn-primary btn-block btn-signin" value="Save" action="#{Employee.add}"/>
+      		</div>
+            
         </div>
     </div>
+    
       
    </h:body>
 </html>
