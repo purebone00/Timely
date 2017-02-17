@@ -1,23 +1,15 @@
-
-<ui:composition template="/templates/master_page.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <ui:define name="title">Index</ui:define>
-
-    <ui:define name="content">
-    <div class="ui segment grid">
-			<div class="row">
-            Testing</div>
-			<div class="row">
-				<div class="column">
-				One
-                </div>
-                Two
-			</div>
-            Three
-		</div>
-    </ui:define>
-</ui:composition>
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <h:body>
+    	<ui:composition template="/template/master_page.xhtml">
+    		<ui:define name="content">
+    			<h2>This is page1 content</h2>
+    		</ui:define>
+    	</ui:composition>
+    </h:body>
+</html>

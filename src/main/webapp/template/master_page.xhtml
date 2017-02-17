@@ -23,7 +23,7 @@
     <!--Header Here-->
     <div id="header">
         <ui:insert name="header">
-            <ui:include src="/templates/header.xhtml" />
+            <ui:include src="/template/header.xhtml" />
         </ui:insert>
     </div>
 
@@ -33,16 +33,16 @@
                 <!-- Navbar Here -->
                 <div id="sidebar">
                     <ui:insert name="sidebar">
-                        <ui:include src="/templates/sidebar.xhtml" />
+                        <ui:include src="/template/sidebar.xhtml" />
                     </ui:insert>
                 </div>
                 <!-- Content Here -->
                 <div id="content">
                     <ui:insert name="content">
-                        <b:column col-sm="3" offset-sm="2" col-md="11"
+                        <b:column col-sm="9" offset-sm="3" col-md="10" offset="2" styleClass="main">
                             offset="1" styleClass="main">
 								Place all main content here
-							</b:column>
+						</b:column>
                     </ui:insert>
                 </div>
             </b:row>

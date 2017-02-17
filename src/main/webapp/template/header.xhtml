@@ -10,19 +10,19 @@
 	<h:body>
 		<ui:composition>
 			<!-- Brand image not work, might need fixing -->
-			<b:navBar class="header" brand-img="assets/logo.png" brandHref="#" inverse="true" fixed="top" fluid="true">				
+			<b:navBar class="header" brand="Timely" brandHref="#" inverse="true" fixed="top" fluid="true">				
 				<b:navbarLinks>
 					<b:navLink value="Features" href="#"></b:navLink>
 					<b:navLink value="About Us" href="#"></b:navLink>
 					<b:navLink value="Contact Us" href="#"></b:navLink>
 				</b:navbarLinks>
 				<b:navbarLinks pull="right">
-					<b:dropMenu icon-size="2x" value="Notifications" iconAwesome="exclamation" rendered="#{CHECK-SIGNEDIN-PLACEHOLDER}">
+					<b:dropMenu icon-size="2x" value="Notifications" iconAwesome="exclamation" rendered="true">
 						 <b:navLink value="POPULATE WITH NOTIFICATIONS" href="#"></b:navLink>
 					</b:dropMenu>
-					<b:navLink value="Hello #{user.USERNAME}!" href="#" rendered="#{CHECK-SIGNEDIN-PLACEHOLDER}"></b:navLink>
-					<b:navLink icon-size="2x" iconAwesome="sign-in" href="#" value="Sign In" rendered="#{CHECK-SIGNEDOUT-PLACEHOLDER}"/>
-					<b:navLink icon-size="2x" iconAwesome="sign-out" href="#" value="Sign Out" rendered="#{CHECK-SIGNEDIN-PLACEHOLDER}"/>
+					<b:navLink value="Hello #{user.USERNAME}!" href="#" rendered="true"></b:navLink>
+					<b:navLink icon-size="2x" iconAwesome="sign-in" href="#" value="Sign In" rendered="true"/>
+					<b:navLink icon-size="2x" iconAwesome="sign-out" href="#" value="Sign Out" rendered="true"/>
 				</b:navbarLinks>
 			</b:navBar>
 		</ui:composition>
