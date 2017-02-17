@@ -25,8 +25,8 @@ public class TimesheetManager {
     }
     
     public List<EditableTimesheet> findbyEmpId(Integer empId) {
-        TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet t", Timesheet.class);
-        
+        TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet t WHERE t.tsEmpId=?", Timesheet.class);
+        query.setParameter(1, empId);
         List<EditableTimesheet> listOfTs = new ArrayList<EditableTimesheet>();
         for (Timesheet ts : query.getResultList()) {
             EditableTimesheet newTs = new EditableTimesheet();

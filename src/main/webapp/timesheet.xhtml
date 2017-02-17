@@ -52,17 +52,20 @@
             <div class="row"></div>
             <div class="row">
                 <div class="column">
-                <h:form>
-                    <h:commandButton value="Create New Timesheeat" action="#{Master.empFunc.createNew(Master.login.currentEmployee.employee.empId)}" />
-                </h:form>
                     <h:dataTable
-                        value="#{Master.empFunc.listOfTimesheets(Master.login.currentEmployee.employee)}"
-                        var="row">
+                        value="#{Master.empFunc.currentTimesheet.rows}"
+                        var="row">                        
                         <h:column>
-                            <h:outputText value="#{row.timesheet.tsWkEnd}" />
+                            <h:outputText value="#{row.thisRow.tsrProjNo}" />
                         </h:column>
-                        <h:column>
-                            <h:button value="Go to this Timesheet" outcome="#{Master.empFunc.goTo(row)}" />
+                        <h:column>                            
+                            <h:outputText value="#{row.thisRow.tsrWpNo}" />
+                        </h:column>
+                        <h:column>                            
+                            <h:outputText value="#{row.thisRow.tsrInsDt}" />
+                        </h:column>                        
+                        <h:column>                            
+                            <h:outputText value="#{row.thisRow.tsrUpDt}" />
                         </h:column>
                     </h:dataTable>
 

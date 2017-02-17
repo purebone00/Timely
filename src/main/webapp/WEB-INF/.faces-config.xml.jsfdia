@@ -26,4 +26,15 @@
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#displayTimesheet.xhtml"
+  PATH="/displayTimesheet.xhtml" SHAPE="32,273,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#displayTimesheet.xhtml:0" NAME="item"
+   PATH="/displayTimesheet.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="timesheet::#timesheet.xhtml" NAME="output"
+    PATH="/timesheet.xhtml" TARGET="rules:#timesheet.xhtml"
+    TITLE="timesheet" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#timesheet.xhtml" PATH="/timesheet.xhtml"
+  SHAPE="240,289,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
