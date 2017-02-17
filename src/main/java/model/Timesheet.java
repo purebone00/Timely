@@ -8,9 +8,13 @@ import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,13 +26,17 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Timesheet")
+@IdClass(TimesheetId.class)
 public class Timesheet implements java.io.Serializable {
 
     /* ======================================================== */
     private List<Tsrow> details;
     /* ======================================================== */
     
-    private TimesheetId id;
+    private int tsEmpId;
+    
+    private String tsWkEnd;
+    
     private BigDecimal tsTotal;
     private BigDecimal tsOverTm;
     private BigDecimal tsFlexTm;
@@ -43,16 +51,18 @@ public class Timesheet implements java.io.Serializable {
     public Timesheet() {
     }
 
-    public Timesheet(TimesheetId id, short tsDel, Date tsInsDt, Date tsUpDt) {
-        this.id = id;
+    public Timesheet(int tsEmpId ,String tsWkEnd, short tsDel, Date tsInsDt, Date tsUpDt) {
+        this.tsEmpId = tsEmpId;
+        this.tsWkEnd = tsWkEnd;
         this.tsDel = tsDel;
         this.tsInsDt = tsInsDt;
         this.tsUpDt = tsUpDt;
     }
 
-    public Timesheet(TimesheetId id, BigDecimal tsTotal, BigDecimal tsOverTm, BigDecimal tsFlexTm, Date tsSignDt,
+    public Timesheet(int tsEmpId ,String tsWkEnd, BigDecimal tsTotal, BigDecimal tsOverTm, BigDecimal tsFlexTm, Date tsSignDt,
             Short tsSubmit, Date tsApprDt, Integer tsApprId, short tsDel, Date tsInsDt, Date tsUpDt) {
-        this.id = id;
+        this.tsEmpId = tsEmpId;
+        this.tsWkEnd = tsWkEnd;
         this.tsTotal = tsTotal;
         this.tsOverTm = tsOverTm;
         this.tsFlexTm = tsFlexTm;
@@ -68,22 +78,31 @@ public class Timesheet implements java.io.Serializable {
         
     }
 
-    @EmbeddedId
-
-    @AttributeOverrides({ @AttributeOverride(name = "tsEmpId", column = @Column(name = "tsEmpID", nullable = false)),
-            @AttributeOverride(name = "tsWkEnd", column = @Column(name = "tsWkEnd", nullable = false, length = 8)) })
-    public TimesheetId getId() {
-        return this.id;
+    @Id
+    @Column(name = "tsEmpId", nullable = false)
+    public int getTsEmpId() {
+        return tsEmpId;
     }
 
-    public void setId(TimesheetId id) {
-        this.id = id;
+    public void setTsEmpId(int tsEmpId) {
+        this.tsEmpId = tsEmpId;
+    }
+
+    @Id
+    @Column(name = "tsEmpId", nullable = false, length = 8)
+    public String getTsWkEnd() {
+        return tsWkEnd;
+    }
+
+    public void setTsWkEnd(String tsWkEnd) {
+        this.tsWkEnd = tsWkEnd;
     }
 
     @Column(name = "tsTotal", precision = 5)
     public BigDecimal getTsTotal() {
         return this.tsTotal;
     }
+
 
     public void setTsTotal(BigDecimal tsTotal) {
         this.tsTotal = tsTotal;

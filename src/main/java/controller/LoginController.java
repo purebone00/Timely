@@ -36,8 +36,8 @@ public class LoginController implements Serializable {
         for(int i = 0; i < list.size(); i++) {
             Employee employee = list.get(i);
             if(employee.getEmpLnm().equals(userName) && employee.getEmpPw().equals(password)) {
-                currentEmployee.setCurrentEmployee(empManager.find(employee.getEmpId()));
-                if (currentEmployee.getCurrentEmployee() != null) {
+                currentEmployee.setEmployee(empManager.find(employee.getEmpId()));
+                if (currentEmployee.getEmployee() != null) {
                     authenticated = true;
                 }
             }
@@ -67,6 +67,16 @@ public class LoginController implements Serializable {
     }
     
     public boolean isAdmin() {
-        return (currentEmployee.getCurrentEmployee().getEmpId().intValue() == 1);
+        return (currentEmployee.getEmployee().getEmpId().intValue() == 1);
     }
+
+    public EmployeeProfile getCurrentEmployee() {
+        return currentEmployee;
+    }
+
+    public void setCurrentEmployee(EmployeeProfile currentEmployee) {
+        this.currentEmployee = currentEmployee;
+    }
+    
+    
 }

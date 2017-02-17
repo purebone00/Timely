@@ -1,23 +1,26 @@
 package view;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import model.*;
 
 @Named
-public class EmployeeProfile {
+@SessionScoped
+public class EmployeeProfile implements Serializable {
 
     Employee employee;
     
     List<Title> employeeTitles;
 
-    public Employee getCurrentEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
-    public void setCurrentEmployee(Employee currentEmployee) {
+    public void setEmployee(Employee currentEmployee) {
         this.employee = currentEmployee;
     }
 

@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -11,6 +12,7 @@ import javax.persistence.TypedQuery;
 import model.Employee;
 import model.Timesheet;
 import model.TimesheetId;
+import timesheetUtility.EditableTimesheet;
 
 
 @Dependent
@@ -18,16 +20,23 @@ import model.TimesheetId;
 public class TimesheetManager {
     @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
     
-    public Timesheet find(int id) {
+    public Timesheet find(TimesheetId id) {
         return em.find(Timesheet.class, id);
     }
     
-    public List<Timesheet> findbyEmpId(int empId) {
-        TypedQuery<TimesheetId> query = em.createNamedQuery(
-                            "SELECT s FROM TimesheetId as s WHERE s.tsEmpId = ?",
-                            TimesheetId.class);
+    public List<EditableTimesheet> findbyEmpId(Integer empId) {
+        TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet t", Timesheet.class);
         
+        List<EditableTimesheet> listOfTs = new ArrayList<EditableTimesheet>();
+        for (Timesheet ts : query.getResultList()) {
+            EditableTimesheet newTs = new EditableTimesheet();
+            newTs.setTimesheet(ts);
+            listOfTs.add(newTs);
+        }
+        
+        return listOfTs;
     }
+    
 
     public void persist(Timesheet timesheet) {
         em.persist(timesheet);

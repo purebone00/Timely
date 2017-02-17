@@ -1,16 +1,15 @@
-package timsheetUtility;
+package timesheetUtility;
 
 import java.util.List;
 
-import javax.inject.Named;
-
 import model.Timesheet;
 
-@Named
 public class EditableTimesheet {
     
     private Timesheet timesheet;
     private List<EditableRows> rows;
+    
+    
     
     public Timesheet getTimesheet() {
         return timesheet;

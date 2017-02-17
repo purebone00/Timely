@@ -1,10 +1,7 @@
-package timsheetUtility;
-
-import javax.inject.Named;
+package timesheetUtility;
 
 import model.Tsrow;
 
-@Named
 public class EditableRows {
 
     private Tsrow thisRow;
