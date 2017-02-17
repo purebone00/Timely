@@ -45,7 +45,7 @@ public class EmployeeController implements Serializable{
     }
     
     
-    private void refreshList() {
+    public void refreshList() {
         list = employeeManager.getAll();
     }
 }

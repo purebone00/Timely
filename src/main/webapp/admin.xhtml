@@ -64,13 +64,19 @@
                 </div>
             </div>
           <h3>Admin</h3>
-            <div class="container">
-	    		      <h:inputText class = "form-control" id="inputNewFnm"  pt:placeholder="First name" value="#{Employee.emp.empFnm}"/>
-	    		      <h:inputText class = "form-control" id="inputNewLnm"  pt:placeholder="Last name" value="#{Employee.emp.empFnm}"/>
-                <h:inputText class = "form-control" id="inputNewPwd" pt:placeholder="Password" value="#{Employee.emp.empPw}"/>
-                <h:commandButton class="btn btn-lg btn-primary btn-block btn-signin" value="Save" action="#{Employee.add}"/>
-      		 </div>
 
+			 <h:form id="addUser">
+            <h:inputText value="#{Admin.newEmployee.empFnm}" required="true" />
+            <h:inputText value="#{Admin.newEmployee.empLnm}" required="true" />
+            <h:inputText value="#{Admin.newEmployee.empDept}" required="true" />
+            <h:selectOneMenu value="#{Admin.newEmployee.empLabGrd}">
+            	<f:selectItems value="#{Admin.labourGrades}"/>
+            </h:selectOneMenu>
+            <h:inputSecret value="#{Admin.newEmployee.empPw}"  required="true" />
+            <p>
+               <h:commandButton id="addButton" value="Add" action="#{Admin.addEmployee}"/>
+            </p>
+         </h:form>
             
             <div class="container text-centered">
   				<div class="jumbotron">

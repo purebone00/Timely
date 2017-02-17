@@ -82,5 +82,9 @@ public class Labgrd implements java.io.Serializable {
     public void setLgUpDt(Date lgUpDt) {
         this.lgUpDt = lgUpDt;
     }
+    
+    public String toString() {
+    	return lgId;
+    }
 
 }
