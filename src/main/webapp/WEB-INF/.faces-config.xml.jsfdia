@@ -26,4 +26,12 @@
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#createuser.xhtml" PATH="/createuser.xhtml"
+  SHAPE="64,273,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#createuser.xhtml:0" NAME="item"
+   PATH="/createuser.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>
