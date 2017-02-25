@@ -38,7 +38,7 @@ public class AdminController {
     	newEmployee.setEmpFlxTm(BigDecimal.ZERO);
     	employeeManager.persist(newEmployee);
     	employeeController.refreshList();
-    	return "";
+    	return "admin";
     }
     
     public List<Labgrd> getLabourGrades() {
