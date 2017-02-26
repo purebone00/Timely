@@ -7,9 +7,11 @@ import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Tsrow;
+import model.Workpack;
 
 
 @Dependent
@@ -53,5 +55,21 @@ public class TsrowManager {
         return Tsrow;
     }
 
-    
+    public List<Object[]> getAllForWP(int projNo, String wpNo) {
+    	Query query = em.createQuery("select e.lgID, SUM(s.tsrSat + s.tsrSun + s.tsrMon + s.tsrTue + s.tsrWed + s.tsrThu + s.tsrFri)"
+    			+ " from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
+    			+ " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID"
+    			+ " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2"
+    			+ " GROUP BY e.lgID");
+//    	TypedQuery<Tsrow> query = em.createQuery("select e.lgID, SUM(), SUM(), SUM(), SUM(), SUM(), SUM(), SUM()"
+//    			+ " from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
+//    			+ " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID "
+//    			+ " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2", Tsrow.class);
+		
+    	query.setParameter("code1", projNo);
+		query.setParameter("code2", wpNo);
+		List<Object[]> workpackages = query.getResultList();
+        
+    	return workpackages;
+    }
 }

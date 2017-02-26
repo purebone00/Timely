@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import controller.LoginController;
+import controller.ResponsibleEngineerController;
 
 
 
@@ -19,6 +20,8 @@ import controller.LoginController;
 public class FrontEndBoundary implements Serializable{
     @Inject Conversation conversation;
     @Inject LoginController login;
+    
+    @Inject ResponsibleEngineerController resEng;
     
     public LoginController getLogin() {
         return login;
