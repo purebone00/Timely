@@ -9,6 +9,7 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import controller.AdminController;
 import controller.LoginController;
 
 
@@ -20,12 +21,22 @@ public class FrontEndBoundary implements Serializable{
     @Inject Conversation conversation;
     @Inject LoginController login;
     
+    @Inject AdminController admin;
+    
     public LoginController getLogin() {
         return login;
     }
 
     public void setLogin(LoginController login) {
         this.login = login;
+    }
+    
+    public AdminController getAdmin() {
+    	return admin;
+    }
+    
+    public void setAdmin(AdminController admin) {
+    	this.admin = admin;
     }
 
     public void start() {
