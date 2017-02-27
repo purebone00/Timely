@@ -1,5 +1,5 @@
 #homepage {
-	background-image: url("background.png");
+	background-image: url("images/background.png");
 	height: 100%;
 	width: 100%;
 	background-size: cover;
@@ -12,8 +12,8 @@
 .navbar-fixed-top {
     border: 0 none;
 }
-.sidebar {
-    display: none;
+#sidebar {
+    
 }
 @media (min-width: 768px) {
 .sidebar {
@@ -26,10 +26,11 @@
     overflow-y: auto;
     padding: 20px;
     position: fixed;
-    top: 51px;
     z-index: 1000;
+    height: 100%
 }
 }
+
 .nav-list {
     margin-bottom: 20px;
     margin-left: -20px;
@@ -44,7 +45,7 @@
     color: #fff;
 }
 .main {
-    padding: 20px;
+    padding: 10px;
 }
 @media (min-width: 768px) {
 .main {
@@ -54,18 +55,4 @@
 }
 .main .page-header {
     margin-top: 0;
-}
-.placeholders {
-    margin-bottom: 30px;
-    text-align: center;
-}
-.placeholders h4 {
-    margin-bottom: 0;
-}
-.placeholder {
-    margin-bottom: 20px;
-}
-.placeholder img {
-    border-radius: 50%;
-    display: inline-block;
 }
