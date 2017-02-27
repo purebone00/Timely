@@ -56,7 +56,7 @@ public class TsrowManager {
     }
 
     public List<Object[]> getAllForWP(int projNo, String wpNo) {
-    	Query query = em.createQuery("select e.lgID, SUM(s.tsrSat + s.tsrSun + s.tsrMon + s.tsrTue + s.tsrWed + s.tsrThu + s.tsrFri)"
+    	Query query = em.createNativeQuery("select e.lgID, SUM(s.tsrSat + s.tsrSun + s.tsrMon + s.tsrTue + s.tsrWed + s.tsrThu + s.tsrFri)"
     			+ " from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
     			+ " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID"
     			+ " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2"

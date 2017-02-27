@@ -76,8 +76,8 @@
 	            <div class="row">
 	            
 		            <div class="col-md-12">
-		            	<h:outputText value="No work packages available." rendered="#{empty master.resEng.workPackages(master.login.currentEmployee.employee)}"/>
-		            	<h:dataTable class="table table-bordered" value="#{master.resEng.listOfWorkPackages(master.login.currentEmployee.employee)}" var="s" rendered="#{not empty master.resEng.workPackages(master.login.currentEmployee.employee)}">
+		            	
+		            	<h:dataTable class="table table-bordered" value="#{Master.resEng.listOfWorkPackages(Master.login.currentEmployee.currentEmployee)}" var="s">
 							<h:column>
 								<f:facet name="header">Work Package</f:facet>	
 								#{s.wpNm}
@@ -90,7 +90,7 @@
 							<h:column>
 								<f:facet name="header">Report</f:facet>	
 								<h:form>
-									<h:commandButton class="btn" value="Create" action="#{master.resEng.selectWorkPackage(s)}" />
+									<h:commandButton class="btn" value="Create" action="#{Master.resEng.selectWorkPackage(s)}" />
 								</h:form>
 							</h:column>
 						</h:dataTable>

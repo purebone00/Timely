@@ -30,6 +30,14 @@ public class FrontEndBoundary implements Serializable{
     public void setLogin(LoginController login) {
         this.login = login;
     }
+    
+    public ResponsibleEngineerController getResEng() {
+    	return resEng;
+    }
+    
+    public void setResEng(ResponsibleEngineerController resEng) {
+    	this.resEng = resEng;
+    }
 
     public void start() {
         conversation.begin();

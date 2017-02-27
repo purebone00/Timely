@@ -18,10 +18,10 @@ public class ResponsibleEngineerController implements Serializable {
 	@Inject WorkPackageManager workPackageManager;
 	@Inject TsrowManager tsRowManager;
 	
-	Workpack selectedWorkPackage;
+	private Workpack selectedWorkPackage;
 	
-	public List<Workpack> listOfWorkPackages(Employee e) {
-		return workPackageManager.getResponsibleWorkPackages(e.getEmpId());
+	public List<Workpack> listOfWorkPackages(Employee emp) {
+		return workPackageManager.getResponsibleWorkPackages(emp.getEmpId());
 	}
 	
 	public Workpack getSelectedWorkPackage() {
@@ -37,7 +37,8 @@ public class ResponsibleEngineerController implements Serializable {
 		return "responsibleengineerreport";
 	}
 	
-	public List<Object[]> getWpPersonHours() {
-		return tsRowManager.getAllForWP(getSelectedWorkPackage().getId().getWpProjNo(), getSelectedWorkPackage().getId().getWpNo());
+	public List<Object[]> listOfWpPersonHours() {
+		List<Object[]> list = tsRowManager.getAllForWP(getSelectedWorkPackage().getId().getWpProjNo(), getSelectedWorkPackage().getId().getWpNo());
+		return list;
 	}
 }
