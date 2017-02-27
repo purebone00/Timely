@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -19,6 +20,8 @@ public class ResponsibleEngineerController implements Serializable {
 	@Inject TsrowManager tsRowManager;
 	
 	private Workpack selectedWorkPackage;
+	
+	private BigDecimal totalCost;
 	
 	public List<Workpack> listOfWorkPackages(Employee emp) {
 		return workPackageManager.getResponsibleWorkPackages(emp.getEmpId());
@@ -39,6 +42,21 @@ public class ResponsibleEngineerController implements Serializable {
 	
 	public List<Object[]> listOfWpPersonHours() {
 		List<Object[]> list = tsRowManager.getAllForWP(getSelectedWorkPackage().getId().getWpProjNo(), getSelectedWorkPackage().getId().getWpNo());
+		BigDecimal totalCost = BigDecimal.ZERO;
+		for (Object[] obj : list) {
+			BigDecimal op1 = (BigDecimal) obj[1];
+			BigDecimal op2 = (BigDecimal) obj[2];
+			totalCost = totalCost.add(op1.multiply(op2));
+		}
+		setTotalCost(totalCost);
 		return list;
+	}
+	
+	public BigDecimal getTotalCost() {
+		return totalCost;
+	}
+	
+	public void setTotalCost(BigDecimal totalCost) {
+		this.totalCost = totalCost;
 	}
 }

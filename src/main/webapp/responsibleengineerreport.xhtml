@@ -78,6 +78,9 @@
 	            	<h:outputText value="Project#: #{Master.resEng.selectedWorkPackage.id.wpProjNo}"/><br/>
 	            	<h:outputText value="WorkPackage#: #{Master.resEng.selectedWorkPackage.id.wpNo}"/><br/>
 	            	<h:outputText value="Description: #{Master.resEng.selectedWorkPackage.wpDesc}"/><br/>
+	            	<h:outputText value="Budget: "/><h:outputText value="#{Master.resEng.selectedWorkPackage.wpBudget}">
+	            		<f:convertNumber type="currency"/>
+	            	</h:outputText><br/>
 		            <div class="col-md-12">
 		            	<h:dataTable class="table table-bordered" value="#{Master.resEng.listOfWpPersonHours()}" var="s">
 							<h:column>
@@ -85,8 +88,19 @@
 								#{s[0]}
 							</h:column>
 							<h:column>
-								<f:facet name="header">Person Hours Completed</f:facet>	
-								#{s[1]}
+								<f:facet name="header">Person Days Completed</f:facet>	
+								#{s[1]/8}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Total Cost</f:facet>
+								<h:outputText value="#{s[2] * s[1]}">
+									<f:convertNumber type="currency"/>
+								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText value="#{Master.resEng.totalCost}" style="font-weight:bold">
+										<f:convertNumber type="currency"/>
+									</h:outputText>
+								</f:facet>
 							</h:column>
 						</h:dataTable>
 					</div>
