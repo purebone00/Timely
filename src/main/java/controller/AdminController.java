@@ -24,6 +24,14 @@ public class AdminController {
 	
 	@Inject private LabourGradeManager labourGradeManager;
 	
+	public EmployeeController getEmployeeController() {
+		return employeeController;
+	}
+	
+	public void setEmployeeController(EmployeeController employeeController) {
+		this.employeeController = employeeController;
+	}
+	
 	public Employee getNewEmployee() {
     	return newEmployee;
     }

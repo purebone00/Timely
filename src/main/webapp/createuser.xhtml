@@ -79,19 +79,19 @@
 	            
 		           <h:form id="addUser">
 					Firstname:<br/>
-            		<h:inputText class="form-control" value="#{Admin.newEmployee.empFnm}" required="true" /><br/>
+            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empFnm}" required="true" /><br/>
             		Lastname:<br/>
-            		<h:inputText class="form-control" value="#{Admin.newEmployee.empLnm}" required="true" /><br/>
+            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empLnm}" required="true" /><br/>
             		Dept:<br/>
-            		<h:inputText class="form-control" value="#{Admin.newEmployee.empDept}" required="true" /><br/>
+            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empDept}" required="true" /><br/>
             		Labor Grade:<br/>
-            		<h:selectOneMenu class="form-control" value="#{Admin.newEmployee.empLabGrd}">
-            			<f:selectItems class="selectpicker" value="#{Admin.labourGrades}"/>
+            		<h:selectOneMenu class="form-control" value="#{Master.admin.newEmployee.empLabGrd}">
+            			<f:selectItems class="selectpicker" value="#{Master.admin.labourGrades}"/>
             		</h:selectOneMenu><br/>
             		Password:<br/>
-            		<h:inputSecret class="form-control" value="#{Admin.newEmployee.empPw}"  required="true" /><br/>
+            		<h:inputSecret class="form-control" value="#{Master.admin.newEmployee.empPw}"  required="true" /><br/>
             		<p>
-               		<h:commandButton id="addButton" class="btn" value="Create" action="#{Admin.addEmployee}"/>    
+               		<h:commandButton id="addButton" class="btn" value="Create" action="#{Master.admin.addEmployee}"/>    
                		<h:commandButton id="cancelButton" class="btn" value="Cancel" immediate="true" action="admin"/>
             		</p>
          			</h:form>
