@@ -1,7 +1,6 @@
 @CHARSET "ISO-8859-1";
 
 html,body {
-  background-image: linear-gradient(rgba(106, 125, 139, 0.60), rgba(96, 125, 139, 0.60)), url("images/background.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment:fixed;

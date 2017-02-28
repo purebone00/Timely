@@ -31,20 +31,16 @@
         <b:container fluid="true">
             <b:row>
                 <!-- Navbar Here -->
-                <div id="sidebar">
+                <b:column col-sm="2" col-md="2" styleClass="sidebar">
                     <ui:insert name="sidebar">
                         <ui:include src="/template/sidebar.xhtml" />
                     </ui:insert>
-                </div>
+                </b:column>
                 <!-- Content Here -->
-                <div id="content">
+                <b:column class="main" col-sm="10" col-md="10">
                     <ui:insert name="content">
-                        <b:column col-sm="9" offset-sm="3" col-md="10" offset="2" styleClass="main">
-                            offset="1" styleClass="main">
-								Place all main content here
-						</b:column>
                     </ui:insert>
-                </div>
+                </b:column>
             </b:row>
         </b:container>
     </div>
