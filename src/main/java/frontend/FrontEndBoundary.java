@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import controller.AdminController;
 import controller.LoginController;
+import controller.ResponsibleEngineerController;
 
 
 
@@ -21,6 +22,7 @@ public class FrontEndBoundary implements Serializable{
     @Inject Conversation conversation;
     @Inject LoginController login;
     
+    @Inject ResponsibleEngineerController resEng;
     @Inject AdminController admin;
     
     public LoginController getLogin() {
@@ -29,6 +31,14 @@ public class FrontEndBoundary implements Serializable{
 
     public void setLogin(LoginController login) {
         this.login = login;
+    }
+    
+    public ResponsibleEngineerController getResEng() {
+    	return resEng;
+    }
+    
+    public void setResEng(ResponsibleEngineerController resEng) {
+    	this.resEng = resEng;
     }
     
     public AdminController getAdmin() {

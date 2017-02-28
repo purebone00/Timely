@@ -34,4 +34,20 @@
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#responsibleengineer.xhtml"
+  PATH="/responsibleengineer.xhtml" SHAPE="96,385,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#responsibleengineer.xhtml:0" NAME="item"
+   PATH="/responsibleengineer.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#responsibleengineerreport.xhtml"
+  PATH="/responsibleengineerreport.xhtml" SHAPE="96,497,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#responsibleengineerreport.xhtml:0"
+   NAME="item" PATH="/responsibleengineerreport.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>
