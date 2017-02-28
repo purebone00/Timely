@@ -21,7 +21,7 @@ public class Empwp implements java.io.Serializable {
 
     private EmpwpId id;
     private Date ewAssDt;
-    private BigDecimal ewProg;
+    private BigDecimal ewEstHrs;
     private short ewDel;
     private Date ewInsDt;
     private Date ewUpDt;
@@ -37,10 +37,10 @@ public class Empwp implements java.io.Serializable {
         this.ewUpDt = ewUpDt;
     }
 
-    public Empwp(EmpwpId id, Date ewAssDt, BigDecimal ewProg, short ewDel, Date ewInsDt, Date ewUpDt) {
+    public Empwp(EmpwpId id, Date ewAssDt, BigDecimal ewEstHrs, short ewDel, Date ewInsDt, Date ewUpDt) {
         this.id = id;
         this.ewAssDt = ewAssDt;
-        this.ewProg = ewProg;
+        this.ewEstHrs = ewEstHrs;
         this.ewDel = ewDel;
         this.ewInsDt = ewInsDt;
         this.ewUpDt = ewUpDt;
@@ -69,13 +69,13 @@ public class Empwp implements java.io.Serializable {
         this.ewAssDt = ewAssDt;
     }
 
-    @Column(name = "ewProg", precision = 5)
-    public BigDecimal getEwProg() {
-        return this.ewProg;
+    @Column(name = "ewEstHrs", precision = 5)
+    public BigDecimal getEwEstHrs() {
+        return this.ewEstHrs;
     }
 
-    public void setEwProg(BigDecimal ewProg) {
-        this.ewProg = ewProg;
+    public void setEwEstHrs(BigDecimal ewEstHrs) {
+        this.ewEstHrs = ewEstHrs;
     }
 
     @Column(name = "ewDel", nullable = false)

@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
         "tsrProjNo", "tsrWpNo" }))
 public class Tsrow implements java.io.Serializable {
 
-    private Long id;
+    private Long tsr_id;
     private int tsrEmpId;
     private String tsrWkEnd;
     private int tsrProjNo;
@@ -74,13 +74,13 @@ public class Tsrow implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "_id", unique = true, nullable = false)
+    @Column(name = "tsr_id", unique = true, nullable = false)
     public Long getId() {
-        return this.id;
+        return this.tsr_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.tsr_id = id;
     }
 
     @Column(name = "tsrEmpID", nullable = false)
