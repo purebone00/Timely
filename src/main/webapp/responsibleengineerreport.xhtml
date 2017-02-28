@@ -78,10 +78,13 @@
 	            	<h:outputText value="Project#: #{Master.resEng.selectedWorkPackage.id.wpProjNo}"/><br/>
 	            	<h:outputText value="WorkPackage#: #{Master.resEng.selectedWorkPackage.id.wpNo}"/><br/>
 	            	<h:outputText value="Description: #{Master.resEng.selectedWorkPackage.wpDesc}"/><br/>
+	            	<h:outputText value="Estimated Person Days Required: #{Master.resEng.selectedWorkPackage.wpPlanPh/8}"/><br/>
 	            	<h:outputText value="Budget: "/><h:outputText value="#{Master.resEng.selectedWorkPackage.wpBudget}">
 	            		<f:convertNumber type="currency"/>
-	            	</h:outputText><br/>
+	            	</h:outputText><br/><br/>
 		            <div class="col-md-12">
+		            
+	            	<h:outputText class="h4" value="Work Completed"/>
 		            	<h:dataTable class="table table-bordered" value="#{Master.resEng.listOfWpPersonHours()}" var="s">
 							<h:column>
 								<f:facet name="header">Labour Grade</f:facet>	
@@ -90,6 +93,9 @@
 							<h:column>
 								<f:facet name="header">Person Days Completed</f:facet>	
 								#{s[1]/8}
+								<f:facet name="footer">
+									<h:outputText value="#{Master.resEng.totalHours/8}" style="font-weight:bold"/>
+								</f:facet>
 							</h:column>
 							<h:column>
 								<f:facet name="header">Total Cost</f:facet>
@@ -103,6 +109,21 @@
 								</f:facet>
 							</h:column>
 						</h:dataTable>
+						<h:outputText class="h4" value="Work Remaining"/>
+						<h:form>
+							<h:dataTable class="table table-bordered" value="#{Master.resEng.labourGradeDays}" var="s">
+								<h:column>
+									<f:facet name="header">Labour Grade</f:facet>
+									#{s[0]}
+								</h:column>
+								
+								<h:column>
+									<f:facet name="header">Person Days</f:facet>
+									<h:inputText value="#{s[1]}"/>
+								</h:column>
+							</h:dataTable>
+							<h:commandButton class="btn" value="Submit" action="#{Master.resEng.submitReport}"/>
+						</h:form>
 					</div>
 		            
 	            </div>
