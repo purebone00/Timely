@@ -121,7 +121,9 @@
 									<f:facet name="header">Person Days</f:facet>
 									<h:inputText value="#{s[1]}"/>
 								</h:column>
-							</h:dataTable>
+							</h:dataTable><br/>
+							Notes:<br/>
+							<h:inputTextarea class="form-control" value="#{Master.resEng.workPackageReport.wsrProbNw}" cols="30" rows="6"/><br/>
 							<h:commandButton class="btn" value="Submit" action="#{Master.resEng.submitReport}"/>
 						</h:form>
 					</div>

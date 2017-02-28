@@ -3,7 +3,9 @@ package controller;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,6 +39,8 @@ public class ResponsibleEngineerController implements Serializable {
 	private BigDecimal totalCost;
 	private BigDecimal totalHours;
 	
+	private boolean preExisting;
+	
 	public List<Workpack> listOfWorkPackages(Employee emp) {
 		return workPackageManager.getResponsibleWorkPackages(emp.getEmpId());
 	}
@@ -63,6 +67,21 @@ public class ResponsibleEngineerController implements Serializable {
 		for (Labgrd l : labourGradeManager.getAll()) {
 			labourGradeDays.add(new String[] {l.getLgId(), ""});
 		}
+		Wpstarep i = wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), getEndOfWeek());
+		if (i != null) {
+			preExisting = true;
+			setWorkPackageReport(i);
+			labourGradeDays = new ArrayList<String[]>();
+			String fields = i.getWsrEstDes();
+			String[] rows = fields.split(",");
+			for (String s : rows) {
+				String[] columns = s.split(":");
+				labourGradeDays.add(new String[] {columns[0], columns[1]});
+			}
+		} else {
+			preExisting = false;
+		}
+		
 		return "responsibleengineerreport";
 	}
 	
@@ -100,17 +119,22 @@ public class ResponsibleEngineerController implements Serializable {
 	public String submitReport() {
 		String labourDays = "";
 		for (int i = 0; i <= labourGradeDays.size() - 1; i++) {
-			labourDays = labourDays + "\"" + labourGradeDays.get(i)[0] + "\":" + labourGradeDays.get(i)[1];
+			labourDays = labourDays + labourGradeDays.get(i)[0] + ":" + labourGradeDays.get(i)[1];
 			if (i != labourGradeDays.size() - 1) {
-				labourDays = labourDays + ", ";
+				labourDays = labourDays + ",";
 			}
 		}
+		workPackageReport.setWsrRepDt(getEndOfWeek());
 		workPackageReport.setId(new WpstarepId(selectedWorkPackage.getId().getWpProjNo(), selectedWorkPackage.getId().getWpNo()));
 		workPackageReport.setWsrWriter(selectedWorkPackage.getWpResEng());
 		workPackageReport.setWsrEstDes(labourDays);
 		workPackageReport.setWsrInsDt(new Date());
 		workPackageReport.setWsrUpDt(new Date());
-		wpstarepManager.persist(workPackageReport);
+		if (preExisting) {
+			wpstarepManager.merge(workPackageReport);
+		} else {
+			wpstarepManager.persist(workPackageReport);
+		}
 		return "responsibleengineer";
 	}
 	
@@ -120,5 +144,21 @@ public class ResponsibleEngineerController implements Serializable {
 	
 	public void setLabourGradeDays(List<String[]> labourGradeDays) {
 		this.labourGradeDays = labourGradeDays;
+	}
+	
+	public String getEndOfWeek() {
+		Calendar c = new GregorianCalendar();
+        int currentDay = c.get(Calendar.DAY_OF_WEEK) != 7 
+                ? c.get(Calendar.DAY_OF_WEEK) : 0;
+        int leftDays = Calendar.FRIDAY - currentDay;
+        c.add(Calendar.DATE, leftDays);
+        Date endWeek = c.getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(endWeek);
+        int year = cal.get(Calendar.YEAR);
+        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+        
+		return year + month + day;
 	}
 }
