@@ -4,11 +4,16 @@ package model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,6 +38,19 @@ public class Employee  implements java.io.Serializable {
      private short empDel;
      private Date empInsDt;
      private Date empUpDt;
+     
+     
+     private List<Timesheet> timesheet;
+
+     @OneToMany(mappedBy="employee")
+     public List<Timesheet> getTimesheet() {
+         return timesheet;
+     }
+
+     public void setTimesheet(List<Timesheet> timesheet) {
+        this.timesheet = timesheet;
+     }
+
 
     public Employee() {
     }
@@ -60,7 +78,7 @@ public class Employee  implements java.io.Serializable {
        this.empUpDt = empUpDt;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
+    @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="empID", unique=true, nullable=false)

@@ -10,7 +10,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import controller.AdminController;
+import controller.EmployeeController;
 import controller.LoginController;
+import model.Employee;
+import model.Timesheet;
 
 
 
@@ -19,12 +22,21 @@ import controller.LoginController;
 @ConversationScoped
 public class FrontEndBoundary implements Serializable{
     @Inject Conversation conversation;
-    @Inject LoginController login;
     
+    @Inject LoginController login;
     @Inject AdminController admin;
+    @Inject EmployeeController employee;
     
     public LoginController getLogin() {
         return login;
+    }
+
+    public EmployeeController getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(EmployeeController employee) {
+        this.employee = employee;
     }
 
     public void setLogin(LoginController login) {
@@ -60,16 +72,23 @@ public class FrontEndBoundary implements Serializable{
     }
     
     public String authenticate() {
-        if(login.authUser()) {
+        Employee curEmp;
+        if((curEmp = login.authUser()) != null) {
+            employee.setEmp(curEmp);
             init();
             if (login.isAdmin()) {
                 return "admin";
             }
+            
             return "login";
         }
         return "fail";
     }
     
+    public String goToTimesheet(String wkEnd) {
+        employee.setTsId(employee.getEmp().getEmpId(), wkEnd);
+        return "timesheet";
+    }
     public String logout() {
         finish();
         return "logout";
