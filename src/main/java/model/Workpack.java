@@ -31,7 +31,7 @@ public class Workpack implements java.io.Serializable {
     private BigDecimal wpPlanPh;
     private BigDecimal wpBudget;
     private BigDecimal wpActCost;
-    private BigDecimal wpProgress;
+    private BigDecimal wpProgHrs;
     private short wpDel;
     private Date wpInsDt;
     private Date wpUpDt;
@@ -50,7 +50,7 @@ public class Workpack implements java.io.Serializable {
 
     public Workpack(WorkpackId id, String wpNm, String wpDesc, Integer wpResEng, short wpLowLev, String wpParent,
             Short wpStatus, Date wpStaDt, Date wpEndDt, BigDecimal wpPlanPh, BigDecimal wpBudget, BigDecimal wpActCost,
-            BigDecimal wpProgress, short wpDel, Date wpInsDt, Date wpUpDt) {
+            BigDecimal wpProgHrs, short wpDel, Date wpInsDt, Date wpUpDt) {
         this.id = id;
         this.wpNm = wpNm;
         this.wpDesc = wpDesc;
@@ -63,7 +63,7 @@ public class Workpack implements java.io.Serializable {
         this.wpPlanPh = wpPlanPh;
         this.wpBudget = wpBudget;
         this.wpActCost = wpActCost;
-        this.wpProgress = wpProgress;
+        this.wpProgHrs = wpProgHrs;
         this.wpDel = wpDel;
         this.wpInsDt = wpInsDt;
         this.wpUpDt = wpUpDt;
@@ -182,13 +182,13 @@ public class Workpack implements java.io.Serializable {
         this.wpActCost = wpActCost;
     }
 
-    @Column(name = "wpProgress", precision = 5)
-    public BigDecimal getWpProgress() {
-        return this.wpProgress;
+    @Column(name = "wpProgHrs", precision = 5)
+    public BigDecimal getWpProgHrs() {
+        return this.wpProgHrs;
     }
 
-    public void setWpProgress(BigDecimal wpProgress) {
-        this.wpProgress = wpProgress;
+    public void setWpProgHrs(BigDecimal wpProgHrs) {
+        this.wpProgHrs = wpProgHrs;
     }
 
     @Column(name = "wpDel", nullable = false)

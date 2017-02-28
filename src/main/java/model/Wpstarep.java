@@ -20,13 +20,13 @@ import javax.persistence.TemporalType;
 public class Wpstarep implements java.io.Serializable {
 
     private WpstarepId id;
-    private Date wsrRepDt;
+    private String wsrRepDt;
     private Integer wsrWriter;
     private BigDecimal wsrProgLw;
     private String wsrProbLw;
     private BigDecimal wsrProgNw;
     private String wsrProbNw;
-    private BigDecimal wsrEstWr;
+    private BigDecimal wsrEstWrh;
     private short wsrSubmit;
     private Date wsrApprDt;
     private Integer wsrApprId;
@@ -45,8 +45,8 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrUpDt = wsrUpDt;
     }
 
-    public Wpstarep(WpstarepId id, Date wsrRepDt, Integer wsrWriter, BigDecimal wsrProgLw, String wsrProbLw,
-            BigDecimal wsrProgNw, String wsrProbNw, BigDecimal wsrEstWr, short wsrSubmit, Date wsrApprDt,
+    public Wpstarep(WpstarepId id, String wsrRepDt, Integer wsrWriter, BigDecimal wsrProgLw, String wsrProbLw,
+            BigDecimal wsrProgNw, String wsrProbNw, BigDecimal wsrEstWrh, short wsrSubmit, Date wsrApprDt,
             Integer wsrApprId, short wsrDel, Date wsrInsDt, Date wsrUpDt) {
         this.id = id;
         this.wsrRepDt = wsrRepDt;
@@ -55,7 +55,7 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrProbLw = wsrProbLw;
         this.wsrProgNw = wsrProgNw;
         this.wsrProbNw = wsrProbNw;
-        this.wsrEstWr = wsrEstWr;
+        this.wsrEstWrh = wsrEstWrh;
         this.wsrSubmit = wsrSubmit;
         this.wsrApprDt = wsrApprDt;
         this.wsrApprId = wsrApprId;
@@ -77,13 +77,12 @@ public class Wpstarep implements java.io.Serializable {
         this.id = id;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "wsrRepDt", length = 19)
-    public Date getWsrRepDt() {
+    public String getWsrRepDt() {
         return this.wsrRepDt;
     }
 
-    public void setWsrRepDt(Date wsrRepDt) {
+    public void setWsrRepDt(String wsrRepDt) {
         this.wsrRepDt = wsrRepDt;
     }
 
@@ -132,13 +131,13 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrProbNw = wsrProbNw;
     }
 
-    @Column(name = "wsrEstWR", precision = 5)
-    public BigDecimal getWsrEstWr() {
-        return this.wsrEstWr;
+    @Column(name = "wsrEstWRH", precision = 5)
+    public BigDecimal getWsrEstWrh() {
+        return this.wsrEstWrh;
     }
 
-    public void setWsrEstWr(BigDecimal wsrEstWr) {
-        this.wsrEstWr = wsrEstWr;
+    public void setWsrEstWrh(BigDecimal wsrEstWrh) {
+        this.wsrEstWrh = wsrEstWrh;
     }
 
     @Column(name = "wsrSubmit", nullable = false)

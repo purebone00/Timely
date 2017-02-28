@@ -68,7 +68,7 @@ public class LoginController implements Serializable {
     }
     
     public boolean isAdmin() {
-        return (currentEmployee.getCurrentEmployee().getEmpId().intValue() == 1);
+        return (currentEmployee.getCurrentEmployee().getEmpId().intValue() == 1 || currentEmployee.getCurrentEmployee().getEmpId().intValue() == 2);
     }
     
     public EmployeeProfile getCurrentEmployee() {

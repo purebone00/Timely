@@ -11,12 +11,12 @@ import javax.persistence.Embeddable;
 public class EmptitleId implements java.io.Serializable {
 
     private int etEmpId;
-    private int etTitId;
+    private short etTitId;
 
     public EmptitleId() {
     }
 
-    public EmptitleId(int etEmpId, int etTitId) {
+    public EmptitleId(int etEmpId, short etTitId) {
         this.etEmpId = etEmpId;
         this.etTitId = etTitId;
     }
@@ -31,11 +31,11 @@ public class EmptitleId implements java.io.Serializable {
     }
 
     @Column(name = "etTitID", nullable = false)
-    public int getEtTitId() {
+    public short getEtTitId() {
         return this.etTitId;
     }
 
-    public void setEtTitId(int etTitId) {
+    public void setEtTitId(short etTitId) {
         this.etTitId = etTitId;
     }
 

@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 @Table(name = "Title")
 public class Title implements java.io.Serializable {
 
-    private Integer titId;
+    private short titId;
     private String titNm;
     private short titDel;
     private Date titInsDt;
@@ -38,11 +38,11 @@ public class Title implements java.io.Serializable {
     @GeneratedValue(strategy = IDENTITY)
 
     @Column(name = "titID", unique = true, nullable = false)
-    public Integer getTitId() {
+    public short getTitId() {
         return this.titId;
     }
 
-    public void setTitId(Integer titId) {
+    public void setTitId(short titId) {
         this.titId = titId;
     }
 
