@@ -3,11 +3,16 @@ package model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +35,29 @@ public class Timesheet implements java.io.Serializable {
     private short tsDel;
     private Date tsInsDt;
     private Date tsUpDt;
+    
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name="tsEmpId")
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    private List<Tsrow> tsrow;
+    
+    @OneToMany(mappedBy="timesheet")
+    public List<Tsrow> getTsrow() {
+        return tsrow;
+    }
+
+    public void setTsrow(List<Tsrow> tsrow) {
+        this.tsrow = tsrow;
+    }
 
     public Timesheet() {
     }
@@ -57,7 +85,6 @@ public class Timesheet implements java.io.Serializable {
     }
 
     @EmbeddedId
-
     @AttributeOverrides({ @AttributeOverride(name = "tsEmpId", column = @Column(name = "tsEmpID", nullable = false)),
             @AttributeOverride(name = "tsWkEnd", column = @Column(name = "tsWkEnd", nullable = false, length = 8)) })
     public TimesheetId getId() {

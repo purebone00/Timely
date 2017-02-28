@@ -12,8 +12,12 @@ import javax.inject.Named;
 import controller.AdminController;
 import controller.EmployeeController;
 import controller.LoginController;
+<<<<<<< HEAD
+import controller.ResponsibleEngineerController;
+=======
 import model.Employee;
 import model.Timesheet;
+>>>>>>> timesheet_new
 
 
 
@@ -23,9 +27,11 @@ import model.Timesheet;
 public class FrontEndBoundary implements Serializable{
     @Inject Conversation conversation;
     
-    @Inject LoginController login;
-    
+<<<<<<< HEAD
     @Inject ResponsibleEngineerController resEng;
+=======
+    @Inject LoginController login;
+>>>>>>> timesheet_new
     @Inject AdminController admin;
     @Inject EmployeeController employee;
     

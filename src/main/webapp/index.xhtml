@@ -61,9 +61,27 @@
 			<div class="row"></div>
 			<div class="row">
 				<div class="column">
-				<h:form>
-					<h:commandLink value="View Work Package Reports" action="responsibleengineer"/>
-				</h:form>
+					<h:form>
+						<h:dataTable class="table table-bordered" value="#{Master.employee.tsList}" var="s">
+							<h:column>
+								<f:facet name="header">Employee ID</f:facet>	
+								#{s.id.tsEmpId}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Week End</f:facet>	
+								#{s.id.tsWkEnd}
+							</h:column>
+							<h:column>
+								<h:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}" value="Choose Timesheet">
+								</h:commandButton>	
+							</h:column>
+						</h:dataTable>
+					</h:form>
+				<div class="column">
+					<h:form>
+						<h:commandLink value="View Work Package Reports" action="responsibleengineer"/>
+					</h:form>
+				</div>
 				</div>
 			</div>
 

@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,6 +40,21 @@ public class Tsrow implements java.io.Serializable {
     private short tsrDel;
     private Date tsrInsDt;
     private Date tsrUpDt;
+
+    
+    private Timesheet timesheet;
+    
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "tsrWkEnd", referencedColumnName = "tsWkEnd"),
+        @JoinColumn(name = "tsrEmpID", referencedColumnName = "tsEmpID") })
+    public Timesheet getTimesheet() {
+        return timesheet;
+    }
+
+    public void setTimesheet(Timesheet timesheet) {
+        this.timesheet = timesheet;
+    }
 
     public Tsrow() {
     }
@@ -83,7 +101,7 @@ public class Tsrow implements java.io.Serializable {
         this.tsr_id = id;
     }
 
-    @Column(name = "tsrEmpID", nullable = false)
+    @Column(name = "tsrEmpID", insertable = false, updatable = false, nullable = false)
     public int getTsrEmpId() {
         return this.tsrEmpId;
     }
@@ -92,7 +110,7 @@ public class Tsrow implements java.io.Serializable {
         this.tsrEmpId = tsrEmpId;
     }
 
-    @Column(name = "tsrWkEnd", nullable = false, length = 8)
+    @Column(name = "tsrWkEnd", insertable = false, updatable = false, nullable = false, length = 8)
     public String getTsrWkEnd() {
         return this.tsrWkEnd;
     }

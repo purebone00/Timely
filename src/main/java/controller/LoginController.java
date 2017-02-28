@@ -30,7 +30,7 @@ public class LoginController implements Serializable {
         
     }
     
-    public boolean authUser() {
+    public Employee authUser() {
         list = empManager.getAll();
         boolean authenticated = false;
         
@@ -43,7 +43,7 @@ public class LoginController implements Serializable {
                 }
             }
         }
-        return authenticated;
+        return (authenticated)? currentEmployee.getCurrentEmployee() : null;
     }
     
     public String getUserName() {

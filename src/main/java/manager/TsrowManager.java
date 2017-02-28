@@ -47,9 +47,11 @@ public class TsrowManager {
         return Tsrow;
     }
     
-    public ArrayList<Tsrow> getAllForTable(String name) {
-        TypedQuery<Tsrow> query = em.createQuery("select s from Tsrow s where s.name like ?1",
-                Tsrow.class).setParameter(1, name); 
+    public ArrayList<Tsrow> getAllForTable(int name, String wkEnd) {
+        TypedQuery<Tsrow> query = em.createQuery("select s from Tsrow s where s.tsrEmpId = ?1 and s.tsrWkEnd like :wkEnding",
+                Tsrow.class)
+                .setParameter(1, name)
+                .setParameter("wkEnding", "%"+wkEnd+"%"); 
         ArrayList<Tsrow> Tsrow = new ArrayList<>(query.getResultList().size());
         Tsrow.addAll(query.getResultList());
         return Tsrow;

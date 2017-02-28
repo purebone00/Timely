@@ -15,7 +15,7 @@
       <h:outputScript library="javascript" name="bootstrap.js" />
       
   
-      <title>Time Sheet</title>
+      <title>Index</title>
    </h:head>
    <h:body>
       <div class="ui left demo vertical inverted sidebar labeled icon menu">
@@ -61,63 +61,34 @@
 			<div class="row"></div>
 			<div class="row">
 				<div class="column">
-					<h1>Timesheet</h1>
-					<h:dataTable class="table table-bordered" value="#{Master.employee.tsrList}" var="s">
+<<<<<<< HEAD
+				<h:form>
+					<h:commandLink value="View Work Package Reports" action="responsibleengineer"/>
+				</h:form>
+=======
+					<h:form>
+						<h:dataTable class="table table-bordered" value="#{Master.employee.tsList}" var="s">
 							<h:column>
 								<f:facet name="header">Employee ID</f:facet>	
-								#{s.tsrEmpId}
+								#{s.id.tsEmpId}
 							</h:column>
 							<h:column>
 								<f:facet name="header">Week End</f:facet>	
-								#{s.tsrWkEnd}
+								#{s.id.tsWkEnd}
 							</h:column>
 							<h:column>
-								<f:facet name="header">Project Number</f:facet>	
-								#{s.tsrProjNo}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Work Package Number</f:facet>	
-								#{s.tsrWpNo}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Saturday</f:facet>	
-								#{s.tsrSat}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Sunday</f:facet>	
-								#{s.tsrSun}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Moday</f:facet>	
-								#{s.tsrMon}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Tuesday</f:facet>	
-								#{s.tsrTue}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Wednesday</f:facet>	
-								#{s.tsrWed}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Thursday</f:facet>	
-								#{s.tsrThu}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Friday</f:facet>	
-								#{s.tsrFri}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Notes</f:facet>	
-								#{s.tsrNote}
+								<h:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}" value="Choose Timesheet">
+								</h:commandButton>	
 							</h:column>
 						</h:dataTable>
-					
+					</h:form>
+>>>>>>> timesheet_new
 				</div>
 			</div>
+
 		</div>
-				
-      </div>
+	</div>
+      
    </h:body>
 </html>
 
