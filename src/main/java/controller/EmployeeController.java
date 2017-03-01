@@ -1,27 +1,25 @@
 package controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import manager.EmployeeManager;
 import manager.TimesheetManager;
-import manager.TsrowManager;
+
 import model.Employee;
 import model.Timesheet;
 import model.TimesheetId;
 import model.Tsrow;
 
 @Named("Employee")
+@Stateful
 public class EmployeeController implements Serializable{
     @Inject private EmployeeManager employeeManager;
-    @Inject private TsrowManager tsrManager;
     @Inject private TimesheetManager tManager;
     
     @Inject private Employee emp;
@@ -55,11 +53,7 @@ public class EmployeeController implements Serializable{
 	}
 	
 	public void refreshTsList() {
-	    /*tsList = tManager.getAll(emp.getEmpId());
-	     * employeeManager.find(emp.getEmpId()).getTimesheet();*/
-	    Employee employee = employeeManager.find(getEmp().getEmpId());
-	    if(employee != null) 
-	        tsList = employee.getTimesheet();
+	     tsList = employeeManager.find(getEmp().getEmpId()).getTimesheet();    
 	}
     
 	public List<Tsrow> getTsrList() {
@@ -69,10 +63,13 @@ public class EmployeeController implements Serializable{
 	    return tsrList;
 	}
 	
-	public void refreshTsrList(/*int employeeNumber, String wkEnd*/TimesheetId id) {
-	    //tsrList = tsrManager.getAllForTable(employeeNumber, wkEnd);
-	    Timesheet timesheet = tManager.find(tsId);
-	    tsrList = timesheet.getTsrow();
+	/**
+	 * Uncomment and delete 'TimesheetId id' and uncommented code for query method.
+	 * @author JoeFong
+	 * @param id
+	 */
+	public void refreshTsrList(TimesheetId id) {
+	    tsrList = tManager.find(tsId).getTsrow();
 	}
 	
     public List<Employee> getList() {
