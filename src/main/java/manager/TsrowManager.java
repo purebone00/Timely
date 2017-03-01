@@ -40,6 +40,14 @@ public class TsrowManager {
         em.remove(tsrow);
     }
     
+    /**
+     * No longer used. JPA Relational Mapping means we don't need to query for timesheet rows 
+     * if timesheets already hold a list of timesheet rows. I am leaving this code here in case
+     * shit hits the fan
+     * @author Joe Fong
+     * @param employeeID
+     * @return
+     */
     public List<Tsrow> getAll() {
         TypedQuery<Tsrow> query = em.createQuery("select s from Tsrow s",
                 Tsrow.class); 
@@ -47,6 +55,14 @@ public class TsrowManager {
         return Tsrow;
     }
     
+    /**
+     * No longer used. JPA Relational Mapping means we don't need to query for timesheet rows 
+     * if timesheets already hold a list of timesheet rows. I am leaving this code here in case
+     * shit hits the fan
+     * @author Joe Fong
+     * @param employeeID
+     * @return
+     */
     public ArrayList<Tsrow> getAllForTable(int name, String wkEnd) {
         TypedQuery<Tsrow> query = em.createQuery("select s from Tsrow s where s.tsrEmpId = ?1 and s.tsrWkEnd like :wkEnding",
                 Tsrow.class)

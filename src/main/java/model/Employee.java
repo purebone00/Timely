@@ -5,9 +5,11 @@ package model;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
@@ -40,14 +42,14 @@ public class Employee  implements java.io.Serializable {
      private Date empUpDt;
      
      
-     private List<Timesheet> timesheet;
+     private Set<Timesheet> timesheet;
 
-     @OneToMany(mappedBy="employee")
-     public List<Timesheet> getTimesheet() {
+     @OneToMany(mappedBy="employee", fetch = FetchType.EAGER)
+     public Set<Timesheet> getTimesheet() {
          return timesheet;
      }
 
-     public void setTimesheet(List<Timesheet> timesheet) {
+     public void setTimesheet(Set<Timesheet> timesheet) {
         this.timesheet = timesheet;
      }
 

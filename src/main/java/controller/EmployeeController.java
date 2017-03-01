@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -44,9 +45,9 @@ public class EmployeeController implements Serializable{
 	
 	private List<Tsrow> tsrList;
 	private List<Employee> list;
-	private List<Timesheet> tsList;
+	private Set<Timesheet> tsList;
 
-    public List<Timesheet> getTsList() {
+    public Set<Timesheet> getTsList() {
 	    if(tsList == null) {
 	        refreshTsList();
 	    }
@@ -54,18 +55,24 @@ public class EmployeeController implements Serializable{
 	}
 	
 	public void refreshTsList() {
-	    tsList = tManager.getAll(emp.getEmpId());
+	    /*tsList = tManager.getAll(emp.getEmpId());
+	     * employeeManager.find(emp.getEmpId()).getTimesheet();*/
+	    Employee employee = employeeManager.find(getEmp().getEmpId());
+	    if(employee != null) 
+	        tsList = employee.getTimesheet();
 	}
     
 	public List<Tsrow> getTsrList() {
 	    if(tsrList == null) {
-	        refreshTsrList(tsId.getTsEmpId(), tsId.getTsWkEnd());
+	        refreshTsrList(/*tsId.getTsEmpId(), tsId.getTsWkEnd()*/tsId);
 	    }
 	    return tsrList;
 	}
 	
-	public void refreshTsrList(int employeeNumber, String wkEnd) {
-	    tsrList = tsrManager.getAllForTable(employeeNumber, wkEnd);
+	public void refreshTsrList(/*int employeeNumber, String wkEnd*/TimesheetId id) {
+	    //tsrList = tsrManager.getAllForTable(employeeNumber, wkEnd);
+	    Timesheet timesheet = tManager.find(tsId);
+	    tsrList = timesheet.getTsrow();
 	}
 	
     public List<Employee> getList() {
