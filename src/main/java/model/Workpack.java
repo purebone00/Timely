@@ -23,15 +23,9 @@ public class Workpack implements java.io.Serializable {
     private String wpNm;
     private String wpDesc;
     private Integer wpResEng;
-    private short wpLowLev;
-    private String wpParent;
     private Short wpStatus;
     private Date wpStaDt;
     private Date wpEndDt;
-    private BigDecimal wpPlanPh;
-    private BigDecimal wpBudget;
-    private BigDecimal wpActCost;
-    private BigDecimal wpProgHrs;
     private short wpDel;
     private Date wpInsDt;
     private Date wpUpDt;
@@ -39,31 +33,24 @@ public class Workpack implements java.io.Serializable {
     public Workpack() {
     }
 
-    public Workpack(WorkpackId id, String wpNm, short wpLowLev, short wpDel, Date wpInsDt, Date wpUpDt) {
+    public Workpack(WorkpackId id, String wpNm, short wpDel, Date wpInsDt, Date wpUpDt) {
         this.id = id;
         this.wpNm = wpNm;
-        this.wpLowLev = wpLowLev;
         this.wpDel = wpDel;
         this.wpInsDt = wpInsDt;
         this.wpUpDt = wpUpDt;
     }
 
-    public Workpack(WorkpackId id, String wpNm, String wpDesc, Integer wpResEng, short wpLowLev, String wpParent,
-            Short wpStatus, Date wpStaDt, Date wpEndDt, BigDecimal wpPlanPh, BigDecimal wpBudget, BigDecimal wpActCost,
-            BigDecimal wpProgHrs, short wpDel, Date wpInsDt, Date wpUpDt) {
+    public Workpack(WorkpackId id, String wpNm, String wpDesc, Integer wpResEng,
+            Short wpStatus, Date wpStaDt, Date wpEndDt, 
+            short wpDel, Date wpInsDt, Date wpUpDt) {
         this.id = id;
         this.wpNm = wpNm;
         this.wpDesc = wpDesc;
         this.wpResEng = wpResEng;
-        this.wpLowLev = wpLowLev;
-        this.wpParent = wpParent;
         this.wpStatus = wpStatus;
         this.wpStaDt = wpStaDt;
         this.wpEndDt = wpEndDt;
-        this.wpPlanPh = wpPlanPh;
-        this.wpBudget = wpBudget;
-        this.wpActCost = wpActCost;
-        this.wpProgHrs = wpProgHrs;
         this.wpDel = wpDel;
         this.wpInsDt = wpInsDt;
         this.wpUpDt = wpUpDt;
@@ -108,24 +95,6 @@ public class Workpack implements java.io.Serializable {
         this.wpResEng = wpResEng;
     }
 
-    @Column(name = "wpLowLev", nullable = false)
-    public short getWpLowLev() {
-        return this.wpLowLev;
-    }
-
-    public void setWpLowLev(short wpLowLev) {
-        this.wpLowLev = wpLowLev;
-    }
-
-    @Column(name = "wpParent", length = 8)
-    public String getWpParent() {
-        return this.wpParent;
-    }
-
-    public void setWpParent(String wpParent) {
-        this.wpParent = wpParent;
-    }
-
     @Column(name = "wpStatus")
     public Short getWpStatus() {
         return this.wpStatus;
@@ -153,42 +122,6 @@ public class Workpack implements java.io.Serializable {
 
     public void setWpEndDt(Date wpEndDt) {
         this.wpEndDt = wpEndDt;
-    }
-
-    @Column(name = "wpPlanPH", precision = 6)
-    public BigDecimal getWpPlanPh() {
-        return this.wpPlanPh;
-    }
-
-    public void setWpPlanPh(BigDecimal wpPlanPh) {
-        this.wpPlanPh = wpPlanPh;
-    }
-
-    @Column(name = "wpBudget", precision = 10)
-    public BigDecimal getWpBudget() {
-        return this.wpBudget;
-    }
-
-    public void setWpBudget(BigDecimal wpBudget) {
-        this.wpBudget = wpBudget;
-    }
-
-    @Column(name = "wpActCost", precision = 10)
-    public BigDecimal getWpActCost() {
-        return this.wpActCost;
-    }
-
-    public void setWpActCost(BigDecimal wpActCost) {
-        this.wpActCost = wpActCost;
-    }
-
-    @Column(name = "wpProgHrs", precision = 5)
-    public BigDecimal getWpProgHrs() {
-        return this.wpProgHrs;
-    }
-
-    public void setWpProgHrs(BigDecimal wpProgHrs) {
-        this.wpProgHrs = wpProgHrs;
     }
 
     @Column(name = "wpDel", nullable = false)

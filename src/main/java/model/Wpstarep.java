@@ -29,8 +29,6 @@ public class Wpstarep implements java.io.Serializable {
     private BigDecimal wsrEstWrh;
     private String wsrEstDes;
     private short wsrSubmit;
-    private Date wsrApprDt;
-    private Integer wsrApprId;
     private short wsrDel;
     private Date wsrInsDt;
     private Date wsrUpDt;
@@ -47,8 +45,8 @@ public class Wpstarep implements java.io.Serializable {
     }
 
     public Wpstarep(WpstarepId id, String wsrRepDt, Integer wsrWriter, BigDecimal wsrProgLw, String wsrProbLw,
-            BigDecimal wsrProgNw, String wsrProbNw, BigDecimal wsrEstWrh, String wsrEstDes, short wsrSubmit, Date wsrApprDt,
-            Integer wsrApprId, short wsrDel, Date wsrInsDt, Date wsrUpDt) {
+            BigDecimal wsrProgNw, String wsrProbNw, BigDecimal wsrEstWrh, String wsrEstDes, short wsrSubmit,
+            short wsrDel, Date wsrInsDt, Date wsrUpDt) {
         this.id = id;
         this.wsrRepDt = wsrRepDt;
         this.wsrWriter = wsrWriter;
@@ -59,8 +57,6 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrEstWrh = wsrEstWrh;
         this.wsrEstDes = wsrEstDes;
         this.wsrSubmit = wsrSubmit;
-        this.wsrApprDt = wsrApprDt;
-        this.wsrApprId = wsrApprId;
         this.wsrDel = wsrDel;
         this.wsrInsDt = wsrInsDt;
         this.wsrUpDt = wsrUpDt;
@@ -158,25 +154,6 @@ public class Wpstarep implements java.io.Serializable {
 
     public void setWsrSubmit(short wsrSubmit) {
         this.wsrSubmit = wsrSubmit;
-    }
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "wsrApprDt", length = 19)
-    public Date getWsrApprDt() {
-        return this.wsrApprDt;
-    }
-
-    public void setWsrApprDt(Date wsrApprDt) {
-        this.wsrApprDt = wsrApprDt;
-    }
-
-    @Column(name = "wsrApprID")
-    public Integer getWsrApprId() {
-        return this.wsrApprId;
-    }
-
-    public void setWsrApprId(Integer wsrApprId) {
-        this.wsrApprId = wsrApprId;
     }
 
     @Column(name = "wsrDel", nullable = false)
