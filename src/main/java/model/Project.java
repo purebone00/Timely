@@ -2,11 +2,15 @@ package model;
 // Generated 15-Feb-2017 2:38:53 PM by Hibernate Tools 3.5.0.Final
 
 import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,6 +56,17 @@ public class Project implements java.io.Serializable {
         this.projDel = projDel;
         this.projInsDt = projInsDt;
         this.projUdDt = projUdDt;
+    }
+    
+    private Set<Employee> employees;
+    
+    @ManyToMany(mappedBy="projects", fetch=FetchType.EAGER)
+    public Set<Employee> getEmployees() {
+    	return this.employees;
+    }
+    
+    public void setEmployees(Set<Employee> employees) {
+    	this.employees = employees;
     }
 
     @Id
@@ -149,6 +164,10 @@ public class Project implements java.io.Serializable {
 
     public void setProjUdDt(Date projUdDt) {
         this.projUdDt = projUdDt;
+    }
+    
+    public String toString() {
+    	return this.projNm;
     }
 
 }

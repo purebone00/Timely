@@ -83,5 +83,9 @@ public class Title implements java.io.Serializable {
     public void setTitUpDt(Date titUpDt) {
         this.titUpDt = titUpDt;
     }
+    
+    public String toString() {
+    	return this.titNm;
+    }
 
 }

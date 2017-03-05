@@ -3,10 +3,12 @@ package model;
 
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +17,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,12 +39,40 @@ public class Employee  implements java.io.Serializable {
      private String empDept;
      private String empSig;
      private BigDecimal empFlxTm;
-     private String empLabGrd;
+     private Labgrd empLabGrd;
+     //private String empLabGrd;
      private Integer empSupId;
      private short empDel;
      private Date empInsDt;
      private Date empUpDt;
      
+     private Set<Project> projects;
+     
+     @ManyToMany(fetch=FetchType.EAGER)
+     @JoinTable(name="Empproj",
+    		 joinColumns={@JoinColumn(name="epEmpId", referencedColumnName="empID")},
+    		 inverseJoinColumns={@JoinColumn(name="epProjNo", referencedColumnName="projNo")})
+     public Set<Project> getProjects() {
+    	 return projects;
+     }
+     
+     public void setProjects(Set<Project> projects) {
+    	 this.projects = projects;
+     }
+     
+     private Set<Title> titles;
+     
+     @ManyToMany(fetch=FetchType.EAGER)
+     @JoinTable(name="Emptitle",
+    		 joinColumns={@JoinColumn(name="etEmpID", referencedColumnName="empID")},
+    		 inverseJoinColumns={@JoinColumn(name="etTitID", referencedColumnName="titID")})
+     public Set<Title> getTitles() {
+    	 return titles;
+     }
+     
+     public void setTitles(Set<Title> titles) {
+    	 this.titles = titles;
+     }
      
      private Set<Timesheet> timesheet;
 
@@ -66,7 +98,7 @@ public class Employee  implements java.io.Serializable {
         this.empInsDt = empInsDt;
         this.empUpDt = empUpDt;
     }
-    public Employee(String empPw, String empFnm, String empLnm, String empDept, String empSig, BigDecimal empFlxTm, String empLabGrd, Integer empSupId, short empDel, Date empInsDt, Date empUpDt) {
+    public Employee(String empPw, String empFnm, String empLnm, String empDept, String empSig, BigDecimal empFlxTm, Labgrd empLabGrd, Integer empSupId, short empDel, Date empInsDt, Date empUpDt) {
        this.empPw = empPw;
        this.empFnm = empFnm;
        this.empLnm = empLnm;
@@ -152,13 +184,13 @@ public class Employee  implements java.io.Serializable {
         this.empFlxTm = empFlxTm;
     }
 
-    
-    @Column(name="empLabGrd", length=2)
-    public String getEmpLabGrd() {
+    @ManyToOne
+    @JoinColumn(name="empLabGrd")
+    public Labgrd getEmpLabGrd() {
         return this.empLabGrd;
     }
     
-    public void setEmpLabGrd(String empLabGrd) {
+    public void setEmpLabGrd(Labgrd empLabGrd) {
         this.empLabGrd = empLabGrd;
     }
 
