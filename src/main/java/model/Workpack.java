@@ -3,11 +3,20 @@ package model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -54,6 +63,19 @@ public class Workpack implements java.io.Serializable {
         this.wpDel = wpDel;
         this.wpInsDt = wpInsDt;
         this.wpUpDt = wpUpDt;
+    }
+    
+    private Set<Wplab> wplabs;
+    
+    @OneToMany(fetch=FetchType.EAGER)
+    @JoinColumns({@JoinColumn(name = "wlProjNo", referencedColumnName = "wpProjNo"),
+    	@JoinColumn(name = "wlWpNo", referencedColumnName = "wpNo")})
+    public Set<Wplab> getWplabs() {
+    	return wplabs;
+    }
+    
+    public void setWplabs(Set<Wplab> wplabs) {
+    	this.wplabs = wplabs;
     }
 
     @EmbeddedId
