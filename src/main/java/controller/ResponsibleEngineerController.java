@@ -128,8 +128,6 @@ public class ResponsibleEngineerController implements Serializable {
 		workPackageReport.setId(new WpstarepId(selectedWorkPackage.getId().getWpProjNo(), selectedWorkPackage.getId().getWpNo()));
 		workPackageReport.setWsrWriter(selectedWorkPackage.getWpResEng());
 		workPackageReport.setWsrEstDes(labourDays);
-		workPackageReport.setWsrInsDt(new Date());
-		workPackageReport.setWsrUpDt(new Date());
 		if (preExisting) {
 			wpstarepManager.merge(workPackageReport);
 		} else {

@@ -215,7 +215,7 @@ public class Employee  implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="empInsDt", nullable=false, length=19)
+    @Column(name="empInsDt", insertable=false, nullable=false, length=19)
     public Date getEmpInsDt() {
         return this.empInsDt;
     }
@@ -225,7 +225,7 @@ public class Employee  implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="empUpDt", nullable=false, length=19)
+    @Column(name="empUpDt", insertable=false, nullable=false, length=19)
     public Date getEmpUpDt() {
         return this.empUpDt;
     }

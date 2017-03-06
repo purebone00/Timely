@@ -166,7 +166,7 @@ public class Wpstarep implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "wsrInsDt", nullable = false, length = 19)
+    @Column(name = "wsrInsDt", insertable=false, nullable = false, length = 19)
     public Date getWsrInsDt() {
         return this.wsrInsDt;
     }
@@ -176,7 +176,7 @@ public class Wpstarep implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "wsrUpDt", nullable = false, length = 19)
+    @Column(name = "wsrUpDt", insertable=false, nullable = false, length = 19)
     public Date getWsrUpDt() {
         return this.wsrUpDt;
     }

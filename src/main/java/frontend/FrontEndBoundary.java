@@ -12,6 +12,7 @@ import javax.inject.Named;
 import controller.AdminController;
 import controller.EmployeeController;
 import controller.LoginController;
+import controller.ProjectManagerController;
 import controller.ResponsibleEngineerController;
 import model.Employee;
 import model.Timesheet;
@@ -29,6 +30,7 @@ public class FrontEndBoundary implements Serializable{
     @Inject ResponsibleEngineerController resEng;
     @Inject AdminController admin;
     @Inject EmployeeController employee;
+    @Inject ProjectManagerController projMan;
     
     public LoginController getLogin() {
         return login;
@@ -60,6 +62,14 @@ public class FrontEndBoundary implements Serializable{
     
     public void setAdmin(AdminController admin) {
     	this.admin = admin;
+    }
+    
+    public ProjectManagerController getProjMan() {
+    	return projMan;
+    }
+    
+    public void setProjMan(ProjectManagerController projMan) {
+    	this.projMan = projMan;
     }
 
     public void start() {

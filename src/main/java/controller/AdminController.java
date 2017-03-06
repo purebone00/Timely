@@ -41,8 +41,6 @@ public class AdminController {
     }
     
     public String addEmployee() {
-    	newEmployee.setEmpInsDt(new Date());
-    	newEmployee.setEmpUpDt(new Date());
     	newEmployee.setEmpFlxTm(BigDecimal.ZERO);
     	employeeManager.persist(newEmployee);
     	employeeController.refreshList();

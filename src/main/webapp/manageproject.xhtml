@@ -63,39 +63,40 @@
                 <div class="column">
                 </div>
             </div>
-            <h3>Admin</h3>
-
-			
             
             <div class="container text-centered">
   				<div class="jumbotron">
-	    			<h1>Admin</h1>
+	    			<h1>Manage Project</h1>
 	    			<span></span> 
   				</div> 
 			</div>
             
             <div class="container">
 	            <div class="row">
-	            
-		           <h:form id="addUser">
-					Firstname:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empFnm}" required="true" /><br/>
-            		Lastname:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empLnm}" required="true" /><br/>
-            		Dept:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empDept}" required="true" /><br/>
-            		Labor Grade:<br/>
-            		<h:selectOneMenu class="form-control" value="#{Master.admin.newEmployee.empLabGrd}" converter="#{labgrdConverter}">
-            			<f:selectItems class="selectpicker" value="#{Master.admin.labourGrades}" />
-            		</h:selectOneMenu><br/>
-            		Password:<br/>
-            		<h:inputSecret class="form-control" value="#{Master.admin.newEmployee.empPw}"  required="true" /><br/>
-            		<p>
-               		<h:commandButton id="addButton" class="btn" value="Create" action="#{Master.admin.addEmployee}"/>    
-               		<h:commandButton id="cancelButton" class="btn" value="Cancel" immediate="true" action="admin"/>
-            		</p>
-         			</h:form>
-		            
+	            	<h:outputText value="No: #{Master.projMan.selectedProject.projNo}"/><br/>
+	            	<h:outputText value="Name: #{Master.projMan.selectedProject.projNm}"/><br/>
+	            	<h:outputText value="Description: #{Master.projMan.selectedProject.projDesc}"/><br/>
+	            	
+					<h:dataTable class="table table-bordered" value="#{Master.projMan.selectedProject.workPackages}" var="s">
+							<h:column>
+								<f:facet name="header">Work Package</f:facet>	
+								#{s.wpNm}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Description</f:facet>	
+								#{s.wpDesc}
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Details</f:facet>	
+								<h:form>
+									<h:commandButton class="btn" value="View" action="#{Master.projMan.selectWorkPackage(s)}"/>
+								</h:form>
+							</h:column>
+					</h:dataTable>
+		            <h:form>
+		            	<h:commandButton class="btn" value="Create New Work Package" action="createworkpackage"/>
+		            </h:form>
 	            </div>
             </div>
 

@@ -10,7 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,6 +58,18 @@ public class Project implements java.io.Serializable {
         this.projDel = projDel;
         this.projInsDt = projInsDt;
         this.projUdDt = projUdDt;
+    }
+    
+    private Set<Workpack> workPackages;
+    
+    @OneToMany(fetch=FetchType.EAGER)
+    @JoinColumn(name="wpProjNo", referencedColumnName="projNo")
+    public Set<Workpack> getWorkPackages() {
+    	return this.workPackages;
+    }
+    
+    public void setWorkPackages(Set<Workpack> workpackages) {
+    	this.workPackages = workpackages;
     }
     
     private Set<Employee> employees;

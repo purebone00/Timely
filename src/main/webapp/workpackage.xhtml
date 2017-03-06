@@ -63,39 +63,35 @@
                 <div class="column">
                 </div>
             </div>
-            <h3>Admin</h3>
-
-			
             
             <div class="container text-centered">
   				<div class="jumbotron">
-	    			<h1>Admin</h1>
+	    			<h1>Work Package</h1>
 	    			<span></span> 
   				</div> 
 			</div>
             
             <div class="container">
 	            <div class="row">
-	            
-		           <h:form id="addUser">
-					Firstname:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empFnm}" required="true" /><br/>
-            		Lastname:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empLnm}" required="true" /><br/>
-            		Dept:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empDept}" required="true" /><br/>
-            		Labor Grade:<br/>
-            		<h:selectOneMenu class="form-control" value="#{Master.admin.newEmployee.empLabGrd}" converter="#{labgrdConverter}">
-            			<f:selectItems class="selectpicker" value="#{Master.admin.labourGrades}" />
-            		</h:selectOneMenu><br/>
-            		Password:<br/>
-            		<h:inputSecret class="form-control" value="#{Master.admin.newEmployee.empPw}"  required="true" /><br/>
-            		<p>
-               		<h:commandButton id="addButton" class="btn" value="Create" action="#{Master.admin.addEmployee}"/>    
-               		<h:commandButton id="cancelButton" class="btn" value="Cancel" immediate="true" action="admin"/>
-            		</p>
-         			</h:form>
-		            
+	            	<h:form>
+					<h:dataTable class="table table-bordered" value="#{Master.projMan.wpPlanHours()}" var="s">
+							<h:column>
+								<f:facet name="header">Labour Grade</f:facet>	
+								<h:inputText value="#{s.id.wlLgId}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Person Hours</f:facet>	
+								<h:inputText value="#{s.wlPlanHrs}"/>
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Remove</f:facet>	
+									<h:commandButton class="btn" value="Remove" />
+							</h:column>
+					</h:dataTable>
+		            	<h:commandButton class="btn" value="Add Row" action="#{Master.projMan.addWplabRow()}"/>
+		            	<h:commandButton class="btn" value="Submit Estimate" action="#{Master.projMan.submitEstimate()}"/>
+		            </h:form>
 	            </div>
             </div>
 

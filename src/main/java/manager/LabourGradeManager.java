@@ -23,4 +23,12 @@ public class LabourGradeManager implements Serializable {
         
         return labourGrades;
 	}
+	
+	public Labgrd find(String lgId) {
+		TypedQuery<Labgrd> query = em.createQuery("select s from Labgrd s where s.lgId=:code",
+                Labgrd.class);
+		query.setParameter("code", lgId);
+		return query.getSingleResult();
+		//	return em.find(Labgrd.class, lgId);
+	}
 }

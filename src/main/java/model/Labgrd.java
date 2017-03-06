@@ -86,5 +86,10 @@ public class Labgrd implements java.io.Serializable {
     public String toString() {
     	return lgId;
     }
+    
+    public boolean equals(Object labgrd) {
+    	Labgrd labgrdObj = (Labgrd) labgrd;
+    	return this.getLgId().equals(labgrdObj.getLgId());
+    }
 
 }

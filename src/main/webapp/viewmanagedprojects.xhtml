@@ -63,38 +63,38 @@
                 <div class="column">
                 </div>
             </div>
-            <h3>Admin</h3>
-
-			
             
             <div class="container text-centered">
   				<div class="jumbotron">
-	    			<h1>Admin</h1>
+	    			<h1>Managed Projects</h1>
 	    			<span></span> 
   				</div> 
 			</div>
             
             <div class="container">
 	            <div class="row">
-	            
-		           <h:form id="addUser">
-					Firstname:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empFnm}" required="true" /><br/>
-            		Lastname:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empLnm}" required="true" /><br/>
-            		Dept:<br/>
-            		<h:inputText class="form-control" value="#{Master.admin.newEmployee.empDept}" required="true" /><br/>
-            		Labor Grade:<br/>
-            		<h:selectOneMenu class="form-control" value="#{Master.admin.newEmployee.empLabGrd}" converter="#{labgrdConverter}">
-            			<f:selectItems class="selectpicker" value="#{Master.admin.labourGrades}" />
-            		</h:selectOneMenu><br/>
-            		Password:<br/>
-            		<h:inputSecret class="form-control" value="#{Master.admin.newEmployee.empPw}"  required="true" /><br/>
-            		<p>
-               		<h:commandButton id="addButton" class="btn" value="Create" action="#{Master.admin.addEmployee}"/>    
-               		<h:commandButton id="cancelButton" class="btn" value="Cancel" immediate="true" action="admin"/>
-            		</p>
-         			</h:form>
+	            	
+					<h:dataTable class="table table-bordered" value="#{Master.projMan.listOfProjects(Master.login.currentEmployee.currentEmployee)}" var="s">
+							<h:column>
+								<f:facet name="header">No</f:facet>	
+								#{s.projNo}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Name</f:facet>	
+								#{s.projNm}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Description</f:facet>	
+								#{s.projDesc}
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Work Packages</f:facet>	
+								<h:form>
+									<h:commandButton class="btn" value="View" action="#{Master.projMan.selectProject(s)}"/>
+								</h:form>
+							</h:column>
+					</h:dataTable>
 		            
 	            </div>
             </div>

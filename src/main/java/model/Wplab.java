@@ -73,7 +73,7 @@ public class Wplab implements Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "wlInsDt", nullable = false, length = 19)
+    @Column(name = "wlInsDt", insertable=false, nullable = false, length = 19)
     public Date getWlInsDt() {
         return this.wlInsDt;
     }
@@ -83,7 +83,7 @@ public class Wplab implements Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "wlUpDt", nullable = false, length = 19)
+    @Column(name = "wlUpDt", insertable=false, nullable = false, length = 19)
     public Date getWlUpDt() {
         return this.wlUpDt;
     }
