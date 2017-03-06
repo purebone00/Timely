@@ -72,6 +72,12 @@
 								#{s.id.tsWkEnd}
 							</h:column>
 							<h:column>
+								<f:facet name="header">Status</f:facet>	
+								<p class="status">
+									#{s.tsSubmit}
+								</p>
+							</h:column>
+							<h:column>
 								<h:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}" value="Choose Timesheet">
 								</h:commandButton>	
 							</h:column>

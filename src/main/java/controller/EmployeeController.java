@@ -146,6 +146,14 @@ public class EmployeeController implements Serializable{
         return weekNumber;
     }
     
+    public String submitTimesheet() {
+        if(curTimesheet.getTsSubmit() == 0) {
+            curTimesheet.setTsSubmit((short)1);
+            tManager.merge(curTimesheet);
+        }
+        return null;
+    }
+    
     
     
 }
