@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:b="http://bootsfaces.net/ui">
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
     <h:head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,9 +27,9 @@
                 <p id="profile-name" class="profile-name-card"></p>
                 <b:form class="form-signin">
                     <span id="reauth-email" class="reauth-email"></span>
-                    <b:inputText class="form-control" id="inputEmail"
+                    <b:inputText class="form-control" pt:placeholder="Email address" id="inputEmail"
                         value="#{Master.login.userName}" />
-                    <b:inputText class="form-control" id="inputPassword"
+                    <b:inputSecret class="form-control" pt:placeholder="Password" id="inputPassword"
                         value="#{Master.login.password}" />
                     <b:commandButton
                         class="btn btn-lg btn-primary btn-block btn-signin"
