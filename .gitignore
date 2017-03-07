@@ -45,6 +45,6 @@ build/
 #NDK
 obj/
 /target/
-
+target/
 .war
 
