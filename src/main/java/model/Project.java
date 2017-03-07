@@ -85,7 +85,6 @@ public class Project implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-
     @Column(name = "projNo", unique = true, nullable = false)
     public Integer getProjNo() {
         return this.projNo;
@@ -181,7 +180,13 @@ public class Project implements java.io.Serializable {
     }
     
     public String toString() {
-    	return this.projNm;
+    	return this.projNo.toString();
     }
 
+    /* =========================================== */
+    public boolean equals(Object entityObject) {
+        Project entity = (Project) entityObject;
+        return this.getProjNo().equals(entity.getProjNo());
+    }
+    
 }

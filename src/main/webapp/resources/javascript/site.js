@@ -11,18 +11,34 @@ $(function() {
 
 function statusClass() {
 	var status = document.getElementsByClassName("status");
-	console.log($(status).text());
-	if($(status).text() == 1) {
-		$(status).addClass('btn btn-success');
-		$(status).text("Submitted");
-	} else {
-		$(status).addClass('btn btn-danger');
-		$(status).text("Not Submitted");
-	}
-		
+	
+	$(status).each(function(){
+	    if($(this).text() == 1) {
+	    	$(status).addClass('btn btn-success');
+			$(status).text("Submitted");
+	    } else {
+	    	$(status).addClass('btn btn-danger');
+			$(status).text("Not Submitted");
+	    }
+	    	
+	 });
 }
+
+function projectNumberChange() {
+	var projNo = document.getElementsByClassName("ProjectNo");
+	$(projNo).each(function(){
+	    if($(this).text() == 0)
+	    	$(this).text(" ");
+	 });
+}
+
+
+
+
 
 window.onload = function() {
 	statusClass();
+	projectNumberChange();
+
 };
 		

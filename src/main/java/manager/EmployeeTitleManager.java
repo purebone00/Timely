@@ -6,8 +6,6 @@ import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import model.Employee;
 import model.Emptitle;
 
 @Dependent
