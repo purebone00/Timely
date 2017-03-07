@@ -1,0 +1,17 @@
+model\WplabId.class
+controller\ResponsibleEngineerController.class
+manager\TimesheetManager.class
+manager\TsrowManager.class
+model\EmptitlePK.class
+model\EmpwpPK.class
+model\TimesheetPK.class
+manager\WorkPackageManager.class
+controller\ProjectManagerController.class
+controller\AdminController.class
+utility\LabgrdConverter.class
+manager\ProjectManager.class
+manager\WplabManager.class
+model\Wplab.class
+manager\LabourGradeManager.class
+manager\WpstarepManager.class
+model\WorkpackPK.class
