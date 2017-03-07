@@ -96,8 +96,8 @@
 									<h:column>
 										<f:facet name="header">Project No.</f:facet>
 										<!--  <h:inputText value="#{s.tsrProjNo}" size="10" rendered="#{s.editable}" /> -->
-										<h:selectOneMenu class="form-control" value="#{s.tsrProjNo}" rendered="#{s.editable}" converter="#{projectListConverter}">
-    										<f:selectItems class="selectpicker" value="#{Master.employee.emp.projects}" />
+										<h:selectOneMenu class="form-control" value="#{s.tsrProjNo}" rendered="#{s.editable}">
+    										<f:selectItems class="selectpicker" value="#{Master.employee.projectIntegerList()}" />
 										</h:selectOneMenu>
 	    							    <h:outputText class="ProjectNo" value="#{s.tsrProjNo}" rendered="#{not s.editable}" /> 
 										<f:facet name="footer">Total</f:facet>							

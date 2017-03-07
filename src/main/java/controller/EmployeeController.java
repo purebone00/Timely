@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ import manager.EmployeeManager;
 import manager.TimesheetManager;
 import manager.TsrowManager;
 import model.Employee;
+import model.Project;
 import model.Timesheet;
 import model.TimesheetId;
 import model.Tsrow;
@@ -128,6 +130,7 @@ public class EmployeeController implements Serializable{
 	        remainder = 5 - size;
 	        for(int i = 0; i < remainder; i++) {
 	            Tsrow row = new Tsrow();
+	            row.setTsrEmpId(emp.getEmpId());
 	            tsrList.add(row);
 	        }
 	    }
@@ -163,7 +166,7 @@ public class EmployeeController implements Serializable{
     public String saveAction() {
         for (Tsrow row : tsrList){
             row.setEditable(false);
-            if(row.getTsrProjNo() != 0 && row.getTsrWpNo() != null) {
+            if(row.getTsrProjNo() != 0 && !row.getTsrWpNo().isEmpty()) {
                 trManager.merge(row);
             }
         }
@@ -171,7 +174,9 @@ public class EmployeeController implements Serializable{
     }
     
     public String addTsrow() {
-        tsrList.add(new Tsrow());
+    	Tsrow row = new Tsrow();
+    	row.setTsrEmpId(emp.getEmpId());
+        tsrList.add(row);
         return null;
     }
     
@@ -196,5 +201,11 @@ public class EmployeeController implements Serializable{
     }
     
     
-    
+    public List<Integer> projectIntegerList() {
+    	List<Integer> list = new ArrayList<Integer>();
+    	for (Project p : emp.getProjects()) {
+    		list.add(p.getProjNo());
+    	}
+    	return list;
+    }
 }
