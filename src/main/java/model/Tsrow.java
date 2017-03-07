@@ -26,8 +26,10 @@ import javax.persistence.UniqueConstraint;
 public class Tsrow implements java.io.Serializable {
 
     boolean editable;
+    BigDecimal total;
     /* ====================================== */
     
+
     private Long tsr_id;
     private int tsrEmpId;
     private String tsrWkEnd;
@@ -61,6 +63,7 @@ public class Tsrow implements java.io.Serializable {
     }
 
     public Tsrow() {
+        total = new BigDecimal(0);
     }
 
     public Tsrow(int tsrEmpId, String tsrWkEnd, int tsrProjNo, String tsrWpNo, short tsrDel, Date tsrInsDt,
@@ -251,6 +254,22 @@ public class Tsrow implements java.io.Serializable {
     
     public void setEditable(boolean editable) {
         this.editable = editable;
+    }
+    
+    @Transient
+    public BigDecimal getTotal() {
+        this.total = new BigDecimal(0);
+        BigDecimal[] week = {this.tsrMon, this.tsrTue, this.tsrWed, this.tsrThu, this.tsrFri, this.tsrSat, this.tsrSun};
+        for(int i = 0; i < week.length; i++) {
+            if(week[i]!=null) {
+                this.total = this.total.add(new BigDecimal(week[i].doubleValue()));
+            }
+        }
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
     
 }
