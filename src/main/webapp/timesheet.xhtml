@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html">
+   <h:head>
+      <h:outputStylesheet library="css" name="style.css"/>
+      <h:outputStylesheet library="css" name="bootstrap.css"/>
+      <h:outputStylesheet library="css" name="semantic.css"/>
+      
+      <h:outputScript library="javascript" name="jquery-3.1.1.min.js" />
+      <h:outputScript library="javascript" name="semantic.js" />
+      <h:outputScript library="javascript" name="site.js" />
+      <h:outputScript library="javascript" name="bootstrap.js" />
+      
+  
+      <title>Time Sheet</title>
+   </h:head>
+   <h:body>
+      <div class="ui left demo vertical inverted sidebar labeled icon menu">
+		<a id="hide-sidebar" class="item">
+			<i class="sidebar icon"></i>
+		</a>
+		<a class="item">
+			<i class="home icon"></i>
+		</a>
+	  </div>
+
+	<div id="home" class="ui pusher">
+		<div class="ui top massive fixed menu">
+			
+			<a id="show-sidebar" class="item">
+				<i class="large sidebar icon"></i>
+				<img  class ="ui small image" src='#{resource["images/logo.png"]}' alt=""/>
+			</a>
+			<a class="item">
+				Features
+			</a>
+			<a class="item">
+				About Us
+			</a>
+			<a class="item">
+				Contact Us
+			</a>
+			<div class="right menu">
+				<a class="item">
+					<i class="big announcement icon"></i>
+				</a>
+				<h:form>
+				
+				<h:commandLink class="item" value="Logout" action="#{Master.logout}">
+					<i class="big sign out icon"></i>
+				</h:commandLink>
+				
+				</h:form>
+			 </div>
+		</div>
+
+		<div class="ui segment grid">
+			<div class="row"></div>
+			<div class="row">
+				<div class="column">
+					<h1>Timesheet</h1>
+					<h:dataTable class="table table-bordered" value="#{Master.employee.tsrList}" var="s">
+							<h:column>
+								<f:facet name="header">Employee ID</f:facet>	
+								#{s.tsrEmpId}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Week End</f:facet>	
+								#{s.tsrWkEnd}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Project Number</f:facet>	
+								#{s.tsrProjNo}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Work Package Number</f:facet>	
+								#{s.tsrWpNo}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Saturday</f:facet>	
+								#{s.tsrSat}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Sunday</f:facet>	
+								#{s.tsrSun}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Moday</f:facet>	
+								#{s.tsrMon}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Tuesday</f:facet>	
+								#{s.tsrTue}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Wednesday</f:facet>	
+								#{s.tsrWed}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Thursday</f:facet>	
+								#{s.tsrThu}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Friday</f:facet>	
+								#{s.tsrFri}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Notes</f:facet>	
+								#{s.tsrNote}
+							</h:column>
+						</h:dataTable>
+					
+				</div>
+			</div>
+		</div>
+				
+      </div>
+   </h:body>
+</html>
+

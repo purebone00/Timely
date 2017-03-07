@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      >
-    <h:body>
-    	<ui:composition template="/template/master_page.xhtml">
-    		<ui:define name="content">
-    			<h2>This is page1 content</h2>
-    		</ui:define>
-    	</ui:composition>
-    </h:body>
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+    <ui:composition template="/template/master_page.xhtml">
+        <ui:define name="content">
+            <div class="ui segment grid">
+                <div class="row"></div>
+                <div class="row">
+                    <div class="column">
+                        <h:form>
+                            <h:dataTable class="table table-bordered"
+                                value="#{Master.employee.tsList}"
+                                var="s">
+                                <h:column>
+                                    <f:facet name="header">Employee ID</f:facet>	
+								#{s.id.tsEmpId}
+							</h:column>
+                                <h:column>
+                                    <f:facet name="header">Week End</f:facet>	
+								#{s.id.tsWkEnd}
+							</h:column>
+                                <h:column>
+                                    <h:commandButton
+                                        action="#{Master.goToTimesheet(s.id.tsWkEnd)}"
+                                        value="Choose Timesheet">
+                                    </h:commandButton>
+                                </h:column>
+                            </h:dataTable>
+                        </h:form>
+                        <div class="column">
+                            <h:form>
+                                <h:commandLink
+                                    value="View Work Package Reports"
+                                    action="responsibleengineer" />
+                                <br />
+                                <h:commandLink value="View Projects"
+                                    action="viewmanagedprojects" />
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>
+

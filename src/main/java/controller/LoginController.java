@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,7 +30,7 @@ public class LoginController implements Serializable {
         
     }
     
-    public boolean authUser() {
+    public Employee authUser() {
         list = empManager.getAll();
         boolean authenticated = false;
         
@@ -42,7 +43,7 @@ public class LoginController implements Serializable {
                 }
             }
         }
-        return authenticated;
+        return (authenticated)? currentEmployee.getCurrentEmployee() : null;
     }
     
     public String getUserName() {
@@ -67,6 +68,14 @@ public class LoginController implements Serializable {
     }
     
     public boolean isAdmin() {
-        return (currentEmployee.getCurrentEmployee().getEmpId().intValue() == 1);
+        return (currentEmployee.getCurrentEmployee().getEmpId().intValue() == 1 || currentEmployee.getCurrentEmployee().getEmpId().intValue() == 2);
+    }
+    
+    public EmployeeProfile getCurrentEmployee() {
+    	return currentEmployee;
+    }
+    
+    public void setCurrentEmployee(EmployeeProfile currentEmployee) {
+    	this.currentEmployee = currentEmployee;
     }
 }

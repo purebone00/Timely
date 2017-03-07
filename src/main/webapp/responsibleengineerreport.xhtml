@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+   <h:head>
+      <h:outputStylesheet library="css" name="style.css"/>
+      <h:outputStylesheet library="css" name="bootstrap.css"/>
+      <h:outputStylesheet library="css" name="semantic.css"/>
+      
+      <h:outputScript library="javascript" name="jquery-3.1.1.min.js" />
+      <h:outputScript library="javascript" name="semantic.js" />
+      <h:outputScript library="javascript" name="site.js" />
+      <h:outputScript library="javascript" name="bootstrap.js" />
+      
+  
+      <title>Index</title>
+   </h:head>
+   <h:body>
+      <div class="ui left demo vertical inverted sidebar labeled icon menu">
+        <a id="hide-sidebar" class="item">
+            <i class="sidebar icon"></i>
+        </a>
+        <a class="item">
+            <i class="home icon"></i>
+        </a>
+      </div>
+
+    <div id="home" class="ui pusher">
+        <div class="ui top massive fixed menu">
+            
+            <a id="show-sidebar" class="item">
+                <i class="large sidebar icon"></i>
+                <img  class ="ui small image" src='#{resource["images/logo.png"]}' alt=""/>
+            </a>
+            <a class="item">
+                Features
+            </a>
+            <a class="item">
+                About Us
+            </a>
+            <a class="item">
+                Contact Us
+            </a>
+            <div class="right menu">
+                <a class="item">
+                    <i class="big announcement icon"></i>
+                </a>
+                <h:form>
+                
+                <h:commandLink class="item" value="Logout" action="#{Master.logout}">
+                    <i class="big sign out icon"></i>
+                </h:commandLink>
+                
+                </h:form>
+             </div>
+        </div>
+        <div class="ui segment grid" id="content">
+            <div class="row"></div>
+            <div class="row">
+                <div class="column">
+                </div>
+            </div>
+            
+            <div class="container text-centered">
+  				<div class="jumbotron">
+	    			<h1>Responsible Engineer Report</h1>
+	    			<span></span> 
+  				</div> 
+			</div>
+            
+            <div class="container">
+	            <div class="row">
+	            	<h:outputText value="WorkPackage: #{Master.resEng.selectedWorkPackage.wpNm}"/><br/>
+	            	<h:outputText value="Project#: #{Master.resEng.selectedWorkPackage.id.wpProjNo}"/><br/>
+	            	<h:outputText value="WorkPackage#: #{Master.resEng.selectedWorkPackage.id.wpNo}"/><br/>
+	            	<h:outputText value="Description: #{Master.resEng.selectedWorkPackage.wpDesc}"/><br/>
+	            	<h:outputText value="Estimated Person Days Required: #{Master.resEng.selectedWorkPackage.wplabs}"/><br/><br/>
+		            <div class="col-md-12">
+		            
+	            	<h:outputText class="h4" value="Work Completed"/>
+		            	<h:dataTable class="table table-bordered" value="#{Master.resEng.listOfWpPersonHours()}" var="s">
+							<h:column>
+								<f:facet name="header">Labour Grade</f:facet>	
+								#{s[0]}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Person Days Completed</f:facet>	
+								#{s[1]/8}
+								<f:facet name="footer">
+									<h:outputText value="#{Master.resEng.totalHours/8}" style="font-weight:bold"/>
+								</f:facet>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Total Cost</f:facet>
+								<h:outputText value="#{s[2] * s[1]}">
+									<f:convertNumber type="currency"/>
+								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText value="#{Master.resEng.totalCost}" style="font-weight:bold">
+										<f:convertNumber type="currency"/>
+									</h:outputText>
+								</f:facet>
+							</h:column>
+						</h:dataTable>
+						<h:outputText class="h4" value="Work Remaining"/>
+						<h:form>
+							<h:dataTable class="table table-bordered" value="#{Master.resEng.labourGradeDays}" var="s">
+								<h:column>
+									<f:facet name="header">Labour Grade</f:facet>
+									#{s[0]}
+								</h:column>
+								
+								<h:column>
+									<f:facet name="header">Person Days</f:facet>
+									<h:inputText value="#{s[1]}"/>
+								</h:column>
+							</h:dataTable><br/>
+							Notes:<br/>
+							<h:inputTextarea class="form-control" value="#{Master.resEng.workPackageReport.wsrProbNw}" cols="30" rows="6"/><br/>
+							<h:commandButton class="btn" value="Submit" action="#{Master.resEng.submitReport}"/>
+						</h:form>
+					</div>
+		            
+	            </div>
+            </div>
+
+        </div>
+    </div>
+    
+      
+   </h:body>
+</html>
+

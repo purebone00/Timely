@@ -1,13 +1,16 @@
 package frontend;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import model.*;
 
 @Named
-public class EmployeeProfile {
+@SessionScoped
+public class EmployeeProfile implements Serializable {
 
     Employee employee;
     

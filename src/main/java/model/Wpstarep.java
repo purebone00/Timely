@@ -20,16 +20,15 @@ import javax.persistence.TemporalType;
 public class Wpstarep implements java.io.Serializable {
 
     private WpstarepId id;
-    private Date wsrRepDt;
+    private String wsrRepDt;
     private Integer wsrWriter;
     private BigDecimal wsrProgLw;
     private String wsrProbLw;
     private BigDecimal wsrProgNw;
     private String wsrProbNw;
-    private BigDecimal wsrEstWr;
+    private BigDecimal wsrEstWrh;
+    private String wsrEstDes;
     private short wsrSubmit;
-    private Date wsrApprDt;
-    private Integer wsrApprId;
     private short wsrDel;
     private Date wsrInsDt;
     private Date wsrUpDt;
@@ -45,9 +44,9 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrUpDt = wsrUpDt;
     }
 
-    public Wpstarep(WpstarepId id, Date wsrRepDt, Integer wsrWriter, BigDecimal wsrProgLw, String wsrProbLw,
-            BigDecimal wsrProgNw, String wsrProbNw, BigDecimal wsrEstWr, short wsrSubmit, Date wsrApprDt,
-            Integer wsrApprId, short wsrDel, Date wsrInsDt, Date wsrUpDt) {
+    public Wpstarep(WpstarepId id, String wsrRepDt, Integer wsrWriter, BigDecimal wsrProgLw, String wsrProbLw,
+            BigDecimal wsrProgNw, String wsrProbNw, BigDecimal wsrEstWrh, String wsrEstDes, short wsrSubmit,
+            short wsrDel, Date wsrInsDt, Date wsrUpDt) {
         this.id = id;
         this.wsrRepDt = wsrRepDt;
         this.wsrWriter = wsrWriter;
@@ -55,10 +54,9 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrProbLw = wsrProbLw;
         this.wsrProgNw = wsrProgNw;
         this.wsrProbNw = wsrProbNw;
-        this.wsrEstWr = wsrEstWr;
+        this.wsrEstWrh = wsrEstWrh;
+        this.wsrEstDes = wsrEstDes;
         this.wsrSubmit = wsrSubmit;
-        this.wsrApprDt = wsrApprDt;
-        this.wsrApprId = wsrApprId;
         this.wsrDel = wsrDel;
         this.wsrInsDt = wsrInsDt;
         this.wsrUpDt = wsrUpDt;
@@ -77,13 +75,12 @@ public class Wpstarep implements java.io.Serializable {
         this.id = id;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "wsrRepDt", length = 19)
-    public Date getWsrRepDt() {
+    public String getWsrRepDt() {
         return this.wsrRepDt;
     }
 
-    public void setWsrRepDt(Date wsrRepDt) {
+    public void setWsrRepDt(String wsrRepDt) {
         this.wsrRepDt = wsrRepDt;
     }
 
@@ -132,13 +129,22 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrProbNw = wsrProbNw;
     }
 
-    @Column(name = "wsrEstWR", precision = 5)
-    public BigDecimal getWsrEstWr() {
-        return this.wsrEstWr;
+    @Column(name = "wsrEstWRH", precision = 5)
+    public BigDecimal getWsrEstWrh() {
+        return this.wsrEstWrh;
     }
 
-    public void setWsrEstWr(BigDecimal wsrEstWr) {
-        this.wsrEstWr = wsrEstWr;
+    public void setWsrEstWrh(BigDecimal wsrEstWrh) {
+        this.wsrEstWrh = wsrEstWrh;
+    }
+    
+    @Column(name = "wsrEstDes")
+    public String getWsrEstDes() {
+    	return this.wsrEstDes;
+    }
+    
+    public void setWsrEstDes(String wsrEstDes) {
+    	this.wsrEstDes = wsrEstDes;
     }
 
     @Column(name = "wsrSubmit", nullable = false)
@@ -148,25 +154,6 @@ public class Wpstarep implements java.io.Serializable {
 
     public void setWsrSubmit(short wsrSubmit) {
         this.wsrSubmit = wsrSubmit;
-    }
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "wsrApprDt", length = 19)
-    public Date getWsrApprDt() {
-        return this.wsrApprDt;
-    }
-
-    public void setWsrApprDt(Date wsrApprDt) {
-        this.wsrApprDt = wsrApprDt;
-    }
-
-    @Column(name = "wsrApprID")
-    public Integer getWsrApprId() {
-        return this.wsrApprId;
-    }
-
-    public void setWsrApprId(Integer wsrApprId) {
-        this.wsrApprId = wsrApprId;
     }
 
     @Column(name = "wsrDel", nullable = false)
@@ -179,7 +166,7 @@ public class Wpstarep implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "wsrInsDt", nullable = false, length = 19)
+    @Column(name = "wsrInsDt", insertable=false, nullable = false, length = 19)
     public Date getWsrInsDt() {
         return this.wsrInsDt;
     }
@@ -189,7 +176,7 @@ public class Wpstarep implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "wsrUpDt", nullable = false, length = 19)
+    @Column(name = "wsrUpDt", insertable=false, nullable = false, length = 19)
     public Date getWsrUpDt() {
         return this.wsrUpDt;
     }
