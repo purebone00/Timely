@@ -3,7 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core" 
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
    <h:head>
       <h:outputStylesheet library="css" name="style.css"/>
       <h:outputStylesheet library="css" name="bootstrap.css"/>
@@ -63,26 +64,26 @@
 				<div class="container">
 					<div class="col-md-12">
 						<h:form>
-							<h:dataTable class="table table-bordered" value="#{Master.employee.tsList}" var="s">
-								<h:column>
+							<b:dataTable responsive="true" value="#{Master.employee.tsList}" var="s">
+								<b:dataTableColumn>
 									<f:facet name="header">Employee ID</f:facet>	
 									#{s.id.tsEmpId}
-								</h:column>
-								<h:column>
+								</b:dataTableColumn>
+								<b:dataTableColumn>
 									<f:facet name="header">Week End</f:facet>	
 									#{s.id.tsWkEnd}
-								</h:column>
-								<h:column>
+								</b:dataTableColumn>
+								<b:dataTableColumn>
 									<f:facet name="header">Status</f:facet>	
 									<p class="status">
 										#{s.tsSubmit}
 									</p>
-								</h:column>
-								<h:column>
+								</b:dataTableColumn>
+								<b:dataTableColumn>
 									<h:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}" value="Choose Timesheet">
 									</h:commandButton>	
-								</h:column>
-							</h:dataTable>
+								</b:dataTableColumn>
+							</b:dataTable>
 						</h:form>
 						<div class="column">
 							<h:form>
