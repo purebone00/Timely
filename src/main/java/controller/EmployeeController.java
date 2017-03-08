@@ -2,11 +2,13 @@ package controller;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
@@ -182,13 +184,15 @@ public class EmployeeController implements Serializable{
     
     public int getWeekNumber() throws ParseException {
         String input = getCurTimesheet().getId().getTsWkEnd();
-        String format = "YYYYMMDD";
-        SimpleDateFormat df = new SimpleDateFormat(format);
+        String format = "yyyyMMdd";
+        DateFormat df = new SimpleDateFormat(format);
         Date date = df.parse(input);
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = new GregorianCalendar();
         cal.setTime(date);
+        cal.setFirstDayOfWeek(Calendar.SATURDAY);
         int week = cal.get(Calendar.WEEK_OF_YEAR);
         weekNumber = week;
+        System.out.println(weekNumber);
         return weekNumber;
     }
     
