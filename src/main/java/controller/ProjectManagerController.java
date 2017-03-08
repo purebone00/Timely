@@ -27,6 +27,11 @@ public class ProjectManagerController {
 	
 	private List<Wplab> wpPlanHours;
 	
+	/**
+	 * Gets a list of {@link Project}'s that an {@link Employee} manages.
+	 * @param emp The {@link Employee} that manages the {@link Project}'s you want to get.
+	 * @return A list of {@link Project}'s.
+	 */
 	public List<Project> listOfProjects(Employee emp) {
 		return projectManager.getManagedProjects(emp.getEmpId());
 	}
@@ -45,6 +50,10 @@ public class ProjectManagerController {
 		this.selectedProject = selectedProject;
 	}
 	
+	/**
+	 * Gets a list of {@link Wplab} for {@link #selectedWorkPackage}.
+	 * @return
+	 */
 	public List<Wplab> wpPlanHours() {
 		if (wpPlanHours == null) {
 			wpPlanHours = wplabManager.getWorkPackagePlannedHours(selectedWorkPackage.getId().getWpProjNo(), selectedWorkPackage.getId().getWpNo());
