@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Tsrow;
-import model.Workpack;
 
 
 @Dependent
@@ -73,16 +72,24 @@ public class TsrowManager {
         return Tsrow;
     }
 
+    /**
+     * Gets a list of arrays representing the hours worked per labour grade for the work package with the given projNo and wpNo.<br>
+	 * Each array contains:
+	 * 		<ul>
+	 * 		<li>Index 0: Labour grade ID (String)</li>
+	 * 		<li>Index 1: Total person hours worked for the labour grade in index 0 for the WP (BigDecimal)</li>
+	 * 		<li>Index 2: Pay rate for the labour grade in index 0 (BigDecimal)</li>
+	 * 		</ul>
+     * @param projNo The project number of the work package.
+     * @param wpNo The work package number of the work package.
+     * @return The list of arrays.
+     */
     public List<Object[]> getAllForWP(int projNo, String wpNo) {
     	Query query = em.createNativeQuery("select e.lgID, SUM(s.tsrSat + s.tsrSun + s.tsrMon + s.tsrTue + s.tsrWed + s.tsrThu + s.tsrFri),"
     			+ " e.lgRate from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
     			+ " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID"
     			+ " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2"
     			+ " GROUP BY e.lgID");
-//    	TypedQuery<Tsrow> query = em.createQuery("select e.lgID, SUM(), SUM(), SUM(), SUM(), SUM(), SUM(), SUM()"
-//    			+ " from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
-//    			+ " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID "
-//    			+ " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2", Tsrow.class);
 		
     	query.setParameter("code1", projNo);
 		query.setParameter("code2", wpNo);
