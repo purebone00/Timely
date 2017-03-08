@@ -51,7 +51,7 @@ public class EmployeeController implements Serializable{
 		return emp;
 	}
 	
-	private List<Tsrow> tsrList;
+	private Set<Tsrow> tsrList;
 	private List<Employee> list;
 	private Set<Timesheet> tsList;
 	private Timesheet curTimesheet; 
@@ -117,7 +117,7 @@ public class EmployeeController implements Serializable{
 	     tsList = employeeManager.find(getEmp().getEmpId()).getTimesheet();    
 	}
     
-	public List<Tsrow> getTsrList() {
+	public Set<Tsrow> getTsrList() {
 	    if(tsrList == null) {
 	        refreshTsrList();
 	    }
@@ -128,14 +128,14 @@ public class EmployeeController implements Serializable{
 	    int remainder = 0;
 	    tsrList = tManager.find(tsId).getTsrow();
 	    if(tsrList.size() < 5) {
-	        int size = tsrList.size();
-	        remainder = 5 - size;
-	        for(int i = 0; i < remainder; i++) {
-	            Tsrow row = new Tsrow();
-	            row.setTsrEmpId(emp.getEmpId());
-	            tsrList.add(row);
-	        }
-	    }
+            int size = tsrList.size();
+            remainder = 5 - size;
+            for(int i = 0; i < remainder; i++) {
+                Tsrow row = new Tsrow();
+                row.setTsrEmpId(emp.getEmpId());
+                tsrList.add(row);
+            }
+        }
 	}
 	
     public List<Employee> getList() {

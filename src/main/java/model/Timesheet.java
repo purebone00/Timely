@@ -4,6 +4,7 @@ package model;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -49,14 +50,14 @@ public class Timesheet implements java.io.Serializable {
         this.employee = employee;
     }
 
-    private List<Tsrow> tsrow;
+    private Set<Tsrow> tsrow;
     
     @OneToMany(mappedBy="timesheet", fetch = FetchType.EAGER)
-    public List<Tsrow> getTsrow() {
+    public Set<Tsrow> getTsrow() {
         return tsrow;
     }
 
-    public void setTsrow(List<Tsrow> tsrow) {
+    public void setTsrow(Set<Tsrow> tsrow) {
         this.tsrow = tsrow;
     }
 
