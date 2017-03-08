@@ -4,7 +4,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:b="http://bootsfaces.net/ui">
     
-    <b:listLinks rendered="true">
+    <!-- 
+    <b:listLinks>
         <b:navLink icon-size="2x" iconAwesome="user"
             header="General Utilities" />
         <b:navLink icon-size="lg" iconAwesome="calendar-plus-o"
@@ -16,18 +17,7 @@
             href="#" value="Fix Timesheets"
             rendered="true" />
     </b:listLinks>
-    <b:listLinks>
-        <b:navLink icon-size="2x" iconAwesome="sliders"
-            header="User Settings" />
-        <b:navLink icon-size="lg" iconAwesome="key" href="#"
-            value="Change Password"
-            rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="info" href="#"
-            value="Update User Info"
-            rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
-            value="Sign Out" rendered="true" />
-    </b:listLinks>
+    
     <b:listLinks rendered="true">
         <b:navLink icon-size="2x" iconAwesome="calendar-check-o"
             header="Timesheet Approver" />
@@ -38,6 +28,7 @@
             href="#" value="Fix Timesheets"
             rendered="true" />
     </b:listLinks>
+    
     <b:listLinks rendered="true">
         <b:navLink icon-size="2x" iconAwesome="wrench"
             header="Responsible Engineer" />
@@ -48,6 +39,7 @@
             value="Review WorkPackage"
             rendered="true" />
     </b:listLinks>
+    
     <b:listLinks rendered="true">
         <b:navLink icon-size="2x" iconAwesome="cubes"
             header="Project Manager" />
@@ -55,6 +47,7 @@
             value="View Assigned Projects"
             rendered="true" />
     </b:listLinks>
+    
     <b:listLinks rendered="true">
         <b:navLink icon-size="2x" iconAwesome="cube"
             header="Supervisor" />
@@ -67,6 +60,35 @@
             value="Monthly Reports"
             rendered="true" />
     </b:listLinks>
+     -->
+    <b:listLinks>
+    	<b:navLink icon-size="2x"
+            header="User Roles" />
+	    <b:navLink icon-size="lg" iconAwesome="user"
+	        value="General Utilities" />
+	    <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
+	        value="Timesheet Approver" />
+	    <b:navLink icon-size="lg" iconAwesome="wrench"
+	        value="Responsible Engineer" />
+	    <b:navLink icon-size="lg" iconAwesome="cubes"
+	    	value="Project Manager" />
+	    <b:navLink icon-size="lg" iconAwesome="cube"
+	        value="Supervisor" />
+	</b:listLinks>
+        
+    <b:listLinks>
+        <b:navLink icon-size="2x" iconAwesome="sliders"
+            header="User Controls" />
+        <b:navLink icon-size="lg" iconAwesome="key" href="#"
+            value="Change Password"
+            rendered="true" />
+        <b:navLink icon-size="lg" iconAwesome="info" href="#"
+            value="Update User Info"
+            rendered="true" />
+        <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
+            value="Sign Out" rendered="true" />
+    </b:listLinks>
+    
     <b:listLinks rendered="true">
         <b:navLink icon-size="2x" iconAwesome="user-secret"
             header="Admin" />
@@ -75,5 +97,4 @@
         <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
             value="Sign Out" rendered="true" />
     </b:listLinks>
-    
 </ui:composition>
