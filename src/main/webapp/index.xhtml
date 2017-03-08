@@ -1,88 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core" 
-      xmlns:h="http://java.sun.com/jsf/html">
-   <h:head>
-      <h:outputStylesheet library="css" name="style.css"/>
-      <h:outputStylesheet library="css" name="bootstrap.css"/>
-      <h:outputStylesheet library="css" name="semantic.css"/>
-      
-      <h:outputScript library="javascript" name="jquery-3.1.1.min.js" />
-      <h:outputScript library="javascript" name="semantic.js" />
-      <h:outputScript library="javascript" name="site.js" />
-      <h:outputScript library="javascript" name="bootstrap.js" />
-      
-  
-      <title>Index</title>
-   </h:head>
-   <h:body>
-      <div class="ui left demo vertical inverted sidebar labeled icon menu">
-		<a id="hide-sidebar" class="item">
-			<i class="sidebar icon"></i>
-		</a>
-		<a class="item">
-			<i class="home icon"></i>
-		</a>
-	  </div>
+<ui:composition template="/template/master_page.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="title">Employee</ui:define>
 
-	<div id="home" class="ui pusher">
-		<div class="ui top massive fixed menu">
-			
-			<a id="show-sidebar" class="item">
-				<i class="large sidebar icon"></i>
-				<img  class ="ui small image" src='#{resource["images/logo.png"]}' alt=""/>
-			</a>
-			<a class="item">
-				Features
-			</a>
-			<a class="item">
-				About Us
-			</a>
-			<a class="item">
-				Contact Us
-			</a>
-			<div class="right menu">
-				<a class="item">
-					<i class="big announcement icon"></i>
-				</a>
-				<h:form>
-				
-				<h:commandLink class="item" value="Logout" action="#{Master.logout}">
-					<i class="big sign out icon"></i>
-				</h:commandLink>
-				
-				</h:form>
-			 </div>
-		</div>
-
+    <ui:define name="content">
 		<div class="ui segment grid">
 			<div class="row"></div>
 			<div class="row">
 				<div class="container">
+					<div class="jumbotron text-center">
+		    			<h1>Hello, #{Master.employee.emp.empFnm} #{Master.employee.emp.empLnm}!</h1>
+		    			<span></span> 
+	  				</div>
 					<div class="col-md-12">
 						<h:form>
-							<h:dataTable class="table table-bordered" value="#{Master.employee.tsList}" var="s">
-								<h:column>
+							<b:dataTable 
+								responsive="true"
+								value="#{Master.employee.tsList}"
+								var="s">
+								<b:dataTableColumn>
 									<f:facet name="header">Employee ID</f:facet>	
 									#{s.id.tsEmpId}
-								</h:column>
-								<h:column>
+								</b:dataTableColumn>
+								<b:dataTableColumn>
 									<f:facet name="header">Week End</f:facet>	
 									#{s.id.tsWkEnd}
-								</h:column>
-								<h:column>
+								</b:dataTableColumn>
+								<b:dataTableColumn>
 									<f:facet name="header">Status</f:facet>	
 									<p class="status">
 										#{s.tsSubmit}
 									</p>
-								</h:column>
-								<h:column>
+								</b:dataTableColumn>
+								<b:dataTableColumn>
+									<f:facet name="header">Select Timesheet</f:facet>
 									<h:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}" value="Choose Timesheet">
 									</h:commandButton>	
-								</h:column>
-							</h:dataTable>
+								</b:dataTableColumn>
+							</b:dataTable>
 						</h:form>
 						<div class="column">
 							<h:form>
@@ -97,8 +55,6 @@
 			</div>
 
 		</div>
-	</div>
-      
-   </h:body>
-</html>
 
+    </ui:define>
+</ui:composition>

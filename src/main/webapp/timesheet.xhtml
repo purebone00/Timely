@@ -1,62 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core" 
-      xmlns:h="http://java.sun.com/jsf/html">
-   <h:head>
-      <h:outputStylesheet library="css" name="style.css"/>
-      <h:outputStylesheet library="css" name="bootstrap.css"/>
-      <h:outputStylesheet library="css" name="semantic.css"/>
-      
-      <h:outputScript library="javascript" name="jquery-3.1.1.min.js" />
-      <h:outputScript library="javascript" name="semantic.js" />
-      <h:outputScript library="javascript" name="site.js" />
-      <h:outputScript library="javascript" name="bootstrap.js" />
-      
-  
-      <title>Time Sheet</title>
-   </h:head>
-   <h:body>
-      <div class="ui left demo vertical inverted sidebar labeled icon menu">
-		<a id="hide-sidebar" class="item">
-			<i class="sidebar icon"></i>
-		</a>
-		<a class="item">
-			<i class="home icon"></i>
-		</a>
-	  </div>
+<ui:composition template="/template/master_page.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="title">Timesheets</ui:define>
 
-	<div id="home" class="ui pusher">
-		<div class="ui top massive fixed menu">
-			
-			<a id="show-sidebar" class="item">
-				<i class="large sidebar icon"></i>
-				<img  class ="ui small image" src='#{resource["images/logo.png"]}' alt=""/>
-			</a>
-			<a class="item">
-				Features
-			</a>
-			<a class="item">
-				About Us
-			</a>
-			<a class="item">
-				Contact Us
-			</a>
-			<div class="right menu">
-				<a class="item">
-					<i class="big announcement icon"></i>
-				</a>
-				<h:form>
-				
-				<h:commandLink class="item" value="Logout" action="#{Master.logout}">
-					<i class="big sign out icon"></i>
-				</h:commandLink>
-				
-				</h:form>
-			 </div>
-		</div>
-
+    <ui:define name="content">
 		<div class="ui segment grid">
 			<div class="row"></div>
 			<div class="row">
@@ -91,90 +41,96 @@
 					
 					<div class="container">
 						<div class="row">
-							<h:form>
-								<h:dataTable class="table table-bordered" value="#{Master.employee.tsrList}" var="s">
-									<h:column>
+							<b:form>
+								<b:dataTable 
+									responsive="true" 
+									searching="false" 
+									paginated="false"
+									value="#{Master.employee.tsrList}"
+									var="s"
+									class="editableTable">
+									<b:dataTableColumn>
 										<f:facet name="header">Project No.</f:facet>
-										<!--  <h:inputText value="#{s.tsrProjNo}" size="10" rendered="#{s.editable}" /> -->
+										<!--  <b:inputText value="#{s.tsrProjNo}" size="10" rendered="#{s.editable}" /> -->
 										<h:selectOneMenu class="form-control" value="#{s.tsrProjNo}" rendered="#{s.editable}">
     										<f:selectItems class="selectpicker" value="#{Master.employee.projectIntegerList()}" />
 										</h:selectOneMenu>
 	    							    <h:outputText class="ProjectNo" value="#{s.tsrProjNo}" rendered="#{not s.editable}" /> 
 										<f:facet name="footer">Total</f:facet>							
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">WP No.</f:facet>
-										<h:inputText value="#{s.tsrWpNo}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrWpNo}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrWpNo}" rendered="#{not s.editable}" />	
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Totals</f:facet>
 	    								<h:outputText class="TotalNo" value="#{s.total}" rendered="#{not s.editable}"/>
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[7]}</f:facet>	
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Saturday</f:facet>	
-										<h:inputText value="#{s.tsrSat}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrSat}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrSat}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[5]}</f:facet>
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Sunday</f:facet>	
-										<h:inputText value="#{s.tsrSun}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrSun}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrSun}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[6]}</f:facet>
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Monday</f:facet>	
-										<h:inputText value="#{s.tsrMon}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrMon}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrMon}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[0]}</f:facet>
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Tuesday</f:facet>	
-										<h:inputText value="#{s.tsrTue}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrTue}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrTue}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[1]}</f:facet>
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Wednesday</f:facet>	
-										<h:inputText value="#{s.tsrWed}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrWed}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrWed}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[2]}</f:facet>
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Thursday</f:facet>	
-										<h:inputText value="#{s.tsrThu}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrThu}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrThu}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[3]}</f:facet>
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Friday</f:facet>	
-										<h:inputText value="#{s.tsrFri}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrFri}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrFri}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[4]}</f:facet>
-									</h:column>
-									<h:column>
+									</b:dataTableColumn>
+									<b:dataTableColumn>
 										<f:facet name="header">Notes</f:facet>	
-										<h:inputText value="#{s.tsrNote}" size="10" rendered="#{s.editable}" />
+										<b:inputText value="#{s.tsrNote}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrNote}" rendered="#{not s.editable}" />
-									</h:column>									
-								</h:dataTable>
+									</b:dataTableColumn>									
+								</b:dataTable>
 								<div class="container">
 									<div class="row">
 										<div class="col-md-6">
-											<h:commandButton value="Save Changes" class="btn btn-success" action="#{Master.employee.saveAction}" />
+											<b:commandButton value="Save Changes" class="btn btn-success" action="#{Master.employee.saveAction}" />
 											<span> </span>
-											<h:commandLink value="Edit" class="btn btn-warning" action="#{Master.employee.editAction}" rendered="#{not s.editable}" />
+											<b:commandButton value="Edit" class="btn btn-warning" icon="edit" ajax="true" update="@(.editableTable)" onclick="#{Master.employee.editAction()}" rendered="#{not s.editable}" />
 											<span> </span>
-											<h:commandButton value="Add Row"  class="btn btn-info" action="#{Master.employee.addTsrow}" />
+											<b:commandButton value="Add Row"  class="btn btn-info" action="#{Master.employee.addTsrow}" />
 										</div>
 										<div class="col-md-6">
-											<h:commandButton value="Submit Timesheet" class="btn btn-danger pull-right" action="#{Master.employee.submitTimesheet}" />
+											<b:commandButton value="Submit Timesheet" class="btn btn-danger pull-right" action="#{Master.employee.submitTimesheet}" />
 										</div>
 									</div>
 								</div>
-							</h:form>
+							</b:form>
 						</div>
 					</div>
 					
@@ -183,7 +139,7 @@
 			</div>
 		</div>
 				
-      </div>
-   </h:body>
-</html>
+   
+    </ui:define>
+</ui:composition>
 

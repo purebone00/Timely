@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <h:outputScript library="javascript" name="jquery-3.1.1.min.js" />
     <h:outputScript library="javascript" name="bootstrap.js" />
-
+	<h:outputScript library="javascript" name="site.js" />
     <h:outputStylesheet library="css" name="bootstrap.css" />
     <h:outputStylesheet library="css" name="site.css" />
 
@@ -30,13 +30,13 @@
         <b:container fluid="true">
             <b:row>
                 <!-- Navbar Here -->
-                <b:column col-sm="2" col-md="2" styleClass="sidebar">
+                <b:column col-sm="1" col-md="1" styleClass="sidebar">
                     <ui:insert name="sidebar">
                         <ui:include src="/template/sidebar.xhtml" />
                     </ui:insert>
                 </b:column>
                 <!-- Content Here -->
-                <b:column class="main" col-sm="10" col-md="10">
+                <b:column class="main" col-sm="11" col-md="11">
                     <ui:insert name="content">
                     </ui:insert>
                 </b:column>
