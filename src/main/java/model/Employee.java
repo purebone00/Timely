@@ -47,6 +47,9 @@ public class Employee  implements java.io.Serializable {
      private Date empUpDt;
      
      private Set<Project> projects;
+     private Set<Title> titles;
+     private Set<Timesheet> timesheet;
+     private Set<Workpack> workpackages;
      
      @ManyToMany(fetch=FetchType.EAGER)
      @JoinTable(name="Empproj",
@@ -60,7 +63,21 @@ public class Employee  implements java.io.Serializable {
     	 this.projects = projects;
      }
      
-     private Set<Title> titles;
+     
+     @ManyToMany(fetch=FetchType.EAGER)
+     @JoinTable(name="Empwp",
+    		 joinColumns={@JoinColumn(name="ewEmpId", referencedColumnName="empID")},
+    		 inverseJoinColumns={@JoinColumn(name="ewProjNo", referencedColumnName="wpProjNo"), @JoinColumn(name="ewWpNo", referencedColumnName="wpNo")})
+     public Set<Workpack> getWorkpackages() {
+    	 return workpackages;
+     }
+     
+     
+     public void setWorkpackages(Set<Workpack> workpackages) {
+    	 this.workpackages = workpackages;
+     
+     }
+     
      
      @ManyToMany(fetch=FetchType.EAGER)
      @JoinTable(name="Emptitle",
@@ -74,7 +91,7 @@ public class Employee  implements java.io.Serializable {
     	 this.titles = titles;
      }
      
-     private Set<Timesheet> timesheet;
+     
 
      @OneToMany(mappedBy="employee", fetch = FetchType.EAGER)
      public Set<Timesheet> getTimesheet() {
