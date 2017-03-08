@@ -36,7 +36,6 @@
     padding-right: 20px;
 }
 .nav-list > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
-    background-color: #428bca;
     color: #fff;
 }
 .main {
