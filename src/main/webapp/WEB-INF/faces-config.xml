@@ -27,6 +27,11 @@
 <navigation-rule>
 	<from-view-id>/index.xhtml</from-view-id>
 	<navigation-case>
+    	<from-outcome>changepassword</from-outcome>
+   		<to-view-id>/changepassword.xhtml</to-view-id>
+    	<redirect/>
+  	</navigation-case>
+	<navigation-case>
     	<from-outcome>timesheet</from-outcome>
    		<to-view-id>/timesheet.xhtml</to-view-id>
     	<redirect/>
@@ -36,6 +41,20 @@
 		<to-view-id>/login.xhtml</to-view-id>
 		<redirect/>
 	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/changepassword.xhtml</from-view-id>
+	<navigation-case>
+    	<from-outcome>failedPasswordCheck</from-outcome>
+   		<to-view-id>/index.xhtml</to-view-id>
+    	<redirect/>
+  	</navigation-case>
+	<navigation-case>
+    	<from-outcome>success</from-outcome>
+   		<to-view-id>/login.xhtml</to-view-id>
+    	<redirect/>
+  	</navigation-case>
 </navigation-rule>
 
 <navigation-rule>
