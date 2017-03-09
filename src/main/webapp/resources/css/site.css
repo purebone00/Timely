@@ -1,7 +1,6 @@
 #main {
 	height:100%;
 }
-
 .sub-header {
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
@@ -50,3 +49,4 @@
 .main .page-header {
     margin-top: 0;
 }
+

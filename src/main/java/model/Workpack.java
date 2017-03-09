@@ -175,4 +175,8 @@ public class Workpack implements java.io.Serializable {
         this.wpUpDt = wpUpDt;
     }
 
+    
+    public String toString(){
+    	return this.id.getWpNo();
+    }
 }

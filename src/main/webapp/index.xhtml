@@ -1,12 +1,12 @@
 <ui:composition template="/template/master_page.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Employee</ui:define>
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+	<ui:define name="title">Employee</ui:define>
 
-    <ui:define name="content">
+	<ui:define name="content">
 		<div class="ui segment grid">
 			<b:row>
 				<div class="container">
@@ -20,19 +20,15 @@
 								responsive="true"
 								value="#{Master.employee.tsList}"
 								var="s">
-								<b:dataTableColumn>
+								<b:dataTableColumn value="#{s.id.tsEmpId}">
 									<f:facet name="header">Employee ID</f:facet>	
-									#{s.id.tsEmpId}
 								</b:dataTableColumn>
-								<b:dataTableColumn>
+								<b:dataTableColumn order="desc" value="#{s.id.tsWkEnd}">
 									<f:facet name="header">Week End</f:facet>	
-									#{s.id.tsWkEnd}
 								</b:dataTableColumn>
 								<b:dataTableColumn>
-									<f:facet name="header">Status</f:facet>	
-									<p class="status">
-										#{s.tsSubmit}
-									</p>
+									<f:facet name="header">Status</f:facet>
+									<p class="status">#{s.tsSubmit}</p>
 								</b:dataTableColumn>
 								<b:dataTableColumn>
 									<f:facet name="header">Select Timesheet</f:facet>
@@ -51,8 +47,5 @@
 				</div>
 			</b:row>
 		</div>
-
-		
-
-    </ui:define>
+	</ui:define>
 </ui:composition>
