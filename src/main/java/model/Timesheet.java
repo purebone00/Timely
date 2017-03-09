@@ -38,6 +38,7 @@ public class Timesheet implements java.io.Serializable {
     private Date tsUpDt;
     
     private Employee employee;
+    private Employee tsApprover;
 
     @ManyToOne
     @JoinColumn(name="tsEmpId")
@@ -48,6 +49,17 @@ public class Timesheet implements java.io.Serializable {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+    
+    @ManyToOne
+    @JoinColumn(name="tsApprID")
+    public Employee getTsApprover(){
+        return tsApprover;
+    }
+    
+    public void setTsApprover(Employee tsApprover) {
+        this.tsApprover = tsApprover;
+    }
+    
 
     private List<Tsrow> tsrow;
     
@@ -152,7 +164,7 @@ public class Timesheet implements java.io.Serializable {
         this.tsApprDt = tsApprDt;
     }
 
-    @Column(name = "tsApprID")
+    @Column(name = "tsApprID", insertable=false, updatable=false)
     public Integer getTsApprId() {
         return this.tsApprId;
     }
@@ -189,5 +201,4 @@ public class Timesheet implements java.io.Serializable {
     public void setTsUpDt(Date tsUpDt) {
         this.tsUpDt = tsUpDt;
     }
-
 }

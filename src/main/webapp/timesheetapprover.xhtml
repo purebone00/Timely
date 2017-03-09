@@ -1,0 +1,45 @@
+<ui:composition template="/template/master_page.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="title">Timesheet Approving</ui:define>
+
+    <ui:define name="content">
+        <div class="ui segment grid">
+            <div class="row">
+                <div class="column">
+
+                    <div class="jumbotron text-center">
+                        <h1>Timesheets to Approve</h1>
+                    </div>
+                    <h:form>
+                        <b:dataTable responsive="true"
+                            value="#{Master.taApprover.tsToApproveList}"
+                            var="row">
+                            <b:dataTableColumn value="#{row.id.tsEmpId}"
+                                label="Employee" />
+
+                            <b:dataTableColumn value="#{row.id.tsWkEnd}"
+                                label="Week Of" />
+
+                            <b:dataTableColumn value="#{row.tsUpDt}"
+                                order="asc" label="Submitted" />
+
+                            <b:dataTableColumn label="View Timesheet">
+
+                                <h:commandButton
+                                    action="#{Master.taApprover.goToReviewTimesheet(row)}"
+                                    value="View">
+                                </h:commandButton>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+

@@ -7,54 +7,61 @@
     <ui:define name="title">Employee</ui:define>
 
     <ui:define name="content">
-		<div class="ui segment grid">
-			<div class="row"></div>
-			<div class="row">
-				<div class="container">
-					<div class="jumbotron text-center">
-		    			<h1>Hello, #{Master.employee.emp.empFnm} #{Master.employee.emp.empLnm}!</h1>
-		    			<span></span> 
-	  				</div>
-					<div class="col-md-12">
-						<h:form>
-							<b:dataTable 
-								responsive="true"
-								value="#{Master.employee.tsList}"
-								var="s">
-								<b:dataTableColumn>
-									<f:facet name="header">Employee ID</f:facet>	
+        <div class="ui segment grid">
+            <div class="row"></div>
+            <div class="row">
+                <div class="container">
+                    <div class="jumbotron text-center">
+                        <h1>Hello, #{Master.employee.emp.empFnm}
+                            #{Master.employee.emp.empLnm}!</h1>
+                        <span></span>
+                    </div>
+                    <div class="col-md-12">
+                        <h:form>
+                            <b:dataTable responsive="true"
+                                value="#{Master.employee.tsList}"
+                                var="s">
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Employee ID</f:facet>	
 									#{s.id.tsEmpId}
 								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Week End</f:facet>	
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Week End</f:facet>	
 									#{s.id.tsWkEnd}
 								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Status</f:facet>	
-									<p class="status">
-										#{s.tsSubmit}
-									</p>
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Select Timesheet</f:facet>
-									<h:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}" value="Choose Timesheet">
-									</h:commandButton>	
-								</b:dataTableColumn>
-							</b:dataTable>
-						</h:form>
-						<div class="column">
-							<h:form>
-							<br />	<h:commandLink value="View Work Package Reports" action="responsibleengineer"/>
-		                                        <br />
-		                                        <h:commandLink value="View Projects"
-		                                    action="viewmanagedprojects" />
-							</h:form>
-						</div>
-					</div>
-				</div>
-			</div>
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Status</f:facet>
+                                    <p class="status">#{s.tsSubmit}
+                                    </p>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Select Timesheet</f:facet>
+                                    <h:commandButton
+                                        action="#{Master.goToTimesheet(s.id.tsWkEnd)}"
+                                        value="Choose Timesheet">
+                                    </h:commandButton>
+                                </b:dataTableColumn>
+                            </b:dataTable>
+                        </h:form>
+                        <div class="column">
+                            <h:form>
+                                <br />
+                                <h:commandLink
+                                    value="View Work Package Reports"
+                                    action="responsibleengineer" />
+                                <br />
+                                <h:commandLink value="View Projects"
+                                    action="viewmanagedprojects" />
+                                <br />
+                                <h:commandLink value="View Timesheets To Approve"
+                                    action="timesheetapprover"/>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		</div>
+        </div>
 
     </ui:define>
 </ui:composition>

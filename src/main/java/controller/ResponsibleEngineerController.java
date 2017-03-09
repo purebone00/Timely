@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,7 +26,7 @@ import model.WpstarepId;
 @SessionScoped
 @Named("RE")
 public class ResponsibleEngineerController implements Serializable {
-	@Inject WorkPackageManager workPackageManager;
+    @Inject WorkPackageManager workPackageManager;
 	@Inject TsrowManager tsRowManager;
 	@Inject LabourGradeManager labourGradeManager;
 	@Inject WpstarepManager wpstarepManager;

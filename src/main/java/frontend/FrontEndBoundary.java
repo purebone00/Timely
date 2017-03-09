@@ -14,6 +14,7 @@ import controller.EmployeeController;
 import controller.LoginController;
 import controller.ProjectManagerController;
 import controller.ResponsibleEngineerController;
+import controller.TimesheetApproverController;
 import model.Employee;
 import model.Timesheet;
 
@@ -31,6 +32,7 @@ public class FrontEndBoundary implements Serializable{
     @Inject AdminController admin;
     @Inject EmployeeController employee;
     @Inject ProjectManagerController projMan;
+    @Inject TimesheetApproverController taApprover;
     
     public LoginController getLogin() {
         return login;
@@ -72,6 +74,16 @@ public class FrontEndBoundary implements Serializable{
     	this.projMan = projMan;
     }
 
+    
+    
+    public TimesheetApproverController getTaApprover() {
+        return taApprover;
+    }
+
+    public void setTaApprover(TimesheetApproverController taApprover) {
+        this.taApprover = taApprover;
+    }
+
     public void start() {
         conversation.begin();
     }
@@ -96,6 +108,7 @@ public class FrontEndBoundary implements Serializable{
         Employee curEmp;
         if((curEmp = login.authUser()) != null) {
             employee.setEmp(curEmp);
+            taApprover.setEmp(curEmp);
             init();
             if (login.isAdmin()) {
                 return "admin";
@@ -117,6 +130,7 @@ public class FrontEndBoundary implements Serializable{
     
     public void generateAllFeatures() {}
     
-   
+    
+    
 
 }
