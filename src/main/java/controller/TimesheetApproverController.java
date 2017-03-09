@@ -23,7 +23,6 @@ public class TimesheetApproverController implements Serializable{
      */
     private static final long serialVersionUID = -8723895938632264068L;
 
-    @Inject private TimesheetManager tManager;
     @Inject private EmployeeManager empManager;
     @Inject private Employee emp;
     
@@ -31,8 +30,6 @@ public class TimesheetApproverController implements Serializable{
     private Set<Timesheet> tsToApproveList;
     private Timesheet reviewTimesheet;
     private Employee employeeReviewed;
-    private List<Tsrow> tsrList;
-    
 
     public void setEmp(Employee emp) {
         this.emp = emp;
@@ -65,19 +62,6 @@ public class TimesheetApproverController implements Serializable{
 
     public void setReviewTimesheet(Timesheet reviewTimesheet) {
         this.reviewTimesheet = reviewTimesheet;
-    }
-
-    public List<Tsrow> getTsrList() {
-        refreshTsRows();
-        return tsrList;
-    }
-
-    public void setTsrList(List<Tsrow> tsrList) {
-        this.tsrList = tsrList;
-    }
-    
-    public void refreshTsRows() {
-        tsrList = tManager.find(reviewTimesheet.getId()).getTsrow();
     }
 
     public Employee getEmployeeReviewed() {
