@@ -8,11 +8,6 @@
 
     <ui:define name="content">
         <div class="ui segment grid" id="content">
-            <div class="row"></div>
-            <div class="row">
-                <div class="column"></div>
-            </div>
-
             <div class="container text-centered">
                 <div class="jumbotron">
                     <h1>Admin</h1>
@@ -21,9 +16,8 @@
             </div>
 
             <div class="container">
-                <div class="row">
-
-                    <div class="col-md-12">
+                <b:row>
+                    <b:column col-md="12">
                         <b:dataTable 
                             value="#{Master.admin.employeeController.list}"
                             var="s"
@@ -87,13 +81,13 @@
 							</b:dataTableColumn>
                             
                         </b:dataTable>
-                        <h:form>
-                            <h:commandButton class="btn"
+                        <b:form>
+                            <b:commandButton class="btn"
                                 value="Create User" action="createuser" />
-                        </h:form>
-                    </div>
+                        </b:form>
+                    </b:column>
 
-                </div>
+                </b:row>
             </div>
 
         </div>

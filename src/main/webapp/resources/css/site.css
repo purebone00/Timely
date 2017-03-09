@@ -10,14 +10,18 @@
 }
 	
 @media (min-width: 768px) {
-.sidebar {
-    background-color: #222;
-    border-right: 1px solid #eee;
-    display: block;
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 100vh;
+	.sidebar {
+	    background-color: #222;
+	    border-right: 1px solid #eee;
+	    display: block;
+	    overflow-x: hidden;
+	    overflow-y: auto;
+	    height: 100vh;
+	}
 }
+
+.navHeader  {
+	color: white;
 }
 
 .nav-list {
