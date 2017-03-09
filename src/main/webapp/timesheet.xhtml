@@ -58,7 +58,7 @@
 	    							    <h:outputText class="ProjectNo" value="#{s.tsrProjNo}" rendered="#{not s.editable}" /> 
 										<f:facet name="footer">Total</f:facet>							
 									</b:dataTableColumn>
-									<b:dataTableColumn>
+									<b:dataTableColumn order="asc">
 										<f:facet name="header">WP No.</f:facet>
 										<b:inputText value="#{s.tsrWpNo}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrWpNo}" rendered="#{not s.editable}" />	

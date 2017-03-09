@@ -16,21 +16,20 @@
 							#{Master.employee.emp.empLnm}!</h1>
 						<span></span>
 					</div>
+
 					<div class="col-md-12">
 						<b:form>
 							<b:dataTable responsive="true" value="#{Master.employee.tsList}"
 								var="s">
-								<b:dataTableColumn>
+								<b:dataTableColumn value="#{s.id.tsEmpId}">
 									<f:facet name="header">Employee ID</f:facet>	
-									#{s.id.tsEmpId}
 								</b:dataTableColumn>
-								<b:dataTableColumn>
+								<b:dataTableColumn order="desc" value="#{s.id.tsWkEnd}">
 									<f:facet name="header">Week End</f:facet>	
-									#{s.id.tsWkEnd}
 								</b:dataTableColumn>
 								<b:dataTableColumn>
 									<f:facet name="header">Status</f:facet>
-									<button class="status">#{s.tsSubmit}</button>
+									<p class="status">#{s.tsSubmit}</p>
 								</b:dataTableColumn>
 								<b:dataTableColumn>
 									<f:facet name="header">Select Timesheet</f:facet>
@@ -42,7 +41,7 @@
 						</b:form>
 						<div class="column">
 							<h:form>
-								<h:commandButton value = "Create New Timesheet" action="#{Master.employee.createNewTimesheet()}"></h:commandButton>
+								<h:commandLink value = "Create New Timesheet" action="#{Master.employee.createNewTimesheet()}"></h:commandLink>
 								<br />
 								<h:commandLink value="View Work Package Reports"
 									action="responsibleengineer" />
