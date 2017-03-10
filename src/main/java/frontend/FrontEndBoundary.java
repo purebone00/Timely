@@ -14,6 +14,7 @@ import controller.EmployeeController;
 import controller.LoginController;
 import controller.ProjectManagerController;
 import controller.ResponsibleEngineerController;
+import controller.SupervisorController;
 import model.Employee;
 import model.Timesheet;
 
@@ -31,8 +32,17 @@ public class FrontEndBoundary implements Serializable{
     @Inject AdminController admin;
     @Inject EmployeeController employee;
     @Inject ProjectManagerController projMan;
+    @Inject SupervisorController supMan;
     
-    public LoginController getLogin() {
+    public SupervisorController getSupMan() {
+		return supMan;
+	}
+
+	public void setSupMan(SupervisorController supMan) {
+		this.supMan = supMan;
+	}
+
+	public LoginController getLogin() {
         return login;
     }
 
@@ -117,6 +127,6 @@ public class FrontEndBoundary implements Serializable{
     
     public void generateAllFeatures() {}
     
-   
+
 
 }
