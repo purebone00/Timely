@@ -60,7 +60,7 @@ public class AdminController {
     
     public String saveAction(Employee e) {
         
-        String[] fullName = e.getFullName().split("\\s+");
+        String[] fullName = e.getFullName().split(" ");
         e.setEmpFnm(fullName[0]);
         e.setEmpLnm(fullName[1]);
         e.setEditable(false);
