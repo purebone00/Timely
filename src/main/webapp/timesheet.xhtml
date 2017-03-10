@@ -8,44 +8,39 @@
 
     <ui:define name="content">
 		<div class="ui segment grid">
-			<div class="row"></div>
-			<div class="row">
-				<div class="column">
-				
-  				<div class="jumbotron text-center">
-	    			<h1>Timesheets</h1>
-	    			<span></span> 
-  				</div> 
+			<b:row>
+				<b:column>
+					<div class="jumbotron text-center">
+						<h1>Timesheets</h1>
+						<span></span> 
+					</div> 
 								
 					<div class="container">
-						<div class="row">
-							<div class="col-md-12 text-center text-justify">
-								
-								<div class="col-md-4">
-									<h4>EmployeeID: #{Master.employee.emp.empId} </h4>
-									<h4>Employee Name: #{Master.employee.emp.empFnm} #{Master.employee.emp.empLnm}</h4>
-									<br></br>
-								</div>	
+						<b:row>
+							<b:column col-md="4">
+								<h4>EmployeeID: #{Master.employee.emp.empId} </h4>
+								<h4>Employee Name: #{Master.employee.emp.empFnm} #{Master.employee.emp.empLnm}</h4>
+								<br></br>
+							</b:column>	
 
-								<div class = "col-md-4">
-									<h4>Week Number: #{Master.employee.weekNumber} </h4>
-								</div>
+							<b:column col-md="4">
+								<h4>Week Number: #{Master.employee.weekNumber} </h4>
+							</b:column>
 
-								<div class = "col-md-4">
-									<h4>Week End: #{Master.employee.curTimesheet.id.tsWkEnd} </h4>						
-								</div>
-		
-							</div>
-						</div>
+							<b:column col-md="4">
+								<h4>Week End: #{Master.employee.curTimesheet.id.tsWkEnd} </h4>						
+							</b:column>
+						</b:row>
 					</div>
 					
 					<div class="container">
-						<div class="row">
+						<b:row>
 							<b:form>
 								<b:dataTable 
-									responsive="true" 
+									responsive="false" 
 									searching="false" 
 									paginated="false"
+									span="1"
 									value="#{Master.employee.tsrList}"
 									var="s"
 									class="editableTable">
@@ -116,27 +111,26 @@
 	    								<h:outputText value="#{s.tsrNote}" rendered="#{not s.editable}" />
 									</b:dataTableColumn>									
 								</b:dataTable>
+								<br />
 								<div class="container">
-									<div class="row">
-										<div class="col-md-6">
+									<b:row>
+										<b:column col-m="6">
 											<b:commandButton value="Save Changes" class="btn btn-success" action="#{Master.employee.saveAction}" />
 											<span> </span>
 											<b:commandButton value="Edit" class="btn btn-warning" icon="edit" ajax="true" update="@(.editableTable)" onclick="#{Master.employee.editAction()}" rendered="#{not s.editable}" />
 											<span> </span>
 											<b:commandButton value="Add Row"  class="btn btn-info" action="#{Master.employee.addTsrow}" />
-										</div>
-										<div class="col-md-6">
+										</b:column>
+										<b:column col-md="6">
 											<b:commandButton value="Submit Timesheet" class="btn btn-danger pull-right" action="#{Master.employee.submitTimesheet}" />
-										</div>
-									</div>
+										</b:column>
+									</b:row>
 								</div>
 							</b:form>
-						</div>
+						</b:row>
 					</div>
-					
-					
-				</div>
-			</div>
+				</b:column>
+			</b:row>
 		</div>
 				
    

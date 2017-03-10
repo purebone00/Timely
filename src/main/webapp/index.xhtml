@@ -8,18 +8,17 @@
 
 	<ui:define name="content">
 		<div class="ui segment grid">
-			<div class="row"></div>
-			<div class="row">
+			<b:row>
 				<div class="container">
 					<div class="jumbotron text-center">
-						<h1>Hello, #{Master.employee.emp.empFnm}
-							#{Master.employee.emp.empLnm}!</h1>
-						<span></span>
-					</div>
-
-					<div class="col-md-12">
+		    			<h1>Hello, #{Master.employee.emp.empFnm} #{Master.employee.emp.empLnm}!</h1>
+		    			<span></span> 
+	  				</div>
+					<b:column col-md="12">
 						<b:form>
-							<b:dataTable responsive="true" value="#{Master.employee.tsList}"
+							<b:dataTable 
+								responsive="true"
+								value="#{Master.employee.tsList}"
 								var="s">
 								<b:dataTableColumn value="#{s.id.tsEmpId}">
 									<f:facet name="header">Employee ID</f:facet>	
@@ -33,28 +32,20 @@
 								</b:dataTableColumn>
 								<b:dataTableColumn>
 									<f:facet name="header">Select Timesheet</f:facet>
-									<h:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}"
-										value="Choose Timesheet">
-									</h:commandButton>
+									<b:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}" value="Choose Timesheet">
+									</b:commandButton>	
 								</b:dataTableColumn>
 							</b:dataTable>
 						</b:form>
-						<div class="column">
-							<h:form>
-								<h:commandLink value = "Create New Timesheet" action="#{Master.employee.createNewTimesheet()}"></h:commandLink>
-								<br />
-								<h:commandLink value="View Work Package Reports"
-									action="responsibleengineer" />
-								<br />
-								<h:commandLink value="View Projects"
-									action="viewmanagedprojects" />
-							</h:form>
-						</div>
-					</div>
+						<h:form>
+							<h:commandLink value="View Work Package Reports" action="responsibleengineer"/>
+							<br/>
+                            <h:commandLink value="View Projects"
+		                                    action="viewmanagedprojects" />
+						</h:form>
+					</b:column>
 				</div>
-			</div>
-
+			</b:row>
 		</div>
-
 	</ui:define>
 </ui:composition>
