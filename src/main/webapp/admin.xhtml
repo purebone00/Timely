@@ -24,73 +24,90 @@
                 <div class="row">
 
                     <div class="col-md-12">
-                        <b:dataTable 
-                            value="#{Master.admin.employeeController.list}"
-                            var="s"
-                            responsive="true">
-                            <b:dataTableColumn>
-                                <f:facet name="header">Employee ID</f:facet>	
-								#{s.empId}
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Name</f:facet>	
-								#{s.empFnm} #{s.empLnm} 
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Departmnet</f:facet>	
-								#{s.empDept} 
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Employee Sig</f:facet>	
-								#{s.empSig} 
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Employee Flex Time</f:facet>	
-								#{s.empFlxTm} 
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Labour Grade </f:facet>	
-								#{s.empLabGrd} 
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Employee Sig</f:facet>	
-								#{s.empSig} 
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Supervisor ID</f:facet>	
-								#{s.empSupId} 
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Date of Hire</f:facet>	
-								#{s.empInsDt} 
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Titles</f:facet>
-								#{s.titles}
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Projects</f:facet>
-								#{s.projects}
-							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Edit</f:facet>
-                                <button>Edit</button>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Delete</f:facet>
-                                <button>Delete</button>
-                            </b:dataTableColumn>
-                            <!-- testing -->
-                            <b:dataTableColumn>
-                                <f:facet name="header">Wp</f:facet>
-								#{s.workpackages}
-							</b:dataTableColumn>
-                            
-                        </b:dataTable>
-                        <h:form>
-                            <h:commandButton class="btn"
-                                value="Create User" action="createuser" />
-                        </h:form>
+						<h:form>
+							<h:commandButton class="btn" value="Create User"
+								action="createuser" />
+						</h:form>
+						<b:form>
+							<b:dataTable 
+	                            value="#{Master.admin.employeeController.list}"
+	                            var="s"
+	                            responsive="true">
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Employee ID</f:facet>
+									<b:inputText value="#{s.empId}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empId}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Name</f:facet>	
+									 <b:inputText value="#{s.fullName}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empFnm} #{s.empLnm}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Department</f:facet>
+									<b:inputText value="#{s.empDept}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empDept}" rendered="#{not s.editable}" /> 
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Employee Sig</f:facet>
+									<b:inputText value="#{s.empSig}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empSig}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <!--  <b:dataTableColumn>
+	                                <f:facet name="header">Employee Flex Time</f:facet>	
+									<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
+								</b:dataTableColumn>  -->
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Labour Grade </f:facet>
+									<b:inputText value="#{s.empLabGrd}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empLabGrd}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Supervisor ID</f:facet>
+									<b:inputText value="#{s.empSupId}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empSupId}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Date of Hire</f:facet>
+									<b:inputText value="#{s.empInsDt}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empInsDt}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+							    <!--<b:dataTableColumn>
+	                                <f:facet name="header">Wp</f:facet>
+									<h:selectOneMenu class="form-control" value="#{s.wpNo}">
+										<f:selectItems class="selectpicker"
+											value="#{s.workpackages}" />
+									</h:selectOneMenu>
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Titles</f:facet>
+									<h:selectOneMenu class="form-control" value="#{s.title}">
+										<f:selectItems class="selectpicker"
+											value="#{s.titles}" />
+									</h:selectOneMenu>
+								</b:dataTableColumn>
+	                              <b:dataTableColumn>
+	                                <f:facet name="header">Projects</f:facet>
+									<h:selectOneMenu class="form-control" value="#{s.projectNo}">
+										<f:selectItems class="selectpicker"
+											value="#{s.projects}" />
+									</h:selectOneMenu>
+								</b:dataTableColumn> -->
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Edit</f:facet>
+	                                <h:commandButton value="Edit" action="#{Master.admin.editAction(s)}" rendered="#{not s.editable}"/>
+	                            </b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Delete</f:facet>
+	                                <button>Delete</button>
+	                            </b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Save</f:facet>
+	                                <b:commandButton value="Save Changes" class="btn btn-success" action="#{Master.admin.saveAction(s)}" />
+	                            </b:dataTableColumn>
+	                        </b:dataTable>
+                        </b:form>
                     </div>
 
                 </div>

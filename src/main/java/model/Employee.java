@@ -31,6 +31,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name="Employee")
 public class Employee  implements java.io.Serializable {
+    /* ==================================================== */
     private Integer empChNo;
     private String newPasswordConfirm;
     private String newPassword;
@@ -71,9 +72,64 @@ public class Employee  implements java.io.Serializable {
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
-    /*==================================================*/
     
-     private Integer empId;
+    private String projectNo;
+    private String wpNo;
+    private String title;
+    
+    @Transient
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Transient
+    public String getWpNo() {
+        return wpNo;
+    }
+
+    public void setWpNo(String wpNo) {
+        this.wpNo = wpNo;
+    }
+
+    @Transient
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
+    }
+    
+    boolean editable;
+    
+    @Transient
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+    
+    private String fullName;
+
+    @Transient
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    
+    /*==================================================*/
+
+
+    private Integer empId;
      private String empPw;
      private String empFnm;
      private String empLnm;

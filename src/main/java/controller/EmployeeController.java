@@ -159,8 +159,7 @@ public class EmployeeController implements Serializable{
     
     public void refreshList() {
         list = employeeManager.getAll();
-    }
-    
+    } 
     
     public String editAction() {
         for( Tsrow row: tsrList) {
