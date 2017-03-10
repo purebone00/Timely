@@ -50,4 +50,26 @@ public class AdminController {
     public List<Labgrd> getLabourGrades() {
     	return labourGradeManager.getAll();
     }
+    
+    public String editAction(Employee employee) {
+        String firstLast = employee.getEmpFnm().concat(" " + employee.getEmpLnm());
+        employee.setFullName(firstLast);
+        employee.setEditable(true);
+        return null;
+    }
+    
+    public String saveAction(Employee e) {
+        
+        String[] fullName = e.getFullName().split("\\s+");
+        e.setEmpFnm(fullName[0]);
+        e.setEmpLnm(fullName[1]);
+        e.setEditable(false);
+        
+        employeeManager.merge(e);
+    
+        //return to current page
+        return null;
+
+    }
+    
 }
