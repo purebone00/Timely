@@ -14,11 +14,11 @@ function statusClass() {
 	
 	$(status).each(function(){
 	    if($(this).text() == 1) {
-	    	$(status).addClass('btn btn-success');
-			$(status).text("Submitted");
+	    	$(this).addClass('btn btn-success');
+			$(this).html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 	    } else {
-	    	$(status).addClass('btn btn-danger');
-			$(status).text("Not Submitted");
+	    	$(this).addClass('btn btn-danger');
+			$(this).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
 	    }
 	    	
 	 });

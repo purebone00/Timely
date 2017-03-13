@@ -4,6 +4,7 @@ package model;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -40,7 +41,7 @@ public class Timesheet implements java.io.Serializable {
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name="tsEmpId")
+    @JoinColumn(name="tsEmpId", insertable = false, updatable = false)
     public Employee getEmployee() {
         return employee;
     }
@@ -49,14 +50,14 @@ public class Timesheet implements java.io.Serializable {
         this.employee = employee;
     }
 
-    private List<Tsrow> tsrow;
+    private Set<Tsrow> tsrow;
     
     @OneToMany(mappedBy="timesheet", fetch = FetchType.EAGER)
-    public List<Tsrow> getTsrow() {
+    public Set<Tsrow> getTsrow() {
         return tsrow;
     }
 
-    public void setTsrow(List<Tsrow> tsrow) {
+    public void setTsrow(Set<Tsrow> tsrow) {
         this.tsrow = tsrow;
     }
 
@@ -171,7 +172,7 @@ public class Timesheet implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "tsInsDt", nullable = false, length = 19)
+    @Column(name = "tsInsDt",  length = 19, insertable=false)
     public Date getTsInsDt() {
         return this.tsInsDt;
     }
@@ -181,7 +182,7 @@ public class Timesheet implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "tsUpDt", nullable = false, length = 19)
+    @Column(name = "tsUpDt", length = 19, insertable=false)
     public Date getTsUpDt() {
         return this.tsUpDt;
     }

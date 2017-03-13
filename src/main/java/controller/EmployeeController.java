@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ import model.Project;
 import model.Timesheet;
 import model.TimesheetId;
 import model.Tsrow;
+import utility.DateTimeUtility;
 
 
 @Named("Employee")
@@ -50,8 +52,8 @@ public class EmployeeController implements Serializable{
 	public Employee getEmp() {
 		return emp;
 	}
-	
-	private List<Tsrow> tsrList;
+		
+	private Set<Tsrow> tsrList;
 	private List<Employee> list;
 	private Set<Timesheet> tsList;
 	private Timesheet curTimesheet; 
@@ -117,25 +119,28 @@ public class EmployeeController implements Serializable{
 	     tsList = employeeManager.find(getEmp().getEmpId()).getTimesheet();    
 	}
     
-	public List<Tsrow> getTsrList() {
-	    if(tsrList == null) {
-	        refreshTsrList();
-	    }
+	public Set<Tsrow> getTsrList() {
+	    tsrList = refreshTsrList(tsrList, curTimesheet.getId());
 	    return tsrList;
 	}	
 
-	public void refreshTsrList() {
+	public Set<Tsrow> refreshTsrList(Set<Tsrow> tsrList, TimesheetId id) {
 	    int remainder = 0;
-	    tsrList = tManager.find(tsId).getTsrow();
+	    try { 
+	        tsrList = tManager.find(id).getTsrow();    
+	    } catch (NullPointerException e) {
+	        tsrList = new HashSet<Tsrow>();
+	    } 
 	    if(tsrList.size() < 5) {
-	        int size = tsrList.size();
-	        remainder = 5 - size;
-	        for(int i = 0; i < remainder; i++) {
-	            Tsrow row = new Tsrow();
-	            row.setTsrEmpId(emp.getEmpId());
-	            tsrList.add(row);
-	        }
-	    }
+            int size = tsrList.size();
+            remainder = 5 - size;
+            for(int i = 0; i < remainder; i++) {
+                Tsrow row = new Tsrow();
+                row.setTsrEmpId(emp.getEmpId());
+                tsrList.add(row);
+            }
+        }
+	    return tsrList;
 	}
 	
     public List<Employee> getList() {
@@ -154,8 +159,7 @@ public class EmployeeController implements Serializable{
     
     public void refreshList() {
         list = employeeManager.getAll();
-    }
-    
+    } 
     
     public String editAction() {
         for( Tsrow row: tsrList) {
@@ -211,5 +215,19 @@ public class EmployeeController implements Serializable{
     		list.add(p.getProjNo());
     	}
     	return list;
+    }
+    
+    public String createNewTimesheet() {
+        DateTimeUtility dtu = new DateTimeUtility();
+        TimesheetId tsId = new TimesheetId(emp.getEmpId(), dtu.getEndOfWeek());
+        Timesheet ts = new Timesheet();
+        ts.setId(tsId);
+        ts.setTsDel((short)0);
+        Set<Tsrow> tsrList = new HashSet<Tsrow>();
+        tsrList = refreshTsrList(tsrList, tsId);
+        ts.setTsrow(tsrList);
+        tManager.persist(ts);
+        tsList.add(ts);
+        return null;
     }
 }

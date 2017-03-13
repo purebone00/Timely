@@ -14,6 +14,8 @@ import controller.EmployeeController;
 import controller.LoginController;
 import controller.ProjectManagerController;
 import controller.ResponsibleEngineerController;
+import manager.EmployeeManager;
+import controller.SupervisorController;
 import model.Employee;
 import model.Timesheet;
 
@@ -31,8 +33,19 @@ public class FrontEndBoundary implements Serializable{
     @Inject AdminController admin;
     @Inject EmployeeController employee;
     @Inject ProjectManagerController projMan;
+    @Inject private EmployeeManager employeeManager;
+    @Inject SupervisorController supMan;
+
     
-    public LoginController getLogin() {
+    public SupervisorController getSupMan() {
+		return supMan;
+	}
+
+	public void setSupMan(SupervisorController supMan) {
+		this.supMan = supMan;
+	}
+
+	public LoginController getLogin() {
         return login;
     }
 
@@ -110,13 +123,39 @@ public class FrontEndBoundary implements Serializable{
         employee.setTsId(employee.getEmp().getEmpId(), wkEnd);
         return "timesheet";
     }
+    
     public String logout() {
         finish();
         return "logout";
     }
     
+    public String goToChangePassword() {
+        return "changepassword";
+    }
+    
     public void generateAllFeatures() {}
     
-   
+    public String changePassword() {
+        Employee emp = employee.getEmp();
+        Integer empChNo = emp.getEmpChNo();
+        String newPassword = emp.getNewPassword();
+        String currentPassword = emp.getOldPassword();
+        String confirmNewPassword = emp.getNewPasswordConfirm();
+        String failed = "failedPasswordCheck";
+        
+        if(empChNo.intValue() != emp.getEmpId().intValue()) 
+            return failed;
+        if(!confirmNewPassword.equals(newPassword))
+            return failed;
+        if(!currentPassword.equals(emp.getEmpPw()))
+            return failed;
+        
+        emp.setEmpPw(newPassword);
+        employeeManager.merge(emp);
+        finish();
+        
+        return "success";
+    }
+
 
 }

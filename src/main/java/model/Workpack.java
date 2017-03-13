@@ -1,9 +1,7 @@
 package model;
 // Generated 15-Feb-2017 2:38:53 PM by Hibernate Tools 3.5.0.Final
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -15,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -218,5 +214,9 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	public void setRemoveWplabs(boolean removeWplabs) {
 		this.removeWplabs = removeWplabs;
 	}
+    
+    public String toString(){
+    	return this.id.getWpNo();
+    }
 
 }
