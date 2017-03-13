@@ -76,26 +76,45 @@
 	            	<h:outputText value="No: #{Master.projMan.selectedProject.projNo}"/><br/>
 	            	<h:outputText value="Name: #{Master.projMan.selectedProject.projNm}"/><br/>
 	            	<h:outputText value="Description: #{Master.projMan.selectedProject.projDesc}"/><br/>
-	            	
+	            	<h:form>
 					<h:dataTable class="table table-bordered" value="#{Master.projMan.selectedProject.workPackages}" var="s">
 							<h:column>
-								<f:facet name="header">Work Package</f:facet>	
-								#{s.wpNm}
+								<f:facet name="header">Number</f:facet>
+								#{s.id.wpNo}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Name</f:facet>	
+								<h:inputText class="form-control" value="#{s.wpNm}" />
 							</h:column>
 							<h:column>
 								<f:facet name="header">Description</f:facet>	
-								#{s.wpDesc}
+								<h:inputText class="form-control" value = "#{s.wpDesc}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Budget Estimate</f:facet>
+								<h:dataTable class="table" value="#{s.wplabs}" var="l" rendered="#{Master.projMan.isLeaf(s)}">
+									<h:column>
+										<f:facet name="header">Labour Grade</f:facet>
+										<h:outputText value="#{l.id.wlLgId}" rendered="#{not l.editable}"/>
+										<h:selectOneMenu class="form-control" value="#{l.id.wlLgId}" converter="#{labgrdConverter}" rendered="#{l.editable}">
+            								<f:selectItems class="selectpicker" value="#{Master.admin.labourGrades}" />
+            							</h:selectOneMenu>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Hours</f:facet>
+										<h:inputText class="form-control" value="#{l.wlPlanHrs}" />
+									</h:column>
+								</h:dataTable>
+								<h:commandButton class="btn" value="Add row" action="#{Master.projMan.addWplabRow(s)}" rendered="#{Master.projMan.isLeaf(s)}"/>
 							</h:column>
 							
-							<h:column>
-								<f:facet name="header">Details</f:facet>	
-								<h:form>
-									<h:commandButton class="btn" value="View" action="#{Master.projMan.selectWorkPackage(s)}"/>
-								</h:form>
+							<h:column>	
+								<h:commandButton class="btn" value="Add Child" action="#{Master.projMan.createChildWP(s)}"/>
 							</h:column>
 					</h:dataTable>
-		            <h:form>
-		            	<h:commandButton class="btn" value="Create New Work Package" action="createworkpackage"/>
+						<h:commandButton class="btn" value="Add Work Package" action="#{Master.projMan.createNewWP()}"/><br/>
+						<h:commandButton class="btn" value="Save" action="#{Master.projMan.save()}"/>
+		            	<h:commandButton class="btn" value="Cancel" action="viewmanagedprojects" immediate="true"/>
 		            </h:form>
 	            </div>
             </div>
