@@ -19,10 +19,14 @@ import javax.persistence.PrimaryKeyJoinColumns;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Wplab")
 public class Wplab implements Serializable {
+	
+	private boolean editable = false;
+    /* ====================================== */
 
 	private WplabId id;
 	private BigDecimal wlPlanHrs;
@@ -95,4 +99,37 @@ public class Wplab implements Serializable {
     public String toString() {
     	return this.id.getWlLgId() + ": " + this.wlPlanHrs;
     }
+    
+    @Override
+    public int hashCode() {
+    	int result = 17;
+
+        result = 37 * result + this.getId().hashCode();
+        return result;
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+    	if ((this == other))
+            return true;
+        if ((other == null))
+            return false;
+        if (!(other instanceof Wplab))
+            return false;
+        Wplab castOther = (Wplab) other;
+
+        return (this.getId().equals(castOther.getId()));
+    }
+    
+    /* =============================================== */
+    
+    @Transient
+    public boolean getEditable() {
+        return editable;
+    }
+    
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+ 
 }

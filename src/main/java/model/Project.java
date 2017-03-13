@@ -2,8 +2,11 @@ package model;
 // Generated 15-Feb-2017 2:38:53 PM by Hibernate Tools 3.5.0.Final
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,15 +64,16 @@ public class Project implements java.io.Serializable {
         this.projUdDt = projUdDt;
     }
     
-    private Set<Workpack> workPackages;
+    private SortedSet<Workpack> workPackages;
     
-    @OneToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinColumn(name="wpProjNo", referencedColumnName="projNo")
-    public Set<Workpack> getWorkPackages() {
+    @OrderBy("id.wpNo ASC")
+    public SortedSet<Workpack> getWorkPackages() {
     	return this.workPackages;
     }
     
-    public void setWorkPackages(Set<Workpack> workpackages) {
+    public void setWorkPackages(SortedSet<Workpack> workpackages) {
     	this.workPackages = workpackages;
     }
     
