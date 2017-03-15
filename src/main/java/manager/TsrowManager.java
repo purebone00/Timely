@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Tsrow;
+import model.Workpack;
 
 
 @Dependent
@@ -96,5 +97,50 @@ public class TsrowManager {
 		List<Object[]> workpackages = query.getResultList();
         
     	return workpackages;
+    }
+    
+    /**
+     * Pretty much the same as {@link #getAllForWP(int, String)} but only searches rows up to a specified week.
+     * @param workpack Work package.
+     * @param week A string representing the week to search up to (inclusive). Format: 'YYYYMMDD'.
+     * @return The list of arrays.
+     */
+    public List<Object[]> getAllForWP(Workpack workpack, String week) {
+    	Query query = em.createNativeQuery("select e.lgID, SUM(s.tsrSat + s.tsrSun + s.tsrMon + s.tsrTue + s.tsrWed + s.tsrThu + s.tsrFri),"
+    			+ " e.lgRate from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
+    			+ " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID"
+    			+ " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2 AND s.tsrWkEnd <=:code3"
+    			+ " GROUP BY e.lgID");
+		
+    	query.setParameter("code1", workpack.getId().getWpProjNo());
+		query.setParameter("code2", workpack.getId().getWpNo());
+		query.setParameter("code3", week);
+		List<Object[]> workpackages = query.getResultList();
+        
+    	return workpackages;
+    }
+    
+    /**
+     * Gets a list of weeks from Tsrow table.
+     * @param workpack Workpack to get weeks for.
+     * @param week End week.
+     * @return List of weeks.
+     */
+    public List<String> getWeekList(Workpack workpack, String week) {
+    	Query query = em.createNativeQuery("SELECT DISTINCT tsrWkEnd FROM Tsrow"
+    			+ " WHERE tsrProjNo=:code1 AND tsrWpNo=:code2 AND tsrWkEnd <=:code3"
+    			+ " ORDER BY tsrWkEnd ASC");
+    	
+    	query.setParameter("code1", workpack.getId().getWpProjNo());
+		query.setParameter("code2", workpack.getId().getWpNo());
+		query.setParameter("code3", week);
+		List<Object[]> weekResultList = query.getResultList();
+		ArrayList<String> weeks = new ArrayList<String>();
+		
+		for (Object[] o : weekResultList) {
+			weeks.add((String) o[0]);
+		}
+		
+		return weeks;
     }
 }

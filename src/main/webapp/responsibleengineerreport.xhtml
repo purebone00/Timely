@@ -76,7 +76,9 @@
 									<b:inputText value="#{s[1]}"/>
 								</b:dataTableColumn>
 							</b:dataTable><br/>
-							Notes:<br/>
+							Problems This Period:<br/>
+							<b:inputTextarea class="form-control" value="#{Master.resEng.workPackageReport.wsrProbLw}" cols="30" rows="6"/><br/>
+							Problems Anticipated:<br/>
 							<b:inputTextarea class="form-control" value="#{Master.resEng.workPackageReport.wsrProbNw}" cols="30" rows="6"/><br/>
 							<b:commandButton look="primary" value="Submit" action="#{Master.resEng.submitReport}"/>
 						</b:form>

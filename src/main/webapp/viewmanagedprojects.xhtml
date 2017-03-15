@@ -89,9 +89,16 @@
 							</h:column>
 							
 							<h:column>
-								<f:facet name="header">Work Packages</f:facet>	
+								<f:facet name="header">Work Package Estimates</f:facet>	
 								<h:form>
-									<h:commandButton class="btn" value="View" action="#{Master.projMan.selectProject(s)}"/>
+									<h:commandButton class="btn" value="Okay" action="#{Master.projMan.selectProject(s)}"/>
+								</h:form>
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Weekly Reports</f:facet>
+								<h:form>
+									<h:commandButton class="btn" value="Yeah" action="#{Master.projMan.selectProjectForReport(s)}"/>
 								</h:form>
 							</h:column>
 					</h:dataTable>

@@ -1,6 +1,7 @@
 package model;
 // Generated 15-Feb-2017 2:38:53 PM by Hibernate Tools 3.5.0.Final
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -28,6 +29,8 @@ import javax.persistence.Transient;
 public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	
 	private boolean removeWplabs = false;
+	private BigDecimal totalCost;
+	private BigDecimal totalDays;
 	/* =============================================== */
 
     private WorkpackId id;
@@ -213,6 +216,24 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	
 	public void setRemoveWplabs(boolean removeWplabs) {
 		this.removeWplabs = removeWplabs;
+	}
+	
+	@Transient
+	public BigDecimal getTotalCost() {
+		return this.totalCost;
+	}
+	
+	public void setTotalCost(BigDecimal totalCost) {
+		this.totalCost = totalCost;
+	}
+	
+	@Transient
+	public BigDecimal getTotalDays() {
+		return this.totalDays;
+	}
+	
+	public void setTotalDays(BigDecimal totalDays) {
+		this.totalDays = totalDays;
 	}
     
     public String toString(){
