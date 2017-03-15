@@ -1,6 +1,9 @@
 package controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -9,14 +12,18 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import manager.ProjectManager;
+import manager.TsrowManager;
 import manager.WorkPackageManager;
 import manager.WplabManager;
+import manager.WpstarepManager;
 import model.Employee;
 import model.Project;
 import model.Workpack;
 import model.WorkpackId;
 import model.Wplab;
 import model.WplabId;
+import model.Wpstarep;
+import utility.DateTimeUtility;
 
 @Stateful
 @Named("ProjMan")
@@ -24,9 +31,12 @@ public class ProjectManagerController {
 	@Inject WorkPackageManager workPackageManager;
 	@Inject ProjectManager projectManager;
 	@Inject WplabManager wplabManager;
+	@Inject TsrowManager tsRowManager;
+	@Inject WpstarepManager wpstarepManager;
 	
 	private Project selectedProject;
 	private Workpack selectedWorkPackage;
+	private String selectedWeek;
 	
 	private List<Wplab> wpPlanHours;
 	
@@ -46,12 +56,26 @@ public class ProjectManagerController {
 		return "manageproject";
 	}
 	
+	public String selectProjectForReport(Project p) {
+		setSelectedProject(p);
+		
+		return "weeklyReportsList";
+	}
+	
 	public Project getSelectedProject() {
 		return this.selectedProject;
 	}
 	
 	public void setSelectedProject(Project selectedProject) {
 		this.selectedProject = selectedProject;
+	}
+	
+	public String getSelectedWeek() {
+		return this.selectedWeek;
+	}
+	
+	public void setSelectedWeek(String selectedWeek) {
+		this.selectedWeek = selectedWeek;
 	}
 	
 	/**
@@ -215,6 +239,12 @@ public class ProjectManagerController {
 		return true;
 	}
 	
+	public String selectWeeklyReport(String week) {
+		setSelectedWeek(week);
+		
+		return "weeklyReport";
+	}
+	
 	/**
 	 * Saves changes made (new/modified {@link Workpack}'s, {@link Wplab}'s).
 	 * @return String for previous page.
@@ -233,5 +263,89 @@ public class ProjectManagerController {
 			wplabManager.removeByWp(toBeRemoved);
 		
 		return "viewmanagedprojects";
+	}
+	
+	/**
+	 * Copy and paste of {@link ResponsibleEngineerController#listOfWpPersonHours()} but this one takes in a {@link Workpack}
+	 * as argument.<br>
+	 * Gets a list of arrays representing the hours worked per labour grade for the {@link #selectedWorkPackage}.<br>
+	 * Each array contains:
+	 * 		<ul>
+	 * 		<li>Index 0: Labour grade ID (String)</li>
+	 * 		<li>Index 1: Total person hours worked for the labour grade in index 0 for the selected WP (BigDecimal)</li>
+	 * 		<li>Index 2: Pay rate for the labour grade in index 0 (BigDecimal)</li>
+	 * 		</ul>
+	 * @return The list of arrays.
+	 */
+	public List<Object[]> listOfWpPersonHours(Workpack workpack) {
+		List<Object[]> list = tsRowManager.getAllForWP(workpack, getSelectedWeek());
+		BigDecimal totalCost = BigDecimal.ZERO;
+		BigDecimal totalHours = BigDecimal.ZERO;
+		for (Object[] obj : list) {
+			BigDecimal op1 = (BigDecimal) obj[1];
+			BigDecimal op2 = (BigDecimal) obj[2];
+			totalCost = totalCost.add(op1.multiply(op2));
+			totalHours = totalHours.add(op1);
+		}
+//		setTotalCost(totalCost);
+//		setTotalHours(totalHours);
+		return list;
+	}
+	
+	
+	public Wpstarep getResEngReport(Workpack w) {
+		return wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), getSelectedWeek());
+	}
+	
+	public List<String[]> getResEngReportHrs(Workpack w) {
+		Wpstarep wst = getResEngReport(w);
+		ArrayList<String[]> labourGradeDays = new ArrayList<String[]>();
+		
+		if (wst != null) {			
+			String fields = wst.getWsrEstDes();
+			String[] rows = fields.split(",");
+			
+			// The list of "labour grades : hours" is stored as a single String in the database,
+			// this loop parses the String.
+			for (String s : rows) {
+				String[] columns = s.split(":");
+				labourGradeDays.add(new String[] {columns[0], columns[1]});
+			}
+		}
+		
+		return labourGradeDays;
+	}
+	
+	public List<Workpack> getLeafWorkpacks() {
+		ArrayList<Workpack> leafs = new ArrayList<Workpack>();
+		for (Workpack wo : getSelectedProject().getWorkPackages()) {
+			if (isLeaf(wo)) {
+				leafs.add(wo);
+			}
+		}
+		return leafs;
+	}
+	
+	public List<String> getListOfWeeks() {
+		DateTimeUtility dtu = new DateTimeUtility();
+		Date curDt = new Date();
+		Date staDt = getSelectedProject().getProjStaDt();
+		Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
+		
+		Calendar cal = Calendar.getInstance();
+		
+		cal.setTime(staDt);
+		int year = cal.get(Calendar.YEAR);
+        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+		String startDate = year + month + day;
+		
+		cal.setTime(endDt);
+		year = cal.get(Calendar.YEAR);
+        month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+		String endDate = year + month + day;
+        
+        return dtu.getListOfWeekEnds(startDate, endDate);
 	}
 }
