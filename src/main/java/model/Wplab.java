@@ -26,6 +26,7 @@ import javax.persistence.Transient;
 public class Wplab implements Serializable {
 	
 	private boolean editable = false;
+	private BigDecimal wlPlanDays;
     /* ====================================== */
 
 	private WplabId id;
@@ -130,6 +131,19 @@ public class Wplab implements Serializable {
     
     public void setEditable(boolean editable) {
         this.editable = editable;
+    }
+    
+    @Transient
+    public BigDecimal getWlPlanDays() {
+    	if (getWlPlanHrs() == null) {
+    		return BigDecimal.ZERO;
+    	} else {    		
+    		return getWlPlanHrs().divide(new BigDecimal(8));
+    	}
+    }
+    
+    public void setWlPlanDays(BigDecimal wlPlanDays) {
+    	setWlPlanHrs(wlPlanDays.multiply(new BigDecimal(8)));
     }
  
 }

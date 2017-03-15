@@ -101,8 +101,8 @@
             							</h:selectOneMenu>
 									</h:column>
 									<h:column>
-										<f:facet name="header">Hours</f:facet>
-										<h:inputText class="form-control" value="#{l.wlPlanHrs}" />
+										<f:facet name="header">Person Days</f:facet>
+										<h:inputText class="form-control" value="#{l.wlPlanDays}" />
 									</h:column>
 								</h:dataTable>
 								<h:commandButton class="btn" value="Add row" action="#{Master.projMan.addWplabRow(s)}" rendered="#{Master.projMan.isLeaf(s)}"/>
