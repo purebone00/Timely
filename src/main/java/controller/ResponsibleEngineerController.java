@@ -170,6 +170,7 @@ public class ResponsibleEngineerController implements Serializable {
 		workPackageReport.setId(new WpstarepId(selectedWorkPackage.getId().getWpProjNo(), selectedWorkPackage.getId().getWpNo()));
 		workPackageReport.setWsrWriter(selectedWorkPackage.getWpResEng());
 		workPackageReport.setWsrEstDes(labourDays);
+		// TODO: for Wpstarep, give wsrProbLw and wsrProbNw default strings if they are empty.
 		
 		// checks if this is the first time the estimate is being made so it knows
 		// whether to update the existing entry in the database or to create a new entry
@@ -194,6 +195,10 @@ public class ResponsibleEngineerController implements Serializable {
 		this.labourGradeDays = labourGradeDays;
 	}
 	
+	/**
+	 * Gets the end of the current week with format 'YYYYMMDD'.
+	 * @return The end of the current week with format 'YYYYMMDD'.
+	 */
 	public String getEndOfWeek() {
 		Calendar c = new GregorianCalendar();
         int currentDay = c.get(Calendar.DAY_OF_WEEK) != 7 
