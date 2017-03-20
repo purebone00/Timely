@@ -24,6 +24,13 @@ public class WpstarepManager {
 		em.merge(wpstarep);
 	}
 	
+	/**
+	 * Get a Responsible Engineer's Weekly Status Report for a given Work Package.
+	 * @param wsrProjNo The Project Number of the Work Package.
+	 * @param wsrWpNo The Work Package Number of the Work Package.
+	 * @param wsrRepDt The week of the Weekly Status Report.
+	 * @return Weekly Status Report.
+	 */
 	public Wpstarep find(int wsrProjNo, String wsrWpNo, String wsrRepDt) {
 		TypedQuery<Wpstarep> query = em.createQuery("select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2 AND s.wsrRepDt=:code3",
                 Wpstarep.class); 

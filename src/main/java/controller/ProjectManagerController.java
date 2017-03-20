@@ -293,10 +293,20 @@ public class ProjectManagerController {
 	}
 	
 	
+	/**
+	 * Gets the Responsible Engineer's Report for a given {@link Workpack} for the {@link #selectedWeek}.
+	 * @param w The {@link Workpack} to get the Responsible Engineer's Report for.
+	 * @return Responsible Engineer's Report.
+	 */
 	public Wpstarep getResEngReport(Workpack w) {
 		return wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), getSelectedWeek());
 	}
 	
+	/**
+	 * Gets the Responsible Engineer's Estimated Remaining Hours for the {@link #selectedWeek}.
+	 * @param w The {@link Workpack} to get the Responsible Engineer's Estimated Remaining Hours for.
+	 * @return A list of Estimated Remaining Hours. Each list element contains an String array where index 0 is the Labour Grade, and index 1 is the Hours.
+	 */
 	public List<String[]> getResEngReportHrs(Workpack w) {
 		Wpstarep wst = getResEngReport(w);
 		ArrayList<String[]> labourGradeDays = new ArrayList<String[]>();
@@ -316,6 +326,10 @@ public class ProjectManagerController {
 		return labourGradeDays;
 	}
 	
+	/**
+	 * Gets a list of leaf {@link Workpack}'s.
+	 * @return A list of leaf {@link Workpack}'s.
+	 */
 	public List<Workpack> getLeafWorkpacks() {
 		ArrayList<Workpack> leafs = new ArrayList<Workpack>();
 		for (Workpack wo : getSelectedProject().getWorkPackages()) {
@@ -326,6 +340,12 @@ public class ProjectManagerController {
 		return leafs;
 	}
 	
+	/**
+	 * Gets a list of the end of weeks for the {@link #selectedProject} in the format 'YYYYMMDD',
+	 * from the Project's start date to the Project's end date. If the current date comes before the Project's end date,
+	 * the last date in the list will be the end of the current week. 
+	 * @return A list of end of weeks in the format 'YYYYMMDD'.
+	 */
 	public List<String> getListOfWeeks() {
 		DateTimeUtility dtu = new DateTimeUtility();
 		Date curDt = new Date();
