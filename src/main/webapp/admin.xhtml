@@ -7,7 +7,6 @@
     <ui:define name="title">Admin</ui:define>
 
     <ui:define name="content">
-        <div class="ui segment grid" id="content">
             <div class="container text-centered">
                 <div class="jumbotron">
                     <h1>Admin</h1>
@@ -35,7 +34,8 @@
 								</b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Name</f:facet>	
-									 <b:inputText value="#{s.fullName}" size="10" rendered="#{s.editable}" />
+									 <h:inputText value="#{s.empFnm}" size="5" rendered="#{s.editable}" />
+									 <h:inputText value="#{s.empLnm}" size="5" rendered="#{s.editable}" />
     								<h:outputText value="#{s.empFnm} #{s.empLnm}" rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 	                            <b:dataTableColumn>
@@ -99,7 +99,7 @@
 	                            </b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Save</f:facet>
-	                                <b:commandButton value="Save Changes" class="btn btn-success" action="#{Master.admin.saveAction(s)}" />
+	                                <h:commandButton value="Save Changes" class="btn btn-success" action="#{Master.admin.saveAction(s)}" />
 	                            </b:dataTableColumn>
 	                        </b:dataTable>
                         </b:form>

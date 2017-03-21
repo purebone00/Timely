@@ -20,16 +20,16 @@ public class EmployeeManager implements Serializable{
         return em.find(Employee.class, id);
     }
 
+    public void flush() {
+        em.flush();
+    }
+    
     public void persist(Employee employee) {
         em.persist(employee);
     }
-    
-    public void update(Employee employee) {
-        em.merge(employee);  
-    }
    
-    public void merge(Employee supplier) {
-        em.merge(supplier);
+    public void merge(Employee employee) {
+        em.merge(employee);
     } 
     
     public void remove(Employee employee) {
