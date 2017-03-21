@@ -8,10 +8,78 @@
     <ui:define name="title">Assigning Employees</ui:define>
 
     <ui:define name="content">
-			<p>
-				<!--  this page is for assigning employees to the selected project -->
-				<!--  Remember to only display the employees that belong to the logged in supervisor -->
-			</p>
-
+		<div class="container">
+	        <div class="row">
+	            <div class="col-xs-6">
+	            	Project information goes here. Use projectManagerController. <br/>
+	            	<h:outputText value="No: #{Master.projMan.selectedProject.projNo}"/><br/>
+	            	<h:outputText value="Name: #{Master.projMan.selectedProject.projNm}"/><br/>
+	            	<h:outputText value="Description: #{Master.projMan.selectedProject.projDesc}"/><br/>
+	            	
+	            </div>
+	            <div class="col-xs-6">
+	            	<h:form>
+	            		List of employees goes here. Use employeeController
+						<br/> you should be able to select checkboxes for multiple employees. 
+						<br/> Should be able to view details on a particular employee.
+						<br/>
+						
+						<b:dataTable 
+	                            value="#{Master.admin.employeeController.list}"
+	                            var="s"
+	                            responsive="true">
+								<b:dataTableColumn>
+	                                <f:facet name="header">Select Employee</f:facet>
+									<h:selectBooleanCheckbox value="" id="inScope">
+									</h:selectBooleanCheckbox>
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Employee ID</f:facet>
+									<b:inputText value="#{s.empId}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empId}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Name</f:facet>	
+									 <h:inputText value="#{s.empFnm}" size="5" rendered="#{s.editable}" />
+									 <h:inputText value="#{s.empLnm}" size="5" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empFnm} #{s.empLnm}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Department</f:facet>
+									<b:inputText value="#{s.empDept}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empDept}" rendered="#{not s.editable}" /> 
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Employee Sig</f:facet>
+									<b:inputText value="#{s.empSig}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empSig}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <!--  <b:dataTableColumn>
+	                                <f:facet name="header">Employee Flex Time</f:facet>	
+									<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
+								</b:dataTableColumn>  -->
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Labour Grade </f:facet>
+									<b:inputText value="#{s.empLabGrd}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empLabGrd}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Supervisor ID</f:facet>
+									<b:inputText value="#{s.empSupId}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empSupId}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">Date of Hire</f:facet>
+									<b:inputText value="#{s.empInsDt}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empInsDt}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+	                        </b:dataTable>
+	                        <br/>
+						<h:commandButton class="btn" value="Save" action=""/>
+		            </h:form>
+	            </div>
+	        </div>
+        </div>
     </ui:define>
 </ui:composition>

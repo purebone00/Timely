@@ -368,4 +368,15 @@ public class ProjectManagerController {
         
         return dtu.getListOfWeekEnds(startDate, endDate);
 	}
+	
+	/**
+	 * Action method that leads to page where you can assign employees to a project
+	 * @param projectID id of the project
+	 * @return String navigation string
+	 */
+	public String assignEmployeeToProject(int projectID){
+		setSelectedProject(projectManager.find(projectID));
+		System.out.println("assignEmployee: Project id = " + projectID + "; selected project name: " + selectedProject.getProjNm());
+		return "assignEmployees";
+	}
 }
