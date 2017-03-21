@@ -1,0 +1,57 @@
+<ui:composition template="/template/master_page.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="title">Welcome</ui:define>
+
+    <ui:define name="content">
+		<div class="ui segment grid">
+			<div class="row"></div>
+			<div class="row">
+				<div class="container">
+					<div class="jumbotron text-center">
+		    			<h1>Hello, #{Master.employee.emp.empFnm} #{Master.employee.emp.empLnm}!</h1>
+		    		</div>
+					<b:container layout="fluid">
+						<b:row>
+							<b:column style="text-align: center">
+								<h:outputText value="General Utilities"/>							
+							</b:column>
+						</b:row>
+						<b:row>
+							<br/>
+							<b:button size="lg" look="primary" offset="1" span="2" value="Add or Modify Timesheet"></b:button>
+							<b:button size="lg" look="primary" offset="2" span="2" value="View History"></b:button>
+							<b:button size="lg" look="primary" offset="2" span="2" value="Fix Timesheets"></b:button>
+						</b:row>
+						<b:row>
+							<b:column style="text-align: center">
+								<br/>
+								<h:outputText value="User Settings"/>							
+							</b:column>
+						</b:row>
+						<b:row>
+							<br/>
+							<b:button size="lg" look="primary" offset="1" span="2" value="Change Password"></b:button>
+							<b:button size="lg" look="primary" offset="2" span="2" value="Update User Info"></b:button>
+							<b:button size="lg" look="primary" offset="2" span="2" value="Sign Out"></b:button>
+						</b:row>
+						<b:row>
+							<b:column style="text-align: center">
+								<br/>
+								<h:outputText value="Admin"/>							
+							</b:column>
+						</b:row>
+						<b:row>
+							<br/>
+							<b:button size="lg" look="primary" offset="3" span="2" value="Add User"></b:button>
+							<b:button size="lg" look="primary" offset="2" span="2" value="Sign Out"></b:button>
+						</b:row>
+					</b:container>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
