@@ -14,30 +14,37 @@ import model.Wpstarep;
 @Dependent
 @Stateless
 public class WpstarepManager {
-	@PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
+    @PersistenceContext(unitName = "Timely-persistence-unit")
+    EntityManager em;
 
-	public void persist(Wpstarep wpstarep) {
+    public void persist(Wpstarep wpstarep) {
         em.persist(wpstarep);
     }
-	
-	public void merge(Wpstarep wpstarep) {
-		em.merge(wpstarep);
-	}
-	
-	/**
-	 * Get a Responsible Engineer's Weekly Status Report for a given Work Package.
-	 * @param wsrProjNo The Project Number of the Work Package.
-	 * @param wsrWpNo The Work Package Number of the Work Package.
-	 * @param wsrRepDt The week of the Weekly Status Report.
-	 * @return Weekly Status Report.
-	 */
-	public Wpstarep find(int wsrProjNo, String wsrWpNo, String wsrRepDt) {
-		TypedQuery<Wpstarep> query = em.createQuery("select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2 AND s.wsrRepDt=:code3",
-                Wpstarep.class); 
-		query.setParameter("code", wsrProjNo);
-		query.setParameter("code2", wsrWpNo);
-		query.setParameter("code3", wsrRepDt); 
+
+    public void merge(Wpstarep wpstarep) {
+        em.merge(wpstarep);
+    }
+
+    /**
+     * Get a Responsible Engineer's Weekly Status Report for a given Work
+     * Package.
+     * 
+     * @param wsrProjNo
+     *            The Project Number of the Work Package.
+     * @param wsrWpNo
+     *            The Work Package Number of the Work Package.
+     * @param wsrRepDt
+     *            The week of the Weekly Status Report.
+     * @return Weekly Status Report.
+     */
+    public Wpstarep find(int wsrProjNo, String wsrWpNo, String wsrRepDt) {
+        TypedQuery<Wpstarep> query = em.createQuery(
+                "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2 AND s.wsrRepDt=:code3",
+                Wpstarep.class);
+        query.setParameter("code", wsrProjNo);
+        query.setParameter("code2", wsrWpNo);
+        query.setParameter("code3", wsrRepDt);
         List<Wpstarep> workStatusReports = query.getResultList();
         return (workStatusReports.isEmpty() ? null : workStatusReports.get(0));
-	}
+    }
 }

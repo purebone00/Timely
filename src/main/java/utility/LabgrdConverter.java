@@ -12,17 +12,18 @@ import manager.LabourGradeManager;
 @ManagedBean
 @RequestScoped
 public class LabgrdConverter implements Converter {
-	@Inject LabourGradeManager labourGradeManager;
+    @Inject
+    LabourGradeManager labourGradeManager;
 
-	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-		StringBuilder builder = new StringBuilder(arg2);
-		return labourGradeManager.find(builder.toString());
-	}
+    @Override
+    public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
+        StringBuilder builder = new StringBuilder(arg2);
+        return labourGradeManager.find(builder.toString());
+    }
 
-	@Override
-	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-		return arg2.toString();
-	}
+    @Override
+    public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
+        return arg2.toString();
+    }
 
 }

@@ -12,12 +12,12 @@ import model.Project;
 @Stateful
 @Named("SupMan")
 public class SupervisorController {
-	
-	@Inject ProjectManager projectManager;
-	
-	public List<Project> listOfProjects() {
-		return projectManager.getAllProjects();
-	}
-	
+
+    @Inject
+    ProjectManager projectManager;
+
+    public List<Project> listOfProjects() {
+        return projectManager.getAllProjects();
+    }
 
 }

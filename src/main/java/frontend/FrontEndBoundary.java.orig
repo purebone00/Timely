@@ -12,12 +12,16 @@ import javax.inject.Named;
 import controller.AdminController;
 import controller.EmployeeController;
 import controller.LoginController;
-<<<<<<< HEAD
+import controller.ProjectManagerController;
 import controller.ResponsibleEngineerController;
+<<<<<<< HEAD
+import manager.EmployeeManager;
+import controller.SupervisorController;
 =======
+import controller.TimesheetApproverController;
+>>>>>>> TAapprover
 import model.Employee;
 import model.Timesheet;
->>>>>>> timesheet_new
 
 
 
@@ -27,15 +31,29 @@ import model.Timesheet;
 public class FrontEndBoundary implements Serializable{
     @Inject Conversation conversation;
     
-<<<<<<< HEAD
-    @Inject ResponsibleEngineerController resEng;
-=======
     @Inject LoginController login;
->>>>>>> timesheet_new
+    
+    @Inject ResponsibleEngineerController resEng;
     @Inject AdminController admin;
     @Inject EmployeeController employee;
+    @Inject ProjectManagerController projMan;
+<<<<<<< HEAD
+    @Inject private EmployeeManager employeeManager;
+    @Inject SupervisorController supMan;
+
+=======
+    @Inject TimesheetApproverController taApprover;
+>>>>>>> TAapprover
     
-    public LoginController getLogin() {
+    public SupervisorController getSupMan() {
+		return supMan;
+	}
+
+	public void setSupMan(SupervisorController supMan) {
+		this.supMan = supMan;
+	}
+
+	public LoginController getLogin() {
         return login;
     }
 
@@ -66,6 +84,24 @@ public class FrontEndBoundary implements Serializable{
     public void setAdmin(AdminController admin) {
     	this.admin = admin;
     }
+    
+    public ProjectManagerController getProjMan() {
+    	return projMan;
+    }
+    
+    public void setProjMan(ProjectManagerController projMan) {
+    	this.projMan = projMan;
+    }
+
+    
+    
+    public TimesheetApproverController getTaApprover() {
+        return taApprover;
+    }
+
+    public void setTaApprover(TimesheetApproverController taApprover) {
+        this.taApprover = taApprover;
+    }
 
     public void start() {
         conversation.begin();
@@ -91,6 +127,7 @@ public class FrontEndBoundary implements Serializable{
         Employee curEmp;
         if((curEmp = login.authUser()) != null) {
             employee.setEmp(curEmp);
+            taApprover.setEmp(curEmp);
             init();
             if (login.isAdmin()) {
                 return "admin";
@@ -105,13 +142,44 @@ public class FrontEndBoundary implements Serializable{
         employee.setTsId(employee.getEmp().getEmpId(), wkEnd);
         return "timesheet";
     }
+    
     public String logout() {
         finish();
         return "logout";
     }
     
+    public String goToChangePassword() {
+        return "changepassword";
+    }
+    
     public void generateAllFeatures() {}
     
-   
+<<<<<<< HEAD
+    public String changePassword() {
+        Employee emp = employee.getEmp();
+        Integer empChNo = emp.getEmpChNo();
+        String newPassword = emp.getNewPassword();
+        String currentPassword = emp.getOldPassword();
+        String confirmNewPassword = emp.getNewPasswordConfirm();
+        String failed = "failedPasswordCheck";
+        
+        if(empChNo.intValue() != emp.getEmpId().intValue()) 
+            return failed;
+        if(!confirmNewPassword.equals(newPassword))
+            return failed;
+        if(!currentPassword.equals(emp.getEmpPw()))
+            return failed;
+        
+        emp.setEmpPw(newPassword);
+        employeeManager.merge(emp);
+        finish();
+        
+        return "success";
+    }
+
+=======
+    
+    
+>>>>>>> TAapprover
 
 }

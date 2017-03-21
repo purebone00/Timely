@@ -7,35 +7,39 @@
     <ui:define name="title">Employee</ui:define>
 
     <ui:define name="content">
-		<div class="ui segment grid" id="content">
+        <div class="ui segment grid" id="content">
             <div class="container text-centered">
-  				<div class="jumbotron">
-	    			<h1>Responsible Engineer Reports</h1>
-	    			<span></span> 
-  				</div> 
-			</div>
-            
+                <div class="jumbotron">
+                    <h1>Responsible Engineer Reports</h1>
+                    <span></span>
+                </div>
+            </div>
+
             <div class="container">
-	            <b:row>
-		            <b:column col-md="12">
-		            	<b:dataTable value="#{Master.resEng.listOfWorkPackages(Master.login.currentEmployee.currentEmployee)}" var="s">
-							<b:dataTableColumn>
-								<f:facet name="header">Work Package</f:facet>	
+                <b:row>
+                    <b:column col-md="12">
+                        <b:dataTable
+                            value="#{Master.resEng.listOfWorkPackages(Master.login.currentEmployee.currentEmployee)}"
+                            var="s">
+                            <b:dataTableColumn>
+                                <f:facet name="header">Work Package</f:facet>	
 								#{s.wpNm}
 							</b:dataTableColumn>
-							<b:dataTableColumn>
-								<f:facet name="header">Description</f:facet>	
+                            <b:dataTableColumn>
+                                <f:facet name="header">Description</f:facet>	
 								#{s.wpDesc}
 							</b:dataTableColumn>
-							<b:dataTableColumn>
-								<f:facet name="header">Report</f:facet>	
-								<b:form>
-									<h:commandButton class="btn" value="View" action="#{Master.resEng.selectWorkPackage(s)}" />
-								</b:form>
-							</b:dataTableColumn>
-						</b:dataTable>
-					</b:column>
-	            </b:row>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Report</f:facet>
+                                <b:form>
+                                    <h:commandButton class="btn"
+                                        value="View"
+                                        action="#{Master.resEng.selectWorkPackage(s)}" />
+                                </b:form>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:column>
+                </b:row>
             </div>
         </div>
     </ui:define>

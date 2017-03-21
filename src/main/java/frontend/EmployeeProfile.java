@@ -13,7 +13,7 @@ import model.*;
 public class EmployeeProfile implements Serializable {
 
     Employee employee;
-    
+
     List<Title> employeeTitles;
 
     public Employee getCurrentEmployee() {
@@ -31,6 +31,5 @@ public class EmployeeProfile implements Serializable {
     public void setEmployeeTitles(List<Title> employeeTitles) {
         this.employeeTitles = employeeTitles;
     }
-    
-    
+
 }
