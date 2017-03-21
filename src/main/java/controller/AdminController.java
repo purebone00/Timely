@@ -2,11 +2,8 @@ package controller;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,7 +15,7 @@ import model.Labgrd;
 
 @SessionScoped
 @Named("Admin")
-public class AdminController {
+public class AdminController implements Serializable {
     @Inject
     private EmployeeManager employeeManager;
 
