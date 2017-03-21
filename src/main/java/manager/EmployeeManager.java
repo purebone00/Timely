@@ -13,8 +13,9 @@ import model.Employee;
 
 @Dependent
 @Stateless
-public class EmployeeManager implements Serializable{
-    @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
+public class EmployeeManager implements Serializable {
+    @PersistenceContext(unitName = "Timely-persistence-unit")
+    EntityManager em;
 
     public Employee find(int id) {
         return em.find(Employee.class, id);
@@ -23,27 +24,25 @@ public class EmployeeManager implements Serializable{
     public void flush() {
         em.flush();
     }
-    
+
     public void persist(Employee employee) {
         em.persist(employee);
     }
-   
+
     public void merge(Employee employee) {
         em.merge(employee);
-    } 
-    
+    }
+
     public void remove(Employee employee) {
         employee = find(employee.getEmpId());
         em.remove(employee);
     }
-    
+
     public List<Employee> getAll() {
-        TypedQuery<Employee> query = em.createQuery("select s from Employee s",
-                Employee.class); 
+        TypedQuery<Employee> query = em.createQuery("select s from Employee s", Employee.class);
         List<Employee> employees = query.getResultList();
-        
+
         return employees;
     }
-    
-    
+
 }

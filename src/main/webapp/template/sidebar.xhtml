@@ -3,7 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:b="http://bootsfaces.net/ui">
-    
+
     <!-- 
     <b:listLinks>
         <b:navLink icon-size="2x" iconAwesome="user"
@@ -61,37 +61,36 @@
             rendered="true" />
     </b:listLinks>
      -->
-     
+
     <b:listLinks>
-    	<b:navLink header="User Roles" />
-	    <b:navLink icon-size="lg" iconAwesome="user"
-	        value="General Utilities" />
-	    <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
-	        value="Timesheet Approver" />
-	    <b:navLink icon-size="lg" iconAwesome="wrench"
-	        value="Responsible Engineer" />
-	    <b:navLink icon-size="lg" iconAwesome="cubes"
-	    	value="Project Manager" />
-	    <b:navLink icon-size="lg" iconAwesome="cube"
-	        value="Supervisor" />
-	</b:listLinks>
-        
+        <b:navLink header="User Roles" />
+        <b:navLink icon-size="lg" iconAwesome="user"
+            value="General Utilities" />
+        <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
+            value="Timesheet Approver" />
+        <b:navLink icon-size="lg" iconAwesome="wrench"
+            value="Responsible Engineer" />
+        <b:navLink icon-size="lg" iconAwesome="cubes"
+            value="Project Manager" />
+        <b:navLink icon-size="lg" iconAwesome="cube" value="Supervisor" />
+    </b:listLinks>
+
     <b:form>
-	    <b:listLinks>
-	        <b:navLink header="User Controls" />
-	        <b:navCommandLink value="Change Password" action="#{Master.goToChangePassword()}"
-	                        iconAwesome="key"/>
-	        <b:navLink icon-size="lg" iconAwesome="info" href="#"
-	            value="Update User Info"
-	            rendered="true" />
-	        <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
-	            value="Sign Out" rendered="true" />
-	    </b:listLinks>
+        <b:listLinks>
+            <b:navLink header="User Controls" />
+            <b:navCommandLink value="Change Password"
+                action="#{Master.goToChangePassword()}"
+                iconAwesome="key" />
+            <b:navLink icon-size="lg" iconAwesome="info" href="#"
+                value="Update User Info" rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
+                value="Sign Out" rendered="true" />
+        </b:listLinks>
     </b:form>
-    
+
     <b:listLinks rendered="true">
         <b:navLink header="Admin" />
-		
+
         <b:navLink icon-size="lg" iconAwesome="user-plus" href="#"
             value="Add User" rendered="true" />
         <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"

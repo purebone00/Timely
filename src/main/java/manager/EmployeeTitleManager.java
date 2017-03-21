@@ -12,8 +12,9 @@ import model.Emptitle;
 @Stateless
 public class EmployeeTitleManager implements Serializable {
 
-    @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
-    
+    @PersistenceContext(unitName = "Timely-persistence-unit")
+    EntityManager em;
+
     public Emptitle find(int id) {
         return em.find(Emptitle.class, id);
     }
@@ -21,15 +22,15 @@ public class EmployeeTitleManager implements Serializable {
     public void persist(Emptitle empTitle) {
         em.persist(empTitle);
     }
-    
+
     public void update(Emptitle empTitle) {
-        em.merge(empTitle);  
+        em.merge(empTitle);
     }
-   
+
     public void merge(Emptitle empTitle) {
         em.merge(empTitle);
-    } 
-    
+    }
+
     public void remove(Emptitle empTitle) {
         em.remove(empTitle);
     }

@@ -37,11 +37,12 @@ public class Timesheet implements java.io.Serializable {
     private short tsDel;
     private Date tsInsDt;
     private Date tsUpDt;
-    
+
     private Employee employee;
+    private Employee tsApprover;
 
     @ManyToOne
-    @JoinColumn(name="tsEmpId", insertable = false, updatable = false)
+    @JoinColumn(name = "tsEmpId", insertable = false, updatable = false)
     public Employee getEmployee() {
         return employee;
     }
@@ -50,9 +51,19 @@ public class Timesheet implements java.io.Serializable {
         this.employee = employee;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "tsApprID")
+    public Employee getTsApprover() {
+        return tsApprover;
+    }
+
+    public void setTsApprover(Employee tsApprover) {
+        this.tsApprover = tsApprover;
+    }
+
     private Set<Tsrow> tsrow;
-    
-    @OneToMany(mappedBy="timesheet", fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "timesheet", fetch = FetchType.EAGER)
     public Set<Tsrow> getTsrow() {
         return tsrow;
     }
@@ -153,7 +164,7 @@ public class Timesheet implements java.io.Serializable {
         this.tsApprDt = tsApprDt;
     }
 
-    @Column(name = "tsApprID")
+    @Column(name = "tsApprID", insertable = false, updatable = false)
     public Integer getTsApprId() {
         return this.tsApprId;
     }
@@ -172,7 +183,7 @@ public class Timesheet implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "tsInsDt",  length = 19, insertable=false)
+    @Column(name = "tsInsDt", length = 19, insertable = false)
     public Date getTsInsDt() {
         return this.tsInsDt;
     }
@@ -182,7 +193,7 @@ public class Timesheet implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "tsUpDt", length = 19, insertable=false)
+    @Column(name = "tsUpDt", length = 19, insertable = false)
     public Date getTsUpDt() {
         return this.tsUpDt;
     }
@@ -190,5 +201,4 @@ public class Timesheet implements java.io.Serializable {
     public void setTsUpDt(Date tsUpDt) {
         this.tsUpDt = tsUpDt;
     }
-
 }
