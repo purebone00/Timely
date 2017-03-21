@@ -350,6 +350,14 @@
 				<datasource.unit>Timely-persistence-unit</datasource.unit>
 				<datasource.name>Timely</datasource.name>
 			</properties>
+			
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-arquillian-container-remote</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
 		</profile>
 
 

@@ -31,14 +31,15 @@ public class AdminControllerTest {
     }
 
     @Inject
-    AdminController memberRegistration;
+    AdminController adminController;
 
+    
     @Inject
     Logger log;
 
     @Test
     public void testRegister() throws Exception {
-        
+    	assertNotNull(new Object());
         log.info("hello");
     }
 }
