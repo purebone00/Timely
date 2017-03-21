@@ -16,6 +16,7 @@ import model.Labgrd;
 @RequestScoped
 @Named("Admin")
 public class AdminController {
+	
 	@Inject private EmployeeManager employeeManager;
 
 	@Inject private Employee newEmployee;

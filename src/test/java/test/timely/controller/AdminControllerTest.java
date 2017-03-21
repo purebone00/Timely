@@ -1,56 +1,44 @@
 package test.timely.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import controller.AdminController;
-import manager.LabourGradeManager;
-import model.Employee;
-import model.Timesheet;
-import model.TimesheetId;
-import model.Tsrow;
-import utility.DateTimeUtility;
 
+@RunWith(Arquillian.class)
 public class AdminControllerTest {
-	
-	private static Logger log = Logger.getLogger("ErrorLogger");
-	 
-	 @Test
-	    public void getLabourGrades() throws Exception {
-		 LabourGradeManager lg = new LabourGradeManager();
-		 assertNotNull(lg.getAll());
-		 log.info("Labor Grades");
-	    }
-	 
-	 @Test
-	    public void editAction() throws Exception {
-		 
-		Employee e = new Employee();
-		e.setFullName("dave");
-		AdminController ac = new AdminController();
-		ac.editAction(e);
-		assertNull(ac.editAction(e));
-		 log.info(ac.editAction(e));
-	    }
-	 
-	 
-	 @Test
-	    public void TimesheetEmpEndOfWeek() throws Exception {
-		 
-		 Timesheet ts = new Timesheet();
-		 TimesheetId tsId = new TimesheetId(5,"friday");
-		 ts.setId(tsId);
-		 DateTimeUtility dtu = new DateTimeUtility();
-		 assertEquals("friday", tsId.getTsWkEnd());
-		 log.info("Day of week is: " + tsId.getTsWkEnd());
-	    }
-	 
-	 
+    @Deployment
+    public static Archive<?> createTestArchive() {
+        return ShrinkWrap.create(WebArchive.class, "test.war")
+                .addClasses(AdminController.class)
+                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                // Deploy our test datasource
+                .addAsWebInfResource("test-ds.xml");
+    }
+
+    @Inject
+    AdminController memberRegistration;
+
+    @Inject
+    Logger log;
+
+    @Test
+    public void testRegister() throws Exception {
+        
+        log.info("hello");
+    }
 }
