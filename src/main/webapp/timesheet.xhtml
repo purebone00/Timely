@@ -51,11 +51,11 @@
     										<f:selectItems class="selectpicker" value="#{Master.employee.projectIntegerList()}" />
 										</h:selectOneMenu>
 	    							    <h:outputText class="ProjectNo" value="#{s.tsrProjNo}" rendered="#{not s.editable}" /> 
-										<f:facet name="footer">Total</f:facet>							
+										<f:facet name="footer">Total</f:facet>					
 									</b:dataTableColumn>
 									<b:dataTableColumn order="desc">
 										<f:facet name="header">WP No.</f:facet>
-										<b:inputText value="#{s.tsrWpNo}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrWpNo}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrWpNo}" rendered="#{not s.editable}" />	
 									</b:dataTableColumn>
 									<b:dataTableColumn>
@@ -65,49 +65,49 @@
 									</b:dataTableColumn>
 									<b:dataTableColumn>
 										<f:facet name="header">Saturday</f:facet>	
-										<b:inputText value="#{s.tsrSat}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrSat}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrSat}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[5]}</f:facet>
 									</b:dataTableColumn>
 									<b:dataTableColumn>
 										<f:facet name="header">Sunday</f:facet>	
-										<b:inputText value="#{s.tsrSun}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrSun}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrSun}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[6]}</f:facet>
 									</b:dataTableColumn>
 									<b:dataTableColumn>
 										<f:facet name="header">Monday</f:facet>	
-										<b:inputText value="#{s.tsrMon}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrMon}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrMon}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[0]}</f:facet>
 									</b:dataTableColumn>
 									<b:dataTableColumn>
 										<f:facet name="header">Tuesday</f:facet>	
-										<b:inputText value="#{s.tsrTue}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrTue}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrTue}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[1]}</f:facet>
 									</b:dataTableColumn>
 									<b:dataTableColumn>
 										<f:facet name="header">Wednesday</f:facet>	
-										<b:inputText value="#{s.tsrWed}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrWed}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrWed}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[2]}</f:facet>
 									</b:dataTableColumn>
 									<b:dataTableColumn>
 										<f:facet name="header">Thursday</f:facet>	
-										<b:inputText value="#{s.tsrThu}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrThu}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrThu}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[3]}</f:facet>
 									</b:dataTableColumn>
 									<b:dataTableColumn>
 										<f:facet name="header">Friday</f:facet>	
-										<b:inputText value="#{s.tsrFri}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrFri}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrFri}" rendered="#{not s.editable}" />
 	    								<f:facet name="footer">#{Master.employee.dailyTotals[4]}</f:facet>
 									</b:dataTableColumn>
 									<b:dataTableColumn>
 										<f:facet name="header">Notes</f:facet>	
-										<b:inputText value="#{s.tsrNote}" size="10" rendered="#{s.editable}" />
+										<h:inputText value="#{s.tsrNote}" size="10" rendered="#{s.editable}" />
 	    								<h:outputText value="#{s.tsrNote}" rendered="#{not s.editable}" />
 									</b:dataTableColumn>									
 								</b:dataTable>
@@ -117,12 +117,10 @@
 										<b:column col-m="6">
 											<b:commandButton value="Save Changes" class="btn btn-success" action="#{Master.employee.saveAction}" />
 											<span> </span>
-											<b:commandButton value="Edit" class="btn btn-warning" icon="edit" ajax="true" update="@(.editableTable)" onclick="#{Master.employee.editAction()}" rendered="#{not s.editable}" />
+											<b:commandButton value="Edit" class="btn btn-warning" icon="edit" action="#{Master.employee.editAction()}" rendered="#{not s.editable}" />
 											<span> </span>
 											<b:commandButton value="Add Row"  class="btn btn-info" action="#{Master.employee.addTsrow}" />
-										</b:column>
-										<b:column col-md="6">
-											<b:commandButton value="Submit Timesheet" class="btn btn-danger pull-right" action="#{Master.employee.submitTimesheet}" />
+											<b:commandButton value="Submit Timesheet" class="btn btn-danger pull-right" action="#{Master.employee.submitTimesheet}" />									
 										</b:column>
 									</b:row>
 								</div>

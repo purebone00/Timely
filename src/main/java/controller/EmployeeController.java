@@ -87,7 +87,7 @@ public class EmployeeController implements Serializable{
 	            dailyTotals[5] = dailyTotals[5].add(new BigDecimal(row.getTsrSat().doubleValue()));
 	        }
 	        if(row.getTsrSun() != null) {
-	            dailyTotals[6] = dailyTotals[1].add(new BigDecimal(row.getTsrSun().doubleValue()));
+	            dailyTotals[6] = dailyTotals[6].add(new BigDecimal(row.getTsrSun().doubleValue()));
 	        }
 	        if(row.getTotal() != null) {
 	            dailyTotals[7] = dailyTotals[7].add(new BigDecimal(row.getTotal().doubleValue()));
@@ -99,7 +99,6 @@ public class EmployeeController implements Serializable{
     public void setDailyTotals(BigDecimal[] dailyTotals) {
         this.dailyTotals = dailyTotals;
     }
-	
 	    
     public Timesheet getCurTimesheet() {
         curTimesheet = tManager.find(tsId);
@@ -126,6 +125,10 @@ public class EmployeeController implements Serializable{
 
 	public Set<Tsrow> refreshTsrList(Set<Tsrow> tsrList, TimesheetId id) {
 	    int remainder = 0;
+	    
+	    if(tsrList != null)
+	        return tsrList;
+	    
 	    try { 
 	        tsrList = tManager.find(id).getTsrow();    
 	    } catch (NullPointerException e) {
@@ -143,13 +146,6 @@ public class EmployeeController implements Serializable{
 	    return tsrList;
 	}
 	
-    public List<Employee> getList() {
-        if(list == null) {
-            refreshList();
-        }
-        return list;
-    }
-    
     public Employee find(int id) {
         return employeeManager.find(id);
     }
@@ -157,9 +153,16 @@ public class EmployeeController implements Serializable{
     	employeeManager.persist(emp); 
     }
     
+    public List<Employee> getList() {
+        refreshList();
+        
+        return list;
+    }
+    
     public void refreshList() {
-        list = employeeManager.getAll();
-    } 
+        if(list == null)
+            list = employeeManager.getAll();
+    }
     
     public String editAction() {
         for( Tsrow row: tsrList) {

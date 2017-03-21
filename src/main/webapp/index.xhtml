@@ -38,11 +38,14 @@
 							</b:dataTable>
 						</b:form>
 						<h:form>
+							<b:commandButton action="#{Master.employee.createNewTimesheet()}" value="Add new Timesheet">
+							</b:commandButton>
+							<br/>
 							<h:commandLink value="View Work Package Reports" action="responsibleengineer"/>
 							<br/>
                             <h:commandLink value="View Managed Projects" action="viewmanagedprojects" />
-                             <br />
-		                     <h:commandLink value="View All Projects" action="viewAllProjects"/>
+                            <br />
+		                    <h:commandLink value="View All Projects" action="viewAllProjects"/>
 						</h:form>
 					</b:column>
 				</div>

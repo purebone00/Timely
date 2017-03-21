@@ -115,17 +115,6 @@ public class Employee  implements java.io.Serializable {
         this.editable = editable;
     }
     
-    private String fullName;
-
-    @Transient
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-    
     /*==================================================*/
 
 
