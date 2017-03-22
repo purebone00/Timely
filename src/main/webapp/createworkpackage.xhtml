@@ -18,39 +18,41 @@
                 <b:row>
                     <h:outputText
                         value="No: #{Master.projMan.selectedProject.projNo}" />
-                    <br />
+                </b:row>
+                <b:row>
                     <h:outputText
                         value="Name: #{Master.projMan.selectedProject.projNm}" />
-                    <br />
+                </b:row>
+                <b:row>
                     <h:outputText
                         value="Description: #{Master.projMan.selectedProject.projDesc}" />
-                    <br />
-
-                    <h:dataTable class="table table-bordered"
+                </b:row>
+                <b:row>
+                    <b:dataTable class="table table-bordered"
                         value="#{Master.projMan.selectedProject.workPackages}"
                         var="s">
-                        <h:column>
+                        <b:dataTableColumn>
                             <f:facet name="header">Work Package</f:facet>	
 								#{s.wpNm}
-							</h:column>
-                        <h:column>
+						</b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">Description</f:facet>	
 								#{s.wpDesc}
-							</h:column>
+						</b:dataTableColumn>
 
-                        <h:column>
+                        <b:dataTableColumn>
                             <f:facet name="header">Details</f:facet>
                             <h:form>
                                 <h:commandButton class="btn"
                                     value="View" />
                             </h:form>
-                        </h:column>
-                    </h:dataTable>
-                    <h:form>
-                        <h:commandButton class="btn"
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                    <b:form>
+                        <b:commandButton class="btn"
                             value="Create New Work Package"
                             action="createworkpackage" />
-                    </h:form>
+                    </b:form>
                 </b:row>
             </div>
             
