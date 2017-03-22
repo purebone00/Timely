@@ -66,7 +66,7 @@ public class ProjectManagerController {
     public String selectProjectForReport(Project p) {
         setSelectedProject(p);
 
-        return "weeklyReportsList";
+        return "weeklyStatisticsList";
     }
 
     public Project getSelectedProject() {
@@ -263,7 +263,7 @@ public class ProjectManagerController {
     public String selectWeeklyReport(String week) {
         setSelectedWeek(week);
 
-        return "weeklyReport";
+        return "weeklyStatistics";
     }
 
     /**
