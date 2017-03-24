@@ -44,5 +44,21 @@ public class EmployeeManager implements Serializable {
 
         return employees;
     }
+    
+    /**
+     * Deletes the employee given by the parameter, by changing its empdel flag.
+     * @param employee the employee to be deleted 
+     */
+    public void delete(Employee employee){
+    	 employee.setEmpDel((short) 1);
+    }
 
+    /**
+     * Restores the employee given by the parameter, by changing its empdel flag.
+     * @param employee the employee to be deleted 
+     */
+    public void restore(Employee employee){
+   	 employee.setEmpDel((short) 0);
+   }
+    
 }

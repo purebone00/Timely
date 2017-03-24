@@ -112,7 +112,15 @@
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Delete</f:facet>
-                                <button>Delete</button>
+                                 <h:commandButton value="Delete"
+                                    class="btn btn-success"
+                                    action="#{Master.admin.delete(s)}" 
+                                    rendered="#{s.empDel == 0}"/>
+                                    
+                                 <h:commandButton value="Restore"
+                                    class="btn btn-success"
+                                    action="#{Master.admin.restore(s)}" 
+                                    rendered="#{s.empDel == 1}"/>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Save</f:facet>
