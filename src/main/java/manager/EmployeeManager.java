@@ -44,6 +44,18 @@ public class EmployeeManager implements Serializable {
 
         return employees;
     }
+    /**
+     * Get all employees that have not been deleted
+     * @return list of employees 
+     */
+    public List<Employee> getActiveEmps() {
+        TypedQuery<Employee> query = em.createQuery("select s from Employee s where s.empDel = 0", Employee.class);
+        List<Employee> employees = query.getResultList();
+
+        return employees;
+    }
+    
+    
     
     /**
      * Deletes the employee given by the parameter, by changing its empdel flag.

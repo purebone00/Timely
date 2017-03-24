@@ -20,4 +20,5 @@ public class SupervisorController {
         return projectManager.getAllProjects();
     }
 
+    //When getting the list of your employees, remember to check the empdel flag to see if they are deleted
 }

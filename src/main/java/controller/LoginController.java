@@ -32,7 +32,7 @@ public class LoginController implements Serializable {
     }
 
     public Employee authUser() {
-        list = empManager.getAll();
+        list = empManager.getActiveEmps();
         boolean authenticated = false;
 
         for (int i = 0; i < list.size(); i++) {
