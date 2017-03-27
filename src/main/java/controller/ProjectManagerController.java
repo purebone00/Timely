@@ -1,16 +1,19 @@
 package controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import manager.LabourGradeManager;
 import manager.ProjectManager;
 import manager.TsrowManager;
 import manager.WorkPackageManager;
@@ -38,12 +41,19 @@ public class ProjectManagerController {
     TsrowManager tsRowManager;
     @Inject
     WpstarepManager wpstarepManager;
+    @Inject
+    LabourGradeManager labgrdManager;
 
     private Project selectedProject;
     private Workpack selectedWorkPackage;
     private String selectedWeek;
 
     private List<Wplab> wpPlanHours;
+    
+    
+    //TODO: When getting the list of your employees, remember to check the empdel flag to see if they are deleted
+    
+    
 
     /**
      * Gets a list of {@link Project}'s that an {@link Employee} manages.
@@ -66,7 +76,19 @@ public class ProjectManagerController {
     public String selectProjectForReport(Project p) {
         setSelectedProject(p);
 
-        return "weeklyReportsList";
+        return "weeklyStatisticsList";
+    }
+    
+    public String selectProjectForWeeklyReport(Project p) {
+        setSelectedProject(p);
+        
+        return "weeklyReport";
+    }
+    
+    public String selectProjectForMonthlyReport(Project p) {
+        setSelectedProject(p);
+        
+        return "monthlyReport";
     }
 
     public Project getSelectedProject() {
@@ -263,7 +285,7 @@ public class ProjectManagerController {
     public String selectWeeklyReport(String week) {
         setSelectedWeek(week);
 
-        return "weeklyReport";
+        return "weeklyStatistics";
     }
 
     /**
@@ -317,6 +339,110 @@ public class ProjectManagerController {
         // setTotalCost(totalCost);
         // setTotalHours(totalHours);
         return list;
+    }
+    
+    /**
+     * Gets the monthly-report information for a given workpackage for a given month.<br> 
+     * Returns an array of size 8:
+     * <ul>
+     * <li>index 0 = estimated total hours</li>
+     * <li>index 1 = estimated total dollars</li>
+     * <li>index 2 = current hours</li>
+     * <li>index 3 = current dollars</li>
+     * <li>index 4 = projected total hours</li>
+     * <li>index 5 = projected total dollars</li>
+     * <li>index 6 = variance hours</li>
+     * <li>index 7 = variance dollars</li>
+     * </ul>
+     * 
+     * @param workpack The workpackage to get the monthly-report information for.
+     * @param month The month to get the monthly-report information for.
+     * @return The monthly-report information.
+     */
+    public Object[] getReportForWpMonth(Workpack workpack, String month) {
+        
+        DateTimeUtility dtu = new DateTimeUtility();
+        String endDate = dtu.getEndOfWeek(dtu.getEndOfMonth(month + "01"));
+        Date curDt = new Date();
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(curDt);
+        cal.add(Calendar.DAY_OF_MONTH, -7);
+        curDt = cal.getTime();
+        
+        Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
+        
+        
+        cal.setTime(endDt);
+        int year = cal.get(Calendar.YEAR);
+        String monthStr = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+        
+        String endDate2 = dtu.getEndOfWeek(year + monthStr + day);
+        
+        if (endDate2.compareTo(endDate) <= 0) {
+            endDate = endDate2;
+        }
+        
+        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
+        
+        BigDecimal curTotalCosts = BigDecimal.ZERO;
+        BigDecimal curTotalHours = BigDecimal.ZERO;
+        BigDecimal estTotalCosts = BigDecimal.ZERO;
+        BigDecimal estTotalHours = BigDecimal.ZERO;
+        BigDecimal projTotalCosts = BigDecimal.ZERO;
+        BigDecimal projTotalHours = BigDecimal.ZERO;
+        BigDecimal varianceCosts = BigDecimal.ZERO;
+        BigDecimal varianceHours = BigDecimal.ZERO;
+        
+        for (Object[] obj : list) {
+            BigDecimal op1 = (BigDecimal) obj[1];
+            BigDecimal op2 = (BigDecimal) obj[2];
+            curTotalCosts = curTotalCosts.add(op1.multiply(op2));
+            curTotalHours = curTotalHours.add(op1);
+        }
+        
+        for (Wplab w : workpack.getWplabs()) {
+            BigDecimal op1 = w.getWlPlanHrs();
+            BigDecimal op2 = labgrdManager.find(w.getId().getWlLgId()).getLgRate();
+            estTotalHours = estTotalHours.add(w.getWlPlanHrs());
+            estTotalCosts = estTotalCosts.add(op1.multiply(op2));
+        }
+        
+        Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
+
+        if (report != null) {
+            String fields = report.getWsrEstDes();
+            String[] rows = fields.split(",");
+
+            // The list of "labour grades : hours" is stored as a single String
+            // in the database,
+            // this loop parses the String.
+            for (String s : rows) {
+                String[] columns = s.split(":");
+                BigDecimal op1 = new BigDecimal(columns[1]);
+                BigDecimal op2 = labgrdManager.find(columns[0]).getLgRate();
+                projTotalCosts = projTotalCosts.add(op1.multiply(op2));
+                projTotalHours = projTotalHours.add(op1);
+            }
+            
+            projTotalCosts = projTotalCosts.add(curTotalCosts);
+            projTotalHours = projTotalHours.add(curTotalHours);
+        } else {
+            projTotalCosts = null;
+            projTotalHours = null;
+        }
+        
+        if (projTotalCosts != null && projTotalHours != null) {            
+            varianceCosts = ((projTotalCosts.subtract(estTotalCosts)).divide(estTotalCosts, 2, RoundingMode.HALF_EVEN));
+            varianceHours = ((projTotalHours.subtract(estTotalHours)).divide(estTotalHours, 2, RoundingMode.HALF_EVEN));        
+        } else {
+            varianceCosts = null;
+            varianceHours = null;
+        }
+        
+        Object[] results = {estTotalHours, estTotalCosts, curTotalHours, curTotalCosts, projTotalHours, projTotalCosts, varianceHours, varianceCosts};
+        return results;
     }
 
     /**
@@ -407,5 +533,43 @@ public class ProjectManagerController {
         String endDate = year + month + day;
 
         return dtu.getListOfWeekEnds(startDate, endDate);
+    }
+    
+    /**
+     * Gets a list of months for the currently selected project.
+     * @return A list of months for the currently selected project.
+     */
+    public Set<String> getListOfMonths() {
+        DateTimeUtility dtu = new DateTimeUtility();
+        Date curDt = new Date();
+        Date staDt = getSelectedProject().getProjStaDt();
+        Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(staDt);
+        int year = cal.get(Calendar.YEAR);
+        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+        String startDate = year + month + day;
+
+        cal.setTime(endDt);
+        year = cal.get(Calendar.YEAR);
+        month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+        String endDate = year + month + day;
+
+        return dtu.getListOfMonths(startDate, endDate);
+    }
+    
+    /**
+     * Gets the total person days charged by a given employee for a given work package up to a given week.
+     * @param workpack The work package.
+     * @param employee The employee.
+     * @param week The week.
+     * @return The total person days charged.
+     */
+    public BigDecimal getPersonDaysCharged(Workpack workpack, Employee employee, String week) {
+        return tsRowManager.getTotalDaysForEmpWP(workpack, employee, week);
     }
 }

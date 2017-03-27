@@ -1,10 +1,10 @@
 package controller;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -13,9 +13,9 @@ import manager.LabourGradeManager;
 import model.Employee;
 import model.Labgrd;
 
-@RequestScoped
+@SessionScoped
 @Named("Admin")
-public class AdminController {
+public class AdminController implements Serializable {
     @Inject
     private EmployeeManager employeeManager;
 
@@ -69,6 +69,40 @@ public class AdminController {
         // return to current page
         return null;
 
+    }
+    
+    /**
+     * Deletes the employee
+     * @param e the employee
+     * @return navigation location
+     */
+    public String delete(Employee e){
+    	
+    	employeeManager.delete(e);
+    	
+    	 employeeManager.merge(e);
+//       employeeManager.flush();
+   	
+    	
+    	//return to current page
+    	return null;
+    }
+    
+    /**
+     * Restores the employee so its no longer deleted
+     * @param e the employee
+     * @return navigation location
+     */
+    public String restore(Employee e){
+    	
+    	employeeManager.restore(e);
+    	
+    	employeeManager.merge(e);
+//       employeeManager.flush();
+   	
+    	
+    	//return to current page
+    	return null;
     }
 
 }

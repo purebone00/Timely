@@ -62,13 +62,13 @@
 									<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
     								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
 								</b:dataTableColumn>  -->
-                            <b:dataTableColumn>
-                                <f:facet name="header">Labour Grade </f:facet>
-                                <b:inputText value="#{s.empLabGrd}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empLabGrd}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
+<!--                             <b:dataTableColumn> -->
+<!--                                 <f:facet name="header">Labour Grade </f:facet> -->
+<!--                                 <b:inputText value="#{s.empLabGrd}" -->
+<!--                                     size="10" rendered="#{s.editable}" /> -->
+<!--                                 <h:outputText value="#{s.empLabGrd}" -->
+<!--                                     rendered="#{not s.editable}" /> -->
+<!--                             </b:dataTableColumn> -->
                             <b:dataTableColumn>
                                 <f:facet name="header">Supervisor ID</f:facet>
                                 <b:inputText value="#{s.empSupId}"
@@ -76,13 +76,13 @@
                                 <h:outputText value="#{s.empSupId}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Date of Hire</f:facet>
-                                <b:inputText value="#{s.empInsDt}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empInsDt}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
+<!--                             <b:dataTableColumn> -->
+<!--                                 <f:facet name="header">Date of Hire</f:facet> -->
+<!--                                 <b:inputText value="#{s.empInsDt}" -->
+<!--                                     size="10" rendered="#{s.editable}" /> -->
+<!--                                 <h:outputText value="#{s.empInsDt}" -->
+<!--                                     rendered="#{not s.editable}" /> -->
+<!--                             </b:dataTableColumn> -->
                             <!--<b:dataTableColumn>
 	                                <f:facet name="header">Wp</f:facet>
 									<h:selectOneMenu class="form-control" value="#{s.wpNo}">
@@ -112,7 +112,15 @@
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Delete</f:facet>
-                                <button>Delete</button>
+                                 <h:commandButton value="Delete"
+                                    class="btn btn-success"
+                                    action="#{Master.admin.delete(s)}" 
+                                    rendered="#{s.empDel == 0}"/>
+                                    
+                                 <h:commandButton value="Restore"
+                                    class="btn btn-success"
+                                    action="#{Master.admin.restore(s)}" 
+                                    rendered="#{s.empDel == 1}"/>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Save</f:facet>
@@ -127,7 +135,6 @@
             </div>
 
         </div>
-        
 
     </ui:define>
 </ui:composition>
