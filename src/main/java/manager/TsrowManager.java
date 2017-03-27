@@ -1,15 +1,18 @@
 package manager;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import model.Employee;
 import model.Tsrow;
 import model.Workpack;
 
@@ -115,8 +118,32 @@ public class TsrowManager {
      * @return The list of arrays.
      */
     public List<Object[]> getAllForWP(Workpack workpack, String week) {
+        return getAllForWP(workpack, week, 6);
+    }
+    
+    /**
+     * Pretty much the same as {@link #getAllForWP(int, String)} but only
+     * searches rows up to a specified week and up to a specific day of the week.
+     * 
+     * @param workpack
+     *            Work package.
+     * @param week
+     *            A string representing the week to search up to (inclusive).
+     *            Format: 'YYYYMMDD'.
+     * @param weekEnd 
+     *            Day of the week to include hours up to. 0 = Saturday, 1 = Sunday, ..., 6 = Friday.
+     * @return The list of arrays.
+     */
+    public List<Object[]> getAllForWP(Workpack workpack, String week, int weekEnd) {
+        String[] weekDays = {"s.tsrSat", " + s.tsrSun", " + s.tsrMon", " + s.tsrTue", " + s.tsrWed", " + s.tsrThu", " + s.tsrFri"};
+        String queryString = "";
+        
+        for (int i = 0; i <= weekEnd; i++) {
+            queryString = queryString + weekDays[i];
+        }
+        
         Query query = em.createNativeQuery(
-                "select e.lgID, SUM(s.tsrSat + s.tsrSun + s.tsrMon + s.tsrTue + s.tsrWed + s.tsrThu + s.tsrFri),"
+                "select e.lgID, SUM(" + queryString + "),"
                         + " e.lgRate from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
                         + " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID"
                         + " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2 AND s.tsrWkEnd <=:code3"
@@ -128,6 +155,33 @@ public class TsrowManager {
         List<Object[]> workpackages = query.getResultList();
 
         return workpackages;
+    }
+    
+    /**
+     * Gets the total Person-Days charged for an employee for a given work package up to a given week.
+     * @param workpack The work package.
+     * @param employee The employee.
+     * @param week The week.
+     * @return Total Person-Days charged.
+     */
+    public BigDecimal getTotalDaysForEmpWP(Workpack workpack, Employee employee, String week) {
+        Query query = em.createNativeQuery(
+                "select SUM(s.tsrSat + s.tsrSun + s.tsrMon + s.tsrTue + s.tsrWed + s.tsrThu + s.tsrFri)"
+                        + " from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
+                        + " WHERE s.tsrProjNo=:code1 AND s.tsrWpNo=:code2 AND s.tsrWkEnd=:code3"
+                        + " AND s.tsrEmpID=:code4");
+        
+        query.setParameter("code1", workpack.getId().getWpProjNo());
+        query.setParameter("code2", workpack.getId().getWpNo());
+        query.setParameter("code3", week);
+        query.setParameter("code4", employee.getEmpId());
+        
+        try {            
+            BigDecimal totalDays = (BigDecimal) query.getSingleResult();
+            return totalDays;
+        } catch (NoResultException e) {
+            return new BigDecimal(0.0);
+        }
     }
 
     /**
