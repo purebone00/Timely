@@ -49,6 +49,11 @@ public class ProjectManagerController {
     private String selectedWeek;
 
     private List<Wplab> wpPlanHours;
+    
+    
+    //TODO: When getting the list of your employees, remember to check the empdel flag to see if they are deleted
+    
+    
 
     /**
      * Gets a list of {@link Project}'s that an {@link Employee} manages.
