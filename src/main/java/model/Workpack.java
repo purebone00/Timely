@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -43,6 +44,7 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
     private short wpDel;
     private Date wpInsDt;
     private Date wpUpDt;
+    private Set<Employee> employees;
 
     public Workpack() {
     }
@@ -179,6 +181,15 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 
     public void setWpUpDt(Date wpUpDt) {
         this.wpUpDt = wpUpDt;
+    }
+    
+    @ManyToMany(mappedBy="workpackages", fetch=FetchType.EAGER)
+    public Set<Employee> getEmployees() {
+        return this.employees;
+    }
+    
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 
 	@Override
