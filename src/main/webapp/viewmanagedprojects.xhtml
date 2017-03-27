@@ -97,6 +97,24 @@
                                     action="#{Master.projMan.selectProjectForReport(s)}" />
                             </h:form>
                         </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">Weekly Report</f:facet>
+                            <h:form>
+                                <h:commandButton class="btn"
+                                    value="What"
+                                    action="#{Master.projMan.selectProjectForWeeklyReport(s)}" />
+                            </h:form>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">Monthly Report</f:facet>
+                            <h:form>
+                                <h:commandButton class="btn"
+                                    value="Turn Down For What"
+                                    action="#{Master.projMan.selectProjectForMonthlyReport(s)}" />
+                            </h:form>
+                        </h:column>
                     </h:dataTable>
 
                 </div>

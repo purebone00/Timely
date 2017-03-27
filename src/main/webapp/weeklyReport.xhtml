@@ -1,0 +1,67 @@
+<ui:composition template="/template/master_page.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="title">Weekly Report</ui:define>
+
+    <ui:define name="content">
+        <div class="ui segment grid" id="content">
+            <div class="container text-centered">
+                <div class="jumbotron">
+                    <h1>Weekly Report</h1>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="container">
+                <b:row>
+                    <b:column col-md="12">
+                        <b:panelGrid colSpans="3,9" columns="2">
+                            <strong>Project Number:</strong>
+                            <h:outputText
+                                value="#{Master.projMan.selectedProject.projNo}" />
+                        </b:panelGrid>
+                        <br />
+
+                        <b:dataTable
+                            value="#{Master.projMan.getLeafWorkpacks()}"
+                            var="s">
+                            <b:dataTableColumn>
+                                <f:facet name="header">Work Package</f:facet>	
+								#{s.id.wpNo}
+							</b:dataTableColumn>
+                            
+                            <b:dataTableColumn>
+                            	<h:dataTable
+                            		value="#{s.employees}"
+                            		var="e">
+                            		<h:column>
+                            			#{e.empFnm} #{e.empLnm}
+                            		</h:column>
+                            		
+                            		<h:column>
+                            			<h:dataTable class="table"
+                            				value="#{Master.projMan.getListOfWeeks()}"
+                            				var="w">
+                            				<h:column>
+                            					#{w}
+                            				</h:column>
+                            				
+                            				<h:column>
+                            					<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}">
+                            						<f:convertNumber type="number" minFractionDigits="1"/>
+                            					</h:outputText>
+                            				</h:column>
+                            			</h:dataTable>
+                            		</h:column>
+                            	</h:dataTable>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:column>
+                </b:row>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
