@@ -50,7 +50,12 @@
                             				</h:column>
                             				
                             				<h:column>
-                            					<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}">
+                            					<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}"
+                            						rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) != null}">
+                            						<f:convertNumber type="number" minFractionDigits="1"/>
+                            					</h:outputText>
+                            					<h:outputText value="0.0"
+                            						rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) == null}">
                             						<f:convertNumber type="number" minFractionDigits="1"/>
                             					</h:outputText>
                             				</h:column>

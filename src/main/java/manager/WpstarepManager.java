@@ -47,4 +47,21 @@ public class WpstarepManager {
         List<Wpstarep> workStatusReports = query.getResultList();
         return (workStatusReports.isEmpty() ? null : workStatusReports.get(0));
     }
+    
+    /**
+     * Gets the first Wpstarep ever submitted (in terms of time) for the given work package.
+     * @param wsrProjNo The Project Number of the Work Package.
+     * @param wsrWpNo The Work Package Number of the Work Package.
+     * @return Weekly Status Report.
+     */
+    public Wpstarep getInitialEst(int wsrProjNo, String wsrWpNo) {
+        TypedQuery<Wpstarep> query = em.createQuery(
+                "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2"
+                + " order by s.wsrRepDt asc",
+                Wpstarep.class);
+        query.setParameter("code", wsrProjNo);
+        query.setParameter("code2", wsrWpNo);
+        List<Wpstarep> workStatusReports = query.getResultList();
+        return (workStatusReports.isEmpty() ? null : workStatusReports.get(0));
+    }
 }
