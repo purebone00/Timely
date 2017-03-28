@@ -1,0 +1,61 @@
+<ui:composition template="/template/master_page.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:define name="title">Employee</ui:define>
+
+    <ui:define name="content">
+        <div class="ui segment grid" id="content">
+        	<b:jumbotron class="text-center">
+                <h1>Create Work Package</h1>
+                <span></span>
+            </b:jumbotron>
+
+            <div class="container">
+                <b:row>
+                    <h:outputText
+                        value="No: #{Master.projMan.selectedProject.projNo}" />
+                </b:row>
+                <b:row>
+                    <h:outputText
+                        value="Name: #{Master.projMan.selectedProject.projNm}" />
+                </b:row>
+                <b:row>
+                    <h:outputText
+                        value="Description: #{Master.projMan.selectedProject.projDesc}" />
+                </b:row>
+                <b:row>
+                    <b:dataTable class="table table-bordered"
+                        value="#{Master.projMan.selectedProject.workPackages}"
+                        var="s">
+                        <b:dataTableColumn>
+                            <f:facet name="header">Work Package</f:facet>	
+								#{s.wpNm}
+						</b:dataTableColumn>
+                        <b:dataTableColumn>
+                            <f:facet name="header">Description</f:facet>	
+								#{s.wpDesc}
+						</b:dataTableColumn>
+
+                        <b:dataTableColumn>
+                            <f:facet name="header">Details</f:facet>
+                            <h:form>
+                                <h:commandButton class="btn"
+                                    value="View" />
+                            </h:form>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                    <b:form>
+                        <b:commandButton class="btn"
+                            value="Create New Work Package"
+                            action="createworkpackage" />
+                    </b:form>
+                </b:row>
+            </div>
+            
+        </div>
+    </ui:define>
+</ui:composition>

@@ -15,7 +15,7 @@
                             #{Master.employee.emp.empLnm}!</h1>
                         <span></span>
                     </div>
-                    <b:column col-md="12">
+                    <b:row>
                         <b:form>
                             <b:dataTable responsive="true"
                                 value="#{Master.employee.tsList}"
@@ -37,13 +37,42 @@
                                 </b:dataTableColumn>
                                 <b:dataTableColumn>
                                     <f:facet name="header">Select Timesheet</f:facet>
-                                    <h:commandButton
+                                    <b:commandButton
+                                    	look="primary"
                                         action="#{Master.goToTimesheet(s.id.tsWkEnd)}"
                                         value="Choose Timesheet">
-                                    </h:commandButton>
+                                    </b:commandButton>
                                 </b:dataTableColumn>
                             </b:dataTable>
                         </b:form>
+<<<<<<< HEAD
+                    </b:row>
+                    <b:row>
+                        <b:form>
+                        	<b:row>
+                        		<b:commandButton
+	                            	look="success"
+	                                action="#{Master.employee.createNewTimesheet()}"
+	                                value="Add new Timesheet">
+	                            </b:commandButton>
+                        	</b:row>
+                            <b:row>
+	                            <h:commandLink
+	                                value="View Work Package Reports"
+	                                action="responsibleengineer" />
+                            </b:row>
+                            <b:row>
+	                            <h:commandLink
+	                                value="View Timesheets To Approve"
+	                                action="timesheetapprover" />
+                            </b:row>
+                            <b:row>
+	                            <h:commandLink value="View All Projects"
+                                	action="viewAllProjects" />
+                            </b:row>
+                        </b:form>
+                    </b:row>
+=======
                     </b:column>
                     <div class="column">
                         <h:form>
@@ -69,6 +98,7 @@
                                 action="viewAllProjects" />
                         </h:form>
                     </div>
+>>>>>>> 7a1879347f35c7d1fc82c3959a6b61605d6c299e
                 </div>
             </b:row>
         </div>
