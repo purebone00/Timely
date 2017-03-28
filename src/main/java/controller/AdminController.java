@@ -70,5 +70,39 @@ public class AdminController implements Serializable {
         return null;
 
     }
+    
+    /**
+     * Deletes the employee
+     * @param e the employee
+     * @return navigation location
+     */
+    public String delete(Employee e){
+    	
+    	employeeManager.delete(e);
+    	
+    	 employeeManager.merge(e);
+//       employeeManager.flush();
+   	
+    	
+    	//return to current page
+    	return null;
+    }
+    
+    /**
+     * Restores the employee so its no longer deleted
+     * @param e the employee
+     * @return navigation location
+     */
+    public String restore(Employee e){
+    	
+    	employeeManager.restore(e);
+    	
+    	employeeManager.merge(e);
+//       employeeManager.flush();
+   	
+    	
+    	//return to current page
+    	return null;
+    }
 
 }

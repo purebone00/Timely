@@ -36,20 +36,24 @@
                             <h:outputText
                                 value="#{Master.resEng.selectedWorkPackage.wpDesc}" />
 
-                            <strong>Estimated Person Days
-                                Required:</strong>
-                            <h:outputText
-                                value="#{Master.resEng.selectedWorkPackage.wplabs}" />
                             <br />
                             <br />
                         </b:panelGrid>
                         <strong>Work Completed</strong>
+                        <b:form>
                         <b:dataTable searching="false" paginated="false"
                             value="#{Master.resEng.listOfWpPersonHours()}"
                             var="s">
                             <b:dataTableColumn>
                                 <f:facet name="header">Labour Grade</f:facet>	
 								#{s[0]}
+							</b:dataTableColumn>
+							<b:dataTableColumn>
+								<f:facet name="header">Initial Estimate</f:facet>
+								<h:outputText value="#{Master.resEng.initialEstimate[s[0]]}"
+									rendered="#{Master.resEng.initialEstimate[s[0]] != null}"/>
+                            	<h:outputText value="0.0"
+									rendered="#{Master.resEng.initialEstimate[s[0]] == null}"/>
 							</b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Person Days Completed</f:facet>	
@@ -73,41 +77,30 @@
                                     </h:outputText>
                                 </f:facet>
                             </b:dataTableColumn>
+                            <b:dataTableColumn>
+                            	<f:facet name="header">Estimated Work Remaining</f:facet>
+                            	<b:inputText value="#{Master.resEng.labourGradeDays[s[0]]}">
+                            		<f:convertNumber/>
+                            	</b:inputText>
+                            </b:dataTableColumn>
                         </b:dataTable>
-
+ 						<br />
+						Problems This Period:<br />
+						<b:inputTextarea class="form-control"
+							value="#{Master.resEng.workPackageReport.wsrProbLw}"
+							cols="30" rows="6" />
+						<br />
+						Problems Anticipated:<br />
+						<b:inputTextarea class="form-control"
+							value="#{Master.resEng.workPackageReport.wsrProbNw}"
+							cols="30" rows="6" />
+						<br />
+						<b:commandButton look="primary"
+							value="Submit"
+							action="#{Master.resEng.submitReport}" />
+						</b:form>
+						
                         <br />
-
-                        <strong>Work Remaining</strong>
-                        <b:form>
-                            <b:dataTable searching="false"
-                                paginated="false"
-                                value="#{Master.resEng.labourGradeDays}"
-                                var="s">
-                                <b:dataTableColumn>
-                                    <f:facet name="header">Labour Grade</f:facet>
-									#{s[0]}
-								</b:dataTableColumn>
-
-                                <b:dataTableColumn>
-                                    <f:facet name="header">Person Days</f:facet>
-                                    <b:inputText value="#{s[1]}" />
-                                </b:dataTableColumn>
-                            </b:dataTable>
-                            <br />
-							Problems This Period:<br />
-                            <b:inputTextarea class="form-control"
-                                value="#{Master.resEng.workPackageReport.wsrProbLw}"
-                                cols="30" rows="6" />
-                            <br />
-							Problems Anticipated:<br />
-                            <b:inputTextarea class="form-control"
-                                value="#{Master.resEng.workPackageReport.wsrProbNw}"
-                                cols="30" rows="6" />
-                            <br />
-                            <b:commandButton look="primary"
-                                value="Submit"
-                                action="#{Master.resEng.submitReport}" />
-                        </b:form>
                     </b:column>
 
                 </b:row>

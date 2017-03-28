@@ -22,10 +22,6 @@
                             <strong>Project Number:</strong>
                             <h:outputText
                                 value="#{Master.projMan.selectedProject.projNo}" />
-
-                            <strong>Week:</strong>
-                            <h:outputText
-                                value="#{Master.projMan.selectedWeek}" />
                         </b:panelGrid>
                         <br />
 
@@ -33,64 +29,74 @@
                             value="#{Master.projMan.getLeafWorkpacks()}"
                             var="s">
                             <b:dataTableColumn>
-                                <f:facet name="header">Work Package</f:facet>	
-								#{s.id.wpNo}
+                                <f:facet name="header">Yes</f:facet>	
+								<h:dataTable
+                            		value="#{s.employees}"
+                            		var="e"
+                            		class="table">
+                            		<h:column>
+                            			<f:facet name="header">
+                            			Work Package: #{s.id.wpNo}
+                            			<h:dataTable class="table"
+                        					value="#{s}"
+                        					var="t">
+	                        				<h:column>
+	                        					<f:facet name="header">Completed (Person Days)</f:facet>
+	                        					#{Master.projMan.getReportForWpWeek(t)[0]/8}
+	                        				</h:column>
+	                        			
+	                        				<h:column>
+	                        					<f:facet name="header">Completed ($)</f:facet>
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[1]}">
+	                                    			<f:convertNumber type="currency" />
+	                                			</h:outputText>
+	                        				</h:column>
+	                        			
+	                        				<h:column>
+	                        					<f:facet name="header">Projected Remaining (Person Days)</f:facet>
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[2]/8}" 
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[2] != null}"/>
+	                        					<h:outputText value="N/A" 
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[2] == null}"/>
+	                        				</h:column>
+	                        			
+	                        				<h:column>
+	                        					<f:facet name="header">Projected Remaining ($)</f:facet>
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[3]}"
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[3] != null}">
+	                                    			<f:convertNumber type="currency" />
+	                                			</h:outputText>
+	                                			<h:outputText value="N/A"
+	                                				rendered="#{Master.projMan.getReportForWpWeek(t)[3] == null}"/>
+	                        				</h:column>
+                        				</h:dataTable>
+                            			</f:facet>
+                            			
+                            			
+                            			Employee: #{e.empFnm} #{e.empLnm}
+                            			<h:dataTable class="table"
+                            				value="#{Master.projMan.getListOfWeeks()}"
+                            				var="w">
+                            				<h:column>
+                            					<f:facet name="header">Week</f:facet>
+                            					#{w}
+                            				</h:column>
+                            				
+                            				<h:column>
+                            					<f:facet name="header">Person Days</f:facet>
+                            					<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}"
+                            						rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) != null}">
+                            						<f:convertNumber type="number" minFractionDigits="1"/>
+                            					</h:outputText>
+                            					<h:outputText value="0.0"
+                            						rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) == null}">
+                            						<f:convertNumber type="number" minFractionDigits="1"/>
+                            					</h:outputText>
+                            				</h:column>
+                            			</h:dataTable>
+                            		</h:column>
+                            	</h:dataTable>
 							</b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Estimated Total Work Required</f:facet>
-                                <h:dataTable class="table"
-                                    value="#{s.wplabs}" var="p">
-                                    <h:column>
-                                        <f:facet name="header">Labour Grade</f:facet>
-										#{p.id.wlLgId}
-									</h:column>
-                                    <h:column>
-                                        <f:facet name="header">Person Days</f:facet>
-										#{p.wlPlanDays}
-									</h:column>
-                                </h:dataTable>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Work Completed</f:facet>
-                                <h:dataTable class="table"
-                                    value="#{Master.projMan.listOfWpPersonHours(s)}"
-                                    var="l">
-                                    <h:column>
-                                        <f:facet name="header">Labour Grade</f:facet>
-										#{l[0]}
-									</h:column>
-                                    <h:column>
-                                        <f:facet name="header">Person Days</f:facet>
-										#{l[1]/8}
-									</h:column>
-                                </h:dataTable>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Estimated Work Remaining</f:facet>
-                                <h:dataTable class="table"
-                                    value="#{Master.projMan.getResEngReportHrs(s)}"
-                                    var="m">
-                                    <h:column>
-                                        <f:facet name="header">Labour Grade</f:facet>
-										#{m[0]}
-									</h:column>
-                                    <h:column>
-                                        <f:facet name="header">Person Days</f:facet>
-										#{m[1]/8}
-									</h:column>
-                                </h:dataTable>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Problems</f:facet>
-                                <h4>This Week</h4>
-                                <p>
-                                    #{Master.projMan.getResEngReport(s).wsrProbLw}
-                                </p>
-                                <h4>Anticipated</h4>
-                                <p>
-                                    #{Master.projMan.getResEngReport(s).wsrProbNw}
-                                </p>
-                            </b:dataTableColumn>
                         </b:dataTable>
                     </b:column>
                 </b:row>
