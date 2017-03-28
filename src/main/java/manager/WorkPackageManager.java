@@ -39,6 +39,19 @@ public class WorkPackageManager {
 		return workpackages;
 	}
 	
+	/** 
+	 * An attempt to get a list of all work packages inside a project.
+	 * @param projNo ID of {@link Project}.  
+	 * @return A list of all {@link Workpack}s in a single project.
+	 * */
+	public List<Workpack> getWorkPackagesInProject(int projNo) {
+		TypedQuery<Workpack> query = em.createQuery("select s from Workpack s where s.id.wpProjNo=?1", Workpack.class)
+				.setParameter(1, projNo);
+		List<Workpack> workpackages = query.getResultList();
+		
+		return workpackages;
+	}
+	
 	public void persist(Workpack w) {
 		em.persist(w);
 	}

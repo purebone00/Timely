@@ -11,8 +11,16 @@
 		<div class="container">
 	        <div class="row">
 	            <div class="col-xs-4">
+	            	LINKS:
+	            	<h:form>
+	            	 <h:commandLink value="assignEmpToWP.xhtml" action="assignEmpToWP" />
+					 <br />
+		             <h:commandLink value="assignPM.xhtml" action="assignPM"/>
+		             <br />
+		             <h:commandLink value="assignRespEng.xhtml" action="assignRespEng"/>
+		             </h:form>
+	            <br/>
 	            	THIS IS FOR PUTTING EMPLOYEES ON/REMOVING EMPLOYEES FROM PROJECTS<br/>
-	            	Project information goes here. Use projectManagerController. <br/>
 	            	<h:outputText value="No: #{Master.projMan.selectedProject.projNo}"/><br/>
 	            	<h:outputText value="Name: #{Master.projMan.selectedProject.projNm}"/><br/>
 	            	<h:outputText value="Description: #{Master.projMan.selectedProject.projDesc}"/><br/>

@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
@@ -15,6 +16,18 @@ import model.Employee;
 @Stateless
 public class EmployeeManager implements Serializable{
     @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
+
+    /*Who knows if this'll work.See ProjectManagerController.*/
+    public List<Employee> getEmployeesOnProject(int pid) {
+    	Query query = em.createNativeQuery("SELECT empChNo FROM Empproj WHERE projNo = ?1");
+    //	TypedQuery<Employee> query = em.createQuery("select s from Empproj s where s.projectNo=:code", Employee.class);
+		//query.setParameter("code", pid);
+    	
+    	query.setParameter(1, pid);                                        
+		List<Employee> employees = query.getResultList();
+		
+		return employees;
+}
 
     public Employee find(int id) {
         return em.find(Employee.class, id);

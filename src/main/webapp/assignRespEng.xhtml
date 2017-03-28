@@ -1,18 +1,19 @@
-<!-- assignEmpToWP.xhtml-->
+<!-- assignRespEng.xhtml-->
 <ui:composition template="/template/master_page.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Assigning a PM to a project</ui:define>
+    <ui:define name="title">Assigning a Responsible Engineer to a Work Package</ui:define>
 
     <ui:define name="content">
 		<div class="container">
 	        <div class="row">
 	            <div class="col-xs-6">
 	            	THIS IS FOR PUTTING ONE responsible engineer ON A work package<br/>
-	            	Currently selected PROJECT information goes here. Use projectManagerController. <br/>
+								Who does it: PM<br/>
+	            	Currently selected WP information goes here. Use projectManagerController. <br/>
 	            	<h:outputText value="No: #{Master.projMan.selectedProject.projNo}"/><br/>
 	            	<h:outputText value="Name: #{Master.projMan.selectedProject.projNm}"/><br/>
 	            	<h:outputText value="Description: #{Master.projMan.selectedProject.projDesc}"/><br/>
@@ -23,6 +24,24 @@
 	            	<h:outputText value="CURRENT PM's name: "/><br/>
 								<br/>
 								!!Put list of WPs on the current project here!!
+																
+								<!--list of work packages: see WorkPackageManager; -->
+									<b:dataTable 
+	                            value="#{Master.projMan.listOfProjectWPs()}"
+	                            var="s"
+	                            responsive="true">
+
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">WP ID</f:facet>
+    								<h:outputText value="#{s.id.toString()}" />
+								</b:dataTableColumn>
+	                            <b:dataTableColumn>
+	                                <f:facet name="header">WP Name</f:facet>	
+    								<h:outputText value="#{s.wpNm}" />
+								</b:dataTableColumn>
+	                        </b:dataTable>
+													<!--End of list of work packages-->
+								
 								
 	            </div>
 	           <!-- End of first column -->

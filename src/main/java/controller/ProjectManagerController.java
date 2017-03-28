@@ -11,6 +11,7 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import manager.EmployeeManager;
 import manager.ProjectManager;
 import manager.TsrowManager;
 import manager.WorkPackageManager;
@@ -34,11 +35,28 @@ public class ProjectManagerController {
 	@Inject TsrowManager tsRowManager;
 	@Inject WpstarepManager wpstarepManager;
 	
+	//fuck it
+	@Inject EmployeeManager employeeManager;
+	
 	private Project selectedProject;
 	private Workpack selectedWorkPackage;
 	private String selectedWeek;
 	
 	private List<Wplab> wpPlanHours;
+	
+	/*I am a sad plant.*/
+	public List<Employee> getEmployeesOnProject() {
+		return employeeManager.getEmployeesOnProject(selectedProject.getProjNo());
+	}
+	
+	/**
+	 * Does not work.
+	 * Display list of work packages within currently selected project.
+	 * @return A list of {@link Workpack}s in selected project.
+	 * */
+	public List<Workpack> listOfProjectWPs(){
+		return workPackageManager.getWorkPackagesInProject(selectedProject.getProjNo());
+	}
 	
 	/**
 	 * Gets a list of {@link Project}'s that an {@link Employee} manages.
