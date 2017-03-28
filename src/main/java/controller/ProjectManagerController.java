@@ -444,6 +444,77 @@ public class ProjectManagerController {
         Object[] results = {estTotalHours, estTotalCosts, curTotalHours, curTotalCosts, projTotalHours, projTotalCosts, varianceHours, varianceCosts};
         return results;
     }
+    
+    /**
+     * Gets the weekly-report information for a given workpackage for the past week.<br> 
+     * Returns an array of size 4:
+     * <ul>
+     * <li>index 0 = current total work done</li>
+     * <li>index 1 = current total dollars</li>
+     * <li>index 2 = projected work remaining</li>
+     * <li>index 3 = projected costs remaining</li>
+     * </ul>
+     * 
+     * @param workpack The workpackage to get the weekly-report information for.
+     * @return
+     */
+    public Object[] getReportForWpWeek(Workpack workpack) {
+        DateTimeUtility dtu = new DateTimeUtility();
+        Date curDt = new Date();
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(curDt);
+        cal.add(Calendar.DAY_OF_MONTH, -7);
+        curDt = cal.getTime();
+        
+        Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
+        
+        cal.setTime(endDt);
+        int year = cal.get(Calendar.YEAR);
+        String monthStr = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+        
+        String endDate = dtu.getEndOfWeek(year + monthStr + day);
+        
+        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
+        
+        BigDecimal curTotalCosts = BigDecimal.ZERO;
+        BigDecimal curTotalHours = BigDecimal.ZERO;
+        BigDecimal estCostsRemaining = BigDecimal.ZERO;
+        BigDecimal estHoursRemaining = BigDecimal.ZERO;
+        
+        for (Object[] obj : list) {
+            BigDecimal op1 = (BigDecimal) obj[1];
+            BigDecimal op2 = (BigDecimal) obj[2];
+            curTotalCosts = curTotalCosts.add(op1.multiply(op2));
+            curTotalHours = curTotalHours.add(op1);
+        }
+        
+        Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
+
+        if (report != null) {
+            String fields = report.getWsrEstDes();
+            String[] rows = fields.split(",");
+
+            // The list of "labour grades : hours" is stored as a single String
+            // in the database,
+            // this loop parses the String.
+            for (String s : rows) {
+                String[] columns = s.split(":");
+                BigDecimal op1 = new BigDecimal(columns[1]);
+                BigDecimal op2 = labgrdManager.find(columns[0]).getLgRate();
+                estCostsRemaining = estCostsRemaining.add(op1.multiply(op2));
+                estHoursRemaining = estHoursRemaining.add(op1);
+            }
+            
+        } else {
+            estCostsRemaining = null;
+            estHoursRemaining = null;
+        }
+        
+        Object[] results = {curTotalHours, curTotalCosts, estHoursRemaining, estCostsRemaining};
+        return results;
+    }
 
     /**
      * Gets the Responsible Engineer's Report for a given {@link Workpack} for
