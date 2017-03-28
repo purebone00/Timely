@@ -2,6 +2,7 @@ package manager;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
@@ -11,6 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
+import model.Project;
 
 @Dependent
 @Stateless
@@ -58,5 +60,12 @@ public class EmployeeManager implements Serializable{
         return employees;
     }
     
-    
+    /**
+     * Gets all projects the given employee is assigned to.
+     * @param emp employee 
+     * @return list of projects
+     */
+    public Set<Project> getProjects(Employee emp) {
+       return  emp.getProjects();
+    }
 }

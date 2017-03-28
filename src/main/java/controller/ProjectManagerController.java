@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -27,7 +28,7 @@ import model.Wpstarep;
 import utility.DateTimeUtility;
 
 @Stateful
-@Named("ProjMan")
+@Named("projMan")
 public class ProjectManagerController {
 	@Inject WorkPackageManager workPackageManager;
 	@Inject ProjectManager projectManager;
@@ -397,4 +398,16 @@ public class ProjectManagerController {
 		System.out.println("assignEmployee: Project id = " + projectID + "; selected project name: " + selectedProject.getProjNm());
 		return "assignEmployees";
 	}
+		
+	
+	 /**
+     * Gets a list of employees in the given project.
+     * @param proj a project
+     * @return list of employees
+     */
+    public List<Employee> allEmpInProject(){
+    	 List<Employee> temp = new ArrayList<Employee>();
+    	 temp.addAll( selectedProject.getEmployees());
+    	 return temp ;
+    }
 }
