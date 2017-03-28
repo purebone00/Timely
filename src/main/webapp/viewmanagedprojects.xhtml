@@ -15,7 +15,6 @@
             </b:jumbotron>
 
             <div class="container">
-<<<<<<< HEAD
                 <b:row>
 					<b:form>
 	                    <b:dataTable class="table table-bordered"
@@ -50,64 +49,6 @@
 	                    </b:dataTable>
 					</b:form>
                 </b:row>
-=======
-                <div class="row">
-
-                    <h:dataTable class="table table-bordered"
-                        value="#{Master.projMan.listOfProjects(Master.login.currentEmployee.currentEmployee)}"
-                        var="s">
-                        <h:column>
-                            <f:facet name="header">No</f:facet>	
-								#{s.projNo}
-							</h:column>
-                        <h:column>
-                            <f:facet name="header">Name</f:facet>	
-								#{s.projNm}
-							</h:column>
-                        <h:column>
-                            <f:facet name="header">Description</f:facet>	
-								#{s.projDesc}
-							</h:column>
-
-                        <h:column>
-                            <f:facet name="header">Work Package Estimates</f:facet>
-                            <h:form>
-                                <h:commandButton class="btn"
-                                    value="Okay"
-                                    action="#{Master.projMan.selectProject(s)}" />
-                            </h:form>
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Weekly Statistics</f:facet>
-                            <h:form>
-                                <h:commandButton class="btn"
-                                    value="Yeah"
-                                    action="#{Master.projMan.selectProjectForReport(s)}" />
-                            </h:form>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">Weekly Report</f:facet>
-                            <h:form>
-                                <h:commandButton class="btn"
-                                    value="What"
-                                    action="#{Master.projMan.selectProjectForWeeklyReport(s)}" />
-                            </h:form>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">Monthly Report</f:facet>
-                            <h:form>
-                                <h:commandButton class="btn"
-                                    value="Turn Down For What"
-                                    action="#{Master.projMan.selectProjectForMonthlyReport(s)}" />
-                            </h:form>
-                        </h:column>
-                    </h:dataTable>
-
-                </div>
->>>>>>> 7a1879347f35c7d1fc82c3959a6b61605d6c299e
             </div>
         </div>
     </ui:define>
