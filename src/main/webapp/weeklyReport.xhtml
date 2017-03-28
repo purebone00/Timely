@@ -29,27 +29,61 @@
                             value="#{Master.projMan.getLeafWorkpacks()}"
                             var="s">
                             <b:dataTableColumn>
-                                <f:facet name="header">Work Package</f:facet>	
-								#{s.id.wpNo}
-							</b:dataTableColumn>
-                            
-                            <b:dataTableColumn>
-                            	<h:dataTable
+                                <f:facet name="header">Yes</f:facet>	
+								<h:dataTable
                             		value="#{s.employees}"
-                            		var="e">
+                            		var="e"
+                            		class="table">
                             		<h:column>
-                            			#{e.empFnm} #{e.empLnm}
-                            		</h:column>
-                            		
-                            		<h:column>
+                            			<f:facet name="header">
+                            			Work Package: #{s.id.wpNo}
+                            			<h:dataTable class="table"
+                        					value="#{s}"
+                        					var="t">
+	                        				<h:column>
+	                        					<f:facet name="header">Completed (Person Days)</f:facet>
+	                        					#{Master.projMan.getReportForWpWeek(t)[0]/8}
+	                        				</h:column>
+	                        			
+	                        				<h:column>
+	                        					<f:facet name="header">Completed ($)</f:facet>
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[1]}">
+	                                    			<f:convertNumber type="currency" />
+	                                			</h:outputText>
+	                        				</h:column>
+	                        			
+	                        				<h:column>
+	                        					<f:facet name="header">Projected Remaining (Person Days)</f:facet>
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[2]/8}" 
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[2] != null}"/>
+	                        					<h:outputText value="N/A" 
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[2] == null}"/>
+	                        				</h:column>
+	                        			
+	                        				<h:column>
+	                        					<f:facet name="header">Projected Remaining ($)</f:facet>
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[3]}"
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[3] != null}">
+	                                    			<f:convertNumber type="currency" />
+	                                			</h:outputText>
+	                                			<h:outputText value="N/A"
+	                                				rendered="#{Master.projMan.getReportForWpWeek(t)[3] == null}"/>
+	                        				</h:column>
+                        				</h:dataTable>
+                            			</f:facet>
+                            			
+                            			
+                            			Employee: #{e.empFnm} #{e.empLnm}
                             			<h:dataTable class="table"
                             				value="#{Master.projMan.getListOfWeeks()}"
                             				var="w">
                             				<h:column>
+                            					<f:facet name="header">Week</f:facet>
                             					#{w}
                             				</h:column>
                             				
                             				<h:column>
+                            					<f:facet name="header">Person Days</f:facet>
                             					<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}"
                             						rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) != null}">
                             						<f:convertNumber type="number" minFractionDigits="1"/>
@@ -62,7 +96,7 @@
                             			</h:dataTable>
                             		</h:column>
                             	</h:dataTable>
-                            </b:dataTableColumn>
+							</b:dataTableColumn>
                         </b:dataTable>
                     </b:column>
                 </b:row>
