@@ -395,7 +395,7 @@ public class ProjectManagerController {
 	 */
 	public String assignEmployeeToProject(int projectID){
 		setSelectedProject(projectManager.find(projectID));
-		System.out.println("assignEmployee: Project id = " + projectID + "; selected project name: " + selectedProject.getProjNm());
+		//System.out.println("assignEmployee: Project id = " + projectID + "; selected project name: " + selectedProject.getProjNm());
 		return "assignEmployees";
 	}
 		
@@ -409,5 +409,14 @@ public class ProjectManagerController {
     	 List<Employee> temp = new ArrayList<Employee>();
     	 temp.addAll( selectedProject.getEmployees());
     	 return temp ;
+    }
+    
+    /**
+     * Gets a list of employees not in the given project.
+     * @param proj a project
+     * @return list of employees
+     */
+    public List<Employee> NotEmpInProject(){
+    	return employeeManager.getEmpNotProj(selectedProject);
     }
 }

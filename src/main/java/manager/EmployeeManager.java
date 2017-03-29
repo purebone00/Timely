@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
+import model.Labgrd;
 import model.Project;
 
 @Dependent
@@ -68,4 +69,16 @@ public class EmployeeManager implements Serializable{
     public Set<Project> getProjects(Employee emp) {
        return  emp.getProjects();
     }
+    
+    public List<Employee> getEmpNotProj(Project p) {
+    	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
+			", Project AS p " +
+			"WHERE p = :selectProject AND p " +
+			"NOT MEMBER OF e.projects", 
+    			Employee.class); 
+    	query.setParameter("selectProject", p);
+        List<Employee> emps = query.getResultList();
+        return emps;
+     }
+    
 }

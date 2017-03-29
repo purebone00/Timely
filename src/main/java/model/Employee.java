@@ -37,6 +37,32 @@ public class Employee  implements java.io.Serializable {
     private String newPassword;
     private String oldPassword;
     
+    private Integer empId;
+    private String empPw;
+    private String empFnm;
+    private String empLnm;
+    private String empDept;
+    private String empSig;
+    private BigDecimal empFlxTm;
+    private Labgrd empLabGrd;
+    //private String empLabGrd;
+    private Integer empSupId;
+    private short empDel;
+    private Date empInsDt;
+    private Date empUpDt;
+    
+    
+    private String projectNo;
+    private String wpNo;
+    private String title;
+    
+    
+    private Set<Project> projects;
+    private Set<Title> titles;
+    private Set<Timesheet> timesheet;
+    private Set<Workpack> workpackages;
+    
+    
     @Transient
     public String getOldPassword() {
         return oldPassword;
@@ -73,9 +99,7 @@ public class Employee  implements java.io.Serializable {
         this.newPassword = newPassword;
     }
     
-    private String projectNo;
-    private String wpNo;
-    private String title;
+   
     
     @Transient
     public String getTitle() {
@@ -118,24 +142,9 @@ public class Employee  implements java.io.Serializable {
     /*==================================================*/
 
 
-    private Integer empId;
-     private String empPw;
-     private String empFnm;
-     private String empLnm;
-     private String empDept;
-     private String empSig;
-     private BigDecimal empFlxTm;
-     private Labgrd empLabGrd;
-     //private String empLabGrd;
-     private Integer empSupId;
-     private short empDel;
-     private Date empInsDt;
-     private Date empUpDt;
+  
      
-     private Set<Project> projects;
-     private Set<Title> titles;
-     private Set<Timesheet> timesheet;
-     private Set<Workpack> workpackages;
+
      
      @ManyToMany(fetch=FetchType.EAGER)
      @JoinTable(name="Empproj",
