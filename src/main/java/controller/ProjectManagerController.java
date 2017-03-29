@@ -47,6 +47,7 @@ public class ProjectManagerController {
     private Project selectedProject;
     private Workpack selectedWorkPackage;
     private String selectedWeek;
+    private String newWpName;
 
     private List<Wplab> wpPlanHours;
     
@@ -166,8 +167,11 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createNewWP() {
-        String newWpNo;
-        if ((newWpNo = getNextAvailableWPName("")) == null) {
+        String newWpNo = isWpNameValid(getNewWpName());
+//        if ((newWpNo = getNextAvailableWPName("")) == null) {
+//            return "";
+//        }
+        if (newWpNo == null) {
             return "";
         }
         Workpack newWp = new Workpack();
@@ -188,10 +192,14 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createChildWP(Workpack parent) {
-        String newChildWpNo;
-        if ((newChildWpNo = getNextAvailableWPName(parent.getId().getWpNo())) == null) {
+        String newChildWpNo = isWpNameValid(parent.getNamePrefix() + parent.getChildName());
+//        if ((newChildWpNo = getNextAvailableWPName(parent.getId().getWpNo())) == null) {
+//            return "";
+//        }
+        if (newChildWpNo == null) {
             return "";
         }
+        
         Workpack newChildWp = new Workpack();
         WorkpackId newChildWpId = new WorkpackId(selectedProject.getProjNo(), newChildWpNo);
         newChildWp.setId(newChildWpId);
@@ -246,6 +254,33 @@ public class ProjectManagerController {
         }
 
         // not able to find an available WP number
+        return null;
+    }
+    
+    /**
+     * Checks if a WP name is valid (no duplicates).
+     * @param wpName name to check.
+     * @return the name if valid, else returns false.
+     */
+    public String isWpNameValid(String wpName) {
+        if (wpName.length() > 6) {
+            return null;
+        }
+        
+        if (workPackageManager.getWorkPackage(getSelectedProject().getProjNo(), wpName).isEmpty()) {
+            for (Workpack w : getSelectedProject().getWorkPackages()) {
+                if (w.getId().getWpNo().matches(wpName + ".*")) {
+                    return null;
+                }
+            }
+
+            if (6 - wpName.length() == 0) {
+                return wpName;
+            } else {
+                return String.format("%s" + "%0" + (6 - wpName.length()) + "d", wpName, 0);
+            }
+        }
+        
         return null;
     }
 
@@ -642,5 +677,13 @@ public class ProjectManagerController {
      */
     public BigDecimal getPersonDaysCharged(Workpack workpack, Employee employee, String week) {
         return tsRowManager.getTotalDaysForEmpWP(workpack, employee, week);
+    }
+    
+    public String getNewWpName() {
+        return this.newWpName;
+    }
+    
+    public void setNewWpName(String newWpName) {
+        this.newWpName = newWpName;
     }
 }

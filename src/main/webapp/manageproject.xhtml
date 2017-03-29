@@ -5,12 +5,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:b="http://bootsfaces.net/ui"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
-    <ui:define name="title">Employee</ui:define>
+    <ui:define name="title">Manage Project</ui:define>
 
     <ui:define name="content">
         <div class="ui segment grid" id="content">
         	<b:jumbotron class="text-center">
-                <h1>Manage Projects</h1>
+                <h1>Manage Project</h1>
                 <span></span>
             </b:jumbotron>
 
@@ -85,12 +85,34 @@
                             </h:column>
 
                             <h:column>
+                            	<f:facet name="header">Add Child</f:facet>
+                            	Child WP#:<br/>
+                            	<table>
+                            		<tr>
+                            			<td><h:outputText value="#{s.namePrefix}"/></td>
+                            			<td>
+                            				<div class="col-xs-4" style="padding-left:0">
+                            					<h:inputText value="#{s.childName}" maxlength="1"
+                            						style="padding-left:0"
+                                					class="form-control"/>
+                            				</div>
+                            			</td>
+                            		</tr>
+                            	</table>
+                                
+                                <br/>
                                 <b:commandButton class="btn"
                                 	look="success"
                                     value="Add Child"
                                     action="#{Master.projMan.createChildWP(s)}" />
                             </h:column>
                         </h:dataTable>
+                        <div class="col-xs-2" style="padding-left:0">
+                            <h:inputText value="#{Master.projMan.newWpName}" maxlength="1"
+                            	style="padding-left:0"
+                                class="form-control"
+                                pt:placeholder="New WP #"/>
+						</div>
                         <b:commandButton class="btn"
                         	look="success"
                             value="Add Work Package"
