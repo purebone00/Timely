@@ -78,7 +78,7 @@ public class DateTimeUtility {
     }
 
     /**
-     * Gets a list of Week End Strings.
+     * Gets a list of Week End Strings. Gets the past 4 weeks, then the past 12 months, then the past years.
      * 
      * @param startDate
      *            Start date.
@@ -93,15 +93,25 @@ public class DateTimeUtility {
         String current = last;
 
         list.add(current);
+        
+        int count = 1;
 
-        while (!current.equals(first)) {
+        while (current.compareTo(first) > 0) {
             Integer dateYear = Integer.parseInt(current.substring(0, 4));
             Integer dateMonth = Integer.parseInt(current.substring(4, 6)) - 1;
             Integer dateDay = Integer.parseInt(current.substring(6));
 
             Calendar c = new GregorianCalendar();
             c.set(dateYear, dateMonth, dateDay);
-            c.add(Calendar.DAY_OF_MONTH, -7);
+            
+            if (count <= 4) {                
+                c.add(Calendar.DAY_OF_MONTH, -7);
+            } else if (count <= 16) {
+                c.add(Calendar.MONTH, -1);
+            } else {
+                c.add(Calendar.YEAR, -1);
+            }
+            
             Date lastWeek = c.getTime();
             Calendar cal = Calendar.getInstance();
             cal.setTime(lastWeek);
@@ -112,6 +122,7 @@ public class DateTimeUtility {
             current = year + month + day;
 
             list.add(current);
+            count++;
         }
 
         return list;
