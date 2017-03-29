@@ -398,7 +398,25 @@ public class ProjectManagerController {
 		//System.out.println("assignEmployee: Project id = " + projectID + "; selected project name: " + selectedProject.getProjNm());
 		return "assignEmployees";
 	}
-		
+	
+	
+	/**
+     * Jen's bullshit. For moving employees onto a project
+     * @return String navigation string. Just refresh the page bro.
+     * @param empID ID of employee to put on project.
+     * */
+    public String assignEmployeeToProject2(String empID){
+    	Employee emp = employeeManager.find(Integer.parseInt(empID));
+        //get a reference to the selected project
+        selectedProject.getEmployees().add(emp);
+        //update on employee side
+        emp.getProjects().add(selectedProject);
+        //update database
+        projectManager.update(selectedProject);
+        employeeManager.merge(emp);
+        //refresh the page
+        return null;
+    }	
 	
 	 /**
      * Gets a list of employees in the given project.
@@ -419,4 +437,7 @@ public class ProjectManagerController {
     public List<Employee> NotEmpInProject(){
     	return employeeManager.getEmpNotProj(selectedProject);
     }
+    
+    
+    
 }

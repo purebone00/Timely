@@ -86,7 +86,7 @@
 								</b:dataTableColumn>
 	                        </b:dataTable>
 	                        <br/>
-						<h:commandButton class="btn" value="Save"/>
+						<h:commandButton class="btn"  value="Save"/>
 		            </h:form>
 	            </div>
 	            <!-- End of 2nd column -->
@@ -147,7 +147,7 @@
 								
 								<b:dataTableColumn>
 	                                <f:facet name="header">ADD Employee</f:facet>
-									<h:commandButton class="btn" value="+"/>
+									<h:commandButton class="btn" action="#{Master.projMan.assignEmployeeToProject2(s.empId)}" value="+"/>
 								</b:dataTableColumn>
 	                        </b:dataTable>
 	                        <br/>
