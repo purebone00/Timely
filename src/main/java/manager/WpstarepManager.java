@@ -57,7 +57,7 @@ public class WpstarepManager {
     public Wpstarep getInitialEst(int wsrProjNo, String wsrWpNo) {
         TypedQuery<Wpstarep> query = em.createQuery(
                 "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2"
-                + " order by s.wsrRepDt asc",
+                + " AND s.wsrRepDt='00000000'",
                 Wpstarep.class);
         query.setParameter("code", wsrProjNo);
         query.setParameter("code2", wsrWpNo);

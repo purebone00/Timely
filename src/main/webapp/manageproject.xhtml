@@ -51,30 +51,27 @@
                                     value="#{s.wpDesc}" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Budget Estimate</f:facet>
+                                <f:facet name="header">Budget</f:facet>
                                 <h:dataTable class="table"
                                     value="#{s.wplabs}" var="l"
                                     rendered="#{Master.projMan.isLeaf(s)}">
                                     <h:column>
                                         <f:facet name="header">Labour Grade</f:facet>
-                                        <h:outputText
-                                            value="#{l.id.wlLgId}"
-                                            rendered="#{not l.editable}" />
-                                        <b:selectOneMenu
-                                            class="form-control"
-                                            value="#{l.id.wlLgId}"
-                                            converter="#{labgrdConverter}"
-                                            rendered="#{l.editable}">
-                                            <f:selectItems
-                                                class="selectpicker"
-                                                value="#{Master.admin.labourGrades}" />
-                                        </b:selectOneMenu>
+                                        <h:outputText value="#{l.id.wlLgId}"/>
                                     </h:column>
                                     <h:column>
-                                        <f:facet name="header">Person Days</f:facet>
+                                        <f:facet name="header">Budget (PD)</f:facet>
                                         <b:inputText
                                             class="form-control"
                                             value="#{l.wlPlanDays}" />
+                                    </h:column>
+                                    <h:column>
+                                    	<f:facet name="header">Est. Work (PD)</f:facet>
+                                    	<b:inputText 
+                                    		class="form-control"
+                                    		value="#{s.initialEst[l.id.wlLgId]}">
+                                    		<f:convertNumber/>
+                                    	</b:inputText>
                                     </h:column>
                                 </h:dataTable>
                                 <b:commandButton class="btn"
