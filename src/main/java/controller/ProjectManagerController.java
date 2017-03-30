@@ -5,8 +5,10 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -20,12 +22,14 @@ import manager.WorkPackageManager;
 import manager.WplabManager;
 import manager.WpstarepManager;
 import model.Employee;
+import model.Labgrd;
 import model.Project;
 import model.Workpack;
 import model.WorkpackId;
 import model.Wplab;
 import model.WplabId;
 import model.Wpstarep;
+import model.WpstarepId;
 import utility.DateTimeUtility;
 
 @Stateful
@@ -70,6 +74,17 @@ public class ProjectManagerController {
 
     public String selectProject(Project p) {
         setSelectedProject(p);
+        
+        for (Workpack w : getSelectedProject().getWorkPackages()) {
+            Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
+            String fields = initial.getWsrEstDes();
+            String[] rows = fields.split(",");
+            
+            for (String s : rows) {
+                String[] columns = s.split(":");
+                w.getInitialEst().put(columns[0], new BigDecimal(columns[1]));
+            }
+        }
 
         return "manageproject";
     }
@@ -180,6 +195,21 @@ public class ProjectManagerController {
         newWp.setWpNm("");
         short i = 0;
         newWp.setWpDel(i);
+        
+        newWp.setWplabs(new HashSet<Wplab>());
+        newWp.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {            
+            Wplab newRow = new Wplab();
+            WplabId id = new WplabId(newWp.getId().getWpProjNo(), newWp.getId().getWpNo(), l.getLgId());
+            newRow.setId(id);
+            i = 0;
+            newRow.setWlDel(i);
+            newRow.setWlPlanHrs(BigDecimal.ZERO);
+            newWp.getWplabs().add(newRow);
+            
+            newWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
+        
         selectedProject.getWorkPackages().add(newWp);
         return "";
     }
@@ -206,6 +236,21 @@ public class ProjectManagerController {
         newChildWp.setWpNm("");
         short i = 0;
         newChildWp.setWpDel(i);
+        
+        newChildWp.setWplabs(new HashSet<Wplab>());
+        newChildWp.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {            
+            Wplab newRow = new Wplab();
+            WplabId id = new WplabId(newChildWp.getId().getWpProjNo(), newChildWp.getId().getWpNo(), l.getLgId());
+            newRow.setId(id);
+            i = 0;
+            newRow.setWlDel(i);
+            newRow.setWlPlanHrs(BigDecimal.ZERO);
+            newChildWp.getWplabs().add(newRow);
+            
+            newChildWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
+        
         selectedProject.getWorkPackages().add(newChildWp);
         parent.setRemoveWplabs(true);
         return "";
@@ -341,6 +386,32 @@ public class ProjectManagerController {
         }
         if (!toBeRemoved.isEmpty())
             wplabManager.removeByWp(toBeRemoved);
+        
+        List<Wpstarep> initialEstimates = new ArrayList<Wpstarep>();
+        
+        for (Workpack w : getSelectedProject().getWorkPackages()) {
+            Wpstarep workPackageReport = new Wpstarep();
+            String labourDays = "";
+            
+            for (Map.Entry<String, BigDecimal> entry : w.getInitialEst().entrySet()) {
+                labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
+            }
+            
+            labourDays = labourDays.substring(0, labourDays.length()-1);
+            
+            workPackageReport.setWsrRepDt("00000000");
+            workPackageReport.setWsrInsDt(new Date());
+            workPackageReport.setWsrUpDt(new Date());
+            workPackageReport.setId(
+                    new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo()));
+            workPackageReport.setWsrEstDes(labourDays);
+            
+            initialEstimates.add(workPackageReport);
+        }
+        
+        for (Wpstarep ws : initialEstimates) {
+            wpstarepManager.merge(ws);
+        }
 
         return "viewmanagedprojects";
     }
@@ -686,4 +757,5 @@ public class ProjectManagerController {
     public void setNewWpName(String newWpName) {
         this.newWpName = newWpName;
     }
+
 }
