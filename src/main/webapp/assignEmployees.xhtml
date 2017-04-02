@@ -39,10 +39,7 @@
 	                            value="#{Master.projMan.allEmpInProject()}"
 	                            var="s"
 	                            responsive="true">
-								<b:dataTableColumn>
-	                                <f:facet name="header">REMOVE Employee</f:facet>
-									<h:commandButton class="btn" value="-"/>
-								</b:dataTableColumn>
+								
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Employee ID</f:facet>
 									<b:inputText value="#{s.empId}" size="10" rendered="#{s.editable}" />
@@ -83,6 +80,10 @@
 	                                <f:facet name="header">Date of Hire</f:facet>
 									<b:inputText value="#{s.empInsDt}" size="10" rendered="#{s.editable}" />
     								<h:outputText value="#{s.empInsDt}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn>
+	                                <f:facet name="header">REMOVE Employee</f:facet>
+									<h:commandButton class="btn" action="#{Master.projMan.removeEmployee(s.empId)}" value="-"/>
 								</b:dataTableColumn>
 	                        </b:dataTable>
 	                        <br/>

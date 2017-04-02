@@ -81,4 +81,17 @@ public class EmployeeManager implements Serializable{
         return emps;
      }
     
+    
+    public List<Employee> getEmpProj(Project p){
+    	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
+    			", Project AS p " +
+    			"WHERE p = :selectProject AND p " +
+    			"MEMBER OF e.projects", 
+        			Employee.class); 
+    	query.setParameter("selectProject", p);
+        List<Employee> employees = query.getResultList();
+         
+        return employees;
+    }
+    
 }

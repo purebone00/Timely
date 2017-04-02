@@ -413,20 +413,51 @@ public class ProjectManagerController {
         emp.getProjects().add(selectedProject);
         //update database
         projectManager.update(selectedProject);
+        projectManager.flush();
         employeeManager.merge(emp);
+        employeeManager.flush();
         //refresh the page
         return null;
     }	
 	
+    
+    /**
+     * Removes given employee from selected project
+     * @return String navigation string. Just refresh the page bro.
+     * @param empID ID of employee to put on project.
+     * */
+    public String removeEmployee(String empID){
+
+    	Employee e = employeeManager.find(Integer.parseInt(empID));
+    	if(!e.getWorkpackages().isEmpty()){
+	        projectManager.removeFromProjectWithWp(selectedProject, e);
+	        
+    	}
+    	projectManager.removeFromProject(selectedProject, e);
+        e.getProjects().remove(selectedProject);
+        selectedProject.getEmployees().remove(e);
+        
+//        projectManager.update(selectedProject);
+//        projectManager.flush();
+//        employeeManager.merge(e);
+//        employeeManager.flush();
+//        
+//        projectManager.find(selectedProject.getProjNo());
+//        employeeManager.find(Integer.parseInt(empID));
+        //refresh the page
+        
+        return null;
+    }
+    
 	 /**
      * Gets a list of employees in the given project.
      * @param proj a project
      * @return list of employees
      */
     public List<Employee> allEmpInProject(){
-    	 List<Employee> temp = new ArrayList<Employee>();
-    	 temp.addAll( selectedProject.getEmployees());
-    	 return temp ;
+    	
+    	 //return selectedProject.getEmployees();
+    	return employeeManager.getEmpProj(selectedProject);
     }
     
     /**
