@@ -97,12 +97,18 @@ public class ResponsibleEngineerController implements Serializable {
         
         initialEstimate = new HashMap<String, BigDecimal>();
         Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
-        String fields = initial.getWsrEstDes();
-        String[] rows = fields.split(",");
         
-        for (String s : rows) {
-            String[] columns = s.split(":");
-            initialEstimate.put(columns[0], new BigDecimal(columns[1]));
+        String fields;
+        String[] rows;
+        
+        if (initial != null) {            
+            fields = initial.getWsrEstDes();
+            rows = fields.split(",");
+            
+            for (String s : rows) {
+                String[] columns = s.split(":");
+                initialEstimate.put(columns[0], new BigDecimal(columns[1]));
+            }
         }
         
         Wpstarep i = wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), getEndOfWeek());
@@ -150,6 +156,9 @@ public class ResponsibleEngineerController implements Serializable {
         for (Object[] obj : list) {
             BigDecimal op1 = (BigDecimal) obj[1];
             BigDecimal op2 = (BigDecimal) obj[2];
+            if (op1 == null) {
+                op1 = BigDecimal.ZERO;
+            }
             totalCost = totalCost.add(op1.multiply(op2));
             totalHours = totalHours.add(op1);
         }

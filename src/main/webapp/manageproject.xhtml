@@ -66,19 +66,21 @@
                                             value="#{l.wlPlanDays}" />
                                     </h:column>
                                     <h:column>
-                                    	<f:facet name="header">Est. Work (PD)</f:facet>
+                                    	<f:facet name="header">Initial Est. (PD)</f:facet>
                                     	<b:inputText 
                                     		class="form-control"
-                                    		value="#{s.initialEst[l.id.wlLgId]}">
+                                    		value="#{s.initialEst[l.id.wlLgId]}"
+                                    		rendered="#{s.initialEst != null}">
                                     		<f:convertNumber/>
                                     	</b:inputText>
+                                    	<h:outputText value="N/A" rendered="#{s.initialEst == null}"/>
                                     </h:column>
                                 </h:dataTable>
                                 <b:commandButton class="btn"
                                 	look="success"
-                                    value="Add row"
-                                    action="#{Master.projMan.addWplabRow(s)}"
-                                    rendered="#{Master.projMan.isLeaf(s)}" />
+                                    value="Add Initial Est."
+                                    action="#{Master.projMan.addInitialEstimate(s)}"
+                                    rendered="#{Master.projMan.isLeaf(s) and s.initialEst == null}" />
                             </h:column>
 
                             <h:column>
