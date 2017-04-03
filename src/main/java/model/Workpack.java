@@ -35,7 +35,7 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	private BigDecimal totalDays;
 	private String namePrefix;
 	private String childName;
-	private HashMap<String, BigDecimal> initialEst = new HashMap<String, BigDecimal>();
+	private HashMap<String, BigDecimal> initialEst;
 	/* =============================================== */
 
     private WorkpackId id;

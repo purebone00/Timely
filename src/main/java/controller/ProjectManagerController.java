@@ -77,12 +77,15 @@ public class ProjectManagerController {
         
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
-            String fields = initial.getWsrEstDes();
-            String[] rows = fields.split(",");
-            
-            for (String s : rows) {
-                String[] columns = s.split(":");
-                w.getInitialEst().put(columns[0], new BigDecimal(columns[1]));
+            if (initial != null) {
+                w.setInitialEst(new HashMap<String, BigDecimal>());
+                String fields = initial.getWsrEstDes();
+                String[] rows = fields.split(",");
+                
+                for (String s : rows) {
+                    String[] columns = s.split(":");
+                    w.getInitialEst().put(columns[0], new BigDecimal(columns[1]));
+                }
             }
         }
 
@@ -197,7 +200,7 @@ public class ProjectManagerController {
         newWp.setWpDel(i);
         
         newWp.setWplabs(new HashSet<Wplab>());
-        newWp.setInitialEst(new HashMap<String, BigDecimal>());
+        // newWp.setInitialEst(new HashMap<String, BigDecimal>());
         for (Labgrd l : labgrdManager.getAll()) {            
             Wplab newRow = new Wplab();
             WplabId id = new WplabId(newWp.getId().getWpProjNo(), newWp.getId().getWpNo(), l.getLgId());
@@ -207,7 +210,7 @@ public class ProjectManagerController {
             newRow.setWlPlanHrs(BigDecimal.ZERO);
             newWp.getWplabs().add(newRow);
             
-            newWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+            // newWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
         }
         
         selectedProject.getWorkPackages().add(newWp);
@@ -238,7 +241,7 @@ public class ProjectManagerController {
         newChildWp.setWpDel(i);
         
         newChildWp.setWplabs(new HashSet<Wplab>());
-        newChildWp.setInitialEst(new HashMap<String, BigDecimal>());
+        // newChildWp.setInitialEst(new HashMap<String, BigDecimal>());
         for (Labgrd l : labgrdManager.getAll()) {            
             Wplab newRow = new Wplab();
             WplabId id = new WplabId(newChildWp.getId().getWpProjNo(), newChildWp.getId().getWpNo(), l.getLgId());
@@ -248,11 +251,19 @@ public class ProjectManagerController {
             newRow.setWlPlanHrs(BigDecimal.ZERO);
             newChildWp.getWplabs().add(newRow);
             
-            newChildWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+            // newChildWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
         }
         
         selectedProject.getWorkPackages().add(newChildWp);
         parent.setRemoveWplabs(true);
+        return "";
+    }
+    
+    public String addInitialEstimate(Workpack w) {
+        w.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {
+            w.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
         return "";
     }
 
