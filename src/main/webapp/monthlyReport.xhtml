@@ -47,133 +47,69 @@
                         			
                         			<h:column>
                         				<f:facet name="header">Budget(PD)</f:facet>
-                        				#{Master.projMan.getReportForWpMonth(t, s)[0]/8}
+                        				#{Master.projMan.getReportForWpMonth(t, s).budgetTotalDays}
                         			</h:column>
                         			
                         			<h:column>
                         				<f:facet name="header">Budget($)</f:facet>
-                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s)[1]}">
+                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s).budgetTotalCosts}">
                                     		<f:convertNumber type="currency" />
                                 		</h:outputText>
                         			</h:column>
                         			
                         			<h:column>
                         				<f:facet name="header">Current(PD)</f:facet>
-                        				#{Master.projMan.getReportForWpMonth(t, s)[2]/8}
+                        				#{Master.projMan.getReportForWpMonth(t, s).curTotalDays}
                         			</h:column>
                         			
                         			<h:column>
                         				<f:facet name="header">Current($)</f:facet>
-                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s)[3]}">
+                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s).curTotalCosts}">
                                     		<f:convertNumber type="currency" />
                                 		</h:outputText>
                         			</h:column>
                         			
                         			<h:column>
                         				<f:facet name="header">Projected(PD)</f:facet>
-                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s)[4]/8}" 
-                        					rendered="#{Master.projMan.getReportForWpMonth(t, s)[4] != null}"/>
+                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s).projTotalDays}" 
+                        					rendered="#{Master.projMan.getReportForWpMonth(t, s).projTotalDays != null}"/>
                         				<h:outputText value="N/A" 
-                        					rendered="#{Master.projMan.getReportForWpMonth(t, s)[4] == null}"/>
+                        					rendered="#{Master.projMan.getReportForWpMonth(t, s).projTotalDays == null}"/>
                         			</h:column>
                         			
                         			<h:column>
                         				<f:facet name="header">Projected($)</f:facet>
-                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s)[5]}"
-                        					rendered="#{Master.projMan.getReportForWpMonth(t, s)[5] != null}">
+                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s).projTotalCosts}"
+                        					rendered="#{Master.projMan.getReportForWpMonth(t, s).projTotalCosts != null}">
                                     		<f:convertNumber type="currency" />
                                 		</h:outputText>
                                 		<h:outputText value="N/A"
-                                			rendered="#{Master.projMan.getReportForWpMonth(t, s)[5] == null}"/>
+                                			rendered="#{Master.projMan.getReportForWpMonth(t, s).projTotalCosts == null}"/>
                         			</h:column>
                         			
                         			<h:column>
                         				<f:facet name="header">Variance(PD)</f:facet>
-                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s)[6]}"
-                        					rendered="#{Master.projMan.getReportForWpMonth(t, s)[6] != null}">
+                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s).getVarTime()}"
+                        					rendered="#{Master.projMan.getReportForWpMonth(t, s).getVarTime() != null}">
                                     		<f:convertNumber type="percent" />
                                 		</h:outputText>
                                 		<h:outputText value="N/A"
-                                			rendered="#{Master.projMan.getReportForWpMonth(t, s)[6] == null}"/>
+                                			rendered="#{Master.projMan.getReportForWpMonth(t, s).getVarTime() == null}"/>
                         			</h:column>
                         			
                         			<h:column>
                         				<f:facet name="header">Variance($)</f:facet>
-                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s)[7]}"
-                        					rendered="#{Master.projMan.getReportForWpMonth(t, s)[7] != null}">
+                        				<h:outputText value="#{Master.projMan.getReportForWpMonth(t, s).getVarCosts()}"
+                        					rendered="#{Master.projMan.getReportForWpMonth(t, s).getVarCosts() != null}">
                                     		<f:convertNumber type="percent" />
                                 		</h:outputText>
                                 		<h:outputText value="N/A"
-                                			rendered="#{Master.projMan.getReportForWpMonth(t, s)[7] == null}"/>
+                                			rendered="#{Master.projMan.getReportForWpMonth(t, s).getVarCosts() == null}"/>
                         			</h:column>
                         		</h:dataTable>
                         	</b:dataTableColumn>
                         
                         </b:dataTable>
-
-<!--                         <b:dataTable -->
-<!--                             value="#{Master.projMan.getLeafWorkpacks()}" -->
-<!--                             var="s"> -->
-<!--                             <b:dataTableColumn> -->
-<!--                                 <f:facet name="header">Work Package</f:facet>	 -->
-<!-- 								#{s.id.wpNo} -->
-<!-- 							</b:dataTableColumn> -->
-<!--                             <b:dataTableColumn> -->
-<!--                                 <f:facet name="header">Estimated Total Work Required</f:facet> -->
-<!--                                 <h:dataTable class="table" -->
-<!--                                     value="#{s.wplabs}" var="p"> -->
-<!--                                     <h:column> -->
-<!--                                         <f:facet name="header">Labour Grade</f:facet> -->
-<!-- 										#{p.id.wlLgId} -->
-<!-- 									</h:column> -->
-<!--                                     <h:column> -->
-<!--                                         <f:facet name="header">Person Days</f:facet> -->
-<!-- 										#{p.wlPlanDays} -->
-<!-- 									</h:column> -->
-<!--                                 </h:dataTable> -->
-<!--                             </b:dataTableColumn> -->
-<!--                             <b:dataTableColumn> -->
-<!--                                 <f:facet name="header">Work Completed</f:facet> -->
-<!--                                 <h:dataTable class="table" -->
-<!--                                     value="#{Master.projMan.listOfWpPersonHours(s)}" -->
-<!--                                     var="l"> -->
-<!--                                     <h:column> -->
-<!--                                         <f:facet name="header">Labour Grade</f:facet> -->
-<!-- 										#{l[0]} -->
-<!-- 									</h:column> -->
-<!--                                     <h:column> -->
-<!--                                         <f:facet name="header">Person Days</f:facet> -->
-<!-- 										#{l[1]/8} -->
-<!-- 									</h:column> -->
-<!--                                 </h:dataTable> -->
-<!--                             </b:dataTableColumn> -->
-<!--                             <b:dataTableColumn> -->
-<!--                                 <f:facet name="header">Estimated Work Remaining</f:facet> -->
-<!--                                 <h:dataTable class="table" -->
-<!--                                     value="#{Master.projMan.getResEngReportHrs(s)}" -->
-<!--                                     var="m"> -->
-<!--                                     <h:column> -->
-<!--                                         <f:facet name="header">Labour Grade</f:facet> -->
-<!-- 										#{m[0]} -->
-<!-- 									</h:column> -->
-<!--                                     <h:column> -->
-<!--                                         <f:facet name="header">Person Days</f:facet> -->
-<!-- 										#{m[1]/8} -->
-<!-- 									</h:column> -->
-<!--                                 </h:dataTable> -->
-<!--                             </b:dataTableColumn> -->
-<!--                             <b:dataTableColumn> -->
-<!--                                 <f:facet name="header">Problems</f:facet> -->
-<!--                                 <h4>This Week</h4> -->
-<!--                                 <p> -->
-<!--                                     #{Master.projMan.getResEngReport(s).wsrProbLw} -->
-<!--                                 </p> -->
-<!--                                 <h4>Anticipated</h4> -->
-<!--                                 <p> -->
-<!--                                     #{Master.projMan.getResEngReport(s).wsrProbNw} -->
-<!--                                 </p> -->
-<!--                             </b:dataTableColumn> -->
-<!--                         </b:dataTable> -->
                     </b:column>
                 </b:row>
             </div>

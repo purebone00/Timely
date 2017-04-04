@@ -46,32 +46,32 @@
                         					var="t">
 	                        				<h:column>
 	                        					<f:facet name="header">Completed (Person Days)</f:facet>
-	                        					#{Master.projMan.getReportForWpWeek(t)[0]/8}
+	                        					#{Master.projMan.getReportForWpWeek(t).getCurTotalDays()}
 	                        				</h:column>
 	                        			
 	                        				<h:column>
 	                        					<f:facet name="header">Completed ($)</f:facet>
-	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[1]}">
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t).getCurTotalCosts()}">
 	                                    			<f:convertNumber type="currency" />
 	                                			</h:outputText>
 	                        				</h:column>
 	                        			
 	                        				<h:column>
 	                        					<f:facet name="header">Projected Remaining (Person Days)</f:facet>
-	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[2]/8}" 
-	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[2] != null}"/>
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t).getEstDaysRemaining()}" 
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t).getEstDaysRemaining() != null}"/>
 	                        					<h:outputText value="N/A" 
-	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[2] == null}"/>
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t).getEstDaysRemaining() == null}"/>
 	                        				</h:column>
 	                        			
 	                        				<h:column>
 	                        					<f:facet name="header">Projected Remaining ($)</f:facet>
-	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[3]}"
-	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[3] != null}">
+	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t).getEstCostsRemaining()}"
+	                        						rendered="#{Master.projMan.getReportForWpWeek(t).getEstCostsRemaining() != null}">
 	                                    			<f:convertNumber type="currency" />
 	                                			</h:outputText>
 	                                			<h:outputText value="N/A"
-	                                				rendered="#{Master.projMan.getReportForWpWeek(t)[3] == null}"/>
+	                                				rendered="#{Master.projMan.getReportForWpWeek(t).getEstCostsRemaining() == null}"/>
 	                        				</h:column>
                         				</h:dataTable>
                             			</f:facet>
