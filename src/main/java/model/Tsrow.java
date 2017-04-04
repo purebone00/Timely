@@ -226,7 +226,7 @@ public class Tsrow implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "tsrInsDt", nullable = false, length = 19)
+    @Column(name = "tsrInsDt", insertable = false, updatable = false, nullable = false, length = 19)
     public Date getTsrInsDt() {
         return this.tsrInsDt;
     }
@@ -236,7 +236,7 @@ public class Tsrow implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "tsrUpDt", nullable = false, length = 19)
+    @Column(name = "tsrUpDt", insertable = false, updatable = false, nullable = false, length = 19)
     public Date getTsrUpDt() {
         return this.tsrUpDt;
     }
