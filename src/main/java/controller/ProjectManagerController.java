@@ -401,23 +401,25 @@ public class ProjectManagerController {
         List<Wpstarep> initialEstimates = new ArrayList<Wpstarep>();
         
         for (Workpack w : getSelectedProject().getWorkPackages()) {
-            Wpstarep workPackageReport = new Wpstarep();
-            String labourDays = "";
-            
-            for (Map.Entry<String, BigDecimal> entry : w.getInitialEst().entrySet()) {
-                labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
+            if (w.getInitialEst() != null) {                
+                Wpstarep workPackageReport = new Wpstarep();
+                String labourDays = "";
+                
+                for (Map.Entry<String, BigDecimal> entry : w.getInitialEst().entrySet()) {
+                    labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
+                }
+                
+                labourDays = labourDays.substring(0, labourDays.length()-1);
+                
+                workPackageReport.setWsrRepDt("00000000");
+                workPackageReport.setWsrInsDt(new Date());
+                workPackageReport.setWsrUpDt(new Date());
+                workPackageReport.setId(
+                        new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo()));
+                workPackageReport.setWsrEstDes(labourDays);
+                
+                initialEstimates.add(workPackageReport);
             }
-            
-            labourDays = labourDays.substring(0, labourDays.length()-1);
-            
-            workPackageReport.setWsrRepDt("00000000");
-            workPackageReport.setWsrInsDt(new Date());
-            workPackageReport.setWsrUpDt(new Date());
-            workPackageReport.setId(
-                    new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo()));
-            workPackageReport.setWsrEstDes(labourDays);
-            
-            initialEstimates.add(workPackageReport);
         }
         
         for (Wpstarep ws : initialEstimates) {
