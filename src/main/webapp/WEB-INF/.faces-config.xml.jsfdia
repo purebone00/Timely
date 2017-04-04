@@ -81,11 +81,23 @@
    PATH="/timesheetapprover.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="review::#reviewTimesheet.xhtml"
+    NAME="output1" PATH="/reviewTimesheet.xhtml"
+    TARGET="rules:#reviewTimesheet.xhtml" TITLE="review" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="view::#viewtimesheet.xhtml" NAME="output2"
+    PATH="/viewtimesheet.xhtml" TARGET="rules:#viewtimesheet.xhtml"
+    TITLE="view" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#reviewTimesheet.xhtml"
   PATH="/reviewTimesheet.xhtml" SHAPE="240,945,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#reviewTimesheet.xhtml:0" NAME="item"
+   PATH="/reviewTimesheet.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="approver::#timesheetapprover.xhtml"
+    NAME="output" PATH="/timesheetapprover.xhtml"
+    TARGET="rules:#timesheetapprover.xhtml" TITLE="approver" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#reviewTimesheet.xhtml:1" NAME="item1"
    PATH="/reviewTimesheet.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
@@ -107,4 +119,6 @@
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#viewtimesheet.xhtml"
+  PATH="/viewtimesheet.xhtml" SHAPE="336,1233,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

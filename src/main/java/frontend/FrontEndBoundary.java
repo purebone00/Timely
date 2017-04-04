@@ -183,7 +183,7 @@ public class FrontEndBoundary implements Serializable {
     }
     
     public String getNotifications() {
-        Integer tsApproveCount = taApprover.getTsToApproveList().size();
+        Integer tsApproveCount = taApprover.getListOfts().size();
         
         return tsApproveCount.toString();
     }
