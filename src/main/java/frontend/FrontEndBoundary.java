@@ -8,6 +8,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
+
 
 import controller.AdminController;
 import controller.EmployeeController;
@@ -19,6 +21,7 @@ import controller.SupervisorController;
 import controller.TimesheetApproverController;
 import model.Employee;
 import model.Timesheet;
+import utility.SessionUtils;
 
 @Named("Master")
 @SessionScoped
@@ -114,7 +117,8 @@ public class FrontEndBoundary implements Serializable {
     }
 */
     public String finish() {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        HttpSession session = SessionUtils.getSession();
+        session.invalidate();
         return "logout";
     }
 
@@ -128,6 +132,8 @@ public class FrontEndBoundary implements Serializable {
             employee.setEmp(curEmp);
             taApprover.setEmp(curEmp);
             //init();
+            HttpSession session = SessionUtils.getSession();
+            session.setAttribute("username", employee.getEmp().getEmpLnm());
             if (login.isAdmin()) {
                 return "admin";
             }
