@@ -86,4 +86,32 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#reviewTimesheet.xhtml"
   PATH="/reviewTimesheet.xhtml" SHAPE="240,945,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,1153,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="general::#home#timesheetapprover.xhtml"
+    NAME="output" PATH="/home/timesheetapprover.xhtml"
+    TARGET="rules:#home#timesheetapprover.xhtml" TITLE="general" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="timesheetapprover::#home#timesheetapprover.xhtml" NAME="output1"
+    PATH="/home/timesheetapprover.xhtml"
+    TARGET="rules:#home#timesheetapprover.xhtml"
+    TITLE="timesheetapprover" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="responsibleengineer::#home#responsibleengineer.xhtml"
+    NAME="output2" PATH="/home/responsibleengineer.xhtml"
+    TARGET="rules:#home#responsibleengineer.xhtml"
+    TITLE="responsibleengineer" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="supervisor::#home#supervisor.xhtml"
+    NAME="output3" PATH="/home/supervisor.xhtml"
+    TARGET="rules:#home#supervisor.xhtml" TITLE="supervisor" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#home#timesheetapprover.xhtml"
+  PATH="/home/timesheetapprover.xhtml" SHAPE="240,1281,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#home#projectmanager.xhtml"
+  PATH="/home/projectmanager.xhtml" SHAPE="256,1281,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#home#responsibleengineer.xhtml"
+  PATH="/home/responsibleengineer.xhtml" SHAPE="272,1281,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#home#supervisor.xhtml"
+  PATH="/home/supervisor.xhtml" SHAPE="288,1281,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

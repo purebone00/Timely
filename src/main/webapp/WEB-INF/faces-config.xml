@@ -2,6 +2,38 @@
 <faces-config xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
 
   <navigation-rule>
+  	<navigation-case>
+  		<from-outcome>general</from-outcome>
+  		<to-view-id>/home/timesheetapprover.xhtml</to-view-id>
+  	</navigation-case>
+  	<navigation-case>
+  		<from-outcome>timesheetapprover</from-outcome>
+  		<to-view-id>/home/timesheetapprover.xhtml</to-view-id>
+  	</navigation-case>
+  	<navigation-case>
+  		<from-outcome>projectmanager</from-outcome>
+  		<to-view-id>/home/projectmanager.xhtml</to-view-id>
+  	</navigation-case>
+  	<navigation-case>
+  		<from-outcome>responsibleengineer</from-outcome>
+  		<to-view-id>/home/responsibleengineer.xhtml</to-view-id>
+  	</navigation-case>
+  	<navigation-case>
+  		<from-outcome>supervisor</from-outcome>
+  		<to-view-id>/home/supervisor.xhtml</to-view-id>
+  	</navigation-case>
+  </navigation-rule>
+  
+  <!--
+  <navigation-rule>
+  	<from-view-id>/home/projectmanager.xhtml</from-view-id>
+  	<navigation-case>
+		<from-outcome></from-outcome>>
+  	</navigation-case>
+  </navigation-rule>
+  -->
+
+  <navigation-rule>
     <from-view-id>/timesheet.xhtml</from-view-id>
     <navigation-case>
       <from-outcome>logout</from-outcome>
