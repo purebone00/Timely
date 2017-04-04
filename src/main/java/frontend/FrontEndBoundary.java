@@ -104,31 +104,12 @@ public class FrontEndBoundary implements Serializable {
         this.taApprover = taApprover;
     }
 
-<<<<<<< Updated upstream
-/*    public void start() {
-        conversation.begin();
-    }
-
-    public void end() {
-        conversation.end();
-    }
-
-    public void init() {
-        start();
-    }
-*/
-    public String finish() {
-        //HttpSession session = SessionUtils.getSession();
-        //session.invalidate();
-        return "logout";
-=======
     public void finish() throws IOException {
         employee.setEmp(null);
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.invalidateSession();
         ec.redirect(ec.getRequestContextPath() + "/");
         
->>>>>>> Stashed changes
     }
 
     public FrontEndBoundary() {
