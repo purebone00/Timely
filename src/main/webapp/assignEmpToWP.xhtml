@@ -41,7 +41,7 @@
 
 						<b:dataTableColumn>
                                <f:facet name="header">WP ID</f:facet>
-  								<h:outputText value="#{s.id.getWpProjNo()}" />
+  								<h:outputText value="#{s.id.getWpNo()}" />
 						</b:dataTableColumn>
 						<b:dataTableColumn>
                                <f:facet name="header">Select</f:facet>
@@ -85,14 +85,15 @@
 	                            value="#{Master.projMan.allEmpInWP()}"
 	                            var="s"
 	                            responsive="true">
-								<b:dataTableColumn>
-	                                <f:facet name="header">REMOVE Employee</f:facet>
-									<h:commandButton class="btn" value="-"/>
-								</b:dataTableColumn>
+								
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Employee ID</f:facet>
 									<b:inputText value="#{s.empId}" size="10" rendered="#{s.editable}" />
     								<h:outputText value="#{s.empId}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn>
+	                                <f:facet name="header">REMOVE Employee</f:facet>
+									<h:commandButton class="btn" value="-" action="#{Master.projMan.removeEmployeeFromWP(s.empId)}"/>
 								</b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Name</f:facet>	
@@ -154,6 +155,10 @@
 								<b:inputText value="#{s.empId}" size="10" rendered="#{s.editable}" />
    								<h:outputText value="#{s.empId}" rendered="#{not s.editable}" />
 							</b:dataTableColumn>
+							<b:dataTableColumn>
+                                <f:facet name="header">ADD Employee</f:facet>
+								<h:commandButton class="btn" value="+" action="#{Master.projMan.assignEmployeeToWP(s.empId)}"/>
+							</b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Name</f:facet>	
 								 <h:inputText value="#{s.empFnm}" size="5" rendered="#{s.editable}" />
@@ -191,10 +196,7 @@
    								<h:outputText value="#{s.empInsDt}" rendered="#{not s.editable}" />
 							</b:dataTableColumn>
 							
-							<b:dataTableColumn>
-                                <f:facet name="header">ADD Employee</f:facet>
-								<h:commandButton class="btn" value="+"/>
-							</b:dataTableColumn>
+
                         </b:dataTable>
                         <br/>
 					<h:commandButton class="btn" value="Save"/>

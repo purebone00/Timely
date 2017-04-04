@@ -450,6 +450,43 @@ public class ProjectManagerController {
         return null;
     }
     
+	
+	/**
+     * Adds the employee with the given ID to the currently selected work package.
+     * @return String navigation string.
+     * @param empID ID of employee to put on project.
+     * */
+    public String assignEmployeeToWP(String empID){
+    	Employee emp = employeeManager.find(Integer.parseInt(empID));
+        //get a reference to the selected project
+        selectedWorkPackage.getEmployees().add(emp);
+        //update on employee side
+        emp.getWorkpackages().add(selectedWorkPackage);
+        //update database
+        workPackageManager.merge(selectedWorkPackage);
+        workPackageManager.flush();
+        employeeManager.merge(emp);
+        employeeManager.flush();
+        //refresh the page
+        return null;
+    }
+    
+    /**
+     * Removes given employee from selected work package.
+     * @return String navigation string. 
+     * @param empID ID of employee to put on work package.
+     * */
+    public String removeEmployeeFromWP(String empID){
+
+    	Employee e = employeeManager.find(Integer.parseInt(empID));
+    	workPackageManager.removeFromWP(selectedWorkPackage, e);
+        e.getWorkpackages().remove(selectedWorkPackage);
+        selectedWorkPackage.getEmployees().remove(e);
+        
+        return null;
+    }
+    
+    
 	 /**
      * Gets a list of employees in the given project.
      * @param proj a project
