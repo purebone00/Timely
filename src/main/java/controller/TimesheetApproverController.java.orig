@@ -17,7 +17,11 @@ import manager.TimesheetManager;
 import model.Employee;
 import model.Timesheet;
 
+<<<<<<< HEAD
+
+=======
 @Stateful
+>>>>>>> taApprover
 @Named("taApprover")
 public class TimesheetApproverController implements Serializable {
 
@@ -42,9 +46,16 @@ public class TimesheetApproverController implements Serializable {
         return emp;
     }
 
+<<<<<<< HEAD
+    public Set<Timesheet> getTsToApproveList() throws IOException {
+        if (tsToApproveList == null) {
+            refreshTsToApproveList();
+=======
+
     public Set<Timesheet> getListOfApproved() {
         if (listOfApproved == null) {
             refreshApprovedList();
+>>>>>>> taApprover
         }
         return listOfApproved;
     }
@@ -52,10 +63,10 @@ public class TimesheetApproverController implements Serializable {
     public void setListOfApproved(Set<Timesheet> listOfApproved) {
         this.listOfApproved = listOfApproved;
     }
-
+    
     public void refreshApprovedList() {
         Set<Timesheet> temp = new HashSet<>();
-        listOfts.forEach((ts) -> {
+        listOfts.forEach((ts)->{
             if (tManager.find(ts.getId()).getTsSubmit() == 2) {
                 temp.add(ts);
             }
@@ -63,6 +74,16 @@ public class TimesheetApproverController implements Serializable {
         listOfApproved = temp;
     }
 
+<<<<<<< HEAD
+    public void refreshTsToApproveList() throws IOException {
+        try {
+            tsToApproveList = empManager.find(getEmp().getEmpId()).getTimesheetsToApprove();    
+        } catch (NullPointerException e) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.invalidateSession();
+            ec.redirect(ec.getRequestContextPath() + "/error.xhtml");
+        }
+=======
     public Set<Timesheet> getListToBeApproved() {
         if (listToBeApproved == null) {
             refreshToBeApprovedList();
@@ -73,11 +94,10 @@ public class TimesheetApproverController implements Serializable {
     public void setListToBeApproved(Set<Timesheet> listToBeApproved) {
         this.listToBeApproved = listToBeApproved;
     }
-
+    
     public void refreshToBeApprovedList() {
-
         Set<Timesheet> temp = new HashSet<>();
-        listOfts.forEach((ts) -> {
+        listOfts.forEach((ts)->{
             if (tManager.find(ts.getId()).getTsSubmit() == 1) {
                 temp.add(ts);
             }
@@ -98,6 +118,7 @@ public class TimesheetApproverController implements Serializable {
 
     public void refreshList() {
         listOfts = empManager.find(getEmp().getEmpId()).getTimesheetsToApprove();
+>>>>>>> taApprover
     }
 
     public Timesheet getReviewTimesheet() {
@@ -121,7 +142,7 @@ public class TimesheetApproverController implements Serializable {
         this.setEmployeeReviewed(selectedTimesheet.getEmployee());
         return "review";
     }
-
+    
     public String viewTimesheet(Timesheet selectedTimesheet) {
         this.setReviewTimesheet(selectedTimesheet);
         this.setEmployeeReviewed(selectedTimesheet.getEmployee());
@@ -139,16 +160,16 @@ public class TimesheetApproverController implements Serializable {
         }
         return "success";
     }
-
+    
     public String accept() {
-        tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short) 2);
+        tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short)2);
         refreshApprovedList();
         refreshToBeApprovedList();
         return "approver";
     }
-
+    
     public String reject() {
-        tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short) 3);
+        tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short)3);
         refreshApprovedList();
         refreshToBeApprovedList();
         return "approver";
