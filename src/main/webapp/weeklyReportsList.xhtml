@@ -4,13 +4,13 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Weekly Statistics List</ui:define>
+    <ui:define name="title">Weekly Reports</ui:define>
 
     <ui:define name="content">
         <div class="ui segment grid" id="content">
             <div class="container text-centered">
                 <div class="jumbotron">
-                    <h1>Weekly Statistics List</h1>
+                    <h1>Weekly Reports</h1>
                     <span></span>
                 </div>
             </div>
@@ -18,23 +18,29 @@
             <div class="container">
                 <b:row>
                     <b:column col-md="12">
+						<b:form>
                         <b:dataTable
-                            value="#{Master.projMan.getListOfWeeks()}"
+                            value="#{Master.projMan.getListOfWeeks(0)}"
                             var="s">
                             <b:dataTableColumn>
                                 <f:facet name="header">Week</f:facet>	
 								<h:outputText value="#{s}">
 							</b:dataTableColumn>
                             <b:dataTableColumn>
-                                <f:facet name="header">Report</f:facet>
-                                <b:form>
-                                    <b:commandButton class="btn"
-                                    	look="info"
-                                        value="What"
-                                        action="#{Master.projMan.selectWeeklyReport(s)}" />
-                                </b:form>
+                                <f:facet name="header">Statistics</f:facet>
+                                <b:commandButton class="btn"
+                                   	look="info"
+                                    value="What"
+                                    action="#{Master.projMan.selectWeeklyReport(s)}" />
                             </b:dataTableColumn>
+                            <b:dataTableColumn>
+                            	<f:facet name="header">Reports</f:facet>
+                                <h:commandButton class="btn"
+                                    value="What"
+                                    action="#{Master.projMan.selectProjectForWeeklyReport(s)}" />
+                        	</b:dataTableColumn>
                         </b:dataTable>
+                        </b:form>
                     </b:column>
                 </b:row>
             </div>

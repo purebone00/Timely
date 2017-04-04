@@ -3,6 +3,7 @@ package model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -32,6 +33,9 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	private boolean removeWplabs = false;
 	private BigDecimal totalCost;
 	private BigDecimal totalDays;
+	private String namePrefix;
+	private String childName;
+	private HashMap<String, BigDecimal> initialEst;
 	/* =============================================== */
 
     private WorkpackId id;
@@ -245,6 +249,33 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	
 	public void setTotalDays(BigDecimal totalDays) {
 		this.totalDays = totalDays;
+	}
+	
+	@Transient
+	public String getChildName() {
+	    return this.childName;
+	}
+	
+	public void setChildName(String childName) {
+	    this.childName = childName;
+	}
+	
+	@Transient
+	public String getNamePrefix() {
+	    return this.getId().getWpNo().replaceAll("0", "");
+	}
+	
+	public void setNamePrefix(String namePrefix) {
+	    this.namePrefix = namePrefix;
+	}
+	
+	@Transient
+	public HashMap<String, BigDecimal> getInitialEst() {
+	    return this.initialEst;
+	}
+	
+	public void setInitialEst(HashMap<String, BigDecimal> initialEst) {
+	    this.initialEst = initialEst;
 	}
     
     public String toString(){

@@ -4,8 +4,6 @@
   SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#index.xhtml:0" NAME="item"
    PATH="/index.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output1"
-    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="changepassword::#changepassword.xhtml"
     NAME="output" PATH="/changepassword.xhtml"
     TARGET="rules:#changepassword.xhtml" TITLE="changepassword" model-entity="JSFProcessItemOutput"/>
@@ -25,37 +23,7 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#admin.xhtml" PATH="/admin.xhtml"
-  SHAPE="256,145,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:#admin.xhtml:0" NAME="item"
-   PATH="/admin.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
-    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
-  </PROCESS-ITEM>
- </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#createuser.xhtml" PATH="/createuser.xhtml"
-  SHAPE="64,273,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:#createuser.xhtml:0" NAME="item"
-   PATH="/createuser.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
-    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
-  </PROCESS-ITEM>
- </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#responsibleengineer.xhtml"
-  PATH="/responsibleengineer.xhtml" SHAPE="96,385,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:#responsibleengineer.xhtml:0" NAME="item"
-   PATH="/responsibleengineer.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
-    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
-  </PROCESS-ITEM>
- </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#responsibleengineerreport.xhtml"
-  PATH="/responsibleengineerreport.xhtml" SHAPE="96,497,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:#responsibleengineerreport.xhtml:0"
-   NAME="item" PATH="/responsibleengineerreport.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
-    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
-  </PROCESS-ITEM>
- </PROCESS-ITEM>
+  SHAPE="256,145,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#timesheet.xhtml" PATH="/timesheet.xhtml"
   SHAPE="96,673,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#timesheet.xhtml:0" NAME="item"
@@ -96,11 +64,9 @@
     PATH="/home/timesheetapprover.xhtml"
     TARGET="rules:#home#timesheetapprover.xhtml"
     TITLE="timesheetapprover" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="responsibleengineer::#home#responsibleengineer.xhtml"
-    NAME="output2" PATH="/home/responsibleengineer.xhtml"
-    TARGET="rules:#home#responsibleengineer.xhtml"
-    TITLE="responsibleengineer" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="projectmanager::#home#projectmanager.xhtml"
+    NAME="output2" PATH="/home/projectmanager.xhtml"
+    TARGET="rules:#home#projectmanager.xhtml" TITLE="projectmanager" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="supervisor::#home#supervisor.xhtml"
     NAME="output3" PATH="/home/supervisor.xhtml"
     TARGET="rules:#home#supervisor.xhtml" TITLE="supervisor" model-entity="JSFProcessItemOutput"/>

@@ -182,6 +182,7 @@ public class EmployeeController implements Serializable {
     public String saveAction() {
         for (Tsrow row : tsrList) {
             row.setEditable(false);
+            row.setTimesheet(getCurTimesheet());
             if (row.getTsrProjNo() != 0 && !row.getTsrWpNo().isEmpty()) {
                 trManager.merge(row);
             }

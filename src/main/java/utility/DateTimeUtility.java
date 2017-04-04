@@ -78,7 +78,7 @@ public class DateTimeUtility {
     }
 
     /**
-     * Gets a list of Week End Strings.
+     * Gets a list of Week End Strings. Gets the past 4 weeks, then the past 12 months, then the past years.
      * 
      * @param startDate
      *            Start date.
@@ -87,6 +87,57 @@ public class DateTimeUtility {
      * @return List of Week End strings.
      */
     public List<String> getListOfWeekEnds(String startDate, String endDate) {
+        ArrayList<String> list = new ArrayList<String>();
+        String first = getEndOfWeek(startDate);
+        String last = getEndOfWeek(endDate);
+        String current = last;
+
+        list.add(current);
+        
+        int count = 1;
+
+        while (current.compareTo(first) > 0) {
+            Integer dateYear = Integer.parseInt(current.substring(0, 4));
+            Integer dateMonth = Integer.parseInt(current.substring(4, 6)) - 1;
+            Integer dateDay = Integer.parseInt(current.substring(6));
+
+            Calendar c = new GregorianCalendar();
+            c.set(dateYear, dateMonth, dateDay);
+            
+            if (count <= 4) {                
+                c.add(Calendar.DAY_OF_MONTH, -7);
+            } else if (count <= 16) {
+                c.add(Calendar.MONTH, -1);
+            } else {
+                c.add(Calendar.YEAR, -1);
+            }
+            
+            Date lastWeek = c.getTime();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(lastWeek);
+            int year = cal.get(Calendar.YEAR);
+            String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+            String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+
+            current = year + month + day;
+
+            list.add(current);
+            count++;
+        }
+
+        return list;
+    }
+    
+    /**
+     * Gets a list of Week End Strings.
+     * 
+     * @param startDate
+     *            Start date.
+     * @param endDate
+     *            End date.
+     * @return List of Week End strings.
+     */
+    public List<String> getListOfAllWeekEnds(String startDate, String endDate) {
         ArrayList<String> list = new ArrayList<String>();
         String first = getEndOfWeek(startDate);
         String last = getEndOfWeek(endDate);

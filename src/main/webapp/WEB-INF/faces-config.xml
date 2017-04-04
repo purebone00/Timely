@@ -58,11 +58,6 @@
 
 <navigation-rule>
 	<from-view-id>/index.xhtml</from-view-id>
-	<navigation-case>
-      <from-outcome>logout</from-outcome>
-      <to-view-id>/login.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
     <navigation-case>
     	<from-outcome>changepassword</from-outcome>
    		<to-view-id>/changepassword.xhtml</to-view-id>
@@ -73,11 +68,6 @@
    		<to-view-id>/timesheet.xhtml</to-view-id>
     	<redirect/>
   	</navigation-case>
-	<navigation-case>
-		<from-outcome>logout</from-outcome>
-		<to-view-id>/login.xhtml</to-view-id>
-		<redirect/>
-	</navigation-case>
 </navigation-rule>
 
 <navigation-rule>
@@ -94,32 +84,6 @@
   	</navigation-case>
 </navigation-rule>
 
-<navigation-rule>
-  <from-view-id>/admin.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>logout</from-outcome>
-    <to-view-id>/login.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
-
-<navigation-rule>
-  <from-view-id>/createuser.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>logout</from-outcome>
-    <to-view-id>/login.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
-
-<navigation-rule>
-  <from-view-id>/responsibleengineer.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>logout</from-outcome>
-    <to-view-id>/login.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
 
   <navigation-rule>
     <from-view-id>/timesheetapprover.xhtml</from-view-id>
@@ -130,12 +94,4 @@
     </navigation-case>
   </navigation-rule>
 
-  <navigation-rule>
-    <from-view-id>/responsibleengineerreport.xhtml</from-view-id>
-    <navigation-case>
-      <from-outcome>logout</from-outcome>
-      <to-view-id>/login.xhtml</to-view-id>
-      <redirect />
-    </navigation-case>
-  </navigation-rule>
 </faces-config>

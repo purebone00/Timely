@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:b="http://bootsfaces.net/ui"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
-    <ui:define name="title">Employee</ui:define>
+    <ui:define name="title">Managed Projects</ui:define>
 
     <ui:define name="content">
         <div class="ui segment grid" id="content">
@@ -17,36 +17,43 @@
             <div class="container">
                 <b:row>
 					<b:form>
-	                    <b:dataTable class="table table-bordered"
-	                        value="#{Master.projMan.listOfProjects(Master.login.currentEmployee.currentEmployee)}"
-	                        var="s">
-	                        <b:dataTableColumn>
-	                            <f:facet name="header">No</f:facet>	
-									#{s.projNo}
-							</b:dataTableColumn>
-	                        <b:dataTableColumn>
-	                            <f:facet name="header">Name</f:facet>	
-									#{s.projNm}
-							</b:dataTableColumn>
-	                        <b:dataTableColumn>
-	                            <f:facet name="header">Description</f:facet>	
-									#{s.projDesc}
-							</b:dataTableColumn>
-	                        <b:dataTableColumn>
-	                            <f:facet name="header">Work Package Estimates</f:facet>
-	                                <b:commandButton class="btn"
-	                                	look="success"
-	                                    value="Okay"
-	                                    action="#{Master.projMan.selectProject(s)}" />      
-	                        </b:dataTableColumn>
-	                        <b:dataTableColumn>
-	                            <f:facet name="header">Weekly Reports</f:facet>
-	                                <b:commandButton class="btn"
-	                                	look="primary"
-	                                    value="Yeah"
-	                                    action="#{Master.projMan.selectProjectForReport(s)}" />
-	                        </b:dataTableColumn>
-	                    </b:dataTable>
+	                     <h:dataTable class="table table-bordered"
+                        value="#{Master.projMan.listOfProjects(Master.login.currentEmployee.currentEmployee)}"
+                        var="s">
+                        <h:column>
+                            <f:facet name="header">No</f:facet>	
+								#{s.projNo}
+							</h:column>
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>	
+								#{s.projNm}
+							</h:column>
+                        <h:column>
+                            <f:facet name="header">Description</f:facet>	
+								#{s.projDesc}
+							</h:column>
+
+                        <h:column>
+                            <f:facet name="header">Work Package Estimates</f:facet>
+                                <h:commandButton class="btn"
+                                    value="Okay"
+                                    action="#{Master.projMan.selectProject(s)}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Weekly Reports</f:facet>
+                                <h:commandButton class="btn"
+                                    value="Yeah"
+                                    action="#{Master.projMan.selectProjectForReport(s)}" />
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">Monthly Report</f:facet>
+                                <h:commandButton class="btn"
+                                    value="Turn Down For What"
+                                    action="#{Master.projMan.selectProjectForMonthlyReport(s)}" />
+                        </h:column>
+                    </h:dataTable>
 					</b:form>
                 </b:row>
             </div>

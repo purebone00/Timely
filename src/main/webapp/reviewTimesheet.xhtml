@@ -15,16 +15,30 @@
             <div class="row">
                 <div class="column">
 
-                    
-
                     <div class="container">
-                    	<b:row>
-                    		<b:column span="2" offset="10">
-                    			<h4>Week End:
+                        <b:row>
+                            <b:column col-md="4">
+                                <h4>EmployeeID:
+                                    #{Master.taApprover.employeeReviewed.empId}</h4>
+                                <h4>Employee Name:
+                                    #{Master.taApprover.employeeReviewed.empFnm}
+                                    #{Master.taApprover.employeeReviewed.empLnm}</h4>
+                                <br></br>
+                            </b:column>
+
+                            <b:column col-md="4">
+                                
+                            </b:column>
+
+                            <b:column col-md="4">
+                                <h4>Week End:
                                     #{Master.taApprover.reviewTimesheet.id.tsWkEnd}
                                 </h4>
-                    		</b:column>
-                    	</b:row>
+                            </b:column>
+                        </b:row>
+                    </div>
+
+                    <div class="container">
                         <b:row>
                             <b:form>
                                 <b:dataTable 

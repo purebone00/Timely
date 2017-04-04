@@ -2,6 +2,8 @@ package manager;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
@@ -44,6 +46,7 @@ public class EmployeeManager implements Serializable {
 
         return employees;
     }
+    
     /**
      * Get all employees that have not been deleted
      * @return list of employees 
@@ -55,6 +58,15 @@ public class EmployeeManager implements Serializable {
         return employees;
     }
     
+    public Map<String, Employee> getActiveEmpMap() {
+        Map<String, Employee> employeeMap = new TreeMap<String, Employee>();
+        TypedQuery<Employee> query = em.createQuery("select s from Employee s where s.empDel = 0", Employee.class);
+        List<Employee> employees = query.getResultList();
+        for(Employee e : employees) {
+            employeeMap.put(e.getEmpLnm(), e);
+        }
+        return employeeMap;
+    }
     
     
     /**

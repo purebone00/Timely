@@ -22,6 +22,10 @@
                             <strong>Project Number:</strong>
                             <h:outputText
                                 value="#{Master.projMan.selectedProject.projNo}" />
+                            
+                            <strong>Week:</strong>
+                            <h:outputText
+                                value="#{Master.projMan.selectedWeek}" />
                         </b:panelGrid>
                         <br />
 
@@ -74,26 +78,28 @@
                             			
                             			
                             			Employee: #{e.empFnm} #{e.empLnm}
-                            			<h:dataTable class="table"
-                            				value="#{Master.projMan.getListOfWeeks()}"
-                            				var="w">
-                            				<h:column>
-                            					<f:facet name="header">Week</f:facet>
-                            					#{w}
-                            				</h:column>
-                            				
-                            				<h:column>
-                            					<f:facet name="header">Person Days</f:facet>
-                            					<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}"
-                            						rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) != null}">
-                            						<f:convertNumber type="number" minFractionDigits="1"/>
-                            					</h:outputText>
-                            					<h:outputText value="0.0"
-                            						rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) == null}">
-                            						<f:convertNumber type="number" minFractionDigits="1"/>
-                            					</h:outputText>
-                            				</h:column>
-                            			</h:dataTable>
+                            			
+                            			<table class="table">
+                            			<tr>
+                            				<ui:repeat value="#{Master.projMan.getListOfWeeks(1)}" var="w">
+                            					<td>#{w}</td>
+                            				</ui:repeat>
+                            			</tr>
+                            			<tr>
+                            				<ui:repeat value="#{Master.projMan.getListOfWeeks(1)}" var="w">
+                            					<td>
+                            						<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}"
+                            							rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) != null}">
+                            							<f:convertNumber type="number" minFractionDigits="1"/>
+                            						</h:outputText>
+                            						<h:outputText value="0.0"
+                            							rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) == null}">
+                            							<f:convertNumber type="number" minFractionDigits="1"/>
+                            						</h:outputText>
+                            					</td>
+                            				</ui:repeat>
+                            			</tr>
+                            			</table>
                             		</h:column>
                             	</h:dataTable>
 							</b:dataTableColumn>
