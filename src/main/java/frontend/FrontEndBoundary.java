@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,11 +21,12 @@ import model.Employee;
 import model.Timesheet;
 
 @Named("Master")
-@ConversationScoped
+@SessionScoped
 public class FrontEndBoundary implements Serializable {
-    @Inject
+    
+/*    @Inject
     Conversation conversation;
-
+*/
     @Inject
     LoginController login;
 
@@ -98,7 +101,7 @@ public class FrontEndBoundary implements Serializable {
         this.taApprover = taApprover;
     }
 
-    public void start() {
+/*    public void start() {
         conversation.begin();
     }
 
@@ -109,9 +112,9 @@ public class FrontEndBoundary implements Serializable {
     public void init() {
         start();
     }
-
+*/
     public String finish() {
-        end();
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "logout";
     }
 
@@ -124,7 +127,7 @@ public class FrontEndBoundary implements Serializable {
         if ((curEmp = login.authUser()) != null) {
             employee.setEmp(curEmp);
             taApprover.setEmp(curEmp);
-            init();
+            //init();
             if (login.isAdmin()) {
                 return "admin";
             }

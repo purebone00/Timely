@@ -2,6 +2,7 @@ package controller;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -26,16 +27,25 @@ public class LoginController implements Serializable {
     private String password;
 
     private List<Employee> list;
-
+      
+    private Map<String, Employee> empMap;
+    
     public LoginController() {
 
     }
 
     public Employee authUser() {
-        list = empManager.getActiveEmps();
+        empMap = empManager.getActiveEmpMap();
         boolean authenticated = false;
-
-        for (int i = 0; i < list.size(); i++) {
+        
+        Employee employee = empMap.get(userName);
+        if(employee.getEmpPw().equals(password)) {
+            currentEmployee.setCurrentEmployee(employee);
+            if(currentEmployee.getCurrentEmployee() != null)
+                authenticated = true;
+        }
+        
+        /*for (int i = 0; i < list.size(); i++) {
             Employee employee = list.get(i);
             if (employee.getEmpLnm().equals(userName) && employee.getEmpPw().equals(password)) {
                 currentEmployee.setCurrentEmployee(empManager.find(employee.getEmpId()));
@@ -43,7 +53,7 @@ public class LoginController implements Serializable {
                     authenticated = true;
                 }
             }
-        }
+        }*/
         return (authenticated) ? currentEmployee.getCurrentEmployee() : null;
     }
 

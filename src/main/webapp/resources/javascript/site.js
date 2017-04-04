@@ -50,7 +50,7 @@ function addToNotifications() {
 	redIfNotificate(notificationCount);
 	var notificationMessage = "You have " + notificationCount.textContent + " timesheets to approve."; 
 	newNotification.style.cursor = "pointer";
-	newNotification.innerHTML = "<a href=\"#\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
+	newNotification.innerHTML = "<a href=\"/Timely/faces/timesheetapprover.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
 	if(parseInt(notificationCount.textContent) != 0)
 		firstChild.appendChild(newNotification);
 }
