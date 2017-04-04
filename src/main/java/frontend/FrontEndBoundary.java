@@ -117,8 +117,8 @@ public class FrontEndBoundary implements Serializable {
     }
 */
     public String finish() {
-        HttpSession session = SessionUtils.getSession();
-        session.invalidate();
+        //HttpSession session = SessionUtils.getSession();
+        //session.invalidate();
         return "logout";
     }
 

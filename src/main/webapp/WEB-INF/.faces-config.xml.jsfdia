@@ -91,4 +91,20 @@
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#manageproject.xhtml"
+  PATH="/manageproject.xhtml" SHAPE="96,673,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#manageproject.xhtml:0" NAME="item"
+   PATH="/manageproject.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#monthlyReport.xhtml"
+  PATH="/monthlyReport.xhtml" SHAPE="96,673,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#monthlyReport.xhtml:0" NAME="item"
+   PATH="/monthlyReport.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>

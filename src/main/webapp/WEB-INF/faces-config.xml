@@ -98,6 +98,24 @@
   </navigation-case>
 </navigation-rule>
 
+<navigation-rule>
+  <from-view-id>/manageproject.xhtml</from-view-id>
+  <navigation-case>
+    <from-outcome>logout</from-outcome>
+    <to-view-id>/login.xhtml</to-view-id>
+    <redirect/>
+  </navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+  <from-view-id>/monthlyReport.xhtml</from-view-id>
+  <navigation-case>
+    <from-outcome>logout</from-outcome>
+    <to-view-id>/login.xhtml</to-view-id>
+    <redirect/>
+  </navigation-case>
+</navigation-rule>
+
   <navigation-rule>
     <from-view-id>/timesheetapprover.xhtml</from-view-id>
     <navigation-case>
