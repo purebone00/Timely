@@ -81,12 +81,12 @@
                             			
                             			<table class="table">
                             			<tr>
-                            				<ui:repeat value="#{Master.projMan.getListOfWeeks()}" var="w">
+                            				<ui:repeat value="#{Master.projMan.getListOfWeeks(1)}" var="w">
                             					<td>#{w}</td>
                             				</ui:repeat>
                             			</tr>
                             			<tr>
-                            				<ui:repeat value="#{Master.projMan.getListOfWeeks()}" var="w">
+                            				<ui:repeat value="#{Master.projMan.getListOfWeeks(1)}" var="w">
                             					<td>
                             						<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}"
                             							rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) != null}">

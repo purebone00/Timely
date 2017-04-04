@@ -684,9 +684,11 @@ public class ProjectManagerController {
      * date. If the current date comes before the Project's end date, the last
      * date in the list will be the end of the current week.
      * 
+     * @param flag 0 for list of all weeks up until today, 1 for list of weeks in pattern for weekly reports up until selectedWeek
+     * 
      * @return A list of end of weeks in the format 'YYYYMMDD'.
      */
-    public List<String> getListOfWeeks() {
+    public List<String> getListOfWeeks(int flag) {
         DateTimeUtility dtu = new DateTimeUtility();
         Date curDt = new Date();
         Date staDt = getSelectedProject().getProjStaDt();
@@ -704,9 +706,18 @@ public class ProjectManagerController {
         year = cal.get(Calendar.YEAR);
         month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
         day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String endDate = year + month + day;
+        
+        String endDate = "";
+        
+        if (flag == 0) {            
+            endDate = year + month + day;
+            return dtu.getListOfAllWeekEnds(startDate, endDate);
+        } else if (flag == 1) {
+            endDate = getSelectedWeek();
+            return dtu.getListOfWeekEnds(startDate, endDate);
+        }
 
-        return dtu.getListOfWeekEnds(startDate, endDate);
+        return null;
     }
     
     /**
