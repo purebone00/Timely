@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -12,21 +13,18 @@ import manager.EmployeeManager;
 import manager.TimesheetManager;
 import model.Employee;
 import model.Timesheet;
-import model.TimesheetId;
-import model.Tsrow;
+
 
 @Stateful
 @Named("taApprover")
 public class TimesheetApproverController implements Serializable {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -8723895938632264068L;
-
+    
+    @Inject TimesheetManager tManager;
     @Inject
     private EmployeeManager empManager;
     @Inject
     private Employee emp;
+   
 
     private Set<Timesheet> tsToApproveList;
     private Timesheet reviewTimesheet;
@@ -67,13 +65,26 @@ public class TimesheetApproverController implements Serializable {
         return employeeReviewed;
     }
 
-    public void setEmployeeReviewed(int employeeReviewed) {
-        this.employeeReviewed = empManager.find(employeeReviewed);
+    public void setEmployeeReviewed(Employee e) {
+        this.employeeReviewed = e;
     }
 
     public String goToReviewTimesheet(Timesheet selectedTimesheet) {
         this.setReviewTimesheet(selectedTimesheet);
+        this.setEmployeeReviewed(selectedTimesheet.getEmployee());
         return "review";
+    }
+    
+    public String approveAllTimesheet() {
+        for (Timesheet t: tsToApproveList) {
+            if(t.getIsApprove() == true) {
+                t.setTsApprDt(new Date());
+                t.setTsApprId(emp.getEmpId());
+                tManager.merge(t);
+                tsToApproveList.remove(t);
+            }
+        }
+        return "success";
     }
 
 }

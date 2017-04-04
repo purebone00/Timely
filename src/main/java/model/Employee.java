@@ -52,7 +52,10 @@ public class Employee implements java.io.Serializable {
     private short empDel;
     private Date empInsDt;
     private Date empUpDt;
-
+    
+    private Integer empNot;
+    boolean editable;
+    
     private Set<Project> projects;
     private Set<Title> titles;
     private Set<Timesheet> timesheet;
@@ -121,9 +124,7 @@ public class Employee implements java.io.Serializable {
     public void setProjectNo(String projectNo) {
         this.projectNo = projectNo;
     }
-
-    boolean editable;
-
+    
     @Transient
     public boolean isEditable() {
         return editable;
@@ -131,6 +132,15 @@ public class Employee implements java.io.Serializable {
 
     public void setEditable(boolean editable) {
         this.editable = editable;
+    }
+    
+    @Transient
+    public Integer getEmpNot() {
+        return empNot;
+    }
+
+    public void setEmpNot(Integer empNot) {
+        this.empNot = empNot;
     }
 
     /* ================================================== */

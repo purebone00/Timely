@@ -79,11 +79,16 @@
   PATH="/timesheetapprover.xhtml" SHAPE="32,929,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#timesheetapprover.xhtml:0" NAME="item"
    PATH="/timesheetapprover.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="review::#reviewTimesheet.xhtml"
-    NAME="output" PATH="/reviewTimesheet.xhtml"
-    TARGET="rules:#reviewTimesheet.xhtml" TITLE="review" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#reviewTimesheet.xhtml"
-  PATH="/reviewTimesheet.xhtml" SHAPE="240,945,0,0" model-entity="JSFProcessGroup"/>
+  PATH="/reviewTimesheet.xhtml" SHAPE="240,945,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#reviewTimesheet.xhtml:0" NAME="item"
+   PATH="/reviewTimesheet.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>

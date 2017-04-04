@@ -10,33 +10,45 @@
         <div class="ui segment grid">
             <div class="row">
                 <div class="column">
-
-                    <div class="jumbotron text-center">
-                        <h1>Timesheets to Approve</h1>
+					<div class="container text-center">
+	                    <div class="jumbotron">
+	                        <h1>Timesheets to Approve</h1>
+	                    </div>
                     </div>
-                    <b:form>
-                        <b:dataTable responsive="true"
-                            value="#{Master.taApprover.tsToApproveList}"
-                            var="row">
-                            <b:dataTableColumn value="#{row.id.tsEmpId}"
-                                label="Employee" />
+					<div class="container">
+					<b:row>
+						<b:form>
+							<b:dataTable
+								responsive="true"
+								searching='false'
+								value="#{Master.taApprover.tsToApproveList}" var="row">
+								<b:dataTableColumn value="#{row.id.tsEmpId}" label="Employee" />
 
-                            <b:dataTableColumn value="#{row.id.tsWkEnd}"
-                                label="Week Of" />
+								<b:dataTableColumn value="#{row.id.tsWkEnd}" label="Week Of" />
 
-                            <b:dataTableColumn value="#{row.tsUpDt}"
-                                order="asc" label="Submitted" />
+								<b:dataTableColumn value="#{row.tsUpDt}" order="asc"
+									label="Submit Date" />
 
-                            <b:dataTableColumn label="View Timesheet">
+								<b:dataTableColumn label="View Timesheet">
+									<h:commandButton
+										action="#{Master.taApprover.goToReviewTimesheet(row)}"
+										value="View">
+									</h:commandButton>
+								</b:dataTableColumn>
+								
+								<b:dataTableColumn label="Approve">
+									<b:selectBooleanCheckbox value="#{row.isApprove}" caption=""/>
+								</b:dataTableColumn>
+							</b:dataTable>
 
-                                <h:commandButton
-                                    action="#{Master.taApprover.goToReviewTimesheet(row)}"
-                                    value="View">
-                                </h:commandButton>
-                            </b:dataTableColumn>
-                        </b:dataTable>
-                    </b:form>
-                </div>
+								<h:commandButton
+									action="#{Master.taApprover.approveAllTimesheet()}"
+									value="Approve">
+								</h:commandButton>
+							</b:form>
+					</b:row>
+					</div>
+				</div>
             </div>
         </div>
 

@@ -4,8 +4,12 @@ import java.io.Serializable;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
+
 
 import controller.AdminController;
 import controller.EmployeeController;
@@ -17,13 +21,15 @@ import controller.SupervisorController;
 import controller.TimesheetApproverController;
 import model.Employee;
 import model.Timesheet;
+import utility.SessionUtils;
 
 @Named("Master")
-@ConversationScoped
+@SessionScoped
 public class FrontEndBoundary implements Serializable {
-    @Inject
+    
+/*    @Inject
     Conversation conversation;
-
+*/
     @Inject
     LoginController login;
 
@@ -98,7 +104,7 @@ public class FrontEndBoundary implements Serializable {
         this.taApprover = taApprover;
     }
 
-    public void start() {
+/*    public void start() {
         conversation.begin();
     }
 
@@ -109,9 +115,10 @@ public class FrontEndBoundary implements Serializable {
     public void init() {
         start();
     }
-
+*/
     public String finish() {
-        end();
+        HttpSession session = SessionUtils.getSession();
+        session.invalidate();
         return "logout";
     }
 
@@ -124,7 +131,9 @@ public class FrontEndBoundary implements Serializable {
         if ((curEmp = login.authUser()) != null) {
             employee.setEmp(curEmp);
             taApprover.setEmp(curEmp);
-            init();
+            //init();
+            HttpSession session = SessionUtils.getSession();
+            session.setAttribute("username", employee.getEmp().getEmpLnm());
             if (login.isAdmin()) {
                 return "admin";
             }
@@ -171,6 +180,12 @@ public class FrontEndBoundary implements Serializable {
         finish();
 
         return "success";
+    }
+    
+    public String getNotifications() {
+        Integer tsApproveCount = taApprover.getTsToApproveList().size();
+        
+        return tsApproveCount.toString();
     }
 
 }
