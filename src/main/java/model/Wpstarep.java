@@ -20,7 +20,6 @@ import javax.persistence.TemporalType;
 public class Wpstarep implements java.io.Serializable {
 
     private WpstarepId id;
-    private String wsrRepDt;
     private Integer wsrWriter;
     private BigDecimal wsrProgLw;
     private String wsrProbLw;
@@ -44,11 +43,10 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrUpDt = wsrUpDt;
     }
 
-    public Wpstarep(WpstarepId id, String wsrRepDt, Integer wsrWriter, BigDecimal wsrProgLw, String wsrProbLw,
+    public Wpstarep(WpstarepId id, Integer wsrWriter, BigDecimal wsrProgLw, String wsrProbLw,
             BigDecimal wsrProgNw, String wsrProbNw, BigDecimal wsrEstWrh, String wsrEstDes, short wsrSubmit,
             short wsrDel, Date wsrInsDt, Date wsrUpDt) {
         this.id = id;
-        this.wsrRepDt = wsrRepDt;
         this.wsrWriter = wsrWriter;
         this.wsrProgLw = wsrProgLw;
         this.wsrProbLw = wsrProbLw;
@@ -66,22 +64,14 @@ public class Wpstarep implements java.io.Serializable {
 
     @AttributeOverrides({
             @AttributeOverride(name = "wsrProjNo", column = @Column(name = "wsrProjNo", nullable = false)),
-            @AttributeOverride(name = "wsrWpNo", column = @Column(name = "wsrWpNo", nullable = false, length = 8)) })
+            @AttributeOverride(name = "wsrWpNo", column = @Column(name = "wsrWpNo", nullable = false, length = 8)),
+            @AttributeOverride(name = "wsrRepDt", column = @Column(name = "wsrRepDt"))})
     public WpstarepId getId() {
         return this.id;
     }
 
     public void setId(WpstarepId id) {
         this.id = id;
-    }
-
-    @Column(name = "wsrRepDt", length = 19)
-    public String getWsrRepDt() {
-        return this.wsrRepDt;
-    }
-
-    public void setWsrRepDt(String wsrRepDt) {
-        this.wsrRepDt = wsrRepDt;
     }
 
     @Column(name = "wsrWriter")
