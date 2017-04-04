@@ -39,7 +39,7 @@ public class WpstarepManager {
      */
     public Wpstarep find(int wsrProjNo, String wsrWpNo, String wsrRepDt) {
         TypedQuery<Wpstarep> query = em.createQuery(
-                "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2 AND s.wsrRepDt=:code3",
+                "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2 AND s.id.wsrRepDt=:code3",
                 Wpstarep.class);
         query.setParameter("code", wsrProjNo);
         query.setParameter("code2", wsrWpNo);
@@ -57,7 +57,7 @@ public class WpstarepManager {
     public Wpstarep getInitialEst(int wsrProjNo, String wsrWpNo) {
         TypedQuery<Wpstarep> query = em.createQuery(
                 "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2"
-                + " AND s.wsrRepDt='00000000'",
+                + " AND s.id.wsrRepDt='00000000'",
                 Wpstarep.class);
         query.setParameter("code", wsrProjNo);
         query.setParameter("code2", wsrWpNo);

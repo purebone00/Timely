@@ -411,11 +411,10 @@ public class ProjectManagerController {
                 
                 labourDays = labourDays.substring(0, labourDays.length()-1);
                 
-                workPackageReport.setWsrRepDt("00000000");
                 workPackageReport.setWsrInsDt(new Date());
                 workPackageReport.setWsrUpDt(new Date());
                 workPackageReport.setId(
-                        new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo()));
+                        new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo(), "00000000"));
                 workPackageReport.setWsrEstDes(labourDays);
                 
                 initialEstimates.add(workPackageReport);
