@@ -95,11 +95,11 @@ public class ProjectManagerController {
     public String selectProjectForReport(Project p) {
         setSelectedProject(p);
 
-        return "weeklyStatisticsList";
+        return "weeklyReportsList";
     }
     
-    public String selectProjectForWeeklyReport(Project p) {
-        setSelectedProject(p);
+    public String selectProjectForWeeklyReport(String week) {
+        setSelectedWeek(week);
         
         return "weeklyReport";
     }
@@ -576,24 +576,8 @@ public class ProjectManagerController {
      * @return
      */
     public Object[] getReportForWpWeek(Workpack workpack) {
-        DateTimeUtility dtu = new DateTimeUtility();
-        Date curDt = new Date();
         
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(curDt);
-        cal.add(Calendar.DAY_OF_MONTH, -7);
-        curDt = cal.getTime();
-        
-        Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
-        
-        cal.setTime(endDt);
-        int year = cal.get(Calendar.YEAR);
-        String monthStr = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        
-        String endDate = dtu.getEndOfWeek(year + monthStr + day);
-        
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
+        List<Object[]> list = tsRowManager.getAllForWP(workpack, getSelectedWeek());
         
         BigDecimal curTotalCosts = BigDecimal.ZERO;
         BigDecimal curTotalHours = BigDecimal.ZERO;
@@ -607,7 +591,7 @@ public class ProjectManagerController {
             curTotalHours = curTotalHours.add(op1);
         }
         
-        Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
+        Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), getSelectedWeek());
 
         if (report != null) {
             String fields = report.getWsrEstDes();
