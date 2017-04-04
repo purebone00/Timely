@@ -401,8 +401,8 @@ public class ProjectManagerController {
 	
 	
 	/**
-     * Jen's bullshit. For moving employees onto a project
-     * @return String navigation string. Just refresh the page bro.
+     * Adds the employee with the given ID to the currently selected project.
+     * @return String navigation string.
      * @param empID ID of employee to put on project.
      * */
     public String assignEmployeeToProject2(String empID){
@@ -418,7 +418,8 @@ public class ProjectManagerController {
         employeeManager.flush();
         //refresh the page
         return null;
-    }	
+    }
+    
 	
     
     /**
@@ -469,6 +470,25 @@ public class ProjectManagerController {
     	return employeeManager.getEmpNotProj(selectedProject);
     }
     
+
+    
+	 /**
+     * Gets a list of employees in the given work package.
+     * @return list of employees
+     */
+    public List<Employee> allEmpInWP(){
+    	
+    	 //return selectedProject.getEmployees();
+    	return employeeManager.getEmpWP(selectedWorkPackage);
+    }
+    
+    /**
+     * Gets a list of employees not in the given work package.
+     * @return list of employees
+     */
+    public List<Employee> notEmpInWP(){
+    	return employeeManager.getEmpNotWP(selectedWorkPackage);
+    }
     
     
 }

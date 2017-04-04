@@ -5,7 +5,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Assigning Employees TO WPS</ui:define>
+    <ui:define name="title">Assigning Employees TO WPs</ui:define>
 
     <ui:define name="content">
 		<div class="container">
@@ -39,15 +39,15 @@
                            var="s"
                            responsive="true">
 
-                           <b:dataTableColumn>
-                               <f:facet name="header">Select</f:facet>
-  								<h:commandButton class="btn" value="*"/>
-						</b:dataTableColumn>
-
-                           <b:dataTableColumn>
+						<b:dataTableColumn>
                                <f:facet name="header">WP ID</f:facet>
   								<h:outputText value="#{s.id.getWpProjNo()}" />
 						</b:dataTableColumn>
+						<b:dataTableColumn>
+                               <f:facet name="header">Select</f:facet>
+  								<h:commandButton class="btn" action="#{Master.projMan.selectWorkPackage(s)}" value="*"/>
+						</b:dataTableColumn>
+						
                            <b:dataTableColumn>
                                <f:facet name="header">WP Name</f:facet>	
   								<h:outputText value="#{s.wpNm}" />
@@ -82,7 +82,7 @@
 					Select one employee to move them OFF of a particular WP.
 					<br/>
 						<b:dataTable 
-	                            value="#{Master.admin.employeeController.list}"
+	                            value="#{Master.projMan.allEmpInWP()}"
 	                            var="s"
 	                            responsive="true">
 								<b:dataTableColumn>
@@ -145,7 +145,7 @@
 					<br/>
 						
 					<b:dataTable 
-                            value="#{Master.admin.employeeController.list}"
+                            value="#{Master.projMan.notEmpInWP()}"
                             var="s"
                             responsive="true">
 
