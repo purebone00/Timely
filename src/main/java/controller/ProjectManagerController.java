@@ -31,6 +31,8 @@ import model.WplabId;
 import model.Wpstarep;
 import model.WpstarepId;
 import utility.DateTimeUtility;
+import utility.models.MonthlyReport;
+import utility.models.WeeklyReport;
 
 @Stateful
 @Named("ProjMan")
@@ -461,24 +463,13 @@ public class ProjectManagerController {
     }
     
     /**
-     * Gets the monthly-report information for a given workpackage for a given month.<br> 
-     * Returns an array of size 8:
-     * <ul>
-     * <li>index 0 = estimated total hours</li>
-     * <li>index 1 = estimated total dollars</li>
-     * <li>index 2 = current hours</li>
-     * <li>index 3 = current dollars</li>
-     * <li>index 4 = projected total hours</li>
-     * <li>index 5 = projected total dollars</li>
-     * <li>index 6 = variance hours</li>
-     * <li>index 7 = variance dollars</li>
-     * </ul>
+     * Gets the monthly report for a given workpackage for a given month.<br> 
      * 
-     * @param workpack The workpackage to get the monthly-report information for.
+     * @param workpack The workpackage to get the monthly report for.
      * @param month The month to get the monthly-report information for.
-     * @return The monthly-report information.
+     * @return The monthly report.
      */
-    public Object[] getReportForWpMonth(Workpack workpack, String month) {
+    public MonthlyReport getReportForWpMonth(Workpack workpack, String month) {
         
         DateTimeUtility dtu = new DateTimeUtility();
         String endDate = dtu.getEndOfWeek(dtu.getEndOfMonth(month + "01"));
@@ -503,120 +494,25 @@ public class ProjectManagerController {
             endDate = endDate2;
         }
         
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
-        
-        BigDecimal curTotalCosts = BigDecimal.ZERO;
-        BigDecimal curTotalHours = BigDecimal.ZERO;
-        BigDecimal estTotalCosts = BigDecimal.ZERO;
-        BigDecimal estTotalHours = BigDecimal.ZERO;
-        BigDecimal projTotalCosts = BigDecimal.ZERO;
-        BigDecimal projTotalHours = BigDecimal.ZERO;
-        BigDecimal varianceCosts = BigDecimal.ZERO;
-        BigDecimal varianceHours = BigDecimal.ZERO;
-        
-        for (Object[] obj : list) {
-            BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
-            BigDecimal op2 = (BigDecimal) obj[2];
-            curTotalCosts = curTotalCosts.add(op1.multiply(op2));
-            curTotalHours = curTotalHours.add(op1);
-        }
-        
-        for (Wplab w : workpack.getWplabs()) {
-            BigDecimal op1 = w.getWlPlanHrs();
-            BigDecimal op2 = labgrdManager.find(w.getId().getWlLgId()).getLgRate();
-            estTotalHours = estTotalHours.add(w.getWlPlanHrs());
-            estTotalCosts = estTotalCosts.add(op1.multiply(op2));
-        }
-        
+        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);                
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
-
-        if (report != null) {
-            String fields = report.getWsrEstDes();
-            String[] rows = fields.split(",");
-
-            // The list of "labour grades : hours" is stored as a single String
-            // in the database,
-            // this loop parses the String.
-            for (String s : rows) {
-                String[] columns = s.split(":");
-                BigDecimal op1 = new BigDecimal(columns[1]);
-                BigDecimal op2 = labgrdManager.find(columns[0]).getLgRate();
-                projTotalCosts = projTotalCosts.add(op1.multiply(op2));
-                projTotalHours = projTotalHours.add(op1);
-            }
-            
-            projTotalCosts = projTotalCosts.add(curTotalCosts);
-            projTotalHours = projTotalHours.add(curTotalHours);
-        } else {
-            projTotalCosts = null;
-            projTotalHours = null;
-        }
-        
-        if (projTotalCosts != null && projTotalHours != null) {            
-            varianceCosts = ((projTotalCosts.subtract(estTotalCosts)).divide(estTotalCosts, 2, RoundingMode.HALF_EVEN));
-            varianceHours = ((projTotalHours.subtract(estTotalHours)).divide(estTotalHours, 2, RoundingMode.HALF_EVEN));        
-        } else {
-            varianceCosts = null;
-            varianceHours = null;
-        }
-        
-        Object[] results = {estTotalHours, estTotalCosts, curTotalHours, curTotalCosts, projTotalHours, projTotalCosts, varianceHours, varianceCosts};
-        return results;
+       
+        return new MonthlyReport(list, workpack.getWplabs(), report, getRateMap());
     }
     
     /**
-     * Gets the weekly-report information for a given workpackage for the past week.<br> 
-     * Returns an array of size 4:
-     * <ul>
-     * <li>index 0 = current total work done</li>
-     * <li>index 1 = current total dollars</li>
-     * <li>index 2 = projected work remaining</li>
-     * <li>index 3 = projected costs remaining</li>
-     * </ul>
+     * Gets the weekly report for a given workpackage for the past week.<br> 
      * 
-     * @param workpack The workpackage to get the weekly-report information for.
-     * @return
+     * @param workpack The workpackage to get the weekly report for.
+     * @return The Weekly Report.
      */
-    public Object[] getReportForWpWeek(Workpack workpack) {
+    public WeeklyReport getReportForWpWeek(Workpack workpack) {
         
         List<Object[]> list = tsRowManager.getAllForWP(workpack, getSelectedWeek());
         
-        BigDecimal curTotalCosts = BigDecimal.ZERO;
-        BigDecimal curTotalHours = BigDecimal.ZERO;
-        BigDecimal estCostsRemaining = BigDecimal.ZERO;
-        BigDecimal estHoursRemaining = BigDecimal.ZERO;
-        
-        for (Object[] obj : list) {
-            BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
-            BigDecimal op2 = (BigDecimal) obj[2];
-            curTotalCosts = curTotalCosts.add(op1.multiply(op2));
-            curTotalHours = curTotalHours.add(op1);
-        }
-        
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), getSelectedWeek());
 
-        if (report != null) {
-            String fields = report.getWsrEstDes();
-            String[] rows = fields.split(",");
-
-            // The list of "labour grades : hours" is stored as a single String
-            // in the database,
-            // this loop parses the String.
-            for (String s : rows) {
-                String[] columns = s.split(":");
-                BigDecimal op1 = new BigDecimal(columns[1]);
-                BigDecimal op2 = labgrdManager.find(columns[0]).getLgRate();
-                estCostsRemaining = estCostsRemaining.add(op1.multiply(op2));
-                estHoursRemaining = estHoursRemaining.add(op1);
-            }
-            
-        } else {
-            estCostsRemaining = null;
-            estHoursRemaining = null;
-        }
-        
-        Object[] results = {curTotalHours, curTotalCosts, estHoursRemaining, estCostsRemaining};
-        return results;
+        return new WeeklyReport(list, report, getRateMap());
     }
 
     /**
@@ -764,6 +660,15 @@ public class ProjectManagerController {
     
     public void setNewWpName(String newWpName) {
         this.newWpName = newWpName;
+    }
+    
+    public HashMap<String, BigDecimal> getRateMap() {
+        HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
+        List<Labgrd> list = labgrdManager.getAll();
+        for (Labgrd l : list) {
+            map.put(l.getLgId(), l.getLgRate());
+        }
+        return map;
     }
 
 }
