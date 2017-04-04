@@ -450,7 +450,7 @@ public class ProjectManagerController {
         BigDecimal totalCost = BigDecimal.ZERO;
         BigDecimal totalHours = BigDecimal.ZERO;
         for (Object[] obj : list) {
-            BigDecimal op1 = (BigDecimal) obj[1];
+            BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
             BigDecimal op2 = (BigDecimal) obj[2];
             totalCost = totalCost.add(op1.multiply(op2));
             totalHours = totalHours.add(op1);
@@ -515,7 +515,7 @@ public class ProjectManagerController {
         BigDecimal varianceHours = BigDecimal.ZERO;
         
         for (Object[] obj : list) {
-            BigDecimal op1 = (BigDecimal) obj[1];
+            BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
             BigDecimal op2 = (BigDecimal) obj[2];
             curTotalCosts = curTotalCosts.add(op1.multiply(op2));
             curTotalHours = curTotalHours.add(op1);
@@ -587,7 +587,7 @@ public class ProjectManagerController {
         BigDecimal estHoursRemaining = BigDecimal.ZERO;
         
         for (Object[] obj : list) {
-            BigDecimal op1 = (BigDecimal) obj[1];
+            BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
             BigDecimal op2 = (BigDecimal) obj[2];
             curTotalCosts = curTotalCosts.add(op1.multiply(op2));
             curTotalHours = curTotalHours.add(op1);
