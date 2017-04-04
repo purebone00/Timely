@@ -24,11 +24,12 @@
                             var="s">
                             <b:dataTableColumn>
                                 <f:facet name="header">Week</f:facet>	
-								#{s}
+								<h:outputText value="#{s}"/>
 							</b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Statistics</f:facet>
-                                <h:commandButton class="btn"
+                                <b:commandButton class="btn"
+                                   	look="info"
                                     value="What"
                                     action="#{Master.projMan.selectWeeklyReport(s)}" />
                             </b:dataTableColumn>

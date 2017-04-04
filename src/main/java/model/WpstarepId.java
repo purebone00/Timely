@@ -12,13 +12,15 @@ public class WpstarepId implements java.io.Serializable {
 
     private int wsrProjNo;
     private String wsrWpNo;
+    private String wsrRepDt;
 
     public WpstarepId() {
     }
 
-    public WpstarepId(int wsrProjNo, String wsrWpNo) {
+    public WpstarepId(int wsrProjNo, String wsrWpNo, String wsrRepDt) {
         this.wsrProjNo = wsrProjNo;
         this.wsrWpNo = wsrWpNo;
+        this.wsrRepDt = wsrRepDt;
     }
 
     @Column(name = "wsrProjNo", nullable = false)
@@ -38,6 +40,15 @@ public class WpstarepId implements java.io.Serializable {
     public void setWsrWpNo(String wsrWpNo) {
         this.wsrWpNo = wsrWpNo;
     }
+    
+    @Column(name = "wsrRepDt")
+    public String getWsrRepDt() {
+        return this.wsrRepDt;
+    }
+    
+    public void setWsrRepDt(String wsrRepDt) {
+        this.wsrRepDt = wsrRepDt;
+    }
 
     public boolean equals(Object other) {
         if ((this == other))
@@ -50,7 +61,9 @@ public class WpstarepId implements java.io.Serializable {
 
         return (this.getWsrProjNo() == castOther.getWsrProjNo())
                 && ((this.getWsrWpNo() == castOther.getWsrWpNo()) || (this.getWsrWpNo() != null
-                        && castOther.getWsrWpNo() != null && this.getWsrWpNo().equals(castOther.getWsrWpNo())));
+                        && castOther.getWsrWpNo() != null && this.getWsrWpNo().equals(castOther.getWsrWpNo())))
+                && ((this.getWsrRepDt() == castOther.getWsrRepDt()) || (this.getWsrRepDt() != null
+                        && castOther.getWsrRepDt() != null && this.getWsrRepDt().equals(castOther.getWsrRepDt())));
     }
 
     public int hashCode() {
@@ -58,6 +71,7 @@ public class WpstarepId implements java.io.Serializable {
 
         result = 37 * result + this.getWsrProjNo();
         result = 37 * result + (getWsrWpNo() == null ? 0 : this.getWsrWpNo().hashCode());
+        result = 37 * result + (getWsrRepDt() == null ? 0 : this.getWsrRepDt().hashCode());
         return result;
     }
 

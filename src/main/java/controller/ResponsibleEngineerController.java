@@ -242,9 +242,8 @@ public class ResponsibleEngineerController implements Serializable {
         
         labourDays = labourDays.substring(0, labourDays.length()-1);
         
-        workPackageReport.setWsrRepDt(getEndOfWeek());
         workPackageReport.setId(
-                new WpstarepId(selectedWorkPackage.getId().getWpProjNo(), selectedWorkPackage.getId().getWpNo()));
+                new WpstarepId(selectedWorkPackage.getId().getWpProjNo(), selectedWorkPackage.getId().getWpNo(), getEndOfWeek()));
         workPackageReport.setWsrWriter(selectedWorkPackage.getWpResEng());
         workPackageReport.setWsrEstDes(labourDays);
         // TODO: for Wpstarep, give wsrProbLw and wsrProbNw default strings if
