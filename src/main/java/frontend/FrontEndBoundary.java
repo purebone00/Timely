@@ -1,10 +1,12 @@
 package frontend;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,11 +27,9 @@ import utility.SessionUtils;
 
 @Named("Master")
 @SessionScoped
+
 public class FrontEndBoundary implements Serializable {
-    
-/*    @Inject
-    Conversation conversation;
-*/
+  
     @Inject
     LoginController login;
 
@@ -104,6 +104,7 @@ public class FrontEndBoundary implements Serializable {
         this.taApprover = taApprover;
     }
 
+<<<<<<< Updated upstream
 /*    public void start() {
         conversation.begin();
     }
@@ -120,6 +121,14 @@ public class FrontEndBoundary implements Serializable {
         //HttpSession session = SessionUtils.getSession();
         //session.invalidate();
         return "logout";
+=======
+    public void finish() throws IOException {
+        employee.setEmp(null);
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.invalidateSession();
+        ec.redirect(ec.getRequestContextPath() + "/");
+        
+>>>>>>> Stashed changes
     }
 
     public FrontEndBoundary() {
@@ -131,9 +140,6 @@ public class FrontEndBoundary implements Serializable {
         if ((curEmp = login.authUser()) != null) {
             employee.setEmp(curEmp);
             taApprover.setEmp(curEmp);
-            //init();
-            HttpSession session = SessionUtils.getSession();
-            session.setAttribute("username", employee.getEmp().getEmpLnm());
             if (login.isAdmin()) {
                 return "admin";
             }
@@ -148,7 +154,7 @@ public class FrontEndBoundary implements Serializable {
         return "timesheet";
     }
 
-    public String logout() {
+    public String logout() throws IOException {
         finish();
         return "logout";
     }
@@ -160,7 +166,7 @@ public class FrontEndBoundary implements Serializable {
     public void generateAllFeatures() {
     }
 
-    public String changePassword() {
+    public String changePassword() throws IOException {
         Employee emp = employee.getEmp();
         Integer empChNo = emp.getEmpChNo();
         String newPassword = emp.getNewPassword();
@@ -183,7 +189,12 @@ public class FrontEndBoundary implements Serializable {
     }
     
     public String getNotifications() {
-        Integer tsApproveCount = taApprover.getTsToApproveList().size();
+        Integer tsApproveCount = null;
+        try {
+            tsApproveCount = taApprover.getTsToApproveList().size();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
         return tsApproveCount.toString();
     }

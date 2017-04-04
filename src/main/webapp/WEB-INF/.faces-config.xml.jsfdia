@@ -81,6 +81,9 @@
    PATH="/timesheetapprover.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="logout::#login.xhtml" NAME="output"
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="review::#reviewTimesheet.xhtml"
+    NAME="output1" PATH="/reviewTimesheet.xhtml"
+    TARGET="rules:#reviewTimesheet.xhtml" TITLE="review" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#reviewTimesheet.xhtml"

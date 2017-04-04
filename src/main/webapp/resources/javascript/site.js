@@ -45,14 +45,19 @@ function redIfNotificate(notificationCount) {
 function addToNotifications() {
 	var nId = document.getElementById("dropdown");
 	var firstChild = nId.getElementsByTagName("ul")[0];
-	var newNotification = document.createElement("li");
 	var notificationCount = document.getElementById("dtLdropdown");
 	redIfNotificate(notificationCount);
+	if(parseInt(notificationCount.textContent) != 0) {
+		addTSANotification(firstChild, notificationCount);
+	}
+}
+
+function addTSANotification(firstChild, notificationCount) {
+	var newNotification = document.createElement("li");
 	var notificationMessage = "You have " + notificationCount.textContent + " timesheets to approve."; 
 	newNotification.style.cursor = "pointer";
 	newNotification.innerHTML = "<a href=\"/Timely/faces/timesheetapprover.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
-	if(parseInt(notificationCount.textContent) != 0)
-		firstChild.appendChild(newNotification);
+	firstChild.appendChild(newNotification);
 }
 
 $(document).ready(function() {

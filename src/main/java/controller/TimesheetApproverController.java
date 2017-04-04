@@ -1,11 +1,14 @@
 package controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateful;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -15,7 +18,6 @@ import model.Employee;
 import model.Timesheet;
 
 
-@Stateful
 @Named("taApprover")
 public class TimesheetApproverController implements Serializable {
     
@@ -38,7 +40,7 @@ public class TimesheetApproverController implements Serializable {
         return emp;
     }
 
-    public Set<Timesheet> getTsToApproveList() {
+    public Set<Timesheet> getTsToApproveList() throws IOException {
         if (tsToApproveList == null) {
             refreshTsToApproveList();
         }
@@ -49,8 +51,14 @@ public class TimesheetApproverController implements Serializable {
         this.tsToApproveList = tsToApproveList;
     }
 
-    public void refreshTsToApproveList() {
-        tsToApproveList = empManager.find(getEmp().getEmpId()).getTimesheetsToApprove();
+    public void refreshTsToApproveList() throws IOException {
+        try {
+            tsToApproveList = empManager.find(getEmp().getEmpId()).getTimesheetsToApprove();    
+        } catch (NullPointerException e) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.invalidateSession();
+            ec.redirect(ec.getRequestContextPath() + "/error.xhtml");
+        }
     }
 
     public Timesheet getReviewTimesheet() {
