@@ -401,23 +401,25 @@ public class ProjectManagerController {
         List<Wpstarep> initialEstimates = new ArrayList<Wpstarep>();
         
         for (Workpack w : getSelectedProject().getWorkPackages()) {
-            Wpstarep workPackageReport = new Wpstarep();
-            String labourDays = "";
-            
-            for (Map.Entry<String, BigDecimal> entry : w.getInitialEst().entrySet()) {
-                labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
+            if (w.getInitialEst() != null) {                
+                Wpstarep workPackageReport = new Wpstarep();
+                String labourDays = "";
+                
+                for (Map.Entry<String, BigDecimal> entry : w.getInitialEst().entrySet()) {
+                    labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
+                }
+                
+                labourDays = labourDays.substring(0, labourDays.length()-1);
+                
+                workPackageReport.setWsrRepDt("00000000");
+                workPackageReport.setWsrInsDt(new Date());
+                workPackageReport.setWsrUpDt(new Date());
+                workPackageReport.setId(
+                        new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo()));
+                workPackageReport.setWsrEstDes(labourDays);
+                
+                initialEstimates.add(workPackageReport);
             }
-            
-            labourDays = labourDays.substring(0, labourDays.length()-1);
-            
-            workPackageReport.setWsrRepDt("00000000");
-            workPackageReport.setWsrInsDt(new Date());
-            workPackageReport.setWsrUpDt(new Date());
-            workPackageReport.setId(
-                    new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo()));
-            workPackageReport.setWsrEstDes(labourDays);
-            
-            initialEstimates.add(workPackageReport);
         }
         
         for (Wpstarep ws : initialEstimates) {
@@ -682,9 +684,11 @@ public class ProjectManagerController {
      * date. If the current date comes before the Project's end date, the last
      * date in the list will be the end of the current week.
      * 
+     * @param flag 0 for list of all weeks up until today, 1 for list of weeks in pattern for weekly reports up until selectedWeek
+     * 
      * @return A list of end of weeks in the format 'YYYYMMDD'.
      */
-    public List<String> getListOfWeeks() {
+    public List<String> getListOfWeeks(int flag) {
         DateTimeUtility dtu = new DateTimeUtility();
         Date curDt = new Date();
         Date staDt = getSelectedProject().getProjStaDt();
@@ -702,9 +706,18 @@ public class ProjectManagerController {
         year = cal.get(Calendar.YEAR);
         month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
         day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String endDate = year + month + day;
+        
+        String endDate = "";
+        
+        if (flag == 0) {            
+            endDate = year + month + day;
+            return dtu.getListOfAllWeekEnds(startDate, endDate);
+        } else if (flag == 1) {
+            endDate = getSelectedWeek();
+            return dtu.getListOfWeekEnds(startDate, endDate);
+        }
 
-        return dtu.getListOfWeekEnds(startDate, endDate);
+        return null;
     }
     
     /**
