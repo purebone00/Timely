@@ -24,6 +24,13 @@ function statusClass() {
 	 });
 }
 
+function removeShowingEntriesOnTimesheetsPage() {
+	var showEntries = document.getElementsByClassName("dataTables_info");
+	window.location.pathname+window.location.search
+	if(window.location.pathname+window.location.search === "/Timely/faces/timesheet.xhtml")
+	showEntries[0].style.display = "none";
+}
+
 function projectNumberChange() {
 	var projNo = document.getElementsByClassName("ProjectNo");
 	$(projNo).each(function(){
@@ -62,6 +69,7 @@ function addTSANotification(firstChild, notificationCount) {
 
 $(document).ready(function() {
     $(".dropdown-toggle").dropdown();
+    removeShowingEntriesOnTimesheetsPage();
 });
 
 
