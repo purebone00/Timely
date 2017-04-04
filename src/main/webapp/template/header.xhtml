@@ -19,17 +19,19 @@
                 <b:navLink value="About Us" href="#"></b:navLink>
                 <b:navLink value="Contact Us" href="#"></b:navLink>
             </b:navbarLinks>
+            
             <b:form>
                 <b:navbarLinks pull="right">
-                    <b:dropMenu icon-size="2x" value="Notifications"
-                        iconAwesome="exclamation" rendered="true">
-                        <b:navLink value="POPULATE WITH NOTIFICATIONS"
-                            href="#"></b:navLink>
-                    </b:dropMenu>
                     <b:navCommandLink icon-size="2x" iconAwesome="sign-out"
-                        action="#{Master.end}" value="Sign Out" rendered="true" />
+                        action="#{Master.finish}" value="Sign Out" rendered="true" />
                 </b:navbarLinks>
             </b:form>
+            
+            <b:navbarLinks pull="right">
+				<b:dropMenu icon-size="2x" id="dropdown"
+					value="#{Master.getNotifications()}" iconAwesome="exclamation">
+				</b:dropMenu>
+			</b:navbarLinks>
         </b:navBar>
     </ui:composition>
 </h:body>
