@@ -41,14 +41,17 @@
 								#{s.id.wpNo}
 							</b:dataTableColumn>
                             <b:dataTableColumn>
-                                <f:facet name="header">Name</f:facet>
-                                <b:inputText class="form-control"
-                                    value="#{s.wpNm}" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Description</f:facet>
-                                <b:inputText class="form-control"
-                                    value="#{s.wpDesc}" />
+                                <f:facet name="header">Details</f:facet>
+                                <b:panelGrid colSpans="12">
+	                                Name:<br/>
+	                                <b:inputText class="form-control"
+	                                	span="12"
+	                                    value="#{s.wpNm}" />
+	                                Description:<br/>
+	                                <b:inputTextarea class="form-control"
+	                                	span="12" rows="15"
+	                                    value="#{s.wpDesc}" />
+                                </b:panelGrid>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Budget</f:facet>
