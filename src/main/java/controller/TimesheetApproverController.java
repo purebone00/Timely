@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.ejb.Stateful;
+import javax.faces.application.ViewExpiredException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -95,7 +96,11 @@ public class TimesheetApproverController implements Serializable {
     }
 
     public void refreshList() {
-        listOfts = empManager.find(getEmp().getEmpId()).getTimesheetsToApprove();
+        try {
+            listOfts = empManager.find(getEmp().getEmpId()).getTimesheetsToApprove();
+        } catch (NullPointerException e) {
+            listOfts = new HashSet<Timesheet>();
+        }
     }
 
     public Timesheet getReviewTimesheet() {

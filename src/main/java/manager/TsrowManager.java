@@ -23,7 +23,8 @@ public class TsrowManager {
     EntityManager em;
 
     public Tsrow find(int id) {
-        return em.find(Tsrow.class, id);
+        Tsrow foundRow = em.find(Tsrow.class, id);
+        return (foundRow != null) ? foundRow : new Tsrow();
     }
 
     public void persist(Tsrow tsrow) {
@@ -54,7 +55,7 @@ public class TsrowManager {
     public List<Tsrow> getAll() {
         TypedQuery<Tsrow> query = em.createQuery("select s from Tsrow s", Tsrow.class);
         List<Tsrow> Tsrow = query.getResultList();
-        return Tsrow;
+        return (Tsrow != null) ? Tsrow : new ArrayList<Tsrow>();
     }
 
     /**
@@ -72,7 +73,7 @@ public class TsrowManager {
                 .setParameter(1, name).setParameter("wkEnding", "%" + wkEnd + "%");
         ArrayList<Tsrow> Tsrow = new ArrayList<>(query.getResultList().size());
         Tsrow.addAll(query.getResultList());
-        return Tsrow;
+        return (Tsrow != null) ? Tsrow : new ArrayList<Tsrow>();
     }
 
     /**
@@ -105,7 +106,7 @@ public class TsrowManager {
         @SuppressWarnings("unchecked")
         List<Object[]> workpackages = query.getResultList();
 
-        return workpackages;
+        return (workpackages != null) ? workpackages : new ArrayList<Object[]>();
     }
 
     /**
@@ -155,9 +156,11 @@ public class TsrowManager {
         query.setParameter("code1", workpack.getId().getWpProjNo());
         query.setParameter("code2", workpack.getId().getWpNo());
         query.setParameter("code3", week);
+        
+        @SuppressWarnings("unchecked")
         List<Object[]> workpackages = query.getResultList();
 
-        return workpackages;
+        return (workpackages != null) ? workpackages : new ArrayList<Object[]>();
     }
 
     /**
@@ -203,7 +206,7 @@ public class TsrowManager {
         query.setParameter(2, w.getId().getWpNo());
         List<Tsrow> tsrows = query.getResultList();
 
-        return tsrows;
+        return (tsrows != null) ? tsrows : new ArrayList<Tsrow>();
     }
 
 }

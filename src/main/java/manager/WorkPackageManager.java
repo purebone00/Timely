@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class WorkPackageManager {
         query.setParameter("code", employeeId);
         List<Workpack> workpackages = query.getResultList();
 
-        return workpackages;
+        return (workpackages != null) ? workpackages : new ArrayList<Workpack>();
     }
 
     /**
@@ -43,7 +44,7 @@ public class WorkPackageManager {
                 .setParameter(1, projNo).setParameter(2, workpackPrefix.toUpperCase() + "%");
         List<Workpack> workpackages = query.getResultList();
 
-        return workpackages;
+        return (workpackages != null) ? workpackages : new ArrayList<Workpack>();
     }
 
     /**
@@ -58,7 +59,7 @@ public class WorkPackageManager {
                 .setParameter(1, projNo);
         List<Workpack> workpackages = query.getResultList();
 
-        return workpackages;
+        return (workpackages != null) ? workpackages : new ArrayList<Workpack>();
     }
 
     public void persist(Workpack w) {

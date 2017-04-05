@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -27,7 +28,6 @@ import model.Project;
 public class FrontEndBoundary implements Serializable {
     @Inject
     LoginController login;
-
     @Inject
     ResponsibleEngineerController resEng;
     @Inject
@@ -99,12 +99,12 @@ public class FrontEndBoundary implements Serializable {
         this.taApprover = taApprover;
     }
 
-    public void finish() throws IOException {
+    public String finish() throws IOException {
         employee.setEmp(null);
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.invalidateSession();
-        ec.redirect(ec.getRequestContextPath() + "/");
-        
+
+        return "/login.xhtml?faces-redirect=true&expired=true";
     }
 
     public FrontEndBoundary() {
@@ -163,11 +163,12 @@ public class FrontEndBoundary implements Serializable {
 
         return "success";
     }
-    
+
     public String getNotifications() {
         int monthState = 0, weekState = 0;    
         StringBuilder notification = new StringBuilder();
         Integer tsApproveCount = null;
+
         taApprover.setEmp(employee.getEmp());
         taApprover.refreshList();
         tsApproveCount = taApprover.getListToBeApproved().size();
@@ -192,4 +193,5 @@ public class FrontEndBoundary implements Serializable {
         return notification.toString();
     }
 
+    }
 }

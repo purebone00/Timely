@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
+import model.Labgrd;
 import model.Project;
 import model.Workpack;
 
@@ -22,7 +23,10 @@ public class ProjectManager implements Serializable{
     @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
 
     public Project find(int id) {
-        return em.find(Project.class, id);
+        
+        Project foundProject = em.find(Project.class, id);
+        
+        return (foundProject != null) ? foundProject : new Project();
     }
 
     public void persist(Project project) {
