@@ -1,5 +1,6 @@
 package utility.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import manager.TsrowManager;
 import model.Wplab;
 import model.Wpstarep;
 
-public class MonthlyReport {
+public class MonthlyReport implements Serializable {
     
     /**
      * Total Hours Budgeted.
@@ -52,6 +53,8 @@ public class MonthlyReport {
      */
     BigDecimal varCosts;
     
+    int visited;
+    
     /**
      * Creates a Monthly Report.
      * @param tsrowHours Output of {@link TsrowManager#getAllForWP(model.Workpack, String)}.
@@ -68,6 +71,7 @@ public class MonthlyReport {
         projTotalCosts = BigDecimal.ZERO;
         varTime = BigDecimal.ZERO;
         varCosts = BigDecimal.ZERO;
+        visited = 0;
         
         for (Object[] obj : tsrowHours) {
             BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
@@ -200,6 +204,14 @@ public class MonthlyReport {
 
     public void setVarCosts(BigDecimal varCosts) {
         this.varCosts = varCosts;
+    }
+    
+    public int getVisited() {
+        return this.visited;
+    }
+    
+    public void setVisited(int visited) {
+        this.visited = visited;
     }
     
 }
