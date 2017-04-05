@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -29,8 +30,10 @@ import model.WorkpackId;
 import model.Wplab;
 import model.WplabId;
 import model.Wpstarep;
+import model.WpstarepId;
 import utility.DateTimeUtility;
 import utility.models.MonthlyReport;
+import utility.models.MonthlyReportRow;
 import utility.models.WeeklyReport;
 
 @Stateful
@@ -51,6 +54,16 @@ public class ProjectManagerController {
     // fuck it
     @Inject
     EmployeeManager employeeManager;
+
+    private Employee emp;
+    
+    public Employee getEmp() {
+        return emp;
+    }
+
+    public void setEmp(Employee emp) {
+        this.emp = emp;
+    }
 
     private Project selectedProject;
     private Workpack selectedWorkPackage;
@@ -84,6 +97,7 @@ public class ProjectManagerController {
      */
     public List<Project> listOfProjects(Employee emp) {
         try {
+            setEmp(emp);  
             return projectManager.getManagedProjects(emp.getEmpId());
         } catch (NullPointerException e) {
             return new ArrayList<Project>();
@@ -92,14 +106,49 @@ public class ProjectManagerController {
 
     public String selectProject(Project p) {
         setSelectedProject(p);
+        
+        for (Workpack w : getSelectedProject().getWorkPackages()) {
+            Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
+            if (initial != null) {
+                w.setInitialEst(new HashMap<String, BigDecimal>());
+                String fields = initial.getWsrEstDes();
+                String[] rows = fields.split(",");
+                
+                for (String s : rows) {
+                    String[] columns = s.split(":");
+                    w.getInitialEst().put(columns[0], new BigDecimal(columns[1]));
+                }
+            }
+        }
 
         return "manageproject";
     }
-
+    
     public String selectProjectForReport(Project p) {
         setSelectedProject(p);
-
         return "weeklyReportsList";
+    }
+    
+    public String selectProjectForWeeklyReport(String week) {
+        String empLastVisitWeek = emp.getEmpLastVisitedWeekReport();
+        
+        Integer visitWeek = new Integer(empLastVisitWeek);
+        Integer curWeek = new Integer(week);
+        
+        if(visitWeek.intValue() < curWeek.intValue()) {
+            emp.setEmpLastVisitedWeekReport(curWeek.toString());
+            employeeManager.merge(emp);
+        }
+        
+        setSelectedWeek(week);
+        
+        return "weeklyReport";
+    }
+    
+    public String selectProjectForMonthlyReport(Project p) {
+        setSelectedProject(p);
+        
+        return "monthlyReport";
     }
 
     public Project getSelectedProject() {
@@ -177,8 +226,11 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createNewWP() {
-        String newWpNo;
-        if ((newWpNo = getNextAvailableWPName("")) == null) {
+        String newWpNo = isWpNameValid(getNewWpName());
+//        if ((newWpNo = getNextAvailableWPName("")) == null) {
+//            return "";
+//        }
+        if (newWpNo == null) {
             return "";
         }
         Workpack newWp = new Workpack();
@@ -187,6 +239,21 @@ public class ProjectManagerController {
         newWp.setWpNm("");
         short i = 0;
         newWp.setWpDel(i);
+        
+        newWp.setWplabs(new HashSet<Wplab>());
+        // newWp.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {            
+            Wplab newRow = new Wplab();
+            WplabId id = new WplabId(newWp.getId().getWpProjNo(), newWp.getId().getWpNo(), l.getLgId());
+            newRow.setId(id);
+            i = 0;
+            newRow.setWlDel(i);
+            newRow.setWlPlanHrs(BigDecimal.ZERO);
+            newWp.getWplabs().add(newRow);
+            
+            // newWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
+        
         selectedProject.getWorkPackages().add(newWp);
         return "";
     }
@@ -199,18 +266,45 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createChildWP(Workpack parent) {
-        String newChildWpNo;
-        if ((newChildWpNo = getNextAvailableWPName(parent.getId().getWpNo())) == null) {
+        String newChildWpNo = isWpNameValid(parent.getNamePrefix() + parent.getChildName());
+//        if ((newChildWpNo = getNextAvailableWPName(parent.getId().getWpNo())) == null) {
+//            return "";
+//        }
+        if (newChildWpNo == null) {
             return "";
         }
+        
         Workpack newChildWp = new Workpack();
         WorkpackId newChildWpId = new WorkpackId(selectedProject.getProjNo(), newChildWpNo);
         newChildWp.setId(newChildWpId);
         newChildWp.setWpNm("");
         short i = 0;
         newChildWp.setWpDel(i);
+        
+        newChildWp.setWplabs(new HashSet<Wplab>());
+        // newChildWp.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {            
+            Wplab newRow = new Wplab();
+            WplabId id = new WplabId(newChildWp.getId().getWpProjNo(), newChildWp.getId().getWpNo(), l.getLgId());
+            newRow.setId(id);
+            i = 0;
+            newRow.setWlDel(i);
+            newRow.setWlPlanHrs(BigDecimal.ZERO);
+            newChildWp.getWplabs().add(newRow);
+            
+            // newChildWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
+        
         selectedProject.getWorkPackages().add(newChildWp);
         parent.setRemoveWplabs(true);
+        return "";
+    }
+    
+    public String addInitialEstimate(Workpack w) {
+        w.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {
+            w.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
         return "";
     }
 
@@ -259,6 +353,33 @@ public class ProjectManagerController {
         // not able to find an available WP number
         return null;
     }
+    
+    /**
+     * Checks if a WP name is valid (no duplicates).
+     * @param wpName name to check.
+     * @return the name if valid, else returns false.
+     */
+    public String isWpNameValid(String wpName) {
+        if (wpName.length() > 6) {
+            return null;
+        }
+        
+        if (workPackageManager.getWorkPackage(getSelectedProject().getProjNo(), wpName).isEmpty()) {
+            for (Workpack w : getSelectedProject().getWorkPackages()) {
+                if (w.getId().getWpNo().matches(wpName + ".*")) {
+                    return null;
+                }
+            }
+
+            if (6 - wpName.length() == 0) {
+                return wpName;
+            } else {
+                return String.format("%s" + "%0" + (6 - wpName.length()) + "d", wpName, 0);
+            }
+        }
+        
+        return null;
+    }
 
     /**
      * Checks if a {@link Workpack} is a leaf node.
@@ -296,7 +417,7 @@ public class ProjectManagerController {
     public String selectWeeklyReport(String week) {
         setSelectedWeek(week);
 
-        return "weeklyReport";
+        return "weeklyStatistics";
     }
 
     /**
@@ -317,55 +438,81 @@ public class ProjectManagerController {
         }
         if (!toBeRemoved.isEmpty())
             wplabManager.removeByWp(toBeRemoved);
+        
+        List<Wpstarep> initialEstimates = new ArrayList<Wpstarep>();
+        
+        for (Workpack w : getSelectedProject().getWorkPackages()) {
+            if (w.getInitialEst() != null) {                
+                Wpstarep workPackageReport = new Wpstarep();
+                String labourDays = "";
+                
+                for (Map.Entry<String, BigDecimal> entry : w.getInitialEst().entrySet()) {
+                    labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
+                }
+                
+                labourDays = labourDays.substring(0, labourDays.length()-1);
+                
+                workPackageReport.setWsrInsDt(new Date());
+                workPackageReport.setWsrUpDt(new Date());
+                workPackageReport.setId(
+                        new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo(), "00000000"));
+                workPackageReport.setWsrEstDes(labourDays);
+                
+                initialEstimates.add(workPackageReport);
+            }
+        }
+        
+        for (Wpstarep ws : initialEstimates) {
+            wpstarepManager.merge(ws);
+        }
 
         return "viewmanagedprojects";
     }
 
     /**
-     * Gets the monthly report for a given workpackage for a given month.<br>
+     * Gets the monthly report for a given workpackage for a given month.<br> 
      * 
-     * @param workpack
-     *            The workpackage to get the monthly report for.
-     * @param month
-     *            The month to get the monthly-report information for.
+     * @param workpack The workpackage to get the monthly report for.
+     * @param month The month to get the monthly-report information for.
      * @return The monthly report.
      */
-    public MonthlyReport getReportForWpMonth(Workpack workpack, String month) {
-
+    public MonthlyReportRow getReportForWpMonth(Workpack workpack, String month) {
+        
         DateTimeUtility dtu = new DateTimeUtility();
         String endDate = dtu.getEndOfWeek(dtu.getEndOfMonth(month + "01"));
         Date curDt = new Date();
-
+        
         Calendar cal = Calendar.getInstance();
         cal.setTime(curDt);
         cal.add(Calendar.DAY_OF_MONTH, -7);
         curDt = cal.getTime();
-
+        
         Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
-
+        
+        
         cal.setTime(endDt);
         int year = cal.get(Calendar.YEAR);
         String monthStr = String.format("%02d", cal.get(Calendar.MONTH) + 1);
         String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-
+        
         String endDate2 = dtu.getEndOfWeek(year + monthStr + day);
-
+        
         if (endDate2.compareTo(endDate) <= 0) {
             endDate = endDate2;
         }
-
+        
         List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
-
-        return new MonthlyReport(workpack, list, workpack.getWplabs(), report, getRateMap());
+       
+        return new MonthlyReportRow(workpack, list, workpack.getWplabs(), report, getRateMap());
     }
 
-    public List<MonthlyReport> getReportsForWpMonth(String month) {
+    public List<MonthlyReportRow> getReportsForWpMonth(String month) {
         List<Workpack> leafs = new ArrayList<Workpack>();
         List<Workpack> parents = new ArrayList<Workpack>();
-        List<MonthlyReport> leafReports = new ArrayList<MonthlyReport>();
-        List<MonthlyReport> parentReports = new ArrayList<MonthlyReport>();
-
+        List<MonthlyReportRow> leafReports = new ArrayList<MonthlyReportRow>();
+        List<MonthlyReportRow> parentReports = new ArrayList<MonthlyReportRow>();
+        
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             if (isLeaf(w)) {
                 leafs.add(w);
@@ -373,25 +520,37 @@ public class ProjectManagerController {
                 parents.add(w);
             }
         }
-
+        
         for (Workpack w : leafs) {
             leafReports.add(getReportForWpMonth(w, month));
         }
-
+        
         for (Workpack w : parents) {
-            List<MonthlyReport> childReports = new ArrayList<MonthlyReport>();
-            for (MonthlyReport r : leafReports) {
+            List<MonthlyReportRow> childReports = new ArrayList<MonthlyReportRow>();
+            for (MonthlyReportRow r : leafReports) {
                 if (r.getWorkpack().getId().getWpNo().matches("^" + w.getNamePrefix() + ".*")) {
                     childReports.add(r);
                 }
             }
-            parentReports.add(MonthlyReport.generateAggregate(w, childReports));
+            parentReports.add(MonthlyReportRow.generateAggregate(w, childReports));
         }
-
+        
         leafReports.addAll(parentReports);
         Collections.sort(leafReports);
-
+        
         return leafReports;
+    }
+    
+    public List<MonthlyReport> getMonthlyReports() {
+        ArrayList<MonthlyReport> reports = new ArrayList<MonthlyReport>();
+        
+        for (String month : getListOfMonths()) {
+            List<MonthlyReportRow> reportRows = getReportsForWpMonth(month);
+            MonthlyReport report = new MonthlyReport(reportRows, month);
+            reports.add(report);
+        }
+        Collections.sort(reports);
+        return reports;
     }
 
     /**
@@ -531,7 +690,10 @@ public class ProjectManagerController {
 
         if (flag == 0) {
             endDate = year + month + day;
-            return dtu.getListOfAllWeekEnds(startDate, endDate);
+            List<String> listWeeks = dtu.getListOfAllWeekEnds(startDate, endDate);
+
+          
+            return listWeeks;
         } else if (flag == 1) {
             endDate = getSelectedWeek();
             return dtu.getListOfWeekEnds(startDate, endDate);

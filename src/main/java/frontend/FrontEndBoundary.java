@@ -2,6 +2,8 @@ package frontend;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.ViewExpiredException;
@@ -18,6 +20,7 @@ import manager.EmployeeManager;
 import controller.SupervisorController;
 import controller.TimesheetApproverController;
 import model.Employee;
+import model.Project;
 
 @SuppressWarnings("serial")
 @Named("Master")
@@ -162,13 +165,33 @@ public class FrontEndBoundary implements Serializable {
     }
 
     public String getNotifications() {
+        int monthState = 0, weekState = 0;    
+        StringBuilder notification = new StringBuilder();
         Integer tsApproveCount = null;
 
         taApprover.setEmp(employee.getEmp());
         taApprover.refreshList();
         tsApproveCount = taApprover.getListToBeApproved().size();
-
-        return tsApproveCount.toString();
+        notification.append(tsApproveCount.toString());
+        List<Project> projectManaged = projMan.listOfProjects(employee.getEmp());
+        if(projectManaged != null) {
+            for(Project p : projectManaged) {
+               projMan.selectProject(p);
+               
+               List<String> weekList = projMan.getListOfWeeks(0);
+               Set<String> monthList = projMan.getListOfMonths();
+               
+               if(!weekList.get(0).equals(employee.getEmp().getEmpLastVisitedWeekReport())) {
+                   weekState = 1;
+               }
+               if(!monthList.contains(employee.getEmp().getEmpLastVisitedMonthReport())) {
+                   monthState = 1;
+               }
+            }
+        }
+        notification.append("," + weekState + "," + monthState);
+        return notification.toString();
+    }
 
     }
 }
