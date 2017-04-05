@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The primary key class for the Timesheet database table.

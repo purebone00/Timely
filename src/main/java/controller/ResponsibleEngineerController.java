@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +26,7 @@ import model.Workpack;
 import model.Wpstarep;
 import model.WpstarepId;
 
+@SuppressWarnings("serial")
 @SessionScoped
 @Named("RE")
 public class ResponsibleEngineerController implements Serializable {
@@ -94,23 +94,23 @@ public class ResponsibleEngineerController implements Serializable {
         for (Labgrd l : labourGradeManager.getAll()) {
             labourGradeDays.put(l.getLgId(), BigDecimal.ZERO);
         }
-        
+
         initialEstimate = new HashMap<String, BigDecimal>();
         Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
-        
+
         String fields;
         String[] rows;
-        
-        if (initial != null) {            
+
+        if (initial != null) {
             fields = initial.getWsrEstDes();
             rows = fields.split(",");
-            
+
             for (String s : rows) {
                 String[] columns = s.split(":");
                 initialEstimate.put(columns[0], new BigDecimal(columns[1]));
             }
         }
-        
+
         Wpstarep i = wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), getEndOfWeek());
 
         if (i != null) { // if the weekly status report for this work package
@@ -162,10 +162,10 @@ public class ResponsibleEngineerController implements Serializable {
             totalCost = totalCost.add(op1.multiply(op2));
             totalHours = totalHours.add(op1);
         }
-        
+
         List<Labgrd> labGrds = labourGradeManager.getAll();
         List<Object[]> toAdd = new ArrayList<Object[]>();
-        
+
         for (Labgrd l : labGrds) {
             boolean found = false;
             for (Object[] o : list) {
@@ -174,22 +174,22 @@ public class ResponsibleEngineerController implements Serializable {
                 }
             }
             if (!found) {
-                toAdd.add(new Object[] {l.getLgId(), BigDecimal.ZERO, BigDecimal.ZERO});
+                toAdd.add(new Object[] { l.getLgId(), BigDecimal.ZERO, BigDecimal.ZERO });
             }
         }
-        
+
         for (Object[] o : toAdd) {
             list.add(o);
         }
-        
+
         Comparator<Object[]> comp = (Object[] a, Object[] b) -> {
             String aS = (String) a[0];
             String bS = (String) b[0];
             return aS.compareTo(bS);
         };
-        
+
         Collections.sort(list, comp);
-        
+
         setTotalCost(totalCost);
         setTotalHours(totalHours);
         return list;
@@ -235,15 +235,15 @@ public class ResponsibleEngineerController implements Serializable {
         // and stores it as a single String with format:
         // "labourGrade1:hours1, labourGrade2:hours2, labourGrade3:hours3, etc",
         // so that it can be put into the database.
-        
+
         for (Map.Entry<String, BigDecimal> entry : labourGradeDays.entrySet()) {
             labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
         }
-        
-        labourDays = labourDays.substring(0, labourDays.length()-1);
-        
-        workPackageReport.setId(
-                new WpstarepId(selectedWorkPackage.getId().getWpProjNo(), selectedWorkPackage.getId().getWpNo(), getEndOfWeek()));
+
+        labourDays = labourDays.substring(0, labourDays.length() - 1);
+
+        workPackageReport.setId(new WpstarepId(selectedWorkPackage.getId().getWpProjNo(),
+                selectedWorkPackage.getId().getWpNo(), getEndOfWeek()));
         workPackageReport.setWsrWriter(selectedWorkPackage.getWpResEng());
         workPackageReport.setWsrEstDes(labourDays);
         // TODO: for Wpstarep, give wsrProbLw and wsrProbNw default strings if
@@ -276,11 +276,11 @@ public class ResponsibleEngineerController implements Serializable {
     public void setLabourGradeDays(HashMap<String, BigDecimal> labourGradeDays) {
         this.labourGradeDays = labourGradeDays;
     }
-    
+
     public HashMap<String, BigDecimal> getInitialEstimate() {
         return initialEstimate;
     }
-    
+
     public void setInitialEstimate(HashMap<String, BigDecimal> initialEstimate) {
         this.initialEstimate = initialEstimate;
     }

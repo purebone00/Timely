@@ -15,6 +15,7 @@ import model.Project;
 import model.Workpack;
 
 
+@SuppressWarnings("serial")
 @Dependent
 @Stateless
 public class ProjectManager implements Serializable{

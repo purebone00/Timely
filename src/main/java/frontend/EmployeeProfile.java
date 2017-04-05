@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import model.*;
 
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class EmployeeProfile implements Serializable {

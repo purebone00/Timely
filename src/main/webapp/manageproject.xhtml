@@ -9,27 +9,27 @@
 
     <ui:define name="content">
         <div class="ui segment grid" id="content">
-        	<b:jumbotron class="text-center">
+            <b:jumbotron class="text-center">
                 <h1>Manage Project</h1>
                 <span></span>
             </b:jumbotron>
 
             <div class="container">
                 <b:row>
-                	<b:row>
-                		<b:column span="3">
-                			<h:outputText
-	                        	value="No: #{Master.projMan.selectedProject.projNo}" />
-                		</b:column>
-                		<b:column span="3">
-                			 <h:outputText span="2"
-	                        	value="Name: #{Master.projMan.selectedProject.projNm}" />
-                		</b:column>
-	                </b:row>
-	                <b:row>   
-	                    <h:outputText span="10"
-	                        value="Description: #{Master.projMan.selectedProject.projDesc}" />
-	                </b:row>
+                    <b:row>
+                        <b:column span="3">
+                            <h:outputText
+                                value="No: #{Master.projMan.selectedProject.projNo}" />
+                        </b:column>
+                        <b:column span="3">
+                            <h:outputText span="2"
+                                value="Name: #{Master.projMan.selectedProject.projNm}" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <h:outputText span="10"
+                            value="Description: #{Master.projMan.selectedProject.projDesc}" />
+                    </b:row>
                 </b:row>
                 <b:row>
                     <b:form>
@@ -57,7 +57,8 @@
                                     rendered="#{Master.projMan.isLeaf(s)}">
                                     <h:column>
                                         <f:facet name="header">Labour Grade</f:facet>
-                                        <h:outputText value="#{l.id.wlLgId}"/>
+                                        <h:outputText
+                                            value="#{l.id.wlLgId}" />
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Budget (PD)</f:facet>
@@ -66,65 +67,69 @@
                                             value="#{l.wlPlanDays}" />
                                     </h:column>
                                     <h:column>
-                                    	<f:facet name="header">Initial Est. (PD)</f:facet>
-                                    	<b:inputText 
-                                    		class="form-control"
-                                    		value="#{s.initialEst[l.id.wlLgId]}"
-                                    		rendered="#{s.initialEst != null}">
-                                    		<f:convertNumber/>
-                                    	</b:inputText>
-                                    	<h:outputText value="N/A" rendered="#{s.initialEst == null}"/>
+                                        <f:facet name="header">Initial Est. (PD)</f:facet>
+                                        <b:inputText
+                                            class="form-control"
+                                            value="#{s.initialEst[l.id.wlLgId]}"
+                                            rendered="#{s.initialEst != null}">
+                                            <f:convertNumber />
+                                        </b:inputText>
+                                        <h:outputText value="N/A"
+                                            rendered="#{s.initialEst == null}" />
                                     </h:column>
                                 </h:dataTable>
                                 <b:commandButton class="btn"
-                                	look="success"
+                                    look="success"
                                     value="Add Initial Est."
                                     action="#{Master.projMan.addInitialEstimate(s)}"
                                     rendered="#{Master.projMan.isLeaf(s) and s.initialEst == null}" />
                             </h:column>
 
                             <h:column>
-                            	<f:facet name="header">Add Child</f:facet>
-                            	<h:panelGroup rendered="#{Master.projMan.isWpCharged(s) == false}">
-                            	Child WP#:<br/>
-                            	<table>
-                            		<tr>
-                            			<td><h:outputText value="#{s.namePrefix}"/></td>
-                            			<td>
-                            				<div class="col-xs-4" style="padding-left:0">
-                            					<h:inputText value="#{s.childName}" maxlength="1"
-                            						style="padding-left:0"
-                                					class="form-control"/>
-                            				</div>
-                            			</td>
-                            		</tr>
-                            	</table>
-                                
-                                <br/>
-                                <b:commandButton class="btn"
-                                	look="success"
-                                    value="Add Child"
-                                    action="#{Master.projMan.createChildWP(s)}" />
-                                </h:panelGroup>   
+                                <f:facet name="header">Add Child</f:facet>
+                                <h:panelGroup
+                                    rendered="#{Master.projMan.isWpCharged(s) == false}">
+                            	Child WP#:<br />
+                                    <table>
+                                        <tr>
+                                            <td><h:outputText
+                                                    value="#{s.namePrefix}" /></td>
+                                            <td>
+                                                <div class="col-xs-4"
+                                                    style="padding-left: 0">
+                                                    <h:inputText
+                                                        value="#{s.childName}"
+                                                        maxlength="1"
+                                                        style="padding-left:0"
+                                                        class="form-control" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <br />
+                                    <b:commandButton class="btn"
+                                        look="success" value="Add Child"
+                                        action="#{Master.projMan.createChildWP(s)}" />
+                                </h:panelGroup>
                             </h:column>
                         </h:dataTable>
-                        <div class="col-xs-2" style="padding-left:0">
-                            <h:inputText value="#{Master.projMan.newWpName}" maxlength="1"
-                            	style="padding-left:0"
+                        <div class="col-xs-2" style="padding-left: 0">
+                            <h:inputText
+                                value="#{Master.projMan.newWpName}"
+                                maxlength="1" style="padding-left:0"
                                 class="form-control"
-                                pt:placeholder="New WP #"/>
-						</div>
-                        <b:commandButton class="btn"
-                        	look="success"
+                                pt:placeholder="New WP #" />
+                        </div>
+                        <b:commandButton class="btn" look="success"
                             value="Add Work Package"
                             action="#{Master.projMan.createNewWP()}" />
                         <br />
                         <b:commandButton class="btn" value="Save"
-                        	look="primary"
+                            look="primary"
                             action="#{Master.projMan.save()}" />
                         <b:commandButton class="btn" value="Cancel"
-                        	look="danger"
-                            action="viewmanagedprojects"
+                            look="danger" action="viewmanagedprojects"
                             immediate="true" />
                     </b:form>
                 </b:row>

@@ -8,6 +8,7 @@ import java.util.List;
 import manager.TsrowManager;
 import model.Wpstarep;
 
+@SuppressWarnings("serial")
 public class WeeklyReport implements Serializable {
     
     /**

@@ -3,16 +3,11 @@ package frontend;
 import java.io.IOException;
 import java.io.Serializable;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
-
-
 import controller.AdminController;
 import controller.EmployeeController;
 import controller.LoginController;
@@ -22,9 +17,8 @@ import manager.EmployeeManager;
 import controller.SupervisorController;
 import controller.TimesheetApproverController;
 import model.Employee;
-import model.Timesheet;
-import utility.SessionUtils;
 
+@SuppressWarnings("serial")
 @Named("Master")
 @SessionScoped
 public class FrontEndBoundary implements Serializable {

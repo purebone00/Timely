@@ -120,34 +120,35 @@ public class TsrowManager {
     public List<Object[]> getAllForWP(Workpack workpack, String week) {
         return getAllForWP(workpack, week, 6);
     }
-    
+
     /**
      * Pretty much the same as {@link #getAllForWP(int, String)} but only
-     * searches rows up to a specified week and up to a specific day of the week.
+     * searches rows up to a specified week and up to a specific day of the
+     * week.
      * 
      * @param workpack
      *            Work package.
      * @param week
      *            A string representing the week to search up to (inclusive).
      *            Format: 'YYYYMMDD'.
-     * @param weekEnd 
-     *            Day of the week to include hours up to. 0 = Saturday, 1 = Sunday, ..., 6 = Friday.
+     * @param weekEnd
+     *            Day of the week to include hours up to. 0 = Saturday, 1 =
+     *            Sunday, ..., 6 = Friday.
      * @return The list of arrays.
      */
     public List<Object[]> getAllForWP(Workpack workpack, String week, int weekEnd) {
-        String[] weekDays = {"s.tsrSat", " + s.tsrSun", " + s.tsrMon", " + s.tsrTue", " + s.tsrWed", " + s.tsrThu", " + s.tsrFri"};
+        String[] weekDays = { "s.tsrSat", " + s.tsrSun", " + s.tsrMon", " + s.tsrTue", " + s.tsrWed", " + s.tsrThu",
+                " + s.tsrFri" };
         String queryString = "";
-        
+
         for (int i = 0; i <= weekEnd; i++) {
             queryString = queryString + weekDays[i];
         }
-        
-        Query query = em.createNativeQuery(
-                "select e.lgID, SUM(" + queryString + "),"
-                        + " e.lgRate from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
-                        + " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID"
-                        + " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2 AND s.tsrWkEnd <=:code3"
-                        + " GROUP BY e.lgID");
+
+        Query query = em.createNativeQuery("select e.lgID, SUM(" + queryString + "),"
+                + " e.lgRate from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
+                + " INNER JOIN Labgrd e ON w.empLabGrd = e.lgID"
+                + " where s.tsrProjNo=:code1 AND s.tsrWpNo=:code2 AND s.tsrWkEnd <=:code3" + " GROUP BY e.lgID");
 
         query.setParameter("code1", workpack.getId().getWpProjNo());
         query.setParameter("code2", workpack.getId().getWpNo());
@@ -156,12 +157,17 @@ public class TsrowManager {
 
         return workpackages;
     }
-    
+
     /**
-     * Gets the total Person-Days charged for an employee for a given work package up to a given week.
-     * @param workpack The work package.
-     * @param employee The employee.
-     * @param week The week.
+     * Gets the total Person-Days charged for an employee for a given work
+     * package up to a given week.
+     * 
+     * @param workpack
+     *            The work package.
+     * @param employee
+     *            The employee.
+     * @param week
+     *            The week.
      * @return Total Person-Days charged.
      */
     public BigDecimal getTotalDaysForEmpWP(Workpack workpack, Employee employee, String week) {
@@ -170,13 +176,13 @@ public class TsrowManager {
                         + " from Tsrow s INNER JOIN Employee w ON s.tsrEmpID = w.empID"
                         + " WHERE s.tsrProjNo=:code1 AND s.tsrWpNo=:code2 AND s.tsrWkEnd=:code3"
                         + " AND s.tsrEmpID=:code4");
-        
+
         query.setParameter("code1", workpack.getId().getWpProjNo());
         query.setParameter("code2", workpack.getId().getWpNo());
         query.setParameter("code3", week);
         query.setParameter("code4", employee.getEmpId());
-        
-        try {            
+
+        try {
             BigDecimal totalDays = (BigDecimal) query.getSingleResult();
             if (totalDays == null) {
                 totalDays = BigDecimal.ZERO;
@@ -186,15 +192,15 @@ public class TsrowManager {
             return new BigDecimal(0.0);
         }
     }
-    
+
     public List<Tsrow> find(Workpack w) {
-        TypedQuery<Tsrow> query = em.createQuery("SELECT s from Tsrow s WHERE s.tsrProjNo = ?1 "
-                + "AND s.tsrWpNo = ?2", Tsrow.class);
-        
+        TypedQuery<Tsrow> query = em.createQuery("SELECT s from Tsrow s WHERE s.tsrProjNo = ?1 " + "AND s.tsrWpNo = ?2",
+                Tsrow.class);
+
         query.setParameter(1, w.getId().getWpProjNo());
         query.setParameter(2, w.getId().getWpNo());
         List<Tsrow> tsrows = query.getResultList();
-        
+
         return tsrows;
     }
 

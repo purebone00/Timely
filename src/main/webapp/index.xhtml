@@ -22,14 +22,14 @@
                                 var="s">
                                 <b:dataTableColumn
                                     value="#{s.id.tsEmpId}">
-                                    <f:facet name="header">Employee ID</f:facet>	
-									
-								</b:dataTableColumn>
+                                    <f:facet name="header">Employee ID</f:facet>
+
+                                </b:dataTableColumn>
                                 <b:dataTableColumn order="desc"
                                     value="#{s.id.tsWkEnd}">
-                                    <f:facet name="header">Week End</f:facet>	
-		  
-								</b:dataTableColumn>
+                                    <f:facet name="header">Week End</f:facet>
+
+                                </b:dataTableColumn>
                                 <b:dataTableColumn>
                                     <f:facet name="header">Status</f:facet>
                                     <p class="status">#{s.tsSubmit}
@@ -37,8 +37,7 @@
                                 </b:dataTableColumn>
                                 <b:dataTableColumn>
                                     <f:facet name="header">Select Timesheet</f:facet>
-                                    <b:commandButton
-                                    	look="primary"
+                                    <b:commandButton look="primary"
                                         action="#{Master.goToTimesheet(s.id.tsWkEnd)}"
                                         value="Choose Timesheet">
                                     </b:commandButton>
@@ -48,30 +47,30 @@
                     </b:row>
                     <b:row>
                         <b:form>
-                        	<b:row>
-                        		<b:commandButton
-	                            	look="success"
-	                                action="#{Master.employee.createNewTimesheet()}"
-	                                value="Add new Timesheet">
-	                            </b:commandButton>
-                        	</b:row>
                             <b:row>
-	                            <h:commandLink
-	                                value="View Work Package Reports"
-	                                action="responsibleengineer" />
+                                <b:commandButton look="success"
+                                    action="#{Master.employee.createNewTimesheet()}"
+                                    value="Add new Timesheet">
+                                </b:commandButton>
                             </b:row>
                             <b:row>
-	                            <h:commandLink
-	                                value="View Timesheets To Approve"
-	                                action="timesheetapprover" />
+                                <h:commandLink
+                                    value="View Work Package Reports"
+                                    action="responsibleengineer" />
                             </b:row>
                             <b:row>
-	                            <h:commandLink value="View All Projects"
-                                	action="viewAllProjects" />
+                                <h:commandLink
+                                    value="View Timesheets To Approve"
+                                    action="timesheetapprover" />
                             </b:row>
                             <b:row>
-                            	<h:commandLink value="View Managed Projects"
-                            		action="viewmanagedprojects"/>
+                                <h:commandLink value="View All Projects"
+                                    action="viewAllProjects" />
+                            </b:row>
+                            <b:row>
+                                <h:commandLink
+                                    value="View Managed Projects"
+                                    action="viewmanagedprojects" />
                             </b:row>
                         </b:form>
                     </b:row>

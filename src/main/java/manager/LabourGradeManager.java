@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import model.Labgrd;
 
+@SuppressWarnings("serial")
 @Dependent
 @Stateless
 public class LabourGradeManager implements Serializable {

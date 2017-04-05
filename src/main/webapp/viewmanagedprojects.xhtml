@@ -9,52 +9,52 @@
 
     <ui:define name="content">
         <div class="ui segment grid" id="content">
-        	<b:jumbotron class="text-center">
+            <b:jumbotron class="text-center">
                 <h1>Managed Projects</h1>
                 <span></span>
             </b:jumbotron>
 
             <div class="container">
                 <b:row>
-					<b:form>
-	                     <h:dataTable class="table table-bordered"
-                        value="#{Master.projMan.listOfProjects(Master.login.currentEmployee.currentEmployee)}"
-                        var="s">
-                        <h:column>
-                            <f:facet name="header">No</f:facet>	
+                    <b:form>
+                        <h:dataTable class="table table-bordered"
+                            value="#{Master.projMan.listOfProjects(Master.login.currentEmployee.currentEmployee)}"
+                            var="s">
+                            <h:column>
+                                <f:facet name="header">No</f:facet>	
 								#{s.projNo}
 							</h:column>
-                        <h:column>
-                            <f:facet name="header">Name</f:facet>	
+                            <h:column>
+                                <f:facet name="header">Name</f:facet>	
 								#{s.projNm}
 							</h:column>
-                        <h:column>
-                            <f:facet name="header">Description</f:facet>	
+                            <h:column>
+                                <f:facet name="header">Description</f:facet>	
 								#{s.projDesc}
 							</h:column>
 
-                        <h:column>
-                            <f:facet name="header">Work Package Estimates</f:facet>
+                            <h:column>
+                                <f:facet name="header">Work Package Estimates</f:facet>
                                 <h:commandButton class="btn"
                                     value="Okay"
                                     action="#{Master.projMan.selectProject(s)}" />
-                        </h:column>
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">Weekly Reports</f:facet>
+                            <h:column>
+                                <f:facet name="header">Weekly Reports</f:facet>
                                 <h:commandButton class="btn"
                                     value="Yeah"
                                     action="#{Master.projMan.selectProjectForReport(s)}" />
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">Monthly Report</f:facet>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Monthly Report</f:facet>
                                 <h:commandButton class="btn"
                                     value="Turn Down For What"
                                     action="#{Master.projMan.selectProjectForMonthlyReport(s)}" />
-                        </h:column>
-                    </h:dataTable>
-					</b:form>
+                            </h:column>
+                        </h:dataTable>
+                    </b:form>
                 </b:row>
             </div>
         </div>

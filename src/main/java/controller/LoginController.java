@@ -27,9 +27,9 @@ public class LoginController implements Serializable {
     private String password;
 
     private List<Employee> list;
-      
+
     private Map<String, Employee> empMap;
-    
+
     public LoginController() {
 
     }
@@ -37,23 +37,22 @@ public class LoginController implements Serializable {
     public Employee authUser() {
         empMap = empManager.getActiveEmpMap();
         boolean authenticated = false;
-        
+
         Employee employee = empMap.get(userName);
-        if(employee.getEmpPw().equals(password)) {
+        if (employee.getEmpPw().equals(password)) {
             currentEmployee.setCurrentEmployee(employee);
-            if(currentEmployee.getCurrentEmployee() != null)
+            if (currentEmployee.getCurrentEmployee() != null)
                 authenticated = true;
         }
-        
-        /*for (int i = 0; i < list.size(); i++) {
-            Employee employee = list.get(i);
-            if (employee.getEmpLnm().equals(userName) && employee.getEmpPw().equals(password)) {
-                currentEmployee.setCurrentEmployee(empManager.find(employee.getEmpId()));
-                if (currentEmployee.getCurrentEmployee() != null) {
-                    authenticated = true;
-                }
-            }
-        }*/
+
+        /*
+         * for (int i = 0; i < list.size(); i++) { Employee employee =
+         * list.get(i); if (employee.getEmpLnm().equals(userName) &&
+         * employee.getEmpPw().equals(password)) {
+         * currentEmployee.setCurrentEmployee(empManager.find(employee.getEmpId(
+         * ))); if (currentEmployee.getCurrentEmployee() != null) {
+         * authenticated = true; } } }
+         */
         return (authenticated) ? currentEmployee.getCurrentEmployee() : null;
     }
 

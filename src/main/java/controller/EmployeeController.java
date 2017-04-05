@@ -27,6 +27,7 @@ import model.TimesheetId;
 import model.Tsrow;
 import utility.DateTimeUtility;
 
+@SuppressWarnings("serial")
 @Named("Employee")
 @Stateful
 public class EmployeeController implements Serializable {
@@ -240,6 +241,5 @@ public class EmployeeController implements Serializable {
         tsList.add(ts);
         return null;
     }
-    
-   
+
 }

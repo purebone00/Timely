@@ -1,7 +1,6 @@
 package controller;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -9,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -31,7 +29,6 @@ import model.WorkpackId;
 import model.Wplab;
 import model.WplabId;
 import model.Wpstarep;
-import model.WpstarepId;
 import utility.DateTimeUtility;
 import utility.models.MonthlyReport;
 import utility.models.WeeklyReport;

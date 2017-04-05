@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Emptitle;
 
+@SuppressWarnings("serial")
 @Dependent
 @Stateless
 public class EmployeeTitleManager implements Serializable {

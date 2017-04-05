@@ -22,9 +22,7 @@
                                     <b:dataTable responsive="true"
                                         searching='false'
                                         value="#{Master.taApprover.listToBeApproved}"
-                                        var="row"
-                                        paginated='false'
-                                        >
+                                        var="row" paginated='false'>
                                         <b:dataTableColumn
                                             value="#{row.id.tsEmpId}"
                                             label="Employee" />
@@ -65,8 +63,8 @@
 
                                         <b:dataTableColumn
                                             value="#{row.id.tsWkEnd}"
-                                            label="Week Of" 
-                                            searchable="true"/>
+                                            label="Week Of"
+                                            searchable="true" />
 
                                         <b:dataTableColumn
                                             value="#{row.tsUpDt}"

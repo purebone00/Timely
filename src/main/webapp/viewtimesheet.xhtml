@@ -8,7 +8,7 @@
 
     <ui:define name="content">
         <div class="ui segment grid">
-        	<b:jumbotron class="text-center">
+            <b:jumbotron class="text-center">
                 <h1>Review Timesheet</h1>
                 <span></span>
             </b:jumbotron>
@@ -27,7 +27,7 @@
                             </b:column>
 
                             <b:column col-md="4">
-                                
+
                             </b:column>
 
                             <b:column col-md="4">
@@ -41,33 +41,44 @@
                     <div class="container">
                         <b:row>
                             <b:form>
-                                <b:dataTable 
-                                    responsive="true" 
-                                    searching="false" 
-                                    paginated="false"
+                                <b:dataTable responsive="true"
+                                    searching="false" paginated="false"
                                     value="#{Master.taApprover.reviewTimesheet.tsrow}"
                                     var="s">
-                                    <b:dataTableColumn value="#{s.tsrProjNo}" label="Project No." />
-                                    
-                                    <b:dataTableColumn value="#{s.tsrWpNo}" label="WP No." />
-                                                                        
-                                    <b:dataTableColumn value="#{s.tsrSat}" label="Sat" />
-                                    
-                                    <b:dataTableColumn value="#{s.tsrSun}" label="Sun" />
-                                    
-                                    <b:dataTableColumn value="#{s.tsrMon}" label="Mon" />
-                                    
-                                    <b:dataTableColumn value="#{s.tsrTue}" label="Tue" />
-                                    
-                                    <b:dataTableColumn value="#{s.tsrWed}" label="Wed" />
-                                    
-                                    <b:dataTableColumn value="#{s.tsrThu}" label="Thu" />
-                                    
-                                    <b:dataTableColumn value="#{s.tsrFri}" label="Fri" />
-                                    
-                                    <b:dataTableColumn value="#{s.tsrNote}" label="Notes" />
-                                    
-                                    </b:dataTable>
+                                    <b:dataTableColumn
+                                        value="#{s.tsrProjNo}"
+                                        label="Project No." />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrWpNo}"
+                                        label="WP No." />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrSat}" label="Sat" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrSun}" label="Sun" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrMon}" label="Mon" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrTue}" label="Tue" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrWed}" label="Wed" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrThu}" label="Thu" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrFri}" label="Fri" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrNote}"
+                                        label="Notes" />
+
+                                </b:dataTable>
                             </b:form>
                         </b:row>
                     </div>

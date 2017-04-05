@@ -1,14 +1,11 @@
 package controller;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.ejb.Stateful;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -17,6 +14,7 @@ import manager.TimesheetManager;
 import model.Employee;
 import model.Timesheet;
 
+@SuppressWarnings("serial")
 @Stateful
 @Named("taApprover")
 public class TimesheetApproverController implements Serializable {
