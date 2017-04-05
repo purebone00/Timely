@@ -85,6 +85,7 @@
 
                             <h:column>
                             	<f:facet name="header">Add Child</f:facet>
+                            	<h:panelGroup rendered="#{Master.projMan.isWpCharged(s) == false}">
                             	Child WP#:<br/>
                             	<table>
                             		<tr>
@@ -104,6 +105,7 @@
                                 	look="success"
                                     value="Add Child"
                                     action="#{Master.projMan.createChildWP(s)}" />
+                                </h:panelGroup>   
                             </h:column>
                         </h:dataTable>
                         <div class="col-xs-2" style="padding-left:0">

@@ -178,35 +178,24 @@ public class TsrowManager {
         
         try {            
             BigDecimal totalDays = (BigDecimal) query.getSingleResult();
-            return totalDays;
+            if (totalDays == null) {
+                totalDays = BigDecimal.ZERO;
+            }
+            return totalDays.divide(new BigDecimal(8));
         } catch (NoResultException e) {
             return new BigDecimal(0.0);
         }
     }
-
-    /**
-     * Gets a list of weeks from Tsrow table.
-     * 
-     * @param workpack
-     *            Workpack to get weeks for.
-     * @param week
-     *            End week.
-     * @return List of weeks.
-     */
-    public List<String> getWeekList(Workpack workpack, String week) {
-        Query query = em.createNativeQuery("SELECT DISTINCT tsrWkEnd FROM Tsrow"
-                + " WHERE tsrProjNo=:code1 AND tsrWpNo=:code2 AND tsrWkEnd <=:code3" + " ORDER BY tsrWkEnd ASC");
-
-        query.setParameter("code1", workpack.getId().getWpProjNo());
-        query.setParameter("code2", workpack.getId().getWpNo());
-        query.setParameter("code3", week);
-        List<Object[]> weekResultList = query.getResultList();
-        ArrayList<String> weeks = new ArrayList<String>();
-
-        for (Object[] o : weekResultList) {
-            weeks.add((String) o[0]);
-        }
-
-        return weeks;
+    
+    public List<Tsrow> find(Workpack w) {
+        TypedQuery<Tsrow> query = em.createQuery("SELECT s from Tsrow s WHERE s.tsrProjNo = ?1 "
+                + "AND s.tsrWpNo = ?2", Tsrow.class);
+        
+        query.setParameter(1, w.getId().getWpProjNo());
+        query.setParameter(2, w.getId().getWpNo());
+        List<Tsrow> tsrows = query.getResultList();
+        
+        return tsrows;
     }
+
 }

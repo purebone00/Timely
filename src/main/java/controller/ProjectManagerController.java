@@ -669,5 +669,9 @@ public class ProjectManagerController {
         }
         return map;
     }
+    
+    public boolean isWpCharged(Workpack w) {
+        return !tsRowManager.find(w).isEmpty();
+    }
 
 }
