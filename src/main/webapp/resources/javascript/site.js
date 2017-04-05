@@ -51,6 +51,15 @@ function redIfNotificate(notificationCount) {
 	}
 }
 
+function grayIfNoNotificate(notificationCount) {
+	var iconAwesome = document.getElementsByClassName("fa fa-exclamation fa-2x");
+	var icon = iconAwesome[0];
+	if(parseInt(notificationCount.textContent) == 0) {
+		icon.removeAttribute("style");
+		icon.className = "fa fa-exclamation fa-2x";
+	}
+}
+
 function addToNotifications() {
 	var nId = document.getElementById("dropdown");
 	var firstChild = nId.getElementsByTagName("ul")[0];
@@ -61,7 +70,6 @@ function addToNotifications() {
 	
 	if(parseInt(splitNotif[0]) != 0) {
 		count = count + parseInt(splitNotif[0]);
-		console.log("first" + splitNotif[0]);
 		addTSANotification(firstChild, splitNotif[0]);
 	}
 	if(parseInt(splitNotif[1]) != 0) {
@@ -78,6 +86,8 @@ function addToNotifications() {
 	}).each(function(){
 	    this.textContent = this.textContent.replace(notificationCount.textContent,count);
 	});	
+	
+	grayIfNoNotificate(notificationCount);
 }
 
 function addTSANotification(firstChild, notificationCount) {

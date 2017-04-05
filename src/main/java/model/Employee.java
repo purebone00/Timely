@@ -333,7 +333,7 @@ public class Employee implements java.io.Serializable {
         this.empUpDt = empUpDt;
     }
 
-    @Column(name="empLastVisitedWeekReport",  insertable = false, updatable = false, nullable = true)
+    @Column(name="empLastVisitedWeekReport",  nullable = true)
     public String getEmpLastVisitedWeekReport() {
         return empLastVisitedWeekReport;
     }
@@ -342,7 +342,7 @@ public class Employee implements java.io.Serializable {
         this.empLastVisitedWeekReport = empLastVisitedWeekReport;
     }
 
-    @Column(name="empLastVisitedWeekReport",  insertable = false, updatable = false, nullable = true)
+    @Column(name="empLastVisitedMonthReport",  nullable = true)
     public String getEmpLastVisitedMonthReport() {
         return empLastVisitedMonthReport;
     }

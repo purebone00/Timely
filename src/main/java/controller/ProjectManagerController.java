@@ -144,6 +144,20 @@ public class ProjectManagerController {
     public String selectProjectForMonthlyReport(Project p) {
         setSelectedProject(p);
         
+        List<MonthlyReport> reports = getMonthlyReports();
+        
+        String latestMonth = reports.get(0).getMonth();
+        String lastVisitMonth = emp.getEmpLastVisitedMonthReport();
+
+        Integer visitMonth = new Integer(lastVisitMonth);
+        Integer curMonth = new Integer(latestMonth);
+        
+        if(visitMonth.intValue() < curMonth.intValue()) {
+            emp.setEmpLastVisitedMonthReport(curMonth.toString());
+            employeeManager.merge(emp);
+        }
+        
+        
         return "monthlyReport";
     }
 
@@ -546,6 +560,7 @@ public class ProjectManagerController {
             reports.add(report);
         }
         Collections.sort(reports);
+        
         return reports;
     }
 

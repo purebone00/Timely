@@ -20,6 +20,7 @@ import controller.SupervisorController;
 import controller.TimesheetApproverController;
 import model.Employee;
 import model.Project;
+import utility.models.MonthlyReport;
 
 @SuppressWarnings("serial")
 @Named("Master")
@@ -101,6 +102,7 @@ public class FrontEndBoundary implements Serializable {
 
     public void finish() throws IOException {
         employee.setEmp(null);
+        
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.invalidateSession();
         ec.redirect(ec.getRequestContextPath() + "/");
@@ -178,14 +180,15 @@ public class FrontEndBoundary implements Serializable {
                projMan.selectProject(p);
                
                List<String> weekList = projMan.getListOfWeeks(0);
-               Set<String> monthList = projMan.getListOfMonths();
+               List<MonthlyReport> monthList = projMan.getMonthlyReports();
                
                if(!weekList.get(0).equals(employee.getEmp().getEmpLastVisitedWeekReport())) {
                    weekState = 1;
                }
-               if(!monthList.contains(employee.getEmp().getEmpLastVisitedMonthReport())) {
+               if(!monthList.get(0).getMonth().equals(employee.getEmp().getEmpLastVisitedMonthReport())) {
                    monthState = 1;
                }
+               
             }
         }
         notification.append("," + weekState + "," + monthState);

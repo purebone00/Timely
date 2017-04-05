@@ -55,6 +55,6 @@ public class MonthlyReport implements Comparable<MonthlyReport> {
 
     @Override
     public int compareTo(MonthlyReport o) {
-        return this.getMonth().compareTo(o.getMonth());
+        return o.getMonth().compareTo(this.getMonth());
     }
 }
