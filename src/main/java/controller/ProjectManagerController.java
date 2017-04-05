@@ -201,8 +201,11 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createNewWP() {
-        String newWpNo;
-        if ((newWpNo = getNextAvailableWPName("")) == null) {
+        String newWpNo = isWpNameValid(getNewWpName());
+//        if ((newWpNo = getNextAvailableWPName("")) == null) {
+//            return "";
+//        }
+        if (newWpNo == null) {
             return "";
         }
         Workpack newWp = new Workpack();
@@ -211,6 +214,21 @@ public class ProjectManagerController {
         newWp.setWpNm("");
         short i = 0;
         newWp.setWpDel(i);
+        
+        newWp.setWplabs(new HashSet<Wplab>());
+        // newWp.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {            
+            Wplab newRow = new Wplab();
+            WplabId id = new WplabId(newWp.getId().getWpProjNo(), newWp.getId().getWpNo(), l.getLgId());
+            newRow.setId(id);
+            i = 0;
+            newRow.setWlDel(i);
+            newRow.setWlPlanHrs(BigDecimal.ZERO);
+            newWp.getWplabs().add(newRow);
+            
+            // newWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
+        
         selectedProject.getWorkPackages().add(newWp);
         return "";
     }
@@ -223,18 +241,45 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createChildWP(Workpack parent) {
-        String newChildWpNo;
-        if ((newChildWpNo = getNextAvailableWPName(parent.getId().getWpNo())) == null) {
+        String newChildWpNo = isWpNameValid(parent.getNamePrefix() + parent.getChildName());
+//        if ((newChildWpNo = getNextAvailableWPName(parent.getId().getWpNo())) == null) {
+//            return "";
+//        }
+        if (newChildWpNo == null) {
             return "";
         }
+        
         Workpack newChildWp = new Workpack();
         WorkpackId newChildWpId = new WorkpackId(selectedProject.getProjNo(), newChildWpNo);
         newChildWp.setId(newChildWpId);
         newChildWp.setWpNm("");
         short i = 0;
         newChildWp.setWpDel(i);
+        
+        newChildWp.setWplabs(new HashSet<Wplab>());
+        // newChildWp.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {            
+            Wplab newRow = new Wplab();
+            WplabId id = new WplabId(newChildWp.getId().getWpProjNo(), newChildWp.getId().getWpNo(), l.getLgId());
+            newRow.setId(id);
+            i = 0;
+            newRow.setWlDel(i);
+            newRow.setWlPlanHrs(BigDecimal.ZERO);
+            newChildWp.getWplabs().add(newRow);
+            
+            // newChildWp.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
+        
         selectedProject.getWorkPackages().add(newChildWp);
         parent.setRemoveWplabs(true);
+        return "";
+    }
+    
+    public String addInitialEstimate(Workpack w) {
+        w.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {
+            w.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
         return "";
     }
 
@@ -281,6 +326,33 @@ public class ProjectManagerController {
         }
 
         // not able to find an available WP number
+        return null;
+    }
+    
+    /**
+     * Checks if a WP name is valid (no duplicates).
+     * @param wpName name to check.
+     * @return the name if valid, else returns false.
+     */
+    public String isWpNameValid(String wpName) {
+        if (wpName.length() > 6) {
+            return null;
+        }
+        
+        if (workPackageManager.getWorkPackage(getSelectedProject().getProjNo(), wpName).isEmpty()) {
+            for (Workpack w : getSelectedProject().getWorkPackages()) {
+                if (w.getId().getWpNo().matches(wpName + ".*")) {
+                    return null;
+                }
+            }
+
+            if (6 - wpName.length() == 0) {
+                return wpName;
+            } else {
+                return String.format("%s" + "%0" + (6 - wpName.length()) + "d", wpName, 0);
+            }
+        }
+        
         return null;
     }
 
