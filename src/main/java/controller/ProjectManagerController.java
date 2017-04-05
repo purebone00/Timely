@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -29,6 +30,7 @@ import model.WorkpackId;
 import model.Wplab;
 import model.WplabId;
 import model.Wpstarep;
+import model.WpstarepId;
 import utility.DateTimeUtility;
 import utility.models.MonthlyReport;
 import utility.models.WeeklyReport;
@@ -88,6 +90,20 @@ public class ProjectManagerController {
 
     public String selectProject(Project p) {
         setSelectedProject(p);
+        
+        for (Workpack w : getSelectedProject().getWorkPackages()) {
+            Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
+            if (initial != null) {
+                w.setInitialEst(new HashMap<String, BigDecimal>());
+                String fields = initial.getWsrEstDes();
+                String[] rows = fields.split(",");
+                
+                for (String s : rows) {
+                    String[] columns = s.split(":");
+                    w.getInitialEst().put(columns[0], new BigDecimal(columns[1]));
+                }
+            }
+        }
 
         return "manageproject";
     }
@@ -96,6 +112,18 @@ public class ProjectManagerController {
         setSelectedProject(p);
 
         return "weeklyReportsList";
+    }
+    
+    public String selectProjectForWeeklyReport(String week) {
+        setSelectedWeek(week);
+        
+        return "weeklyReport";
+    }
+    
+    public String selectProjectForMonthlyReport(Project p) {
+        setSelectedProject(p);
+        
+        return "monthlyReport";
     }
 
     public Project getSelectedProject() {
@@ -292,7 +320,7 @@ public class ProjectManagerController {
     public String selectWeeklyReport(String week) {
         setSelectedWeek(week);
 
-        return "weeklyReport";
+        return "weeklyStatistics";
     }
 
     /**
@@ -313,46 +341,72 @@ public class ProjectManagerController {
         }
         if (!toBeRemoved.isEmpty())
             wplabManager.removeByWp(toBeRemoved);
+        
+        List<Wpstarep> initialEstimates = new ArrayList<Wpstarep>();
+        
+        for (Workpack w : getSelectedProject().getWorkPackages()) {
+            if (w.getInitialEst() != null) {                
+                Wpstarep workPackageReport = new Wpstarep();
+                String labourDays = "";
+                
+                for (Map.Entry<String, BigDecimal> entry : w.getInitialEst().entrySet()) {
+                    labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
+                }
+                
+                labourDays = labourDays.substring(0, labourDays.length()-1);
+                
+                workPackageReport.setWsrInsDt(new Date());
+                workPackageReport.setWsrUpDt(new Date());
+                workPackageReport.setId(
+                        new WpstarepId(w.getId().getWpProjNo(), w.getId().getWpNo(), "00000000"));
+                workPackageReport.setWsrEstDes(labourDays);
+                
+                initialEstimates.add(workPackageReport);
+            }
+        }
+        
+        for (Wpstarep ws : initialEstimates) {
+            wpstarepManager.merge(ws);
+        }
 
         return "viewmanagedprojects";
     }
 
     /**
-     * Gets the monthly report for a given workpackage for a given month.<br>
+     * Gets the monthly report for a given workpackage for a given month.<br> 
      * 
-     * @param workpack
-     *            The workpackage to get the monthly report for.
-     * @param month
-     *            The month to get the monthly-report information for.
+     * @param workpack The workpackage to get the monthly report for.
+     * @param month The month to get the monthly-report information for.
      * @return The monthly report.
      */
     public MonthlyReport getReportForWpMonth(Workpack workpack, String month) {
-
+        
         DateTimeUtility dtu = new DateTimeUtility();
         String endDate = dtu.getEndOfWeek(dtu.getEndOfMonth(month + "01"));
         Date curDt = new Date();
-
+        
         Calendar cal = Calendar.getInstance();
         cal.setTime(curDt);
         cal.add(Calendar.DAY_OF_MONTH, -7);
         curDt = cal.getTime();
-
+        
         Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
-
+        
+        
         cal.setTime(endDt);
         int year = cal.get(Calendar.YEAR);
         String monthStr = String.format("%02d", cal.get(Calendar.MONTH) + 1);
         String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-
+        
         String endDate2 = dtu.getEndOfWeek(year + monthStr + day);
-
+        
         if (endDate2.compareTo(endDate) <= 0) {
             endDate = endDate2;
         }
-
+        
         List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
-
+       
         return new MonthlyReport(workpack, list, workpack.getWplabs(), report, getRateMap());
     }
 
@@ -361,7 +415,7 @@ public class ProjectManagerController {
         List<Workpack> parents = new ArrayList<Workpack>();
         List<MonthlyReport> leafReports = new ArrayList<MonthlyReport>();
         List<MonthlyReport> parentReports = new ArrayList<MonthlyReport>();
-
+        
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             if (isLeaf(w)) {
                 leafs.add(w);
@@ -369,11 +423,11 @@ public class ProjectManagerController {
                 parents.add(w);
             }
         }
-
+        
         for (Workpack w : leafs) {
             leafReports.add(getReportForWpMonth(w, month));
         }
-
+        
         for (Workpack w : parents) {
             List<MonthlyReport> childReports = new ArrayList<MonthlyReport>();
             for (MonthlyReport r : leafReports) {
@@ -383,10 +437,10 @@ public class ProjectManagerController {
             }
             parentReports.add(MonthlyReport.generateAggregate(w, childReports));
         }
-
+        
         leafReports.addAll(parentReports);
         Collections.sort(leafReports);
-
+        
         return leafReports;
     }
 
