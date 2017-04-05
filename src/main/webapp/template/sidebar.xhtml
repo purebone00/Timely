@@ -10,25 +10,25 @@
 	    	<!-- Title -->
 	        <b:navCommandLink header="User Roles" />
 	        <!-- Checks if a user -->
-	        <b:navCommandLink icon-size="lg" iconAwesome="user"
+	        <b:navLink icon-size="lg" iconAwesome="user"
 	            value="General Utilities" 
-	            action="general"
+	            outcome="employeefunctions"
 	            rendered="true" />
-	        <b:navCommandLink icon-size="lg" iconAwesome="calendar-check-o"
+	        <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
 	            value="Timesheet Approver"
-	            action="timesheetapprover" 
+	            outcome="timesheetapprover" 
 	            rendered="true" />
-	        <b:navCommandLink icon-size="lg" iconAwesome="wrench"
+	        <b:navLink icon-size="lg" iconAwesome="wrench"
 	            value="Responsible Engineer" 
-	            action="responsibleengineer"
+	            outcome="responsibleengineer"
 	            rendered="true" />
-	        <b:navCommandLink icon-size="lg" iconAwesome="cubes"
+	        <b:navLink icon-size="lg" iconAwesome="cubes"
 	            value="Project Manager"
-	            href="projectmanager" 
+	            outcome="viewmanagedprojects" 
 	            rendered="true" />
-	        <b:navCommandLink icon-size="lg" iconAwesome="cube"
+	        <b:navLink icon-size="lg" iconAwesome="cube"
 	        	value="Supervisor" 
-	        	href="supervisor"
+	        	outcome="viewAllProjects"
 	        	rendered="true" />
 	    </b:listLinks>
     </b:form>
@@ -36,13 +36,11 @@
     <b:form>
         <b:listLinks>
             <b:navLink header="User Controls" />
-            <b:navCommandLink value="Change Password"
-                action="#{Master.goToChangePassword()}"
+            <b:navLink value="Change Password"
+                outcome="changepassword"
                 iconAwesome="key" />
             <b:navCommandLink icon-size="lg" iconAwesome="info" href="#"
                 value="Update User Info" rendered="true" />
-            <b:navCommandLink icon-size="lg" iconAwesome="sign-out" href="#"
-                value="Sign Out" rendered="true" />
         </b:listLinks>
     
 	
@@ -50,8 +48,6 @@
 	        <b:navLink header="Admin" />
 	        <b:navCommandLink icon-size="lg" iconAwesome="user-plus" href="#"
 	            value="Add User" rendered="true" />
-	        <b:navCommandLink icon-size="lg" iconAwesome="sign-out" href="#"
-	            value="Sign Out" rendered="true" />
 	    </b:listLinks>
     </b:form>
 </ui:composition>

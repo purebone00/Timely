@@ -83,7 +83,11 @@ public class ProjectManagerController {
      * @return A list of {@link Project}'s.
      */
     public List<Project> listOfProjects(Employee emp) {
-        return projectManager.getManagedProjects(emp.getEmpId());
+        try {
+            return projectManager.getManagedProjects(emp.getEmpId());
+        } catch (NullPointerException e) {
+            return new ArrayList<Project>();
+        }
     }
 
     public String selectProject(Project p) {

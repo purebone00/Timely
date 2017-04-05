@@ -1,6 +1,8 @@
 package manager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -35,11 +37,13 @@ public class EmployeeManager implements Serializable {
         @SuppressWarnings("unchecked")
         List<Employee> employees = query.getResultList();
 
-        return employees;
+        return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
     public Employee find(int id) {
-        return em.find(Employee.class, id);
+        Employee foundEmployee = em.find(Employee.class, id);
+        
+        return (foundEmployee != null) ? foundEmployee : new Employee();
     }
 
     public void flush() {
@@ -63,7 +67,7 @@ public class EmployeeManager implements Serializable {
         TypedQuery<Employee> query = em.createQuery("select s from Employee s", Employee.class);
         List<Employee> employees = query.getResultList();
 
-        return employees;
+        return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
     /**
@@ -75,7 +79,7 @@ public class EmployeeManager implements Serializable {
         TypedQuery<Employee> query = em.createQuery("select s from Employee s where s.empDel = 0", Employee.class);
         List<Employee> employees = query.getResultList();
 
-        return employees;
+        return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
     public Map<String, Employee> getActiveEmpMap() {
@@ -85,7 +89,7 @@ public class EmployeeManager implements Serializable {
         for (Employee e : employees) {
             employeeMap.put(e.getEmpLnm(), e);
         }
-        return employeeMap;
+        return (employeeMap != null) ? employeeMap : new HashMap<String, Employee>();
     }
 
     /**
@@ -124,8 +128,8 @@ public class EmployeeManager implements Serializable {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" + ", Project AS p "
                 + "WHERE p = :selectProject AND p " + "NOT MEMBER OF e.projects", Employee.class);
         query.setParameter("selectProject", p);
-        List<Employee> emps = query.getResultList();
-        return emps;
+        List<Employee> employees = query.getResultList();
+        return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
     public List<Employee> getEmpProj(Project p) {
@@ -134,6 +138,6 @@ public class EmployeeManager implements Serializable {
         query.setParameter("selectProject", p);
         List<Employee> employees = query.getResultList();
 
-        return employees;
+        return (employees != null) ? employees : new ArrayList<Employee>();
     }
 }

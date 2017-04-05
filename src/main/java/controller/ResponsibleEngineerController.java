@@ -60,7 +60,11 @@ public class ResponsibleEngineerController implements Serializable {
      * @return list of {@link Workpack}'s.
      */
     public List<Workpack> listOfWorkPackages(Employee emp) {
-        return workPackageManager.getResponsibleWorkPackages(emp.getEmpId());
+       try { 
+           return workPackageManager.getResponsibleWorkPackages(emp.getEmpId());       
+       } catch (NullPointerException e) {
+           return new ArrayList<Workpack>();
+       }
     }
 
     public Workpack getSelectedWorkPackage() {

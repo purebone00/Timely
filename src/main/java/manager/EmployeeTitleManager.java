@@ -7,6 +7,7 @@ import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Emptitle;
+import model.Labgrd;
 
 @SuppressWarnings("serial")
 @Dependent
@@ -17,7 +18,9 @@ public class EmployeeTitleManager implements Serializable {
     EntityManager em;
 
     public Emptitle find(int id) {
-        return em.find(Emptitle.class, id);
+        Emptitle foundTitle = em.find(Emptitle.class, id);
+        
+        return (foundTitle != null) ? foundTitle : new Emptitle();
     }
 
     public void persist(Emptitle empTitle) {

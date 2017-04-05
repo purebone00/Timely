@@ -8,74 +8,20 @@
 
     <ui:define name="content">
         <div class="ui segment grid">
-            <b:row>
-                <div class="container">
-                    <div class="jumbotron text-center">
-                        <h1>Hello, #{Master.employee.emp.empFnm}
-                            #{Master.employee.emp.empLnm}!</h1>
-                        <span></span>
+            <div class="row">
+                <div class="column">
+                    <div class="container">
+                        <div class="jumbotron text-center">
+                            <h1>Hello,
+                                #{Master.employee.emp.empFnm}
+                                #{Master.employee.emp.empLnm}!</h1>
+                            <span></span>
+                        </div>
+                        <div>
+                        </div>
                     </div>
-                    <b:row>
-                        <b:form>
-                            <b:dataTable responsive="true"
-                                value="#{Master.employee.tsList}"
-                                var="s">
-                                <b:dataTableColumn
-                                    value="#{s.id.tsEmpId}">
-                                    <f:facet name="header">Employee ID</f:facet>
-
-                                </b:dataTableColumn>
-                                <b:dataTableColumn order="desc"
-                                    value="#{s.id.tsWkEnd}">
-                                    <f:facet name="header">Week End</f:facet>
-
-                                </b:dataTableColumn>
-                                <b:dataTableColumn>
-                                    <f:facet name="header">Status</f:facet>
-                                    <p class="status">#{s.tsSubmit}
-                                    </p>
-                                </b:dataTableColumn>
-                                <b:dataTableColumn>
-                                    <f:facet name="header">Select Timesheet</f:facet>
-                                    <b:commandButton look="primary"
-                                        action="#{Master.goToTimesheet(s.id.tsWkEnd)}"
-                                        value="Choose Timesheet">
-                                    </b:commandButton>
-                                </b:dataTableColumn>
-                            </b:dataTable>
-                        </b:form>
-                    </b:row>
-                    <b:row>
-                        <b:form>
-                            <b:row>
-                                <b:commandButton look="success"
-                                    action="#{Master.employee.createNewTimesheet()}"
-                                    value="Add new Timesheet">
-                                </b:commandButton>
-                            </b:row>
-                            <b:row>
-                                <h:commandLink
-                                    value="View Work Package Reports"
-                                    action="responsibleengineer" />
-                            </b:row>
-                            <b:row>
-                                <h:commandLink
-                                    value="View Timesheets To Approve"
-                                    action="timesheetapprover" />
-                            </b:row>
-                            <b:row>
-                                <h:commandLink value="View All Projects"
-                                    action="viewAllProjects" />
-                            </b:row>
-                            <b:row>
-                                <h:commandLink
-                                    value="View Managed Projects"
-                                    action="viewmanagedprojects" />
-                            </b:row>
-                        </b:form>
-                    </b:row>
                 </div>
-            </b:row>
+            </div>
         </div>
     </ui:define>
 </ui:composition>
