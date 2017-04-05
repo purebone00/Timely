@@ -1,45 +1,44 @@
-
+<!-- assignEmpToWP.xhtml-->
 <ui:composition template="/template/master_page.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Assigning Employees</ui:define>
+    <ui:define name="title">Assigning Employees TO WPS</ui:define>
 
     <ui:define name="content">
 		<div class="container">
 	        <div class="row">
-	            <div class="col-xs-4">
-	            	LINKS:
-	            	<h:form>
-	            	 <h:commandLink value="assignEmpToWP.xhtml" action="assignEmpToWP" />
-					 <br />
-		             <h:commandLink value="assignPM.xhtml" action="assignPM"/>
-		             <br />
-		             <h:commandLink value="assignRespEng.xhtml" action="assignRespEng"/>
-		             </h:form>
-	            <br/>
-	            	THIS IS FOR PUTTING EMPLOYEES ON/REMOVING EMPLOYEES FROM PROJECTS<br/>
+	            <div class="col-xs-">
+	            	THIS IS FOR PUTTING EMPLOYEES ON/REMOVING EMPLOYEES FROM WPs<br/>
+								Who does it: PM<br/>
+	            	Currently selected WP information goes here. Use projectManagerController. <br/>
 	            	<h:outputText value="No: #{Master.projMan.selectedProject.projNo}"/><br/>
 	            	<h:outputText value="Name: #{Master.projMan.selectedProject.projNm}"/><br/>
 	            	<h:outputText value="Description: #{Master.projMan.selectedProject.projDesc}"/><br/>
 	            	
+								<br/>
+								!!Put list of WPs on the current project here!! 
+								
 	            </div>
 	           <!-- End of first column -->
 	           
 	            <div class="col-xs-4">
 	            	<h:form>
-	            	<h4>Currently on project:</h4>
-	            		Employees on the current project listed here
-						<br/> Select one employee to move them onto a particular project.
+	            	<h4>Currently on WP:</h4>
+	            		Employees on the current WP listed here
+						<br/> Select one employee to move them onto a particular WP.
 						<br/>
 						
 						<b:dataTable 
-	                            value="#{Master.projMan.allEmpInProject()}"
+	                            value="#{Master.admin.employeeController.list}"
 	                            var="s"
 	                            responsive="true">
-								
+								<b:dataTableColumn>
+	                                <f:facet name="header">REMOVE Employee</f:facet>
+									<h:commandButton class="btn" value="-"/>
+								</b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Employee ID</f:facet>
 									<b:inputText value="#{s.empId}" size="10" rendered="#{s.editable}" />
@@ -81,25 +80,22 @@
 									<b:inputText value="#{s.empInsDt}" size="10" rendered="#{s.editable}" />
     								<h:outputText value="#{s.empInsDt}" rendered="#{not s.editable}" />
 								</b:dataTableColumn>
-								<b:dataTableColumn>
-	                                <f:facet name="header">REMOVE Employee</f:facet>
-									<h:commandButton class="btn" action="#{Master.projMan.removeEmployee(s.empId)}" value="-"/>
-								</b:dataTableColumn>
 	                        </b:dataTable>
 	                        <br/>
-						<h:commandButton class="btn"  value="Save"/>
+						<h:commandButton class="btn" value="Save"/>
 		            </h:form>
 	            </div>
 	            <!-- End of 2nd column -->
+	            
 	            <div class="col-xs-4">
 	            	<h:form>
-	            	<h4>Available to be assigned to project:</h4>
-	            		Employees currently NOT on the project listed here
-						<br/> Select one employee to move them onto a particular project.
+	            	<h4>Available to be assigned to WP:</h4>
+	            		Employees in the selected project but currently NOT on the selected WP
+						<br/> Select one employee to move them onto a particular WP.
 						<br/>
 						
 						<b:dataTable 
-	                            value="#{Master.projMan.NotEmpInProject()}"
+	                            value="#{Master.admin.employeeController.list}"
 	                            var="s"
 	                            responsive="true">
 
@@ -147,7 +143,7 @@
 								
 								<b:dataTableColumn>
 	                                <f:facet name="header">ADD Employee</f:facet>
-									<h:commandButton class="btn" action="#{Master.projMan.assignEmployeeToProject2(s.empId)}" value="+"/>
+									<h:commandButton class="btn" value="+"/>
 								</b:dataTableColumn>
 	                        </b:dataTable>
 	                        <br/>
@@ -158,6 +154,5 @@
 	            <!-- End of 3rd column -->
 	        </div>
         </div>
-
     </ui:define>
 </ui:composition>

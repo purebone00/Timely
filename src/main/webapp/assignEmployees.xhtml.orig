@@ -8,6 +8,46 @@
     <ui:define name="title">Assigning Employees</ui:define>
 
     <ui:define name="content">
+<<<<<<< HEAD
+        <div class="container text-centered">
+            <div class="jumbotron">
+                <h1>Employee List</h1>
+                <span></span>
+            </div>
+        </div>
+		<div class="container">
+			<b:row>
+				<b:column col-md="6">
+					<b:form>
+						<b:dataTable value="#{Placeholder.ExternalEmployees}" var="emp" responsive="true" searching="false">
+							<b:dataTableColumn>
+	                                <f:facet name="header">External Employees</f:facet>
+	   								<h:outputText value="#{emp.Name}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn>
+	                                <f:facet name="header">Move to Project</f:facet>
+	   								<b:commandButton value="Move" look="primary" action="#{placeholder.moveToProject(emp)}" />
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:form>
+				</b:column>
+				<b:column col-md="6">
+					<b:form>
+						<b:dataTable  value="#{Placeholder.ProjectEmployees}" var="emp" responsive="true" searching="false">
+							<b:dataTableColumn>
+	                                <f:facet name="header">Remove From Project</f:facet>
+	   								<b:commandButton value="Move" look="primary" action="#{placeholder.removeFromProject(emp)}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn>
+	                                <f:facet name="header">Project Employees</f:facet>
+	   								<h:outputText value="#{emp.Name}" />
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:form>
+				</b:column>
+			</b:row>
+		</div>
+=======
 		<div class="container">
 	        <div class="row">
 	            <div class="col-xs-4">
@@ -91,6 +131,7 @@
 		            </h:form>
 	            </div>
 	            <!-- End of 2nd column -->
+	            
 	            <div class="col-xs-4">
 	            	<h:form>
 	            	<h4>Available to be assigned to project:</h4>
@@ -158,6 +199,6 @@
 	            <!-- End of 3rd column -->
 	        </div>
         </div>
-
+>>>>>>> assignRoles
     </ui:define>
 </ui:composition>

@@ -2,9 +2,12 @@ package manager;
 
 import java.io.Serializable;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Map;
 import java.util.TreeMap;
+=======
 import java.util.Set;
+>>>>>>> assignRoles
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
@@ -19,8 +22,9 @@ import model.Project;
 
 @Dependent
 @Stateless
-public class EmployeeManager implements Serializable{
-    @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
+public class EmployeeManager implements Serializable {
+    @PersistenceContext(unitName = "Timely-persistence-unit")
+    EntityManager em;
 
     /*Who knows if this'll work.See ProjectManagerController.*/
     public List<Employee> getEmployeesOnProject(int pid) {
@@ -41,25 +45,24 @@ public class EmployeeManager implements Serializable{
     public void flush() {
         em.flush();
     }
-    
+
     public void persist(Employee employee) {
         em.persist(employee);
     }
-   
+
     public void merge(Employee employee) {
         em.merge(employee);
-    } 
-    
+    }
+
     public void remove(Employee employee) {
         employee = find(employee.getEmpId());
         em.remove(employee);
     }
-    
+
     public List<Employee> getAll() {
-        TypedQuery<Employee> query = em.createQuery("select s from Employee s",
-                Employee.class); 
+        TypedQuery<Employee> query = em.createQuery("select s from Employee s", Employee.class);
         List<Employee> employees = query.getResultList();
-        
+
         return employees;
     }
     
@@ -74,6 +77,7 @@ public class EmployeeManager implements Serializable{
         return employees;
     }
     
+<<<<<<< HEAD
     public Map<String, Employee> getActiveEmpMap() {
         Map<String, Employee> employeeMap = new TreeMap<String, Employee>();
         TypedQuery<Employee> query = em.createQuery("select s from Employee s where s.empDel = 0", Employee.class);
@@ -100,9 +104,8 @@ public class EmployeeManager implements Serializable{
     public void restore(Employee employee){
    	 employee.setEmpDel((short) 0);
    }
-	
-
-	/**
+=======
+    /**
      * Gets all projects the given employee is assigned to.
      * @param emp employee 
      * @return list of projects
@@ -133,5 +136,7 @@ public class EmployeeManager implements Serializable{
         List<Employee> employees = query.getResultList();
          
         return employees;
-    }    
+    }
+>>>>>>> assignRoles
+    
 }
