@@ -42,130 +42,123 @@
                     <div class="container">
 						<b:row>
 							<b:form>
-								<b:dataTable responsive="false" searching="false"
-									paginated="false" span="1" value="#{Master.employee.tsrList}"
-									var="s" class="editableTable">
-									<b:dataTableColumn>
-										<f:facet name="header">Project No.</f:facet>
-										<!--  <b:inputText value="#{s.tsrProjNo}" size="10" rendered="#{s.editable}" /> -->
-										<h:selectOneMenu class="form-control" value="#{s.tsrProjNo}"
-											rendered="#{s.editable}">
-											<f:selectItems class="selectpicker"
-												value="#{Master.employee.projectIntegerList()}" />
-										</h:selectOneMenu>
-										<h:outputText class="ProjectNo" value="#{s.tsrProjNo}"
-											rendered="#{not s.editable}" />
-										<f:facet name="footer">Total</f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn order="desc">
-										<f:facet name="header">WP No.</f:facet>
-										<h:inputText value="#{s.tsrWpNo}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrWpNo}"
-											rendered="#{not s.editable}" />
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Totals</f:facet>
-										<h:outputText class="TotalNo" value="#{s.total}"
-											rendered="#{not s.editable}" />
-										<f:facet name="footer">#{Master.employee.dailyTotals[7]}</f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Saturday</f:facet>
-										<h:inputText value="#{s.tsrSat}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrSat}" rendered="#{not s.editable}" />
-										<f:facet name="footer">#{Master.employee.dailyTotals[5]}</f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Sunday</f:facet>
-										<h:inputText value="#{s.tsrSun}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrSun}" rendered="#{not s.editable}" />
-										<f:facet name="footer">#{Master.employee.dailyTotals[6]}</f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Monday</f:facet>
-										<h:inputText value="#{s.tsrMon}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrMon}" rendered="#{not s.editable}" />
-										<f:facet name="footer">#{Master.employee.dailyTotals[0]}
-                                        
-                                        </f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Tuesday</f:facet>
-										<h:inputText value="#{s.tsrTue}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrTue}" rendered="#{not s.editable}" />
-										<f:facet name="footer">#{Master.employee.dailyTotals[1]}</f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Wednesday</f:facet>
-										<h:inputText value="#{s.tsrWed}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrWed}" rendered="#{not s.editable}" />
-										<f:facet name="footer">#{Master.employee.dailyTotals[2]}</f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Thursday</f:facet>
-										<h:inputText value="#{s.tsrThu}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrThu}" rendered="#{not s.editable}" />
-										<f:facet name="footer">#{Master.employee.dailyTotals[3]}</f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Friday</f:facet>
-										<h:inputText value="#{s.tsrFri}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrFri}" rendered="#{not s.editable}" />
-										<f:facet name="footer">#{Master.employee.dailyTotals[4]}
-                                        </f:facet>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<f:facet name="header">Notes</f:facet>
-										<h:inputText value="#{s.tsrNote}" size="10"
-											rendered="#{s.editable}" />
-										<h:outputText value="#{s.tsrNote}"
-											rendered="#{not s.editable}" />
-									</b:dataTableColumn>
-								</b:dataTable>
-
-								<br />
-
-								<div class="container">
-									<b:row>
-										<b:column>
-											<b:panelGrid colSpans="6,6" offset="9">
-												<b:panel>
-													<p><b>Overtime: </b> 10</p>
-													<b:messages />
-													<p><b>Flextime: </b> 10</p>
-													<b:messages />
-												</b:panel>
-											</b:panelGrid>
-										</b:column>
-									</b:row>
-								</div>
-
-								<div class="container">
-									<b:row>
-										<b:column col-m="6">
-											<b:commandButton value="Save Changes" class="btn btn-success"
+								<b:row>
+									<b:dataTable responsive="false" searching="false"
+										paginated="false" span="1" value="#{Master.employee.tsrList}"
+										var="s" class="editableTable">
+										<b:dataTableColumn>
+											<f:facet name="header">Project No.</f:facet>
+											<!--  <b:inputText value="#{s.tsrProjNo}" size="10" rendered="#{s.editable}" /> -->
+											<h:selectOneMenu class="form-control" value="#{s.tsrProjNo}"
+												rendered="#{s.editable}">
+												<f:selectItems class="selectpicker"
+													value="#{Master.employee.projectIntegerList()}" />
+											</h:selectOneMenu>
+											<h:outputText class="ProjectNo" value="#{s.tsrProjNo}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">Total</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn order="desc">
+											<f:facet name="header">WP No.</f:facet>
+											<h:inputText value="#{s.tsrWpNo}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrWpNo}"
+												rendered="#{not s.editable}" />
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Totals</f:facet>
+											<h:outputText class="TotalNo" value="#{s.total}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[7]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Saturday</f:facet>
+											<h:inputText value="#{s.tsrSat}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrSat}" rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[5]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Sunday</f:facet>
+											<h:inputText value="#{s.tsrSun}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrSun}" rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[6]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Monday</f:facet>
+											<h:inputText value="#{s.tsrMon}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrMon}" rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[0]}
+	                                        
+	                                        </f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Tuesday</f:facet>
+											<h:inputText value="#{s.tsrTue}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrTue}" rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[1]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Wednesday</f:facet>
+											<h:inputText value="#{s.tsrWed}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrWed}" rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[2]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Thursday</f:facet>
+											<h:inputText value="#{s.tsrThu}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrThu}" rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[3]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Friday</f:facet>
+											<h:inputText value="#{s.tsrFri}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrFri}" rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[4]}
+	                                        </f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Notes</f:facet>
+											<h:inputText value="#{s.tsrNote}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrNote}"
+												rendered="#{not s.editable}" />
+										</b:dataTableColumn>
+									</b:dataTable>
+								</b:row>
+								<b:row>
+									<b:column col-md="6">
+										<b:buttonGroup>
+											<b:commandButton value="Save Changes"
+												look="success"
 												action="#{Master.employee.saveAction}" />
-											<span> </span>
-											<b:commandButton value="Edit" class="btn btn-warning"
+											<b:commandButton value="Edit" 
+												look="warning"
 												icon="edit" action="#{Master.employee.editAction()}"
 												rendered="#{not s.editable}" />
-											<span> </span>
-											<b:commandButton value="Add Row" class="btn btn-info"
+											<b:commandButton value="Add Row"
+												look="info"
 												action="#{Master.employee.addTsrow}" />
 											<b:commandButton value="Submit Timesheet"
-												class="btn btn-danger pull-right"
+												look="danger"
 												action="#{Master.employee.submitTimesheet}" />
-										</b:column>
-									</b:row>
-								</div>
+										</b:buttonGroup>
+									</b:column>
+									<b:column col-md="2" offset="2">
+										<b:panel>
+											<p><b>Overtime: </b> 10</p>
+											<b:messages />
+											<p><b>Flextime: </b> 10</p>
+											<b:messages />
+										</b:panel>
+									</b:column>
+								</b:row>
 							</b:form>
 						</b:row>
 					</div>
