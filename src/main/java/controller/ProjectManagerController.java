@@ -534,32 +534,27 @@ public class ProjectManagerController {
         }
         return null;
     }
-
-    /**
-     * Action method that leads to page where you can assign employees to a
-     * project
-     * 
-     * @param projectID
-     *            id of the project
-     * @return String navigation string
-     */
-    public String assignEmployeeToProject(int projectID) {
-        setSelectedProject(projectManager.find(projectID));
-        // System.out.println("assignEmployee: Project id = " + projectID + ";
-        // selected project name: " + selectedProject.getProjNm());
-        return "assignEmployees";
-    }
-
-    /**
-     * Jen's bullshit. For moving employees onto a project
-     * 
-     * @return String navigation string. Just refresh the page bro.
-     * @param empID
-     *            ID of employee to put on project.
-     */
-    public String assignEmployeeToProject2(String empID) {
-        Employee emp = employeeManager.find(Integer.parseInt(empID));
-        // get a reference to the selected project
+	
+	/**
+	 * Action method that leads to page where you can assign employees to a project
+	 * @param projectID id of the project
+	 * @return String navigation string
+	 */
+	public String assignEmployeeToProject(int projectID){
+		setSelectedProject(projectManager.find(projectID));
+		//System.out.println("assignEmployee: Project id = " + projectID + "; selected project name: " + selectedProject.getProjNm());
+		return "assignEmployees";
+	}
+	
+	
+	/**
+     * Adds the employee with the given ID to the currently selected project.
+     * @return String navigation string.
+     * @param empID ID of employee to put on project.
+     * */
+    public String assignEmployeeToProject2(String empID){
+    	Employee emp = employeeManager.find(Integer.parseInt(empID));
+        //get a reference to the selected project
         selectedProject.getEmployees().add(emp);
         // update on employee side
         emp.getProjects().add(selectedProject);
@@ -601,16 +596,44 @@ public class ProjectManagerController {
 
         return null;
     }
-
+    
+	
+	/**
+     * Adds the employee with the given ID to the currently selected work package.
+     * @return String navigation string.
+     * @param empID ID of employee to put on project.
+     * */
+    public String assignEmployeeToWP(String empID){
+    	Employee emp = employeeManager.find(Integer.parseInt(empID));
+        //get a reference to the selected project
+        selectedWorkPackage.getEmployees().add(emp);
+        //update on employee side
+        emp.getWorkpackages().add(selectedWorkPackage);
+        //update database
+        workPackageManager.merge(selectedWorkPackage);
+        workPackageManager.flush();
+        employeeManager.merge(emp);
+        employeeManager.flush();
+        //refresh the page
+        return null;
+    }
+    
     /**
-     * Gets a list of months for the currently selected project.
-     * 
-     * @return A list of months for the currently selected project. /** Gets a
-     *         list of employees in the given project.
-     * @param proj
-     *            a project
-     * @return list of employees
-     */
+     * Removes given employee from selected work package.
+     * @return String navigation string. 
+     * @param empID ID of employee to put on work package.
+     * */
+    public String removeEmployeeFromWP(String empID){
+
+    	Employee e = employeeManager.find(Integer.parseInt(empID));
+    	workPackageManager.removeFromWP(selectedWorkPackage, e);
+        e.getWorkpackages().remove(selectedWorkPackage);
+        selectedWorkPackage.getEmployees().remove(e);
+        
+        return null;
+    }
+    
+    
     public Set<String> getListOfMonths() {
         DateTimeUtility dtu = new DateTimeUtility();
         Date curDt = new Date();
@@ -687,5 +710,23 @@ public class ProjectManagerController {
     public boolean isWpCharged(Workpack w) {
         return !tsRowManager.find(w).isEmpty();
     }
-
+   
+	 /**
+     * Gets a list of employees in the given work package.
+     * @return list of employees
+     */
+    public List<Employee> allEmpInWP(){
+    	
+    	 //return selectedProject.getEmployees();
+    	return employeeManager.getEmpWP(selectedWorkPackage);
+    }
+    
+    /**
+     * Gets a list of employees not in the given work package.
+     * @return list of employees
+     */
+    public List<Employee> notEmpInWP(){
+    	return employeeManager.getEmpNotWP(selectedWorkPackage);
+    }
+    
 }
