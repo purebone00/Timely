@@ -8,10 +8,11 @@ import java.util.List;
 import java.util.Set;
 
 import manager.TsrowManager;
+import model.Workpack;
 import model.Wplab;
 import model.Wpstarep;
 
-public class MonthlyReport implements Serializable {
+public class MonthlyReport implements Serializable, Comparable<MonthlyReport> {
     
     /**
      * Total Hours Budgeted.
@@ -53,16 +54,22 @@ public class MonthlyReport implements Serializable {
      */
     BigDecimal varCosts;
     
+    /**
+     * The {@link Workpack} this report is for.
+     */
+    Workpack workpack;
+    
+    /**
+     * Visited flag.
+     */
     int visited;
     
     /**
-     * Creates a Monthly Report.
-     * @param tsrowHours Output of {@link TsrowManager#getAllForWP(model.Workpack, String)}.
-     * @param wplabs {@link Wplab}'s of the {@link Workpack} to generate the report for.
-     * @param report {@link Wpstarep} of the {@link Workpack} for the week.
-     * @param rateMap Map of Labour Grades and their rates.
+     * If report is an aggregate report.
      */
-    public MonthlyReport(List<Object[]> tsrowHours, Set<Wplab> wplabs, Wpstarep report, HashMap<String, BigDecimal> rateMap) {
+    public boolean aggregate;
+    
+    public MonthlyReport() {
         budgetTotalHours = BigDecimal.ZERO;
         budgetTotalCosts = BigDecimal.ZERO;
         curTotalHours = BigDecimal.ZERO;
@@ -72,6 +79,27 @@ public class MonthlyReport implements Serializable {
         varTime = BigDecimal.ZERO;
         varCosts = BigDecimal.ZERO;
         visited = 0;
+    }
+    
+    /**
+     * Creates a Monthly Report.
+     * @param tsrowHours Output of {@link TsrowManager#getAllForWP(model.Workpack, String)}.
+     * @param wplabs {@link Wplab}'s of the {@link Workpack} to generate the report for.
+     * @param report {@link Wpstarep} of the {@link Workpack} for the week.
+     * @param rateMap Map of Labour Grades and their rates.
+     */
+    public MonthlyReport(Workpack workpack, List<Object[]> tsrowHours, Set<Wplab> wplabs, Wpstarep report, HashMap<String, BigDecimal> rateMap) {
+        this.workpack = workpack;
+        budgetTotalHours = BigDecimal.ZERO;
+        budgetTotalCosts = BigDecimal.ZERO;
+        curTotalHours = BigDecimal.ZERO;
+        curTotalCosts = BigDecimal.ZERO;
+        projTotalHours = BigDecimal.ZERO;
+        projTotalCosts = BigDecimal.ZERO;
+        varTime = BigDecimal.ZERO;
+        varCosts = BigDecimal.ZERO;
+        visited = 0;
+        aggregate = false;
         
         for (Object[] obj : tsrowHours) {
             BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
@@ -116,6 +144,14 @@ public class MonthlyReport implements Serializable {
             varCosts = null;
             varTime = null;
         }
+    }
+    
+    public Workpack getWorkpack() {
+        return this.workpack;
+    }
+    
+    public void setWorkpack (Workpack workpack) {
+        this.workpack = workpack;
     }
 
     public BigDecimal getBudgetTotalHours() {
@@ -212,6 +248,51 @@ public class MonthlyReport implements Serializable {
     
     public void setVisited(int visited) {
         this.visited = visited;
+    }
+    
+    public boolean getAggregate() {
+        return this.aggregate;
+    }
+    
+    public void setAggregate(boolean aggregate) {
+        this.aggregate = aggregate;
+    }
+    
+    public static MonthlyReport generateAggregate(Workpack workpack, List<MonthlyReport> reports) {
+        MonthlyReport report = new MonthlyReport();
+        
+        for (MonthlyReport m : reports) {
+            report.setBudgetTotalCosts(report.getBudgetTotalCosts().add(m.getBudgetTotalCosts()));
+            report.setBudgetTotalHours(report.getBudgetTotalHours().add(m.getBudgetTotalHours()));
+            report.setCurTotalCosts(report.getCurTotalCosts().add(m.getCurTotalCosts()));
+            report.setCurTotalHours(report.getCurTotalHours().add(m.getCurTotalHours()));
+            
+            if (m.getProjTotalCosts() == null || m.getProjTotalHours() == null) {
+                report.setProjTotalCosts(null);
+                report.setProjTotalHours(null);
+            } else {                
+                report.setProjTotalCosts(report.getProjTotalCosts().add(m.getProjTotalCosts()));
+                report.setProjTotalHours(report.getProjTotalHours().add(m.getProjTotalHours()));
+            }
+        }
+        
+        if (report.getProjTotalCosts() != null && report.getProjTotalHours() != null) {            
+            report.setVarCosts(((report.getProjTotalCosts().subtract(report.getBudgetTotalCosts())).divide(report.getBudgetTotalCosts(), 2, RoundingMode.HALF_EVEN)));
+            report.setVarTime(((report.getProjTotalHours().subtract(report.getBudgetTotalHours())).divide(report.getBudgetTotalHours(), 2, RoundingMode.HALF_EVEN)));        
+        } else {
+            report.setVarCosts(null);
+            report.setVarTime(null);
+        }
+        
+        report.setWorkpack(workpack);
+        report.setAggregate(true);
+        
+        return report;
+    }
+
+    @Override
+    public int compareTo(MonthlyReport o) {
+        return this.getWorkpack().getId().getWpNo().compareTo(o.getWorkpack().getId().getWpNo());
     }
     
 }

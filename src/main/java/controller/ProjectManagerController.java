@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -493,10 +494,44 @@ public class ProjectManagerController {
             endDate = endDate2;
         }
         
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);                
+        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
        
-        return new MonthlyReport(list, workpack.getWplabs(), report, getRateMap());
+        return new MonthlyReport(workpack, list, workpack.getWplabs(), report, getRateMap());
+    }
+    
+    public List<MonthlyReport> getReportsForWpMonth(String month) {
+        List<Workpack> leafs = new ArrayList<Workpack>();
+        List<Workpack> parents = new ArrayList<Workpack>();
+        List<MonthlyReport> leafReports = new ArrayList<MonthlyReport>();
+        List<MonthlyReport> parentReports = new ArrayList<MonthlyReport>();
+        
+        for (Workpack w : getSelectedProject().getWorkPackages()) {
+            if (isLeaf(w)) {
+                leafs.add(w);
+            } else {
+                parents.add(w);
+            }
+        }
+        
+        for (Workpack w : leafs) {
+            leafReports.add(getReportForWpMonth(w, month));
+        }
+        
+        for (Workpack w : parents) {
+            List<MonthlyReport> childReports = new ArrayList<MonthlyReport>();
+            for (MonthlyReport r : leafReports) {
+                if (r.getWorkpack().getId().getWpNo().matches("^" + w.getNamePrefix() + ".*")) {
+                    childReports.add(r);
+                }
+            }
+            parentReports.add(MonthlyReport.generateAggregate(w, childReports));
+        }
+        
+        leafReports.addAll(parentReports);
+        Collections.sort(leafReports);
+        
+        return leafReports;
     }
     
     /**
@@ -668,6 +703,10 @@ public class ProjectManagerController {
             map.put(l.getLgId(), l.getLgRate());
         }
         return map;
+    }
+    
+    public boolean isWpCharged(Workpack w) {
+        return !tsRowManager.find(w).isEmpty();
     }
 
 }
