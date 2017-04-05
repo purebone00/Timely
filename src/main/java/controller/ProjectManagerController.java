@@ -33,6 +33,7 @@ import model.Wpstarep;
 import model.WpstarepId;
 import utility.DateTimeUtility;
 import utility.models.MonthlyReport;
+import utility.models.MonthlyReportRow;
 import utility.models.WeeklyReport;
 
 @Stateful
@@ -471,7 +472,7 @@ public class ProjectManagerController {
      * @param month The month to get the monthly-report information for.
      * @return The monthly report.
      */
-    public MonthlyReport getReportForWpMonth(Workpack workpack, String month) {
+    public MonthlyReportRow getReportForWpMonth(Workpack workpack, String month) {
         
         DateTimeUtility dtu = new DateTimeUtility();
         String endDate = dtu.getEndOfWeek(dtu.getEndOfMonth(month + "01"));
@@ -499,14 +500,14 @@ public class ProjectManagerController {
         List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
        
-        return new MonthlyReport(workpack, list, workpack.getWplabs(), report, getRateMap());
+        return new MonthlyReportRow(workpack, list, workpack.getWplabs(), report, getRateMap());
     }
 
-    public List<MonthlyReport> getReportsForWpMonth(String month) {
+    public List<MonthlyReportRow> getReportsForWpMonth(String month) {
         List<Workpack> leafs = new ArrayList<Workpack>();
         List<Workpack> parents = new ArrayList<Workpack>();
-        List<MonthlyReport> leafReports = new ArrayList<MonthlyReport>();
-        List<MonthlyReport> parentReports = new ArrayList<MonthlyReport>();
+        List<MonthlyReportRow> leafReports = new ArrayList<MonthlyReportRow>();
+        List<MonthlyReportRow> parentReports = new ArrayList<MonthlyReportRow>();
         
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             if (isLeaf(w)) {
@@ -521,19 +522,31 @@ public class ProjectManagerController {
         }
         
         for (Workpack w : parents) {
-            List<MonthlyReport> childReports = new ArrayList<MonthlyReport>();
-            for (MonthlyReport r : leafReports) {
+            List<MonthlyReportRow> childReports = new ArrayList<MonthlyReportRow>();
+            for (MonthlyReportRow r : leafReports) {
                 if (r.getWorkpack().getId().getWpNo().matches("^" + w.getNamePrefix() + ".*")) {
                     childReports.add(r);
                 }
             }
-            parentReports.add(MonthlyReport.generateAggregate(w, childReports));
+            parentReports.add(MonthlyReportRow.generateAggregate(w, childReports));
         }
         
         leafReports.addAll(parentReports);
         Collections.sort(leafReports);
         
         return leafReports;
+    }
+    
+    public List<MonthlyReport> getMonthlyReports() {
+        ArrayList<MonthlyReport> reports = new ArrayList<MonthlyReport>();
+        
+        for (String month : getListOfMonths()) {
+            List<MonthlyReportRow> reportRows = getReportsForWpMonth(month);
+            MonthlyReport report = new MonthlyReport(reportRows, month);
+            reports.add(report);
+        }
+        Collections.sort(reports);
+        return reports;
     }
 
     /**
