@@ -1,5 +1,6 @@
 package utility.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 import manager.TsrowManager;
 import model.Wpstarep;
 
-public class WeeklyReport {
+public class WeeklyReport implements Serializable {
     
     /**
      * Total Costs Currently Spent.

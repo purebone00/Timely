@@ -1,5 +1,6 @@
 package utility.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import manager.TsrowManager;
 import model.Wplab;
 import model.Wpstarep;
 
-public class MonthlyReport {
+public class MonthlyReport implements Serializable {
     
     /**
      * Total Hours Budgeted.
