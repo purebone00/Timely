@@ -33,7 +33,10 @@
 								<f:facet name="header">Yes</f:facet>
 								<table class="table">
 									<tr>
-										<th>Work Package: #{s.id.wpNo} <h:dataTable class="table"
+										<th>Work Package: #{s.id.wpNo}<br/>
+											Name: #{s.wpNm}<br/>
+											Description: #{s.wpDesc}
+										<h:dataTable class="table"
 												value="#{s}" var="t">
 												<h:column>
 													<f:facet name="header">Completed (Person Days)</f:facet>
