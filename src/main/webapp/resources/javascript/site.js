@@ -66,11 +66,11 @@ function addToNotifications() {
 	}
 	if(parseInt(splitNotif[1]) != 0) {
 		count = count + parseInt(splitNotif[1]);
-		addMonthNotification(firstChild, splitNotif[1]);
+		addWeekNotification(firstChild, splitNotif[1]);
 	}
 	if(parseInt(splitNotif[2]) != 0) {
 		count = count + parseInt(splitNotif[2]);
-		addWeekNotification(firstChild, splitNotif[2]);
+		addMonthNotification(firstChild, splitNotif[2]);
 	}
 	
 	$(notificationCount).contents().filter(function() {
@@ -92,7 +92,7 @@ function addMonthNotification(firstChild, notificationCount) {
 	var newNotification = document.createElement("li");
 	var notificationMessage = "You have unvisited Monthly reports.";
 	newNotification.style.cursor = "pointer";
-	newNotification.innerHTML = "<a href=\"/Timely/faces/manageproject.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
+	newNotification.innerHTML = "<a href=\"/Timely/faces/viewmanagedprojects.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
 	firstChild.appendChild(newNotification);
 }
 
@@ -100,7 +100,7 @@ function addWeekNotification(firstChild, notificationCount) {
 	var newNotification = document.createElement("li");
 	var notificationMessage = "You have unvisited Weekly reports.";
 	newNotification.style.cursor = "pointer";
-	newNotification.innerHTML = "<a href=\"/Timely/faces/manageproject.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
+	newNotification.innerHTML = "<a href=\"/Timely/faces/viewmanagedprojects.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
 	firstChild.appendChild(newNotification);
 }
 

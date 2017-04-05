@@ -51,6 +51,9 @@ public class Employee implements java.io.Serializable {
     private Date empInsDt;
     private Date empUpDt;
 
+    private String empLastVisitedWeekReport;
+    private String empLastVisitedMonthReport;
+    
     boolean editable;
 
     private Set<Project> projects;
@@ -330,4 +333,23 @@ public class Employee implements java.io.Serializable {
         this.empUpDt = empUpDt;
     }
 
+    @Column(name="empLastVisitedWeekReport",  insertable = false, updatable = false, nullable = true)
+    public String getEmpLastVisitedWeekReport() {
+        return empLastVisitedWeekReport;
+    }
+
+    public void setEmpLastVisitedWeekReport(String empLastVisitedWeekReport) {
+        this.empLastVisitedWeekReport = empLastVisitedWeekReport;
+    }
+
+    @Column(name="empLastVisitedWeekReport",  insertable = false, updatable = false, nullable = true)
+    public String getEmpLastVisitedMonthReport() {
+        return empLastVisitedMonthReport;
+    }
+
+    public void setEmpLastVisitedMonthReport(String empLastVisitedMonthReport) {
+        this.empLastVisitedMonthReport = empLastVisitedMonthReport;
+    }
+
+    
 }

@@ -54,6 +54,16 @@ public class ProjectManagerController {
     @Inject
     EmployeeManager employeeManager;
 
+    private Employee emp;
+    
+    public Employee getEmp() {
+        return emp;
+    }
+
+    public void setEmp(Employee emp) {
+        this.emp = emp;
+    }
+
     private Project selectedProject;
     private Workpack selectedWorkPackage;
     private String selectedWeek;
@@ -85,6 +95,7 @@ public class ProjectManagerController {
      * @return A list of {@link Project}'s.
      */
     public List<Project> listOfProjects(Employee emp) {
+        setEmp(emp);
         return projectManager.getManagedProjects(emp.getEmpId());
     }
 
@@ -107,14 +118,23 @@ public class ProjectManagerController {
 
         return "manageproject";
     }
-
+    
     public String selectProjectForReport(Project p) {
         setSelectedProject(p);
-
         return "weeklyReportsList";
     }
     
     public String selectProjectForWeeklyReport(String week) {
+        String empLastVisitWeek = emp.getEmpLastVisitedWeekReport();
+        
+        Integer visitWeek = new Integer(empLastVisitWeek);
+        Integer curWeek = new Integer(week);
+        
+        if(visitWeek.intValue() < curWeek.intValue()) {
+            emp.setEmpLastVisitedWeekReport(curWeek.toString());
+            employeeManager.merge(emp);
+        }
+        
         setSelectedWeek(week);
         
         return "weeklyReport";
@@ -653,7 +673,10 @@ public class ProjectManagerController {
 
         if (flag == 0) {
             endDate = year + month + day;
-            return dtu.getListOfAllWeekEnds(startDate, endDate);
+            List<String> listWeeks = dtu.getListOfAllWeekEnds(startDate, endDate);
+
+          
+            return listWeeks;
         } else if (flag == 1) {
             endDate = getSelectedWeek();
             return dtu.getListOfWeekEnds(startDate, endDate);
