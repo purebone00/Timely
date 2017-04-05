@@ -33,24 +33,24 @@
                 </b:row>
                 <b:row>
                     <b:form>
-                        <h:dataTable class="table table-bordered"
+                        <b:dataTable class="table table-bordered"
                             value="#{Master.projMan.selectedProject.workPackages}"
                             var="s">
-                            <h:column>
+                            <b:dataTableColumn>
                                 <f:facet name="header">Number</f:facet>
 								#{s.id.wpNo}
-							</h:column>
-                            <h:column>
+							</b:dataTableColumn>
+                            <b:dataTableColumn>
                                 <f:facet name="header">Name</f:facet>
                                 <b:inputText class="form-control"
                                     value="#{s.wpNm}" />
-                            </h:column>
-                            <h:column>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn>
                                 <f:facet name="header">Description</f:facet>
                                 <b:inputText class="form-control"
                                     value="#{s.wpDesc}" />
-                            </h:column>
-                            <h:column>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn>
                                 <f:facet name="header">Budget</f:facet>
                                 <h:dataTable class="table"
                                     value="#{s.wplabs}" var="l"
@@ -83,9 +83,9 @@
                                     value="Add Initial Est."
                                     action="#{Master.projMan.addInitialEstimate(s)}"
                                     rendered="#{Master.projMan.isLeaf(s) and s.initialEst == null}" />
-                            </h:column>
+                            </b:dataTableColumn>
 
-                            <h:column>
+                            <b:dataTableColumn>
                                 <f:facet name="header">Add Child</f:facet>
                                 <h:panelGroup
                                     rendered="#{Master.projMan.isWpCharged(s) == false}">
@@ -112,8 +112,8 @@
                                         look="success" value="Add Child"
                                         action="#{Master.projMan.createChildWP(s)}" />
                                 </h:panelGroup>
-                            </h:column>
-                        </h:dataTable>
+                            </b:dataTableColumn>
+                        </b:dataTable>
                         <div class="col-xs-2" style="padding-left: 0">
                             <h:inputText
                                 value="#{Master.projMan.newWpName}"
