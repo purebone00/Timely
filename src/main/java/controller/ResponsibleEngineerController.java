@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -27,7 +27,7 @@ import model.Wpstarep;
 import model.WpstarepId;
 
 @SuppressWarnings("serial")
-@SessionScoped
+@Stateful
 @Named("RE")
 public class ResponsibleEngineerController implements Serializable {
     @Inject

@@ -24,7 +24,6 @@ import model.Employee;
 public class FrontEndBoundary implements Serializable {
     @Inject
     LoginController login;
-
     @Inject
     ResponsibleEngineerController resEng;
     @Inject
