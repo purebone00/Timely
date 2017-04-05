@@ -493,10 +493,61 @@ public class ProjectManagerController {
             endDate = endDate2;
         }
         
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);                
-        Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
+        List<Object[]> list;
+        Set<Wplab> wplabs;
+        Wpstarep report = null;
+        
+        if (isLeaf(workpack)) {            
+            list = tsRowManager.getAllForWP(workpack, endDate);                
+            report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
+            wplabs = workpack.getWplabs();
+        } else {
+            list = new ArrayList<Object[]>();
+            wplabs = new HashSet<Wplab>();
+            List<Wpstarep> wpstareps = new ArrayList<Wpstarep>();
+            HashMap<String, BigDecimal> labDays = new HashMap<String, BigDecimal>();
+            
+            for (Workpack w : workPackageManager.getWorkPackage(workpack.getId().getWpProjNo(), 
+                    workpack.getId().getWpNo().replace("0", ""))) {
+                
+                if (!w.getId().getWpNo().equals(workpack.getId().getWpNo())) {
+                    list.addAll(tsRowManager.getAllForWP(w, endDate));
+                    wplabs.addAll(w.getWplabs());
+                    wpstareps.add(wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), endDate));
+                }
+            }
+            
+            for (Wpstarep ws : wpstareps) {
+                if (ws != null) {
+                    report = new Wpstarep();
+                    String fields = ws.getWsrEstDes();
+                    String[] rows = fields.split(",");
+
+                    for (String s : rows) {
+                        String[] columns = s.split(":");
+                        if (labDays.containsKey(columns[0])) {
+                            labDays.put(columns[0], labDays.get(columns[0]).add(new BigDecimal(columns[1])));
+                        } else {
+                            labDays.put(columns[0], new BigDecimal(columns[1]));
+                        }
+                    }
+                    
+                    String labourDays = "";
+                    
+                    for (Map.Entry<String, BigDecimal> entry : labDays.entrySet()) {
+                        labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
+                    }
+                    
+                    labourDays = labourDays.substring(0, labourDays.length()-1);
+                    
+                    report.setWsrEstDes(labourDays);
+                }
+            }
+            
+            
+        }
        
-        return new MonthlyReport(list, workpack.getWplabs(), report, getRateMap());
+        return new MonthlyReport(list, wplabs, report, getRateMap());
     }
     
     /**

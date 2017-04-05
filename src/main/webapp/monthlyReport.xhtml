@@ -22,10 +22,6 @@
                             <strong>Project Number:</strong>
                             <h:outputText
                                 value="#{Master.projMan.selectedProject.projNo}" />
-
-                            <strong>Week:</strong>
-                            <h:outputText
-                                value="#{Master.projMan.selectedWeek}" />
                         </b:panelGrid>
                         <br />
                         
@@ -38,7 +34,7 @@
                         	</b:dataTableColumn>
                         	<b:dataTableColumn>
                         		<h:dataTable class="table"
-                        			value="#{Master.projMan.getLeafWorkpacks()}"
+                        			value="#{Master.projMan.selectedProject.workPackages}"
                         			var="t">
                         			<h:column>
                         				<f:facet name="header">WP#</f:facet>
