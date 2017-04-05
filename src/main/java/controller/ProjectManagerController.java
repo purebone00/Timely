@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -493,61 +494,44 @@ public class ProjectManagerController {
             endDate = endDate2;
         }
         
-        List<Object[]> list;
-        Set<Wplab> wplabs;
-        Wpstarep report = null;
-        
-        if (isLeaf(workpack)) {            
-            list = tsRowManager.getAllForWP(workpack, endDate);                
-            report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
-            wplabs = workpack.getWplabs();
-        } else {
-            list = new ArrayList<Object[]>();
-            wplabs = new HashSet<Wplab>();
-            List<Wpstarep> wpstareps = new ArrayList<Wpstarep>();
-            HashMap<String, BigDecimal> labDays = new HashMap<String, BigDecimal>();
-            
-            for (Workpack w : workPackageManager.getWorkPackage(workpack.getId().getWpProjNo(), 
-                    workpack.getId().getWpNo().replace("0", ""))) {
-                
-                if (!w.getId().getWpNo().equals(workpack.getId().getWpNo())) {
-                    list.addAll(tsRowManager.getAllForWP(w, endDate));
-                    wplabs.addAll(w.getWplabs());
-                    wpstareps.add(wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), endDate));
-                }
-            }
-            
-            for (Wpstarep ws : wpstareps) {
-                if (ws != null) {
-                    report = new Wpstarep();
-                    String fields = ws.getWsrEstDes();
-                    String[] rows = fields.split(",");
-
-                    for (String s : rows) {
-                        String[] columns = s.split(":");
-                        if (labDays.containsKey(columns[0])) {
-                            labDays.put(columns[0], labDays.get(columns[0]).add(new BigDecimal(columns[1])));
-                        } else {
-                            labDays.put(columns[0], new BigDecimal(columns[1]));
-                        }
-                    }
-                    
-                    String labourDays = "";
-                    
-                    for (Map.Entry<String, BigDecimal> entry : labDays.entrySet()) {
-                        labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
-                    }
-                    
-                    labourDays = labourDays.substring(0, labourDays.length()-1);
-                    
-                    report.setWsrEstDes(labourDays);
-                }
-            }
-            
-            
-        }
+        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
+        Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
        
-        return new MonthlyReport(list, wplabs, report, getRateMap());
+        return new MonthlyReport(workpack, list, workpack.getWplabs(), report, getRateMap());
+    }
+    
+    public List<MonthlyReport> getReportsForWpMonth(String month) {
+        List<Workpack> leafs = new ArrayList<Workpack>();
+        List<Workpack> parents = new ArrayList<Workpack>();
+        List<MonthlyReport> leafReports = new ArrayList<MonthlyReport>();
+        List<MonthlyReport> parentReports = new ArrayList<MonthlyReport>();
+        
+        for (Workpack w : getSelectedProject().getWorkPackages()) {
+            if (isLeaf(w)) {
+                leafs.add(w);
+            } else {
+                parents.add(w);
+            }
+        }
+        
+        for (Workpack w : leafs) {
+            leafReports.add(getReportForWpMonth(w, month));
+        }
+        
+        for (Workpack w : parents) {
+            List<MonthlyReport> childReports = new ArrayList<MonthlyReport>();
+            for (MonthlyReport r : leafReports) {
+                if (r.getWorkpack().getId().getWpNo().matches("^" + w.getNamePrefix() + ".*")) {
+                    childReports.add(r);
+                }
+            }
+            parentReports.add(MonthlyReport.generateAggregate(w, childReports));
+        }
+        
+        leafReports.addAll(parentReports);
+        Collections.sort(leafReports);
+        
+        return leafReports;
     }
     
     /**
