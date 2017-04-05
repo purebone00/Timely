@@ -31,6 +31,8 @@ public class EmployeeManager implements Serializable {
         // query.setParameter("code", pid);
 
         query.setParameter(1, pid);
+        
+        @SuppressWarnings("unchecked")
         List<Employee> employees = query.getResultList();
 
         return employees;

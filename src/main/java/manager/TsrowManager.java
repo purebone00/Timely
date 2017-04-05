@@ -101,6 +101,8 @@ public class TsrowManager {
 
         query.setParameter("code1", projNo);
         query.setParameter("code2", wpNo);
+        
+        @SuppressWarnings("unchecked")
         List<Object[]> workpackages = query.getResultList();
 
         return workpackages;
