@@ -53,6 +53,8 @@ public class MonthlyReport implements Serializable {
      */
     BigDecimal varCosts;
     
+    int visited;
+    
     /**
      * Creates a Monthly Report.
      * @param tsrowHours Output of {@link TsrowManager#getAllForWP(model.Workpack, String)}.
@@ -69,6 +71,7 @@ public class MonthlyReport implements Serializable {
         projTotalCosts = BigDecimal.ZERO;
         varTime = BigDecimal.ZERO;
         varCosts = BigDecimal.ZERO;
+        visited = 0;
         
         for (Object[] obj : tsrowHours) {
             BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
@@ -201,6 +204,14 @@ public class MonthlyReport implements Serializable {
 
     public void setVarCosts(BigDecimal varCosts) {
         this.varCosts = varCosts;
+    }
+    
+    public int getVisited() {
+        return this.visited;
+    }
+    
+    public void setVisited(int visited) {
+        this.visited = visited;
     }
     
 }

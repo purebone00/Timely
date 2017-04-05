@@ -30,6 +30,8 @@ public class WeeklyReport implements Serializable {
      */
     BigDecimal estHoursRemaining;
     
+    int visited;
+    
     /**
      * Creates a Weekly Report.
      * @param tsrowHours Output of {@link TsrowManager#getAllForWP(model.Workpack, String)}.
@@ -41,6 +43,7 @@ public class WeeklyReport implements Serializable {
         curTotalHours = BigDecimal.ZERO;
         estCostsRemaining = BigDecimal.ZERO;
         estHoursRemaining = BigDecimal.ZERO;
+        visited = 0;
         
         for (Object[] obj : tsrowHours) {
             BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
@@ -116,6 +119,14 @@ public class WeeklyReport implements Serializable {
     
     public void setEstDaysRemaining(BigDecimal estDaysRemaining) {
         this.setEstHoursRemaining(estDaysRemaining.multiply(new BigDecimal(8)));
+    }
+    
+    public int getVisited() {
+        return this.visited;
+    }
+    
+    public void setVisited(int visited) {
+        this.visited = visited;
     }
     
 }
