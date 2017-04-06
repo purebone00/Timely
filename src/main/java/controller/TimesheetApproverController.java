@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,11 +15,15 @@ import manager.EmployeeManager;
 import manager.TimesheetManager;
 import model.Employee;
 import model.Timesheet;
+import model.TimesheetId;
+import model.Tsrow;
 
 @SuppressWarnings("serial")
 @Stateful
 @Named("taApprover")
 public class TimesheetApproverController implements Serializable {
+    
+    public static final String FLEX_WP_NO = "__FLEX";
 
     @Inject
     TimesheetManager tManager;
@@ -145,6 +150,7 @@ public class TimesheetApproverController implements Serializable {
 
     public String accept() {
         tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short) 2);
+        processFlextime();
         refreshApprovedList();
         refreshToBeApprovedList();
         return "approver";
@@ -156,5 +162,23 @@ public class TimesheetApproverController implements Serializable {
         refreshToBeApprovedList();
         return "approver";
     }
-
+    
+    private void processFlextime() {
+        Timesheet t = tManager.find(this.getReviewTimesheet().getId());
+        Employee e = t.getEmployee();
+        BigDecimal flextimeAdd = t.getTsFlexTm() == null ? BigDecimal.ZERO : t.getTsFlexTm();
+        BigDecimal flextimeSub = BigDecimal.ZERO;
+        
+        for (Tsrow ts : t.getTsrow()) {
+            if (ts.getTsrWpNo().equals(FLEX_WP_NO)) {
+                flextimeSub = ts.getTotal();
+                break;
+            }
+        }
+        
+        BigDecimal curFlextime = e.getEmpFlxTm() == null ? BigDecimal.ZERO : e.getEmpFlxTm();
+        e.setEmpFlxTm(curFlextime.add(flextimeAdd).subtract(flextimeSub));
+        empManager.merge(e);
+    }
+ 
 }

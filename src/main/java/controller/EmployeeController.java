@@ -259,6 +259,7 @@ public class EmployeeController implements Serializable {
         Timesheet ts = new Timesheet();
         ts.setId(getNewTsId());
         ts.setTsDel((short) 0);
+        ts.setTsSubmit((short) 0);
         Set<Tsrow> tsrList = new HashSet<Tsrow>();
         tsrList = refreshTsrList(tsrList, tsId);
         ts.setTsrow(tsrList);
