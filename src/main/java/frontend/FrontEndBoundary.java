@@ -196,5 +196,5 @@ public class FrontEndBoundary implements Serializable {
         return notification.toString();
     }
 
-    }
+    
 }
