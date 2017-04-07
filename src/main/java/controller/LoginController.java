@@ -44,6 +44,8 @@ public class LoginController implements Serializable {
         boolean authenticated = false;
 
         Employee employee = empMap.get(userName);
+        if (employee == null)
+        	return null;
         if (employee.getEmpPw().equals(password)) {
             currentEmployee.setCurrentEmployee(employee);
             if (currentEmployee.getCurrentEmployee() != null)

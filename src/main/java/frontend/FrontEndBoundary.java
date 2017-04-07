@@ -76,14 +76,15 @@ public class FrontEndBoundary implements Serializable {
                 }
             }
             return "login";
+        } else {
+	        FacesContext.getCurrentInstance().addMessage(
+	                null,
+	                new FacesMessage(FacesMessage.SEVERITY_FATAL,
+	                "Invalid Login!",
+	                "Please Try Again!"));
+	
+	        return null;
         }
-        FacesContext.getCurrentInstance().addMessage(
-                null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN,
-                "Invalid Login!",
-                "Please Try Again!"));
-
-        return null;
     }
 
     public String goToTimesheet(String wkEnd) {
