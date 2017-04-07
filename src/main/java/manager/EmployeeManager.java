@@ -53,11 +53,10 @@ public class EmployeeManager implements Serializable {
     public void persist(Employee employee) {
         em.persist(employee);
     }
-
+  
     public void merge(Employee employee) {
         em.merge(employee);
-    }
-
+    } 
     public void remove(Employee employee) {
         employee = find(employee.getEmpId());
         em.remove(employee);
