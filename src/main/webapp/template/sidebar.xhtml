@@ -17,19 +17,19 @@
 	        <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
 	            value="Timesheet Approver"
 	            outcome="timesheetapprover" 
-	            rendered="true" />
+	            rendered="#{Master.showTimesheetApprover()}" />
 	        <b:navLink icon-size="lg" iconAwesome="wrench"
 	            value="Responsible Engineer" 
 	            outcome="responsibleengineer"
-	            rendered="true" />
+	            rendered="#{Master.showResponsibleEngineer()}" />
 	        <b:navLink icon-size="lg" iconAwesome="cubes"
 	            value="Project Manager"
 	            outcome="viewmanagedprojects" 
-	            rendered="true" />
+	            rendered="#{Master.showProjectManager()}" />
 	        <b:navLink icon-size="lg" iconAwesome="cube"
 	        	value="Supervisor" 
 	        	outcome="viewAllProjects"
-	        	rendered="true" />
+	        	rendered="#{Master.showSupervisor()}" />
 	    </b:listLinks>
     </b:form>
 
