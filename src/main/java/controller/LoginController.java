@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import frontend.EmployeeProfile;
 import manager.EmployeeManager;
 import model.Employee;
+import model.Emptitle;
+import model.Title;
 
 @SuppressWarnings("serial")
 @Named("Login")
@@ -46,17 +49,12 @@ public class LoginController implements Serializable {
             if (currentEmployee.getCurrentEmployee() != null)
                 authenticated = true;
         }
-
-        /*
-         * for (int i = 0; i < list.size(); i++) { Employee employee =
-         * list.get(i); if (employee.getEmpLnm().equals(userName) &&
-         * employee.getEmpPw().equals(password)) {
-         * currentEmployee.setCurrentEmployee(empManager.find(employee.getEmpId(
-         * ))); if (currentEmployee.getCurrentEmployee() != null) {
-         * authenticated = true; } } }
-         */
+               
+        
         return (authenticated) ? currentEmployee.getCurrentEmployee() : null;
     }
+    
+    
 
     public String getUserName() {
         return userName;
@@ -94,4 +92,6 @@ public class LoginController implements Serializable {
     public void setCurrentEmployee(EmployeeProfile currentEmployee) {
         this.currentEmployee = currentEmployee;
     }
+    
+    
 }

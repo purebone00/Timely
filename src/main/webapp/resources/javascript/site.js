@@ -24,10 +24,10 @@ function statusClass() {
 	 });
 }
 
-function removeShowingEntriesOnTimesheetsPage() {
+function removeShowingEntriesOnTimesheetsPage(urlPath) {
 	var showEntries = document.getElementsByClassName("dataTables_info");
 	window.location.pathname+window.location.search
-	if(window.location.pathname+window.location.search === "/Timely/faces/timesheet.xhtml")
+	if(window.location.pathname+window.location.search === urlPath)
 	showEntries[0].style.display = "none";
 }
 
@@ -115,8 +115,9 @@ function addWeekNotification(firstChild, notificationCount) {
 }
 
 $(document).ready(function() {
+	var timesheetPath = "/Timely/faces/employeefunctions.xhtml";
     $(".dropdown-toggle").dropdown();
-    removeShowingEntriesOnTimesheetsPage();
+    removeShowingEntriesOnTimesheetsPage(timesheetPath);
 });
 
 
