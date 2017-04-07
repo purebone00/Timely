@@ -67,6 +67,7 @@ public class FrontEndBoundary implements Serializable {
             employee.setEmp(curEmp);
             taApprover.setEmp(curEmp);
             if (login.isAdmin()) {
+                this.getCurrentSessonMap().put("Admin", true);
                 return "admin";
             } else {
                 for (Title title : curEmp.getTitles()) {
@@ -176,6 +177,14 @@ public class FrontEndBoundary implements Serializable {
     public boolean showTimesheetApprover() {
         try {
             return ((boolean)getCurrentSessonMap().get("Timesheet Approver"));
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+    
+    public boolean showAdmin() {
+        try {
+            return ((boolean)getCurrentSessonMap().get("Admin"));
         } catch (NullPointerException e) {
             return false;
         }
