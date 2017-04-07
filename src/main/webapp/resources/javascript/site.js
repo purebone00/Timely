@@ -24,7 +24,7 @@ function statusClass() {
 	 });
 }
 
-function removeShowingEntriesOnTimesheetsPage(urlPath) {
+function removeShowingEntriesOnPage(urlPath) {
 	var showEntries = document.getElementsByClassName("dataTables_info");
 	window.location.pathname+window.location.search
 	if(window.location.pathname+window.location.search === urlPath)
@@ -116,8 +116,12 @@ function addWeekNotification(firstChild, notificationCount) {
 
 $(document).ready(function() {
 	var timesheetPath = "/Timely/faces/employeefunctions.xhtml";
+	var approvedTimesheetPath = "/Timely/faces/viewtimesheet.xhtml"
+	var reviewTimesheetPath = "/Timely/faces/reviewTimesheet.xhtml"
     $(".dropdown-toggle").dropdown();
-    removeShowingEntriesOnTimesheetsPage(timesheetPath);
+    removeShowingEntriesOnPage(timesheetPath);
+    removeShowingEntriesOnPage(approvedTimesheetPath);
+    removeShowingEntriesOnPage(reviewTimesheetPath);
 });
 
 
