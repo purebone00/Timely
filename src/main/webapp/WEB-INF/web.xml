@@ -7,7 +7,7 @@
 
   <filter>
     <filter-name>NoCacheFilter</filter-name>
-    <filter-class>utility.NoCacheFilter</filter-class>
+    <filter-class>utility.filters.NoCacheFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>NoCacheFilter</filter-name>
