@@ -80,6 +80,20 @@
 
                                 </b:dataTable>
                             </b:form>
+                            <b:column col-md="2" offset="2">
+								<b:panel>
+									<p>
+									<b>Overtime: </b>
+									<h:outputText value="#{Master.taApprover.reviewTimesheet.tsOverTm}" />
+									</p>
+									<b:messages />
+									<p>
+									<b>Flextime: </b>
+									<h:outputText value="#{Master.taApprover.reviewTimesheet.tsFlexTm}" />
+									</p>
+									<b:messages />
+								</b:panel>
+							</b:column>
                         </b:row>
                     </div>
                 </div>
