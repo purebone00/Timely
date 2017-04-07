@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -124,7 +125,13 @@ public class FrontEndBoundary implements Serializable {
 
             return "login";
         }
-        return "fail";
+        FacesContext.getCurrentInstance().addMessage(
+                null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN,
+                "Invalid Login!",
+                "Please Try Again!"));
+
+        return null;
     }
 
     public String goToTimesheet(String wkEnd) {

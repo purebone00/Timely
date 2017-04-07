@@ -29,6 +29,8 @@ public class LoginController implements Serializable {
     private List<Employee> list;
 
     private Map<String, Employee> empMap;
+    
+    private boolean validationComplete = false;
 
     public LoginController() {
 
