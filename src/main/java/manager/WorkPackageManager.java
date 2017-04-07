@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 
 import model.Project;
 import model.Workpack;
+import model.WorkpackId;
 
 @Dependent
 @Stateless
@@ -45,6 +46,10 @@ public class WorkPackageManager {
         List<Workpack> workpackages = query.getResultList();
 
         return (workpackages != null) ? workpackages : new ArrayList<Workpack>();
+    }
+    
+    public Workpack find(WorkpackId wpId) {
+        return em.find(Workpack.class, wpId);
     }
 
     /**
