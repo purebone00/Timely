@@ -50,7 +50,7 @@ public class FrontEndBoundary implements Serializable {
 
     public String finish() throws IOException {
         employee.setEmp(null);
-        
+
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.invalidateSession();
 
@@ -119,7 +119,7 @@ public class FrontEndBoundary implements Serializable {
     }
 
     public String getNotifications() {
-        int monthState = 0, weekState = 0;    
+        int monthState = 0, weekState = 0;
         StringBuilder notification = new StringBuilder();
         Integer tsApproveCount = null;
 
@@ -128,20 +128,20 @@ public class FrontEndBoundary implements Serializable {
         tsApproveCount = taApprover.getListToBeApproved().size();
         notification.append(tsApproveCount.toString());
         List<Project> projectManaged = projMan.listOfProjects(employee.getEmp());
-        if(projectManaged != null) {
-            for(Project p : projectManaged) {
-               projMan.selectProject(p);
-               
-               List<String> weekList = projMan.getListOfWeeks(0);
-               List<MonthlyReport> monthList = projMan.getMonthlyReports();
-               
-               if(!weekList.get(0).equals(employee.getEmp().getEmpLastVisitedWeekReport())) {
-                   weekState = 1;
-               }
-               if(!monthList.get(0).getMonth().equals(employee.getEmp().getEmpLastVisitedMonthReport())) {
-                   monthState = 1;
-               }
-               
+        if (projectManaged != null) {
+            for (Project p : projectManaged) {
+                projMan.selectProject(p);
+
+                List<String> weekList = projMan.getListOfWeeks(0);
+                List<MonthlyReport> monthList = projMan.getMonthlyReports();
+
+                if (!weekList.get(0).equals(employee.getEmp().getEmpLastVisitedWeekReport())) {
+                    weekState = 1;
+                }
+                if (!monthList.get(0).getMonth().equals(employee.getEmp().getEmpLastVisitedMonthReport())) {
+                    monthState = 1;
+                }
+
             }
         }
         notification.append("," + weekState + "," + monthState);
