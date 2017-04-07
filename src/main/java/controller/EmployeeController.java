@@ -260,6 +260,7 @@ public class EmployeeController implements Serializable {
         ts.setId(getNewTsId());
         ts.setTsDel((short) 0);
         ts.setTsSubmit((short) 0);
+        ts.setTsPayGrade(emp.getEmpLabGrd());
         Set<Tsrow> tsrList = new HashSet<Tsrow>();
         tsrList = refreshTsrList(tsrList, tsId);
         ts.setTsrow(tsrList);
