@@ -3,6 +3,7 @@ package frontend;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
@@ -21,6 +22,7 @@ import controller.SupervisorController;
 import controller.TimesheetApproverController;
 import model.Employee;
 import model.Project;
+import model.Title;
 import utility.models.MonthlyReport;
 
 @SuppressWarnings("serial")
@@ -44,61 +46,7 @@ public class FrontEndBoundary implements Serializable {
     @Inject
     SupervisorController supMan;
 
-    public SupervisorController getSupMan() {
-        return supMan;
-    }
-
-    public void setSupMan(SupervisorController supMan) {
-        this.supMan = supMan;
-    }
-
-    public LoginController getLogin() {
-        return login;
-    }
-
-    public EmployeeController getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(EmployeeController employee) {
-        this.employee = employee;
-    }
-
-    public void setLogin(LoginController login) {
-        this.login = login;
-    }
-
-    public ResponsibleEngineerController getResEng() {
-        return resEng;
-    }
-
-    public void setResEng(ResponsibleEngineerController resEng) {
-        this.resEng = resEng;
-    }
-
-    public AdminController getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(AdminController admin) {
-        this.admin = admin;
-    }
-
-    public ProjectManagerController getProjMan() {
-        return projMan;
-    }
-
-    public void setProjMan(ProjectManagerController projMan) {
-        this.projMan = projMan;
-    }
-
-    public TimesheetApproverController getTaApprover() {
-        return taApprover;
-    }
-
-    public void setTaApprover(TimesheetApproverController taApprover) {
-        this.taApprover = taApprover;
-    }
+    
 
     public String finish() throws IOException {
         employee.setEmp(null);
@@ -119,9 +67,13 @@ public class FrontEndBoundary implements Serializable {
             employee.setEmp(curEmp);
             taApprover.setEmp(curEmp);
             if (login.isAdmin()) {
+                this.getCurrentSessonMap().put("Admin", true);
                 return "admin";
+            } else {
+                for (Title title : curEmp.getTitles()) {
+                    checkTitle(title);
+                }
             }
-
             return "login";
         }
         return "fail";
@@ -195,5 +147,120 @@ public class FrontEndBoundary implements Serializable {
         notification.append("," + weekState + "," + monthState);
         return notification.toString();
     }
+    
+    
 
+    public boolean showSupervisor() {
+        try {
+            return ((boolean)getCurrentSessonMap().get("Supervisor"));
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+    
+    public boolean showProjectManager() {
+        try {
+            return ((boolean)getCurrentSessonMap().get("Project Manager"));
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+    
+    public boolean showResponsibleEngineer() {
+        try {
+            return ((boolean)getCurrentSessonMap().get("Responsible Engineer"));
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+    
+    public boolean showTimesheetApprover() {
+        try {
+            return ((boolean)getCurrentSessonMap().get("Timesheet Approver"));
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+    
+    public boolean showAdmin() {
+        try {
+            return ((boolean)getCurrentSessonMap().get("Admin"));
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+    
+    /**
+     * Checks all the titles a user has, then adds them 
+     * into the sessionmap for us to check later on.
+     * @param title
+     */
+    public void checkTitle(Title title) {
+        FacesContext.getCurrentInstance()
+            .getExternalContext()
+            .getSessionMap()
+            .put(title.getTitNm(),true);
+    }
+    
+    //Getter and Setters
+    
+    public SupervisorController getSupMan() {
+        return supMan;
+    }
+
+    public void setSupMan(SupervisorController supMan) {
+        this.supMan = supMan;
+    }
+
+    public LoginController getLogin() {
+        return login;
+    }
+
+    public EmployeeController getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(EmployeeController employee) {
+        this.employee = employee;
+    }
+
+    public void setLogin(LoginController login) {
+        this.login = login;
+    }
+
+    public ResponsibleEngineerController getResEng() {
+        return resEng;
+    }
+
+    public void setResEng(ResponsibleEngineerController resEng) {
+        this.resEng = resEng;
+    }
+
+    public AdminController getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(AdminController admin) {
+        this.admin = admin;
+    }
+
+    public ProjectManagerController getProjMan() {
+        return projMan;
+    }
+
+    public void setProjMan(ProjectManagerController projMan) {
+        this.projMan = projMan;
+    }
+
+    public TimesheetApproverController getTaApprover() {
+        return taApprover;
+    }
+
+    public void setTaApprover(TimesheetApproverController taApprover) {
+        this.taApprover = taApprover;
+    }
+    
+    public Map<String, Object> getCurrentSessonMap() {
+        return FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+    }
 }
