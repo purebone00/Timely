@@ -23,6 +23,7 @@ import model.Tsrow;
 @Named("taApprover")
 public class TimesheetApproverController implements Serializable {
     
+    public static final int FLEX_PROJ_NO = 1111;
     public static final String FLEX_WP_NO = "__FLEX";
 
     @Inject
@@ -170,7 +171,7 @@ public class TimesheetApproverController implements Serializable {
         BigDecimal flextimeSub = BigDecimal.ZERO;
         
         for (Tsrow ts : t.getTsrow()) {
-            if (ts.getTsrWpNo().equals(FLEX_WP_NO)) {
+            if (ts.getTsrProjNo() == FLEX_PROJ_NO && ts.getTsrWpNo().equals(FLEX_WP_NO)) {
                 flextimeSub = ts.getTotal();
                 break;
             }
