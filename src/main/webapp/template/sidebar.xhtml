@@ -6,7 +6,7 @@
 
     <!-- Listlinks Rendered checks if admin, renders if not -->
     <b:form>
-        <b:listLinks rendered="#{!Master.showAdmin()}">
+        <b:listLinks rendered="#{Master.showAdmin() == false}">
             <!-- Title -->
             <b:navCommandLink header="User Roles"/>
             <!-- Checks if a user -->
