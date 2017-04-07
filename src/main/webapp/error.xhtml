@@ -1,27 +1,40 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/scaffold/pageTemplate.xhtml">
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/resources/scaffold/pageTemplate.xhtml"
+    xmlns:b="http://bootsfaces.net/ui">
 
-	<ui:param name="pageTitle" value="Server error" />
+    <ui:param name="pageTitle" value="Server error" />
 
-	<ui:define name="header">
+    <ui:define name="header">
 		Oops
 	</ui:define>
 
-	<ui:define name="subheader">
+    <ui:define name="subheader">
 		That's going to leave a mark!
 	</ui:define>
 
-	<ui:define name="main">
-		<p style="text-align: right; padding-top: 150px">
-			<a target="_blank" href="http://jboss.org">
-				<h:graphicImage value='#{resource["jboss-community.png"]}' alt="JBoss and JBoss Community" width="254" height="31" border="0" />
-			</a> <br /> To replace this page edit 'src/main/webapp/error.xhtml', or
-			keep Forging!
-		</p>
-	</ui:define>
+    <ui:define name="main">
+
+        <h1>Session expired</h1>
+        <h3>You will be redirected to login page</h3>
+        <p>
+            <b:navLink outcome="/login.xhtml">Click here
+                if redirect didn't work or when you're impatient</b:navLink>.
+        </p>
+
+        <p style="text-align: right; padding-top: 150px">
+            <a target="_blank" href="http://jboss.org"> <h:graphicImage
+                    value='#{resource["jboss-community.png"]}'
+                    alt="JBoss and JBoss Community" width="254"
+                    height="31" border="0" />
+            </a> <br />
+        </p>
+    </ui:define>
+
+
+
 
 </ui:composition>

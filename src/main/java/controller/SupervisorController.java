@@ -12,12 +12,13 @@ import model.Project;
 @Stateful
 @Named("SupMan")
 public class SupervisorController {
-	
-	@Inject ProjectManager projectManager;
-	
-	public List<Project> listOfProjects() {
-		return projectManager.getAllProjects();
-	}
-	
 
+    @Inject
+    ProjectManager projectManager;
+
+    public List<Project> listOfProjects() {
+        return projectManager.getAllProjects();
+    }
+
+    //When getting the list of your employees, remember to check the empdel flag to see if they are deleted
 }

@@ -9,26 +9,17 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.PrimaryKeyJoinColumns;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Wplab")
 public class Wplab implements Serializable {
 	
 	private boolean editable = false;
-	private BigDecimal wlPlanDays;
-    /* ====================================== */
-
 	private WplabId id;
 	private BigDecimal wlPlanHrs;
 	private short wlDel;

@@ -3,97 +3,47 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- Listlinks Rendered checks if admin, renders if not -->
+    <b:form>
+        <b:listLinks rendered="#{!Master.showAdmin()}">
+            <!-- Title -->
+            <b:navCommandLink header="User Roles"/>
+            <!-- Checks if a user -->
+            <b:navLink icon-size="lg" iconAwesome="user"
+                value="General Utilities" outcome="employeefunctions"
+                rendered="true" />
+            <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
+                value="Timesheet Approver" outcome="timesheetapprover"
+                rendered="#{Master.showTimesheetApprover()}" />
+            <b:navLink icon-size="lg" iconAwesome="wrench"
+                value="Responsible Engineer"
+                outcome="responsibleengineer"
+                rendered="#{Master.showResponsibleEngineer()}" />
+            <b:navLink icon-size="lg" iconAwesome="cubes"
+                value="Project Manager" outcome="viewmanagedprojects"
+                rendered="#{Master.showProjectManager()}" />
+            <b:navLink icon-size="lg" iconAwesome="cube"
+                value="Supervisor" outcome="viewAllProjects"
+                rendered="#{Master.showSupervisor()}" />
+        </b:listLinks>
+    </b:form>
+
+    <b:form>
     
-    <!-- 
-    <b:listLinks>
-        <b:navLink icon-size="2x" iconAwesome="user"
-            header="General Utilities" />
-        <b:navLink icon-size="lg" iconAwesome="calendar-plus-o"
-            href="#" value="Add or Modify Timesheet"
-            rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="archive" href="#"
-            value="View History" rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="calendar-times-o"
-            href="#" value="Fix Timesheets"
-            rendered="true" />
-    </b:listLinks>
-    
-    <b:listLinks rendered="true">
-        <b:navLink icon-size="2x" iconAwesome="calendar-check-o"
-            header="Timesheet Approver" />
-        <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
-            href="#" value="Add or Modify Timesheet"
-            rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="pencil-square"
-            href="#" value="Fix Timesheets"
-            rendered="true" />
-    </b:listLinks>
-    
-    <b:listLinks rendered="true">
-        <b:navLink icon-size="2x" iconAwesome="wrench"
-            header="Responsible Engineer" />
-        <b:navLink icon-size="lg" iconAwesome="pencil-square-o"
-            href="#" value="New WorkPackage"
-            rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="archive" href="#"
-            value="Review WorkPackage"
-            rendered="true" />
-    </b:listLinks>
-    
-    <b:listLinks rendered="true">
-        <b:navLink icon-size="2x" iconAwesome="cubes"
-            header="Project Manager" />
-        <b:navLink icon-size="lg" iconAwesome="list" href="#"
-            value="View Assigned Projects"
-            rendered="true" />
-    </b:listLinks>
-    
-    <b:listLinks rendered="true">
-        <b:navLink icon-size="2x" iconAwesome="cube"
-            header="Supervisor" />
-        <b:navLink icon-size="lg" iconAwesome="list" href="#"
-            value="View Projects" rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="file-text" href="#"
-            value="View Weekly Reports"
-            rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="file-text-o" href="#"
-            value="Monthly Reports"
-            rendered="true" />
-    </b:listLinks>
-     -->
-     
-    <b:listLinks>
-    	<b:navLink header="User Roles" />
-	    <b:navLink icon-size="lg" iconAwesome="user"
-	        value="General Utilities" />
-	    <b:navLink icon-size="lg" iconAwesome="calendar-check-o"
-	        value="Timesheet Approver" />
-	    <b:navLink icon-size="lg" iconAwesome="wrench"
-	        value="Responsible Engineer" />
-	    <b:navLink icon-size="lg" iconAwesome="cubes"
-	    	value="Project Manager" />
-	    <b:navLink icon-size="lg" iconAwesome="cube"
-	        value="Supervisor" />
-	</b:listLinks>
+        <b:listLinks rendered="#{Master.showAdmin()}">
+            <b:navLink header="Admin" />
+            <b:navCommandLink icon-size="lg" iconAwesome="user-plus"
+                href="#" value="Add User" rendered="true" />
+        </b:listLinks>
         
-    <b:listLinks>
-        <b:navLink header="User Controls" />
-        <b:navLink icon-size="lg" iconAwesome="key" href="#"
-            value="Change Password"
-            rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="info" href="#"
-            value="Update User Info"
-            rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
-            value="Sign Out" rendered="true" />
-    </b:listLinks>
-    
-    <b:listLinks rendered="true">
-        <b:navLink header="Admin" />
-		
-        <b:navLink icon-size="lg" iconAwesome="user-plus" href="#"
-            value="Add User" rendered="true" />
-        <b:navLink icon-size="lg" iconAwesome="sign-out" href="#"
-            value="Sign Out" rendered="true" />
-    </b:listLinks>
+        <b:listLinks>
+            <b:navLink header="User Controls" />
+            <b:navLink value="Change Password" outcome="changepassword"
+                iconAwesome="key" />
+            <b:navCommandLink icon-size="lg" iconAwesome="info" href="#"
+                value="Update User Info" rendered="true" />
+        </b:listLinks>
+
+    </b:form>
 </ui:composition>

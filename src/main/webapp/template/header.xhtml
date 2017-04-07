@@ -2,27 +2,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:b="http://bootsfaces.net/ui">
-	<h:head></h:head>
-	<h:body>
-		<ui:composition>
-			<!-- Brand image not work, might need fixing -->
-			<b:navBar class="header" brand-img='#{resource["images/logo.png"]}' brand-img-style="width:100px; height:auto;" brandHref="#" fixed="top" fluid="true">				
-				<b:navbarLinks>
-					<b:navLink value="Features" href="#"></b:navLink>
-					<b:navLink value="About Us" href="#"></b:navLink>
-					<b:navLink value="Contact Us" href="#"></b:navLink>
-				</b:navbarLinks>
-				<b:navbarLinks pull="right">
-					<b:dropMenu icon-size="2x" value="Notifications" iconAwesome="exclamation" rendered="true">
-						 <b:navLink value="POPULATE WITH NOTIFICATIONS" href="#"></b:navLink>
-					</b:dropMenu>
-					<b:navLink icon-size="2x" iconAwesome="sign-out" href="#" value="Sign Out" rendered="true"/>
-				</b:navbarLinks>
-			</b:navBar>
-		</ui:composition>
-	</h:body>
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:b="http://bootsfaces.net/ui">
+<h:head></h:head>
+<h:body>
+    <ui:composition>
+        <!-- Brand image not work, might need fixing -->
+        <b:navBar class="header"
+            brand-img='#{resource["images/logo.png"]}'
+            brand-img-style="width:100px; height:auto;" brandHref="/Timely/faces/index.xhtml"
+            fixed="top" fluid="true">
+            <b:navbarLinks>
+                <b:navLink value="Features" href="#"></b:navLink>
+                <b:navLink value="About Us" href="#"></b:navLink>
+                <b:navLink value="Contact Us" href="#"></b:navLink>
+            </b:navbarLinks>
+            
+            <b:form>
+                <b:navbarLinks pull="right">
+                    <b:navCommandLink icon-size="2x" iconAwesome="sign-out"
+                        action="#{Master.finish}" value="Sign Out" rendered="true" />
+                </b:navbarLinks>
+            </b:form>
+            
+            <b:navbarLinks pull="right">
+				<b:dropMenu icon-size="2x" id="dropdown"
+					value="#{Master.getNotifications()}" iconAwesome="exclamation">
+				</b:dropMenu>
+			</b:navbarLinks>
+        </b:navBar>
+    </ui:composition>
+</h:body>
 </html>

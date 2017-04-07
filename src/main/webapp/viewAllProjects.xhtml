@@ -8,66 +8,69 @@
     <ui:define name="title">Projects</ui:define>
 
     <ui:define name="content">
-		<div class="ui segment grid">
-			<div class="row"></div>
-			<div class="row">
-				<div class="container">
-					<div class="jumbotron text-center">
-		    			<h1>Hello, #{Master.employee.emp.empFnm} #{Master.employee.emp.empLnm}!</h1>
-		    			<span></span> 
-	  				</div>
-					<div class="col-md-12">
-						<h:form>
-							<b:dataTable 
-								responsive="true"
-								value="#{Master.supMan.listOfProjects()}"
-								var="s">
-								<b:dataTableColumn>
-									<f:facet name="header">Project number</f:facet>	
+        <div class="ui segment grid">
+            <div class="row"></div>
+            <div class="row">
+                <div class="container">
+                    <div class="jumbotron text-center">
+                        <h1>Hello, #{Master.employee.emp.empFnm}
+                            #{Master.employee.emp.empLnm}!</h1>
+                        <span></span>
+                    </div>
+                    <div class="col-md-12">
+                        <h:form>
+                            <b:dataTable responsive="true"
+                                value="#{Master.supMan.listOfProjects()}"
+                                var="s">
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Project number</f:facet>	
 									#{s.projNo}
 								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Project Name</f:facet>	
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Project Name</f:facet>	
 									#{s.projNm}
 								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Project Description</f:facet>	
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Project Description</f:facet>	
 									#{s.projDesc}
 								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Project Date</f:facet>	
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Project Date</f:facet>	
 									#{s.projStaDt}  - #{s.projEndDt}
 								</b:dataTableColumn>
-<!-- 								<b:dataTableColumn> -->
-<!-- 									<f:facet name="header">Week End</f:facet>	 -->
-<!-- 									#{s.id.tsWkEnd} -->
-<!-- 								</b:dataTableColumn> -->
-<!-- 								<b:dataTableColumn> -->
-<!-- 									<f:facet name="header">Status</f:facet>	 -->
-<!-- 									<p class="status"> -->
-<!-- 										#{s.tsSubmit} -->
-<!-- 									</p> -->
-<!-- 								</b:dataTableColumn> -->
-								<b:dataTableColumn>
-									<f:facet name="header">Select Project</f:facet>
-									<h:commandButton action="assignEmployees" value="Choose Project">
-									</h:commandButton>	
-								</b:dataTableColumn>
-							</b:dataTable>
-						</h:form>
-<!-- 						<div class="column"> -->
-<!-- 							<h:form> -->
-<!-- 							<br />	<h:commandLink value="View Work Package Reports" action="responsibleengineer"/> -->
-<!-- 		                                        <br /> -->
-<!-- 		                                        <h:commandLink value="View Projects" -->
-<!-- 		                                    action="viewmanagedprojects" /> -->
-<!-- 							</h:form> -->
-<!-- 						</div> -->
-					</div>
-				</div>
-			</div>
+                                <!-- 								<b:dataTableColumn> -->
+                                <!-- 									<f:facet name="header">Week End</f:facet>	 -->
+                                <!-- 									#{s.id.tsWkEnd} -->
+                                <!-- 								</b:dataTableColumn> -->
+                                <!-- 								<b:dataTableColumn> -->
+                                <!-- 									<f:facet name="header">Status</f:facet>	 -->
+                                <!-- 									<p class="status"> -->
+                                <!-- 										#{s.tsSubmit} -->
+                                <!-- 									</p> -->
+                                <!-- 								</b:dataTableColumn> -->
+                                <b:dataTableColumn>
+                                    <f:facet name="header">Select Project</f:facet>
+                                    <!-- <h:commandButton action="assignEmployees" value="Choose Project">-->
+                                    <h:commandButton
+                                        action="#{Master.projMan.assignEmployeeToProject(s.projNo)}"
+                                        value="Choose Project">
+                                    </h:commandButton>
+                                </b:dataTableColumn>
+                            </b:dataTable>
+                        </h:form>
+                        <!-- 						<div class="column"> -->
+                        <!-- 							<h:form> -->
+                        <!-- 							<br />	<h:commandLink value="View Work Package Reports" action="responsibleengineer"/> -->
+                        <!-- 		                                        <br /> -->
+                        <!-- 		                                        <h:commandLink value="View Projects" -->
+                        <!-- 		                                    action="viewmanagedprojects" /> -->
+                        <!-- 							</h:form> -->
+                        <!-- 						</div> -->
+                    </div>
+                </div>
+            </div>
 
-		</div>
+        </div>
 
     </ui:define>
 </ui:composition>

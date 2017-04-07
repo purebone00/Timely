@@ -1,53 +1,27 @@
 <ui:composition template="/template/master_page.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:b="http://bootsfaces.net/ui">
-	<ui:define name="title">Employee</ui:define>
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="title">Employee</ui:define>
 
-	<ui:define name="content">
-		<div class="ui segment grid">
-			<b:row>
-				<div class="container">
-					<div class="jumbotron text-center">
-		    			<h1>Hello, #{Master.employee.emp.empFnm} #{Master.employee.emp.empLnm}!</h1>
-		    			<span></span> 
-	  				</div>
-					<b:column col-md="12">
-						<b:form>
-							<b:dataTable 
-								responsive="true"
-								value="#{Master.employee.tsList}"
-								var="s">
-								<b:dataTableColumn value="#{s.id.tsEmpId}">
-									<f:facet name="header">Employee ID</f:facet>	
-								</b:dataTableColumn>
-								<b:dataTableColumn order="desc" value="#{s.id.tsWkEnd}">
-									<f:facet name="header">Week End</f:facet>	
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Status</f:facet>
-									<p class="status">#{s.tsSubmit}</p>
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Select Timesheet</f:facet>
-									<b:commandButton action="#{Master.goToTimesheet(s.id.tsWkEnd)}" value="Choose Timesheet">
-									</b:commandButton>	
-								</b:dataTableColumn>
-							</b:dataTable>
-						</b:form>
-						<h:form>
-							<h:commandLink value="View Work Package Reports" action="responsibleengineer"/>
-							<br/>
-                            <h:commandLink value="View Managed Projects" action="viewmanagedprojects" />
-                             <br />
-		                     <h:commandLink value="View All Projects" action="viewAllProjects"/>
-						</h:form>
-					</b:column>
-	
-				</div>
-			</b:row>
-		</div>
-	</ui:define>
+    <ui:define name="content">
+        <div class="ui segment grid">
+            <div class="row">
+                <div class="column">
+                    <div class="container">
+                        <div class="jumbotron text-center">
+                            <h1>Hello,
+                                #{Master.employee.emp.empFnm}
+                                #{Master.employee.emp.empLnm}!</h1>
+                            <span></span>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
 </ui:composition>

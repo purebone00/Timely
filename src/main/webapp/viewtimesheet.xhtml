@@ -1,0 +1,92 @@
+<ui:composition template="/template/master_page.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="title">Timesheets</ui:define>
+
+    <ui:define name="content">
+        <div class="ui segment grid">
+            <b:jumbotron class="text-center">
+                <h1>Review Timesheet</h1>
+                <span></span>
+            </b:jumbotron>
+            <div class="row">
+                <div class="column">
+
+                    <div class="container">
+                        <b:row>
+                            <b:column col-md="4">
+                                <h4>EmployeeID:
+                                    #{Master.taApprover.employeeReviewed.empId}</h4>
+                                <h4>Employee Name:
+                                    #{Master.taApprover.employeeReviewed.empFnm}
+                                    #{Master.taApprover.employeeReviewed.empLnm}</h4>
+                                <br></br>
+                            </b:column>
+
+                            <b:column col-md="4">
+
+                            </b:column>
+
+                            <b:column col-md="4">
+                                <h4>Week End:
+                                    #{Master.taApprover.reviewTimesheet.id.tsWkEnd}
+                                </h4>
+                            </b:column>
+                        </b:row>
+                    </div>
+
+                    <div class="container">
+                        <b:row>
+                            <b:form>
+                                <b:dataTable responsive="true"
+                                    searching="false" paginated="false"
+                                    value="#{Master.taApprover.reviewTimesheet.tsrow}"
+                                    var="s">
+                                    <b:dataTableColumn
+                                        value="#{s.tsrProjNo}"
+                                        label="Project No." />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrWpNo}"
+                                        label="WP No." />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrSat}" label="Sat" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrSun}" label="Sun" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrMon}" label="Mon" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrTue}" label="Tue" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrWed}" label="Wed" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrThu}" label="Thu" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrFri}" label="Fri" />
+
+                                    <b:dataTableColumn
+                                        value="#{s.tsrNote}"
+                                        label="Notes" />
+
+                                </b:dataTable>
+                            </b:form>
+                        </b:row>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </ui:define>
+</ui:composition>
+

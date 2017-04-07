@@ -1,95 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<faces-config xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
 
-<navigation-rule>
-	<from-view-id>/timesheet.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>logout</from-outcome>
-    <to-view-id>/login.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
+  <!-- <navigation-rule> <navigation-case> <from-outcome>general</from-outcome> 
+    <to-view-id>/home/timesheetapprover.xhtml</to-view-id> </navigation-case> 
+    <navigation-case> <from-outcome>timesheetapprover</from-outcome> <to-view-id>/home/timesheetapprover.xhtml</to-view-id> 
+    </navigation-case> <navigation-case> <from-outcome>projectmanager</from-outcome> 
+    <to-view-id>/home/projectmanager.xhtml</to-view-id> </navigation-case> <navigation-case> 
+    <from-outcome>responsibleengineer</from-outcome> <to-view-id>/responsibleengineer.xhtml</to-view-id> 
+    </navigation-case> <navigation-case> <from-outcome>supervisor</from-outcome> 
+    <to-view-id>/home/supervisor.xhtml</to-view-id> </navigation-case> </navigation-rule> 
+    <navigation-rule> <from-view-id>/home/projectmanager.xhtml</from-view-id> 
+    <navigation-case> <from-outcome></from-outcome>> </navigation-case> </navigation-rule> -->
 
-<navigation-rule>
-	<from-view-id>/login.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>login</from-outcome>
-    <to-view-id>/index.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-  <navigation-case>
-    <from-outcome>admin</from-outcome>
-    <to-view-id>/admin.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
+  <navigation-rule>
+    <from-view-id>/timesheet.xhtml</from-view-id>
+    <navigation-case>
+      <from-outcome>logout</from-outcome>
+      <to-view-id>/login.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+  </navigation-rule>
 
-<navigation-rule>
-	<from-view-id>/index.xhtml</from-view-id>
-	<navigation-case>
-    	<from-outcome>changepassword</from-outcome>
-   		<to-view-id>/changepassword.xhtml</to-view-id>
-    	<redirect/>
-  	</navigation-case>
-	<navigation-case>
-    	<from-outcome>timesheet</from-outcome>
-   		<to-view-id>/timesheet.xhtml</to-view-id>
-    	<redirect/>
-  	</navigation-case>
-	<navigation-case>
-		<from-outcome>logout</from-outcome>
-		<to-view-id>/login.xhtml</to-view-id>
-		<redirect/>
-	</navigation-case>
-</navigation-rule>
+  <navigation-rule>
+    <from-view-id>/login.xhtml</from-view-id>
+    <navigation-case>
+      <from-outcome>login</from-outcome>
+      <to-view-id>/index.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>admin</from-outcome>
+      <to-view-id>/admin.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+  </navigation-rule>
 
-<navigation-rule>
-	<from-view-id>/changepassword.xhtml</from-view-id>
-	<navigation-case>
-    	<from-outcome>failedPasswordCheck</from-outcome>
-   		<to-view-id>/index.xhtml</to-view-id>
-    	<redirect/>
-  	</navigation-case>
-	<navigation-case>
-    	<from-outcome>success</from-outcome>
-   		<to-view-id>/login.xhtml</to-view-id>
-    	<redirect/>
-  	</navigation-case>
-</navigation-rule>
 
-<navigation-rule>
-  <from-view-id>/admin.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>logout</from-outcome>
-    <to-view-id>/login.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
+  <navigation-rule>
+    <from-view-id>/reviewTimesheet.xhtml</from-view-id>
+    <navigation-case>
+      <from-outcome>approver</from-outcome>
+      <to-view-id>/timesheetapprover.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+  </navigation-rule>
 
-<navigation-rule>
-  <from-view-id>/createuser.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>logout</from-outcome>
-    <to-view-id>/login.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
+  <navigation-rule>
+    <from-view-id>/changepassword.xhtml</from-view-id>
+    <navigation-case>
+      <from-outcome>failedPasswordCheck</from-outcome>
+      <to-view-id>/index.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>success</from-outcome>
+      <to-view-id>/login.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+  </navigation-rule>
 
-<navigation-rule>
-  <from-view-id>/responsibleengineer.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>logout</from-outcome>
-    <to-view-id>/login.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
 
-<navigation-rule>
-  <from-view-id>/responsibleengineerreport.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>logout</from-outcome>
-    <to-view-id>/login.xhtml</to-view-id>
-    <redirect/>
-  </navigation-case>
-</navigation-rule>
+  <navigation-rule>
+    <from-view-id>/timesheetapprover.xhtml</from-view-id>
+    <navigation-case>
+      <from-outcome>review</from-outcome>
+      <to-view-id>/reviewTimesheet.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>view</from-outcome>
+      <to-view-id>/viewtimesheet.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+  </navigation-rule>
+
 </faces-config>
