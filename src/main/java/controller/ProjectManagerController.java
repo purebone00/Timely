@@ -123,6 +123,13 @@ public class ProjectManagerController {
         return "manageproject";
     }
     
+    public String selectProjectForManaging(Project p) {
+        setSelectedProject(p);
+        setSelectedProjectForViewing(p);
+        
+        return "manageproject";
+    }
+    
     /**
      * Select a project to show the weekly reports list for.
      * @param p
@@ -513,12 +520,12 @@ public class ProjectManagerController {
      */
     public WeeklyReport getReportForWpWeek(Workpack workpack) {
 
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, getSelectedWeek());
+        List<Tsrow> tsrows = tsRowManager.find(workpack, getSelectedWeek());
 
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(),
                 getSelectedWeek());
 
-        return new WeeklyReport(list, report, getRateMap());
+        return new WeeklyReport(tsrows, report, getRateMap());
     }
 
     /**
