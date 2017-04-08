@@ -33,6 +33,7 @@ public class Timesheet implements java.io.Serializable {
     private BigDecimal tsFlexTm;
     private Date tsSignDt;
     private Short tsSubmit;
+    private Labgrd tsPayGrade;
     private Date tsApprDt;
     private Integer tsApprId;
     private short tsDel;
@@ -164,6 +165,16 @@ public class Timesheet implements java.io.Serializable {
 
     public void setTsSubmit(Short tsSubmit) {
         this.tsSubmit = tsSubmit;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "tsPayGrade")
+    public Labgrd getTsPayGrade() {
+        return tsPayGrade;
+    }
+
+    public void setTsPayGrade(Labgrd tsPayGrade) {
+        this.tsPayGrade = tsPayGrade;
     }
 
     @Temporal(TemporalType.TIMESTAMP)

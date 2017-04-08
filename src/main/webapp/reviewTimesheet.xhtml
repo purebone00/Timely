@@ -82,6 +82,7 @@
                             </b:form>
                         </b:row>
                     </div>
+                    <b:column col-md="4" offset="2">
                     <b:form>
                         <h:commandButton
                             action="#{Master.taApprover.accept()}"
@@ -90,6 +91,21 @@
                             action="#{Master.taApprover.reject()}"
                             value="Reject" />
                     </b:form>
+                    </b:column>
+                    <b:column col-md="2" offset="8">
+					<b:panel>
+						<p>
+							<b>Overtime: </b>
+							<h:outputText value="#{Master.taApprover.reviewTimesheet.tsOverTm}" />
+						</p>
+						<b:messages />
+						<p>
+							<b>Flextime: </b>
+							<h:outputText value="#{Master.taApprover.reviewTimesheet.tsFlexTm}" />
+						</p>
+						<b:messages />
+					</b:panel>
+				</b:column>
                 </div>
             </div>
         </div>

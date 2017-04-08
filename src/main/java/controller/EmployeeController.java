@@ -47,10 +47,14 @@ public class EmployeeController implements Serializable {
     private Set<Timesheet> tsList;
     private Timesheet curTimesheet;
     private int weekNumber;
-    
+
+    private BigDecimal overtime;
+    private BigDecimal flextime;
+    private boolean overtimeEditable;
+
     public boolean showAddButton() {
         try {
-            return (tManager.find(getNewTsId())!= null) ? false : true ;
+            return (tManager.find(getNewTsId()) != null) ? false : true;
         } catch (NullPointerException e) {
             return false;
         }
@@ -140,6 +144,8 @@ public class EmployeeController implements Serializable {
 
     public Set<Tsrow> getTsrList() {
         tsrList = refreshTsrList(tsrList, curTimesheet.getId());
+        overtime = curTimesheet.getTsOverTm() == null ? null : curTimesheet.getTsOverTm();
+        flextime = curTimesheet.getTsFlexTm() == null ? null : curTimesheet.getTsFlexTm();
         return tsrList;
     }
 
@@ -187,7 +193,7 @@ public class EmployeeController implements Serializable {
         for (Tsrow row : tsrList) {
             row.setEditable(true);
         }
-
+        setOvertimeEditable(true);
         return null;
     }
 
@@ -199,6 +205,10 @@ public class EmployeeController implements Serializable {
                 trManager.merge(row);
             }
         }
+        setOvertimeEditable(false);
+        curTimesheet.setTsOverTm(overtime);
+        curTimesheet.setTsFlexTm(flextime);
+        tManager.merge(curTimesheet);
         return null;
     }
 
@@ -238,23 +248,49 @@ public class EmployeeController implements Serializable {
         }
         return list;
     }
-    
+
     public TimesheetId getNewTsId() {
         DateTimeUtility dtu = new DateTimeUtility();
         return new TimesheetId(emp.getEmpId(), dtu.getEndOfWeek());
     }
 
     public String createNewTimesheet() {
-        
+
         Timesheet ts = new Timesheet();
         ts.setId(getNewTsId());
         ts.setTsDel((short) 0);
+        ts.setTsSubmit((short) 0);
+        ts.setTsPayGrade(emp.getEmpLabGrd());
         Set<Tsrow> tsrList = new HashSet<Tsrow>();
         tsrList = refreshTsrList(tsrList, tsId);
         ts.setTsrow(tsrList);
         tManager.persist(ts);
         tsList.add(ts);
         return null;
+    }
+
+    public BigDecimal getOvertime() {
+        return overtime;
+    }
+
+    public void setOvertime(BigDecimal overtime) {
+        this.overtime = overtime;
+    }
+
+    public BigDecimal getFlextime() {
+        return flextime;
+    }
+
+    public void setFlextime(BigDecimal flextime) {
+        this.flextime = flextime;
+    }
+
+    public boolean isOvertimeEditable() {
+        return overtimeEditable;
+    }
+
+    public void setOvertimeEditable(boolean overtimeEditable) {
+        this.overtimeEditable = overtimeEditable;
     }
 
 }

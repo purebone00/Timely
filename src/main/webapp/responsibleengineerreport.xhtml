@@ -43,32 +43,32 @@
                         <b:form>
                             <b:dataTable searching="false"
                                 paginated="false"
-                                value="#{Master.resEng.listOfWpPersonHours()}"
+                                value="#{Master.resEng.labourGrades}"
                                 var="s">
                                 <b:dataTableColumn>
                                     <f:facet name="header">Labour Grade</f:facet>	
-								#{s[0]}
+								#{s.lgId}
 							</b:dataTableColumn>
                                 <b:dataTableColumn>
                                     <f:facet name="header">Initial Estimate</f:facet>
                                     <h:outputText
-                                        value="#{Master.resEng.initialEstimate[s[0]]}"
-                                        rendered="#{Master.resEng.initialEstimate[s[0]] != null}" />
+                                        value="#{Master.resEng.initialEstimate[s.lgId]}"
+                                        rendered="#{Master.resEng.initialEstimate[s.lgId] != null}" />
                                     <h:outputText value="0.0"
-                                        rendered="#{Master.resEng.initialEstimate[s[0]] == null}" />
+                                        rendered="#{Master.resEng.initialEstimate[s.lgId] == null}" />
                                 </b:dataTableColumn>
                                 <b:dataTableColumn>
                                     <f:facet name="header">Person Days Completed</f:facet>	
-								#{s[1]/8}
+								#{Master.resEng.curLabourGradeDays[s.lgId]}
 								<f:facet name="footer">
                                         <h:outputText
-                                            value="#{Master.resEng.totalHours/8}"
+                                            value="#{Master.resEng.totalDays}"
                                             style="font-weight:bold" />
                                     </f:facet>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn>
                                     <f:facet name="header">Total Cost</f:facet>
-                                    <h:outputText value="#{s[2] * s[1]}">
+                                    <h:outputText value="#{Master.resEng.curLabourGradeDays[s.lgId] * 8 * Master.resEng.labgrdRate[s]}">
                                         <f:convertNumber type="currency" />
                                     </h:outputText>
                                     <f:facet name="footer">
@@ -83,7 +83,7 @@
                                 <b:dataTableColumn>
                                     <f:facet name="header">Estimated Work Remaining</f:facet>
                                     <b:inputText
-                                        value="#{Master.resEng.labourGradeDays[s[0]]}">
+                                        value="#{Master.resEng.estLabourGradeDays[s.lgId]}">
                                         <f:convertNumber />
                                     </b:inputText>
                                 </b:dataTableColumn>

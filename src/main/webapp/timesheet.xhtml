@@ -47,7 +47,7 @@
                                         searching="false"
                                         paginated="false" span="1"
                                         value="#{Master.employee.tsrList}"
-                                        var="s" class="editableTable">
+                                        var="s" class="editableTable table-inverse">
                                         <b:dataTableColumn>
                                             <f:facet name="header">Project No.</f:facet>
                                             <!--  <b:inputText value="#{s.tsrProjNo}" size="10" rendered="#{s.editable}" /> -->
@@ -201,11 +201,27 @@
                                     <b:column col-md="2" offset="2">
                                         <b:panel>
                                             <p>
-                                                <b>Overtime: </b> 10
+                                                <b>Overtime: </b> 
+                                                <b:inputText value="#{Master.employee.overtime}" 
+                                                	rendered="#{Master.employee.overtimeEditable}" />
+                                                <h:outputText value="#{Master.employee.overtime}" 
+                                                	rendered="#{not Master.employee.overtimeEditable 
+                                                		and Master.employee.overtime != null}" />
+                                                <h:outputText value="0.0" 
+                                                	rendered="#{not Master.employee.overtimeEditable
+                                                		and Master.employee.overtime == null}" />
                                             </p>
                                             <b:messages />
                                             <p>
-                                                <b>Flextime: </b> 10
+                                                <b>Flextime: </b> 
+                                                <b:inputText value="#{Master.employee.flextime}" 
+                                                	rendered="#{Master.employee.overtimeEditable}" />
+                                                <h:outputText value="#{Master.employee.flextime}" 
+                                                	rendered="#{not Master.employee.overtimeEditable 
+                                                		and Master.employee.flextime != null}" />
+                                                <h:outputText value="0.0" 
+                                                	rendered="#{not Master.employee.overtimeEditable
+                                                		and Master.employee.flextime == null}" />
                                             </p>
                                             <b:messages />
                                         </b:panel>

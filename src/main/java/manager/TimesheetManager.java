@@ -21,7 +21,7 @@ public class TimesheetManager {
     public Timesheet find(TimesheetId id) {
         Timesheet foundTimesheet = em.find(Timesheet.class, id);
         
-        return (foundTimesheet != null) ? foundTimesheet : new Timesheet();
+        return (foundTimesheet != null) ? foundTimesheet : null;
     }
 
     public void persist(Timesheet tsrow) {
