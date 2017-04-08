@@ -93,6 +93,7 @@ public class TsrowManager {
      *            The work package number of the work package.
      * @return The list of arrays.
      */
+    @Deprecated
     public List<Object[]> getAllForWP(int projNo, String wpNo) {
         Query query = em.createNativeQuery(
                 "select e.lgID, SUM(s.tsrSat + s.tsrSun + s.tsrMon + s.tsrTue + s.tsrWed + s.tsrThu + s.tsrFri),"
@@ -120,6 +121,7 @@ public class TsrowManager {
      *            Format: 'YYYYMMDD'.
      * @return The list of arrays.
      */
+    @Deprecated
     public List<Object[]> getAllForWP(Workpack workpack, String week) {
         return getAllForWP(workpack, week, 6);
     }
@@ -139,6 +141,7 @@ public class TsrowManager {
      *            Sunday, ..., 6 = Friday.
      * @return The list of arrays.
      */
+    @Deprecated
     public List<Object[]> getAllForWP(Workpack workpack, String week, int weekEnd) {
         String[] weekDays = { "s.tsrSat", " + s.tsrSun", " + s.tsrMon", " + s.tsrTue", " + s.tsrWed", " + s.tsrThu",
                 " + s.tsrFri" };
@@ -204,6 +207,19 @@ public class TsrowManager {
 
         query.setParameter(1, w.getId().getWpProjNo());
         query.setParameter(2, w.getId().getWpNo());
+        List<Tsrow> tsrows = query.getResultList();
+
+        return (tsrows != null) ? tsrows : new ArrayList<Tsrow>();
+    }
+    
+    public List<Tsrow> find(Workpack w, String week) {
+        TypedQuery<Tsrow> query = em.createQuery("SELECT s from Tsrow s WHERE s.tsrProjNo = ?1 " + "AND s.tsrWpNo = ?2"
+                + " AND s.tsrWkEnd <= ?3",
+                Tsrow.class);
+
+        query.setParameter(1, w.getId().getWpProjNo());
+        query.setParameter(2, w.getId().getWpNo());
+        query.setParameter(3, week);
         List<Tsrow> tsrows = query.getResultList();
 
         return (tsrows != null) ? tsrows : new ArrayList<Tsrow>();
