@@ -529,37 +529,6 @@ public class ProjectManagerController {
     }
 
     /**
-     * Copy and paste of
-     * {@link ResponsibleEngineerController#listOfWpPersonHours()} but this one
-     * takes in a {@link Workpack} as argument.<br>
-     * Gets a list of arrays representing the hours worked per labour grade for
-     * the {@link #selectedWorkPackage}.<br>
-     * Each array contains:
-     * <ul>
-     * <li>Index 0: Labour grade ID (String)</li>
-     * <li>Index 1: Total person hours worked for the labour grade in index 0
-     * for the selected WP (BigDecimal)</li>
-     * <li>Index 2: Pay rate for the labour grade in index 0 (BigDecimal)</li>
-     * </ul>
-     * 
-     * @return The list of arrays.
-     */
-    public List<Object[]> listOfWpPersonHours(Workpack workpack) {
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, getSelectedWeek());
-        BigDecimal totalCost = BigDecimal.ZERO;
-        BigDecimal totalHours = BigDecimal.ZERO;
-        for (Object[] obj : list) {
-            BigDecimal op1 = (BigDecimal) obj[1];
-            BigDecimal op2 = (BigDecimal) obj[2];
-            totalCost = totalCost.add(op1.multiply(op2));
-            totalHours = totalHours.add(op1);
-        }
-        // setTotalCost(totalCost);
-        // setTotalHours(totalHours);
-        return list;
-    }
-
-    /**
      * Gets the Responsible Engineer's Report for a given {@link Workpack} for
      * the {@link #selectedWeek}.
      * 
@@ -570,37 +539,6 @@ public class ProjectManagerController {
      */
     public Wpstarep getResEngReport(Workpack w) {
         return wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), getSelectedWeek());
-    }
-
-    /**
-     * Gets the Responsible Engineer's Estimated Remaining Hours for the
-     * {@link #selectedWeek}.
-     * 
-     * @param w
-     *            The {@link Workpack} to get the Responsible Engineer's
-     *            Estimated Remaining Hours for.
-     * @return A list of Estimated Remaining Hours. Each list element contains
-     *         an String array where index 0 is the Labour Grade, and index 1 is
-     *         the Hours.
-     */
-    public List<String[]> getResEngReportHrs(Workpack w) {
-        Wpstarep wst = getResEngReport(w);
-        ArrayList<String[]> labourGradeDays = new ArrayList<String[]>();
-
-        if (wst != null) {
-            String fields = wst.getWsrEstDes();
-            String[] rows = fields.split(",");
-
-            // The list of "labour grades : hours" is stored as a single String
-            // in the database,
-            // this loop parses the String.
-            for (String s : rows) {
-                String[] columns = s.split(":");
-                labourGradeDays.add(new String[] { columns[0], columns[1] });
-            }
-        }
-
-        return labourGradeDays;
     }
 
     /**
@@ -632,29 +570,10 @@ public class ProjectManagerController {
         Date staDt = getSelectedProject().getProjStaDt();
         Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
 
-        Calendar cal = Calendar.getInstance();
-
-        cal.setTime(staDt);
-        int year = cal.get(Calendar.YEAR);
-        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String startDate = year + month + day;
-
-        cal.setTime(endDt);
-        year = cal.get(Calendar.YEAR);
-        month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String endDate = year + month + day;
-
-        if (flag == 0) {
-            endDate = year + month + day;
-            List<String> listWeeks = dtu.getListOfAllWeekEnds(startDate, endDate);
-
-          
-            return listWeeks;
-        } else if (flag == 1) {
-            endDate = getSelectedWeek();
-            return dtu.getListOfWeekEnds(startDate, endDate);
+        if (flag == 0) { // get list of all weeks
+            return dtu.getListOfAllWeekEnds(dtu.getDateString(staDt), dtu.getDateString(endDt));
+        } else if (flag == 1) { // get list of past 4 weeks, past 12 months, and then past years
+            return dtu.getListOfWeekEnds(dtu.getDateString(staDt), getSelectedWeek());
         }
         return null;
     }
@@ -741,21 +660,7 @@ public class ProjectManagerController {
         Date staDt = getSelectedProject().getProjStaDt();
         Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
 
-        Calendar cal = Calendar.getInstance();
-
-        cal.setTime(staDt);
-        int year = cal.get(Calendar.YEAR);
-        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String startDate = year + month + day;
-
-        cal.setTime(endDt);
-        year = cal.get(Calendar.YEAR);
-        month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String endDate = year + month + day;
-
-        return dtu.getListOfMonths(startDate, endDate);
+        return dtu.getListOfMonths(dtu.getDateString(staDt), dtu.getDateString(endDt));
     }
 
     public List<Employee> allEmpInProject() {
@@ -808,6 +713,11 @@ public class ProjectManagerController {
         return map;
     }
 
+    /**
+     * Checks if a workpack has been charged to.
+     * @param w
+     * @return
+     */
     public boolean isWpCharged(Workpack w) {
         return !tsRowManager.find(w).isEmpty();
     }
