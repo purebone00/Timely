@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import manager.TsrowManager;
+import model.Tsrow;
 import model.Workpack;
 import model.Wplab;
 import model.Wpstarep;
@@ -96,7 +97,7 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
      * @param rateMap
      *            Map of Labour Grades and their rates.
      */
-    public MonthlyReportRow(Workpack workpack, List<Object[]> tsrowHours, Set<Wplab> wplabs, Wpstarep report,
+    public MonthlyReportRow(Workpack workpack, List<Tsrow> tsrows, Set<Wplab> wplabs, Wpstarep report,
             HashMap<String, BigDecimal> rateMap) {
         this.workpack = workpack;
         budgetTotalHours = BigDecimal.ZERO;
@@ -109,12 +110,13 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         varCosts = BigDecimal.ZERO;
         visited = 0;
         aggregate = false;
-
-        for (Object[] obj : tsrowHours) {
-            BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
-            BigDecimal op2 = (BigDecimal) obj[2];
-            curTotalCosts = curTotalCosts.add(op1.multiply(op2));
-            curTotalHours = curTotalHours.add(op1);
+        
+        for (Tsrow t : tsrows) {
+            BigDecimal rate = t.getTimesheet().getTsPayGrade() == null ? 
+                    t.getTimesheet().getEmployee().getEmpLabGrd().getLgRate() :
+                    t.getTimesheet().getTsPayGrade().getLgRate();
+            curTotalCosts = curTotalCosts.add(t.getTotal().multiply(rate));
+            curTotalHours = curTotalHours.add(t.getTotal());
         }
 
         for (Wplab w : wplabs) {

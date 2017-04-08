@@ -152,6 +152,7 @@ public class FrontEndBoundary implements Serializable {
             }
         }
         notification.append("," + weekState + "," + monthState);
+        projMan.setSelectedProject(projMan.getSelectedProjectForViewing());
         return notification.toString();
     }
     

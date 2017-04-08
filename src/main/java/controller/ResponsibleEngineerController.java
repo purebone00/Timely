@@ -240,7 +240,9 @@ public class ResponsibleEngineerController implements Serializable {
         totalHours = BigDecimal.ZERO;
         
         for (Tsrow t : tsrows) {
-            BigDecimal rowRate = t.getTimesheet().getTsPayGrade().getLgRate();
+            BigDecimal rowRate = t.getTimesheet().getTsPayGrade() == null ? 
+                    t.getTimesheet().getEmployee().getEmpLabGrd().getLgRate() :
+                    t.getTimesheet().getTsPayGrade().getLgRate();
             BigDecimal rowHours = t.getTotal();
             
             String labGrd = t.getTimesheet().getTsPayGrade().getLgId();

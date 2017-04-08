@@ -211,5 +211,18 @@ public class TsrowManager {
 
         return (tsrows != null) ? tsrows : new ArrayList<Tsrow>();
     }
+    
+    public List<Tsrow> find(Workpack w, String week) {
+        TypedQuery<Tsrow> query = em.createQuery("SELECT s from Tsrow s WHERE s.tsrProjNo = ?1 " + "AND s.tsrWpNo = ?2"
+                + " AND s.tsrWkEnd <= ?3",
+                Tsrow.class);
+
+        query.setParameter(1, w.getId().getWpProjNo());
+        query.setParameter(2, w.getId().getWpNo());
+        query.setParameter(3, week);
+        List<Tsrow> tsrows = query.getResultList();
+
+        return (tsrows != null) ? tsrows : new ArrayList<Tsrow>();
+    }
 
 }
