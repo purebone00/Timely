@@ -3,11 +3,6 @@ package controller;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -270,11 +265,11 @@ public class ResponsibleEngineerController implements Serializable {
         workPackageReport.setWsrEstDes(labourDays);
         
         if (workPackageReport.getWsrProbLw() == null || workPackageReport.getWsrProbLw().trim().equals("")) {
-            workPackageReport.setWsrProbLw("No problems this week.");
+            workPackageReport.setWsrProbLw("None.");
         }
         
         if (workPackageReport.getWsrProbNw() == null || workPackageReport.getWsrProbNw().trim().equals("")) {
-            workPackageReport.setWsrProbNw("No anticipated problems next week.");
+            workPackageReport.setWsrProbNw("None.");
         }
 
         // checks if this is the first time the estimate is being made so it

@@ -36,7 +36,7 @@ public class WeeklyReport implements Serializable {
     
     /**
      * Creates a Weekly Report.
-     * @param tsrowHours Output of {@link TsrowManager#getAllForWP(model.Workpack, String)}.
+     * @param tsrows List of Tsrows
      * @param report {@link Wpstarep} of the {@link Workpack} for the week.
      * @param rateMap rateMap Map of Labour Grades and their rates.
      */
