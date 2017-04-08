@@ -53,6 +53,10 @@
     <param-name>facelets.SKIP_COMMENTS</param-name>
     <param-value>true</param-value>
   </context-param>
+  <context-param>
+    <param-name>BootsFaces_THEME</param-name>
+    <param-value>cerulean</param-value>
+  </context-param>
 
   <session-config>
     <session-timeout>30</session-timeout>
