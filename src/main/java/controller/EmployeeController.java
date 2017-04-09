@@ -230,8 +230,8 @@ public class EmployeeController implements Serializable {
         // commented this out because it was causing tsrows to never
         // refresh, it would always be set to the first timesheet
         // viewed.
-        //        if (tsrList != null)
-        //            return tsrList;
+                if (tsrList != null)
+                    return tsrList;
 
         tsrList = tManager.find(id).getTsrow();
 
