@@ -40,22 +40,46 @@ import utility.models.WeeklyReport;
 @Stateful
 @Named("projMan")
 public class ProjectManagerController {
+	/**
+	 * Used for accessing work package data in database (Workpack table).
+	 */
     @Inject
     WorkPackageManager workPackageManager;
+    /**
+     * Used for accessing project data in database (Project table).
+     */
     @Inject
     ProjectManager projectManager;
+    /**
+     * Used for accessing timesheet row data in database (Tsrow table).
+     */
     @Inject
     WplabManager wplabManager;
+    /**
+     * Used for accessing Work package-labour grade association table data in database (Wplab table).
+     */
     @Inject
     TsrowManager tsRowManager;
+    /**
+     * Used for accessing work package status report data in database (Wpstarep table).
+     */
     @Inject
     WpstarepManager wpstarepManager;
+    /**
+     * Used for accessing labour grade data in database (Labgrd table).
+     */
     @Inject
     LabourGradeManager labgrdManager;
-    // fuck it
+    /**
+     * Used for accessing employee data in database (Employee table).
+     */
     @Inject
     EmployeeManager employeeManager;
-
+    /**
+    * Represents employee whose information is being altered.
+    * @HasGetter
+    * @HasSetter
+    */
     private Employee emp;
     
     public Employee getEmp() {
@@ -65,22 +89,45 @@ public class ProjectManagerController {
     public void setEmp(Employee emp) {
         this.emp = emp;
     }
-
+    /**
+     * Represents the currently selected project to display details on.
+     */
     private Project selectedProject;
-    // this exists so that viewing projects doesnt conflict with notifications
+    /**
+     * Exists so that viewing projects doesn't conflict with notifications.
+     * @HasGetter
+     * @HasSetter
+     */
     private Project selectedProjectForViewing;
+    /**
+     * Represents the currently selected work package to display details on.
+     * @HasGetter
+     * @HasSetter
+     */
     private Workpack selectedWorkPackage;
+    /**
+     * The currently selected week.
+     * @HasGetter
+     * @HasSetter
+     */
     private String selectedWeek;
+    /**
+     * Name of a newly-generated work package.
+     * @HasGetter
+     * @HasSetter
+     */
     private String newWpName;
 
-    /* I am a sad plant. */
+    /**
+     * Returns list of employees who have been assigned to the currently selected project.
+     * @return List<Employees> the employees on the currently selected project.
+     */
     public List<Employee> getEmployeesOnProject() {
         return employeeManager.getEmployeesOnProject(selectedProject.getProjNo());
     }
 
     /**
-     * Does not work. Display list of work packages within currently selected
-     * project.
+     * Display list of work packages within currently selected project.
      * 
      * @return A list of {@link Workpack}s in selected project.
      */
@@ -107,8 +154,8 @@ public class ProjectManagerController {
     
     /**
      * Select project for managing (creating WP's, setting budget and estimates)
-     * @param p
-     * @return
+     * @param p Project that has been selected
+     * @return String navigation string that takes user to view that displays the selected project's details
      */
     public String selectProjectForManaging(Project p) {
         setSelectedProject(p);
@@ -126,8 +173,8 @@ public class ProjectManagerController {
     
     /**
      * Select a project to show the weekly reports list for.
-     * @param p
-     * @return
+     * @param p Project to show weekly reports list for.
+     * @return Sting navigation string that takes user to list of weekly reports for a given project
      */
     public String selectProjectForReport(Project p) {
         setSelectedProject(p);
@@ -138,7 +185,7 @@ public class ProjectManagerController {
     /**
      * Select a report from the weekly reports list to see the details for.
      * @param week
-     * @return
+     * @return String navigation string that takes user to detailed view of a single weekly report.
      */
     public String selectProjectForWeeklyReport(String week) {
         String empLastVisitWeek = emp.getEmpLastVisitedWeekReport() == null ?
@@ -159,8 +206,8 @@ public class ProjectManagerController {
     
     /**
      * Select a project to see the monthly report for.
-     * @param p
-     * @return
+     * @param p Project to see the monthly report for.
+     * @return String navigation string that takes user to view of a single monthly report.
      */
     public String selectProjectForMonthlyReport(Project p) {
         setSelectedProject(p);
@@ -476,7 +523,10 @@ public class ProjectManagerController {
         
         return leafReports;
     }
-    
+    /**
+     * Returns a list of monthly reports.
+     * @return List<MonthlyReport>
+     */
     public List<MonthlyReport> getMonthlyReports() {
         ArrayList<MonthlyReport> reports = new ArrayList<MonthlyReport>();
         
@@ -573,9 +623,9 @@ public class ProjectManagerController {
     }
 
     /**
-     * Jen's bullshit. For moving employees onto a project
+     * Moves an employee onto a project.
      * 
-     * @return String navigation string. Just refresh the page bro.
+     * @return String navigation string for refreshing the current page.
      * @param empID
      *            ID of employee to put on project.
      */
@@ -597,7 +647,7 @@ public class ProjectManagerController {
     /**
      * Removes given employee from selected project
      * 
-     * @return String navigation string. Just refresh the page bro.
+     * @return String navigation string for refreshing the current page.
      * @param empID
      *            ID of employee to put on project.
      */
@@ -606,20 +656,10 @@ public class ProjectManagerController {
         Employee e = employeeManager.find(Integer.parseInt(empID));
         if (!e.getWorkpackages().isEmpty()) {
             projectManager.removeFromProjectWithWp(selectedProject, e);
-
         }
         projectManager.removeFromProject(selectedProject, e);
         e.getProjects().remove(selectedProject);
         selectedProject.getEmployees().remove(e);
-
-        // projectManager.update(selectedProject);
-        // projectManager.flush();
-        // employeeManager.merge(e);
-        // employeeManager.flush();
-        //
-        // projectManager.find(selectedProject.getProjNo());
-        // employeeManager.find(Integer.parseInt(empID));
-        // refresh the page
 
         return null;
     }
@@ -641,9 +681,10 @@ public class ProjectManagerController {
 
         return dtu.getListOfMonths(dtu.getDateString(staDt), dtu.getDateString(endDt));
     }
-
+    /**
+     * 
+     */
     public List<Employee> allEmpInProject() {
-
         // return selectedProject.getEmployees();
         return employeeManager.getEmpProj(selectedProject);
     }
@@ -682,7 +723,10 @@ public class ProjectManagerController {
     public void setNewWpName(String newWpName) {
         this.newWpName = newWpName;
     }
-
+    /**
+     * Returns map of labour grades and pay rates.
+     * @return HashMap<String,BigDecimal> key = labour grade. value = pay rate.
+     */
     public HashMap<String, BigDecimal> getRateMap() {
         HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
         List<Labgrd> list = labgrdManager.getAll();
@@ -691,7 +735,7 @@ public class ProjectManagerController {
         }
         return map;
     }
-
+  
     /**
      * Checks if a workpack has been charged to.
      * @param w

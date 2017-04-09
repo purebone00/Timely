@@ -27,17 +27,34 @@ import utility.ReportUtility;
 @Stateful
 @Named("RE")
 public class ResponsibleEngineerController implements Serializable {
+    /**
+     * 
+     */
     @Inject
     private WorkPackageManager workPackageManager;
+    /**
+     * 
+     */
     @Inject
     private TsrowManager tsRowManager;
+    /**
+     * 
+     */
     @Inject
     private LabourGradeManager labourGradeManager;
+    /**
+     * 
+     */
     @Inject
     private WpstarepManager wpstarepManager;
+    /**
+     * 
+     */
     @Inject
     private Wpstarep workPackageReport;
-
+    /**
+     * 
+     */
     private Workpack selectedWorkPackage;
     
     /**
