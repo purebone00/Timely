@@ -27,31 +27,92 @@ import model.TimesheetId;
 import model.Tsrow;
 import utility.DateTimeUtility;
 
+/**
+ * Contains methods used by employees to interact with their timesheets.
+ */
 @SuppressWarnings("serial")
 @Named("Employee")
 @Stateful
 public class EmployeeController implements Serializable {
+	/**
+     * Used for accessing employee data in database (Employee table).  
+	 */
     @Inject
     private EmployeeManager employeeManager;
+	/**
+     * Used for accessing timesheet data in database (Timesheet table).  
+	 */
     @Inject
     private TimesheetManager tManager;
+	/**
+     * Used for accessing timesheet row data in database (Tsrow table).  
+	 */
     @Inject
     private TsrowManager trManager;
+	/**
+     * Represents employee whose information is being altered (currently-logged in employee).
+     * @HasGetter
+     * @HasSetter  
+	 */
     @Inject
     private Employee emp;
 
+    /**
+     * Id of the timesheet currently being viewed.
+     * @HasGetter
+     * @HasSetter  
+     */
     private TimesheetId tsId;
-
+    /**
+     * Collection of timesheet rows in the current timesheet.
+     * @HasGetter
+     * @HasSetter  
+     */
     private Set<Tsrow> tsrList;
+    /**
+     * List of all employees. Non-descriptive name.
+     * @HasGetter    
+     */
     private List<Employee> list;
+    /**
+     * List of all timesheets belonging to the employee.
+     * @HasGetter  
+     */
     private Set<Timesheet> tsList;
+    /**
+     * Represents current week's timesheet.
+     * @HasGetter
+     * @HasSetter
+     */
     private Timesheet curTimesheet;
+    /**
+     * The current week's number.
+     */
     private int weekNumber;
 
+    /**
+     * The amount of overtime charged to the timesheet.
+     * @HasGetter
+     * @HasSetter
+     */
     private BigDecimal overtime;
+    /**
+     * The amount of flextime charged to the timesheet.
+     * @HasGetter
+     * @HasSetter
+     */
     private BigDecimal flextime;
+    /**
+     * Whether or not overtime may be edited in timesheet. 
+     * @HasGetter
+     * @HasSetter
+     */
     private boolean overtimeEditable;
 
+    /**
+     * For determining whether or not button for adding a new timesheet row is displayed.
+     * Returns true (button is rendered in view) if  
+     */
     public boolean showAddButton() {
         try {
             return (tManager.find(getNewTsId()) != null) ? false : true;
@@ -75,10 +136,18 @@ public class EmployeeController implements Serializable {
     public Employee getEmp() {
         return emp;
     }
-
+    /**
+     * Number of columns for tracking hours worked per package.
+     * (one for each day of the week plus one for the sum of hours worked in the week). 
+     */
     private static int DAYS_IN_WEEK_AND_TOTAL = 8;
+    /**
+     * Total amount of hours charged per day over all work packages.
+     * @HasGetter
+     * @HasSetter
+     */
     private BigDecimal[] dailyTotals;
-
+    
     public BigDecimal[] getDailyTotals() {
         dailyTotals = new BigDecimal[DAYS_IN_WEEK_AND_TOTAL];
         for (int i = 0; i < dailyTotals.length; i++) {
@@ -132,7 +201,9 @@ public class EmployeeController implements Serializable {
         }
         return tsList;
     }
-
+    /**
+     * Retrieves updated list of all timesheets belonging to the employee.
+     */
     public void refreshTsList() {
 
         try {
@@ -148,7 +219,11 @@ public class EmployeeController implements Serializable {
         flextime = curTimesheet.getTsFlexTm() == null ? null : curTimesheet.getTsFlexTm();
         return tsrList;
     }
-
+    /**
+     * Retrieves current list of all timesheet rows belonging to a given timesheet.
+     * @param tsrList the updated timesheet row list
+     * @param id ID of the timesheet whose rows are being fetched
+     */
     public Set<Tsrow> refreshTsrList(Set<Tsrow> tsrList, TimesheetId id) {
         int remainder = 0;
 
@@ -169,11 +244,18 @@ public class EmployeeController implements Serializable {
 
         return tsrList;
     }
-
+    /**
+     * Returns employee with a given ID. 
+     * @param id ID of employee to find.
+     * @return Employee employee retrieved with the given ID.
+     */
     public Employee find(int id) {
         return employeeManager.find(id);
     }
 
+    /**
+     * Adds a new employee to the employee roster.
+     */
     public void add() {
         employeeManager.persist(emp);
     }
@@ -184,11 +266,18 @@ public class EmployeeController implements Serializable {
         return list;
     }
 
+    /**
+     * Retrieves updated list of all employees.
+     */
     public void refreshList() {
         if (list == null)
             list = employeeManager.getAll();
     }
-
+    /**
+     * Generated editable form fields for making changes 
+     * to a timesheet.
+     * @return String null navigation string for refreshing the current page.
+     */
     public String editAction() {
         for (Tsrow row : tsrList) {
             row.setEditable(true);
@@ -197,6 +286,10 @@ public class EmployeeController implements Serializable {
         return null;
     }
 
+    /**
+     * Saves timesheet information inputted into form fields.
+     * @return String navigation string that refreshes current page. 
+     */
     public String saveAction() {
         for (Tsrow row : tsrList) {
             row.setEditable(false);
@@ -211,7 +304,9 @@ public class EmployeeController implements Serializable {
         tManager.merge(curTimesheet);
         return null;
     }
-
+    /**
+     * Adds a row to the current timesheet.
+     */
     public String addTsrow() {
         Tsrow row = new Tsrow();
         row.setTsrEmpId(emp.getEmpId());
@@ -233,6 +328,10 @@ public class EmployeeController implements Serializable {
         return weekNumber;
     }
 
+    /**
+     * Saves information in a timesheet to database.
+     * @return String navigation string for refreshing the current page.
+     */
     public String submitTimesheet() {
         if (curTimesheet.getTsSubmit() == 0) {
             curTimesheet.setTsSubmit((short) 1);
@@ -240,7 +339,10 @@ public class EmployeeController implements Serializable {
         }
         return null;
     }
-
+    /**
+     * Returns a list containing IDs of all projects belonging to the employee. 
+     * @return List<Integer> list of project IDs
+     */
     public List<Integer> projectIntegerList() {
         List<Integer> list = new ArrayList<Integer>();
         for (Project p : emp.getProjects()) {
@@ -248,12 +350,18 @@ public class EmployeeController implements Serializable {
         }
         return list;
     }
-
+    /**
+     * Generates a new timesheet id.
+     * @return TimesheetId newly-generated timesheet id.
+     */
     public TimesheetId getNewTsId() {
         DateTimeUtility dtu = new DateTimeUtility();
         return new TimesheetId(emp.getEmpId(), dtu.getEndOfWeek());
     }
-
+    /**
+     * Creates a new timesheet.
+     * @return String navigation string for refreshing the current page.
+     */
     public String createNewTimesheet() {
 
         Timesheet ts = new Timesheet();
