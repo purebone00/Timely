@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -33,6 +32,7 @@ import model.WplabId;
 import model.Wpstarep;
 import model.WpstarepId;
 import utility.DateTimeUtility;
+import utility.ReportUtility;
 import utility.models.MonthlyReport;
 import utility.models.MonthlyReportRow;
 import utility.models.WeeklyReport;
@@ -40,22 +40,46 @@ import utility.models.WeeklyReport;
 @Stateful
 @Named("projMan")
 public class ProjectManagerController {
+	/**
+	 * Used for accessing work package data in database (Workpack table).
+	 */
     @Inject
     WorkPackageManager workPackageManager;
+    /**
+     * Used for accessing project data in database (Project table).
+     */
     @Inject
     ProjectManager projectManager;
+    /**
+     * Used for accessing timesheet row data in database (Tsrow table).
+     */
     @Inject
     WplabManager wplabManager;
+    /**
+     * Used for accessing Work package-labour grade association table data in database (Wplab table).
+     */
     @Inject
     TsrowManager tsRowManager;
+    /**
+     * Used for accessing work package status report data in database (Wpstarep table).
+     */
     @Inject
     WpstarepManager wpstarepManager;
+    /**
+     * Used for accessing labour grade data in database (Labgrd table).
+     */
     @Inject
     LabourGradeManager labgrdManager;
-    // fuck it
+    /**
+     * Used for accessing employee data in database (Employee table).
+     */
     @Inject
     EmployeeManager employeeManager;
-
+    /**
+    * Represents employee whose information is being altered.
+    * @HasGetter
+    * @HasSetter
+    */
     private Employee emp;
     
     public Employee getEmp() {
@@ -65,22 +89,45 @@ public class ProjectManagerController {
     public void setEmp(Employee emp) {
         this.emp = emp;
     }
-
+    /**
+     * Represents the currently selected project to display details on.
+     */
     private Project selectedProject;
-    // this exists so that viewing projects doesnt conflict with notifications
+    /**
+     * Exists so that viewing projects doesn't conflict with notifications.
+     * @HasGetter
+     * @HasSetter
+     */
     private Project selectedProjectForViewing;
+    /**
+     * Represents the currently selected work package to display details on.
+     * @HasGetter
+     * @HasSetter
+     */
     private Workpack selectedWorkPackage;
+    /**
+     * The currently selected week.
+     * @HasGetter
+     * @HasSetter
+     */
     private String selectedWeek;
+    /**
+     * Name of a newly-generated work package.
+     * @HasGetter
+     * @HasSetter
+     */
     private String newWpName;
 
-    /* I am a sad plant. */
+    /**
+     * Returns list of employees who have been assigned to the currently selected project.
+     * @return List<Employees> the employees on the currently selected project.
+     */
     public List<Employee> getEmployeesOnProject() {
         return employeeManager.getEmployeesOnProject(selectedProject.getProjNo());
     }
 
     /**
-     * Does not work. Display list of work packages within currently selected
-     * project.
+     * Display list of work packages within currently selected project.
      * 
      * @return A list of {@link Workpack}s in selected project.
      */
@@ -104,36 +151,30 @@ public class ProjectManagerController {
             return new ArrayList<Project>();
         }
     }
-
+    
     /**
      * Select project for managing (creating WP's, setting budget and estimates)
-     * @param p
-     * @return
+     * @param p Project that has been selected
+     * @return String navigation string that takes user to view that displays the selected project's details
      */
-    public String selectProject(Project p) {
+    public String selectProjectForManaging(Project p) {
         setSelectedProject(p);
+        setSelectedProjectForViewing(p);
         
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
             if (initial != null) {
-                w.setInitialEst(parseWsrEstDes(initial.getWsrEstDes()));
+                w.setInitialEst(ReportUtility.parseWsrEstDes(initial.getWsrEstDes()));
             }
         }
-
-        return "manageproject";
-    }
-    
-    public String selectProjectForManaging(Project p) {
-        setSelectedProject(p);
-        setSelectedProjectForViewing(p);
         
         return "manageproject";
     }
     
     /**
      * Select a project to show the weekly reports list for.
-     * @param p
-     * @return
+     * @param p Project to show weekly reports list for.
+     * @return Sting navigation string that takes user to list of weekly reports for a given project
      */
     public String selectProjectForReport(Project p) {
         setSelectedProject(p);
@@ -144,10 +185,11 @@ public class ProjectManagerController {
     /**
      * Select a report from the weekly reports list to see the details for.
      * @param week
-     * @return
+     * @return String navigation string that takes user to detailed view of a single weekly report.
      */
     public String selectProjectForWeeklyReport(String week) {
-        String empLastVisitWeek = emp.getEmpLastVisitedWeekReport();
+        String empLastVisitWeek = emp.getEmpLastVisitedWeekReport() == null ?
+                "00000000" : emp.getEmpLastVisitedWeekReport();
         
         Integer visitWeek = new Integer(empLastVisitWeek);
         Integer curWeek = new Integer(week);
@@ -164,8 +206,8 @@ public class ProjectManagerController {
     
     /**
      * Select a project to see the monthly report for.
-     * @param p
-     * @return
+     * @param p Project to see the monthly report for.
+     * @return String navigation string that takes user to view of a single monthly report.
      */
     public String selectProjectForMonthlyReport(Project p) {
         setSelectedProject(p);
@@ -174,7 +216,8 @@ public class ProjectManagerController {
         List<MonthlyReport> reports = getMonthlyReports();
         
         String latestMonth = reports.get(0).getMonth();
-        String lastVisitMonth = emp.getEmpLastVisitedMonthReport();
+        String lastVisitMonth = emp.getEmpLastVisitedMonthReport() == null ?
+                "000000" : emp.getEmpLastVisitedMonthReport();
 
         Integer visitMonth = new Integer(lastVisitMonth);
         Integer curMonth = new Integer(latestMonth);
@@ -233,23 +276,20 @@ public class ProjectManagerController {
      */
     public String createNewWP() {
         String newWpNo = isWpNameValid(getNewWpName());
-        if (newWpNo == null) {
-            return "";
+        if (newWpNo == null) { // user entered invalid wp name
+            // TODO display an error message
+            return ""; // stay on same page
         }
         Workpack newWp = new Workpack();
-        WorkpackId newWpId = new WorkpackId(selectedProject.getProjNo(), newWpNo);
-        newWp.setId(newWpId);
+        newWp.setId(new WorkpackId(selectedProject.getProjNo(), newWpNo));
         newWp.setWpNm("");
-        short i = 0;
-        newWp.setWpDel(i);
+        newWp.setWpDel((short) 0);
         
         newWp.setWplabs(new HashSet<Wplab>());
         for (Labgrd l : labgrdManager.getAll()) {            
             Wplab newRow = new Wplab();
-            WplabId id = new WplabId(newWp.getId().getWpProjNo(), newWp.getId().getWpNo(), l.getLgId());
-            newRow.setId(id);
-            i = 0;
-            newRow.setWlDel(i);
+            newRow.setId(new WplabId(newWp.getId().getWpProjNo(), newWp.getId().getWpNo(), l.getLgId()));
+            newRow.setWlDel((short) 0);
             newRow.setWlPlanHrs(BigDecimal.ZERO);
             newWp.getWplabs().add(newRow);
         }
@@ -267,24 +307,21 @@ public class ProjectManagerController {
      */
     public String createChildWP(Workpack parent) {
         String newChildWpNo = isWpNameValid(parent.getNamePrefix() + parent.getChildName());
-        if (newChildWpNo == null) {
-            return "";
+        if (newChildWpNo == null) { // user entered invalid wp name
+            // TODO display an error message
+            return ""; // stay on same page
         }
         
         Workpack newChildWp = new Workpack();
-        WorkpackId newChildWpId = new WorkpackId(selectedProject.getProjNo(), newChildWpNo);
-        newChildWp.setId(newChildWpId);
+        newChildWp.setId(new WorkpackId(selectedProject.getProjNo(), newChildWpNo));
         newChildWp.setWpNm("");
-        short i = 0;
-        newChildWp.setWpDel(i);
+        newChildWp.setWpDel((short) 0);
         
         newChildWp.setWplabs(new HashSet<Wplab>());
         for (Labgrd l : labgrdManager.getAll()) {            
             Wplab newRow = new Wplab();
-            WplabId id = new WplabId(newChildWp.getId().getWpProjNo(), newChildWp.getId().getWpNo(), l.getLgId());
-            newRow.setId(id);
-            i = 0;
-            newRow.setWlDel(i);
+            newRow.setId(new WplabId(newChildWp.getId().getWpProjNo(), newChildWp.getId().getWpNo(), l.getLgId()));
+            newRow.setWlDel((short) 0);
             newRow.setWlPlanHrs(BigDecimal.ZERO);
             newChildWp.getWplabs().add(newRow);
         }
@@ -368,17 +405,6 @@ public class ProjectManagerController {
     }
 
     /**
-     * Select a report from the reports list to see the statistics for.
-     * @param week
-     * @return
-     */
-    public String selectWeeklyReport(String week) {
-        setSelectedWeek(week);
-
-        return "weeklyStatistics";
-    }
-
-    /**
      * Saves changes made (new/modified {@link Workpack}'s, {@link Wplab}'s).
      * 
      * @return String for previous page.
@@ -402,7 +428,7 @@ public class ProjectManagerController {
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             if (w.getInitialEst() != null) {                
                 Wpstarep workPackageReport = new Wpstarep();
-                String labourDays = unparseWsrEstDes(w.getInitialEst());
+                String labourDays = ReportUtility.unparseWsrEstDes(w.getInitialEst());
                 
                 workPackageReport.setWsrInsDt(new Date());
                 workPackageReport.setWsrUpDt(new Date());
@@ -497,7 +523,10 @@ public class ProjectManagerController {
         
         return leafReports;
     }
-    
+    /**
+     * Returns a list of monthly reports.
+     * @return List<MonthlyReport>
+     */
     public List<MonthlyReport> getMonthlyReports() {
         ArrayList<MonthlyReport> reports = new ArrayList<MonthlyReport>();
         
@@ -594,9 +623,9 @@ public class ProjectManagerController {
     }
 
     /**
-     * Jen's bullshit. For moving employees onto a project
+     * Moves an employee onto a project.
      * 
-     * @return String navigation string. Just refresh the page bro.
+     * @return String navigation string for refreshing the current page.
      * @param empID
      *            ID of employee to put on project.
      */
@@ -618,7 +647,7 @@ public class ProjectManagerController {
     /**
      * Removes given employee from selected project
      * 
-     * @return String navigation string. Just refresh the page bro.
+     * @return String navigation string for refreshing the current page.
      * @param empID
      *            ID of employee to put on project.
      */
@@ -627,20 +656,10 @@ public class ProjectManagerController {
         Employee e = employeeManager.find(Integer.parseInt(empID));
         if (!e.getWorkpackages().isEmpty()) {
             projectManager.removeFromProjectWithWp(selectedProject, e);
-
         }
         projectManager.removeFromProject(selectedProject, e);
         e.getProjects().remove(selectedProject);
         selectedProject.getEmployees().remove(e);
-
-        // projectManager.update(selectedProject);
-        // projectManager.flush();
-        // employeeManager.merge(e);
-        // employeeManager.flush();
-        //
-        // projectManager.find(selectedProject.getProjNo());
-        // employeeManager.find(Integer.parseInt(empID));
-        // refresh the page
 
         return null;
     }
@@ -662,9 +681,10 @@ public class ProjectManagerController {
 
         return dtu.getListOfMonths(dtu.getDateString(staDt), dtu.getDateString(endDt));
     }
-
+    /**
+     * 
+     */
     public List<Employee> allEmpInProject() {
-
         // return selectedProject.getEmployees();
         return employeeManager.getEmpProj(selectedProject);
     }
@@ -703,7 +723,10 @@ public class ProjectManagerController {
     public void setNewWpName(String newWpName) {
         this.newWpName = newWpName;
     }
-
+    /**
+     * Returns map of labour grades and pay rates.
+     * @return HashMap<String,BigDecimal> key = labour grade. value = pay rate.
+     */
     public HashMap<String, BigDecimal> getRateMap() {
         HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
         List<Labgrd> list = labgrdManager.getAll();
@@ -712,7 +735,7 @@ public class ProjectManagerController {
         }
         return map;
     }
-
+  
     /**
      * Checks if a workpack has been charged to.
      * @param w
@@ -720,45 +743,6 @@ public class ProjectManagerController {
      */
     public boolean isWpCharged(Workpack w) {
         return !tsRowManager.find(w).isEmpty();
-    }
-    
-    /**
-     * The list of "labour grade : person days" estimates is stored as a single string in the database. 
-     * This method parses that string into a map.
-     * 
-     * TODO: This and {@link ResponsibleEngineerController#parseWsrEstDes(String)} are identical and should be factored out.
-     * @param wsrEstDes
-     * @return
-     */
-    public HashMap<String, BigDecimal> parseWsrEstDes(String wsrEstDes) {
-        HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
-        
-        String[] rows = wsrEstDes.split(",");
-
-        for (String s : rows) {
-            String[] columns = s.split(":");
-            map.put(columns[0], new BigDecimal(columns[1]));
-        }
-        
-        return map;
-    }
-    
-    /**
-     * The list of "labour grade : person days" estimates is stored as a single string in the database.
-     * This method generates that string from a map.
-     * 
-     * TODO: This and {@link ResponsibleEngineerController#unparseWsrEstDes(HashMap)} are identical and should be factored out.
-     * @param map
-     * @return
-     */
-    public String unparseWsrEstDes(HashMap<String, BigDecimal> map) {
-        String string = "";
-        
-        for (Map.Entry<String, BigDecimal> entry : map.entrySet()) {
-            string = string + entry.getKey() + ":" + entry.getValue().toString() + ",";
-        }
-
-        return string.substring(0, string.length() - 1);
     }
 
 }

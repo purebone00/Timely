@@ -18,25 +18,56 @@ import model.Timesheet;
 import model.TimesheetId;
 import model.Tsrow;
 
+/**
+ * Contains methods used by timesheet approvers. 
+ */
 @SuppressWarnings("serial")
 @Stateful
 @Named("taApprover")
 public class TimesheetApproverController implements Serializable {
-    
+	/**
+	 * Project that contains SICK/VACATION/FLEX work packages.
+	 */
     public static final int FLEX_PROJ_NO = 1111;
+    /**
+     * Work package id for flex time.
+     */
     public static final String FLEX_WP_NO = "__FLEX";
 
+    /**
+     * Used for accessing timesheet data in database (Timesheet table).
+     */
     @Inject
     TimesheetManager tManager;
+    /**
+     * Used for accessing employee row data in database (Employee table).
+     */
     @Inject
     private EmployeeManager empManager;
+    /**
+     * Represents employee whose information is being altered.
+     */
     @Inject
     private Employee emp;
-
+    /**
+     * Collection of timesheets to review.
+     */
     private Set<Timesheet> listOfts;
+    /**
+     * Represents the timesheet currently being reviewed.
+     */
     private Timesheet reviewTimesheet;
+    /**
+     * Represents the employee who owns the timesheet currently being reviewed.
+     */
     private Employee employeeReviewed;
+    /**
+     * Collection of timesheets that have been approved.
+     */
     private Set<Timesheet> listOfApproved;
+    /**
+     * Collection of timesheets that have not been approved yet. 
+     */
     private Set<Timesheet> listToBeApproved;
 
     public void setEmp(Employee emp) {
@@ -46,18 +77,24 @@ public class TimesheetApproverController implements Serializable {
     public Employee getEmp() {
         return emp;
     }
-
+    /**
+     * 
+     */
     public Set<Timesheet> getListOfApproved() {
         if (listOfApproved == null) {
             refreshApprovedList();
         }
         return listOfApproved;
     }
-
+    /**
+     * 
+     */
     public void setListOfApproved(Set<Timesheet> listOfApproved) {
         this.listOfApproved = listOfApproved;
     }
-
+    /**
+     * 
+     */
     public void refreshApprovedList() {
         Set<Timesheet> temp = new HashSet<>();
         listOfts.forEach((ts) -> {
@@ -67,18 +104,24 @@ public class TimesheetApproverController implements Serializable {
         });
         listOfApproved = temp;
     }
-
+    /**
+     * 
+     */
     public Set<Timesheet> getListToBeApproved() {
         if (listToBeApproved == null) {
             refreshToBeApprovedList();
         }
         return listToBeApproved;
     }
-
+    /**
+     * 
+     */
     public void setListToBeApproved(Set<Timesheet> listToBeApproved) {
         this.listToBeApproved = listToBeApproved;
     }
-
+    /**
+     * 
+     */
     public void refreshToBeApprovedList() {
 
         Set<Timesheet> temp = new HashSet<>();
@@ -101,6 +144,9 @@ public class TimesheetApproverController implements Serializable {
         this.listOfts = tsToApproveList;
     }
 
+    /**
+     * Retrieves list of timesheets the approver has yet to review. 
+     */
     public void refreshList() {
         try {
             listOfts = empManager.find(getEmp().getEmpId()).getTimesheetsToApprove();
@@ -136,7 +182,10 @@ public class TimesheetApproverController implements Serializable {
         this.setEmployeeReviewed(selectedTimesheet.getEmployee());
         return "view";
     }
-
+    /**
+     * Method for bulk approving of timesheets.
+     * @return String navigation string
+     */
     public String approveAllTimesheet() {
         for (Timesheet t : listOfts) {
             if (t.getIsApprove() == true) {
