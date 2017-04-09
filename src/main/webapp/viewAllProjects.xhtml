@@ -18,7 +18,7 @@
                         <span></span>
                     </div>
                     <div class="col-md-12">
-                        <h:form>
+                        <b:form>
                             <b:dataTable responsive="true"
                                 value="#{Master.supMan.listOfProjects()}"
                                 var="s">
@@ -51,13 +51,14 @@
                                 <b:dataTableColumn>
                                     <f:facet name="header">Select Project</f:facet>
                                     <!-- <h:commandButton action="assignEmployees" value="Choose Project">-->
-                                    <h:commandButton
+                                    <b:commandButton
+                                    	look="primary"
                                         action="#{Master.projMan.assignEmployeeToProject(s.projNo)}"
                                         value="Choose Project">
-                                    </h:commandButton>
+                                    </b:commandButton>
                                 </b:dataTableColumn>
                             </b:dataTable>
-                        </h:form>
+                        </b:form>
                         <!-- 						<div class="column"> -->
                         <!-- 							<h:form> -->
                         <!-- 							<br />	<h:commandLink value="View Work Package Reports" action="responsibleengineer"/> -->
