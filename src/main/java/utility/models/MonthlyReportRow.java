@@ -86,9 +86,8 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
     /**
      * Creates a Monthly Report.
      * 
-     * @param tsrowHours
-     *            Output of
-     *            {@link TsrowManager#getAllForWP(model.Workpack, String)}.
+     * @param tsrows
+     *            List of Tsrows
      * @param wplabs
      *            {@link Wplab}'s of the {@link Workpack} to generate the report
      *            for.
