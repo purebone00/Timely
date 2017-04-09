@@ -138,7 +138,7 @@ public class FrontEndBoundary implements Serializable {
         List<Project> projectManaged = projMan.listOfProjects(employee.getEmp());
         if (projectManaged != null) {
             for (Project p : projectManaged) {
-                projMan.selectProject(p);
+                projMan.setSelectedProject(p);
 
                 List<String> weekList = projMan.getListOfWeeks(0);
                 List<MonthlyReport> monthList = projMan.getMonthlyReports();

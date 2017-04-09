@@ -212,4 +212,19 @@ public class DateTimeUtility {
 
         return set;
     }
+    
+    /**
+     * Gets the String representation of a Date.
+     * @param date
+     * @return
+     */
+    public String getDateString(Date date) {
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+        return year + month + day;
+    }
 }

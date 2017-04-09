@@ -3,14 +3,8 @@ package controller;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -27,6 +21,7 @@ import model.Workpack;
 import model.Wpstarep;
 import model.WpstarepId;
 import utility.DateTimeUtility;
+import utility.ReportUtility;
 
 @SuppressWarnings("serial")
 @Stateful
@@ -222,14 +217,14 @@ public class ResponsibleEngineerController implements Serializable {
         Wpstarep current = wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), dtu.getEndOfWeek());
 
         if (initial != null) {
-            initialEstimate = parseWsrEstDes(initial.getWsrEstDes());
+            initialEstimate = ReportUtility.parseWsrEstDes(initial.getWsrEstDes());
         }
 
         if (current != null) { // if the weekly status report for this work package
                          // already exists, display it
             preExisting = true;
             setWorkPackageReport(current);
-            estLabourGradeDays = parseWsrEstDes(current.getWsrEstDes());
+            estLabourGradeDays = ReportUtility.parseWsrEstDes(current.getWsrEstDes());
         } else {
             for (Labgrd l : labourGrades) {
                 estLabourGradeDays.put(l.getLgId(), BigDecimal.ZERO);
@@ -246,10 +241,9 @@ public class ResponsibleEngineerController implements Serializable {
      */
     private HashMap<String, BigDecimal> getWpPersonDays() {
         List<Tsrow> tsrows = tsRowManager.find(getSelectedWorkPackage());
-        List<Labgrd> list = labourGradeManager.getAll();
         
         HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
-        for (Labgrd l : list) {
+        for (Labgrd l : labourGrades) {
             map.put(l.getLgId(), BigDecimal.ZERO);
         }
         
@@ -279,7 +273,7 @@ public class ResponsibleEngineerController implements Serializable {
      */
     public String submitReport() {
         DateTimeUtility dtu = new DateTimeUtility();
-        String labourDays = unparseWsrEstDes(estLabourGradeDays);
+        String labourDays = ReportUtility.unparseWsrEstDes(estLabourGradeDays);
 
         workPackageReport.setId(new WpstarepId(selectedWorkPackage.getId().getWpProjNo(),
                 selectedWorkPackage.getId().getWpNo(), dtu.getEndOfWeek()));
@@ -287,11 +281,11 @@ public class ResponsibleEngineerController implements Serializable {
         workPackageReport.setWsrEstDes(labourDays);
         
         if (workPackageReport.getWsrProbLw() == null || workPackageReport.getWsrProbLw().trim().equals("")) {
-            workPackageReport.setWsrProbLw("No problems this week.");
+            workPackageReport.setWsrProbLw("None.");
         }
         
         if (workPackageReport.getWsrProbNw() == null || workPackageReport.getWsrProbNw().trim().equals("")) {
-            workPackageReport.setWsrProbNw("No anticipated problems next week.");
+            workPackageReport.setWsrProbNw("None.");
         }
 
         // checks if this is the first time the estimate is being made so it
@@ -306,42 +300,4 @@ public class ResponsibleEngineerController implements Serializable {
         return "responsibleengineer";
     }
     
-    /**
-     * The list of "labour grade : person days" estimates is stored as a single string in the database. 
-     * This method parses that string into a map.
-     * 
-     * TODO: This and {@link ProjectManagerController#parseWsrEstDes(String)} are identical and should be factored out.
-     * @param wsrEstDes
-     * @return
-     */
-    public HashMap<String, BigDecimal> parseWsrEstDes(String wsrEstDes) {
-        HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
-        
-        String[] rows = wsrEstDes.split(",");
-
-        for (String s : rows) {
-            String[] columns = s.split(":");
-            map.put(columns[0], new BigDecimal(columns[1]));
-        }
-        
-        return map;
-    }
-    
-    /**
-     * The list of "labour grade : person days" estimates is stored as a single string in the database.
-     * This method generates that string from a map.
-     * 
-     * TODO: This and {@link ProjectManagerController#unparseWsrEstDes(HashMap)} are identical and should be factored out.
-     * @param map
-     * @return
-     */
-    public String unparseWsrEstDes(HashMap<String, BigDecimal> map) {
-        String string = "";
-        
-        for (Map.Entry<String, BigDecimal> entry : map.entrySet()) {
-            string = string + entry.getKey() + ":" + entry.getValue().toString() + ",";
-        }
-
-        return string.substring(0, string.length() - 1);
-    }
 }
