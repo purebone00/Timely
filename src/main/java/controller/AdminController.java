@@ -2,6 +2,7 @@ package controller;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -10,24 +11,78 @@ import javax.inject.Named;
 
 import manager.EmployeeManager;
 import manager.LabourGradeManager;
+import manager.ProjectManager;
+import manager.WorkPackageManager;
 import model.Employee;
 import model.Labgrd;
+import model.Project;
+import model.Workpack;
+import model.WorkpackId;
 
+/**
+ * Contains methods used by admin to alter employee roster.
+ */
 @SuppressWarnings("serial")
 @SessionScoped
 @Named("Admin")
 public class AdminController implements Serializable {
+    
+	/**
+	 * Project that contains SICK/VACATION/FLEX work packages.
+	 */
+    public static final int FLEX_PROJ_NO = TimesheetApproverController.FLEX_PROJ_NO;
+    /**
+     * Work package id for flex time.
+     */
+    public static final String FLEX_WP_NO = TimesheetApproverController.FLEX_WP_NO;
+    
+    /**
+     * Used for accessing employee data in database (Employee table).  
+     * @HasGetter
+     * @HasSetter
+     */
     @Inject
     private EmployeeManager employeeManager;
 
+    /**
+     * Represents employee whose information is being altered.
+     * @HasGetter
+     * @HasSetter
+     */
     @Inject
     private Employee newEmployee;
 
+    /**
+     * Contains methods used by employees to interact with their timesheets.
+     * @HasGetter
+     * @HasSetter
+     */
     @Inject
     private EmployeeController employeeController;
 
+    /**
+     * Used for accessing labour grade data in database (Labgrd table).
+     * @HasGetter
+     * @HasSetter
+     */
     @Inject
     private LabourGradeManager labourGradeManager;
+    
+    /**
+     * Used for accessing project data in database (Project table).
+     * @HasGetter
+     * @HasSetter
+     */
+    @Inject
+    private ProjectManager projectManager;
+    
+    /**
+     * Used for accessing work package data in database (Workpack table).
+     * @HasGetter
+     * @HasSetter
+     */
+    @Inject
+    private WorkPackageManager workpackManager;
 
     public EmployeeController getEmployeeController() {
         return employeeController;
@@ -44,10 +99,29 @@ public class AdminController implements Serializable {
     public void setNewEmployee(Employee employee) {
         newEmployee = employee;
     }
-
+    
+    /**
+     * Adds new employee to company's employee roster.
+     * @return String navigation string for returning to admin homepage. 
+     */
     public String addEmployee() {
         newEmployee.setEmpFlxTm(BigDecimal.ZERO);
+        
+        // add employee to project 1111 which contains the SICK/VACATION/FLEX WP's
+        Project defaultProj = projectManager.find(FLEX_PROJ_NO);
+        defaultProj.getEmployees().add(newEmployee);
+        newEmployee.setProjects(new HashSet<Project>());
+        newEmployee.getProjects().add(defaultProj);
+        
+        // add employee to __FLEX WP so they can charge to flextime
+        Workpack flex = workpackManager.find(new WorkpackId(FLEX_PROJ_NO, FLEX_WP_NO));
+        flex.getEmployees().add(newEmployee);
+        newEmployee.setWorkpackages(new HashSet<Workpack>());
+        newEmployee.getWorkpackages().add(flex);
+        
         employeeManager.persist(newEmployee);
+        projectManager.update(defaultProj);
+        workpackManager.merge(flex);
         employeeController.refreshList();
         return "admin";
     }
@@ -56,12 +130,20 @@ public class AdminController implements Serializable {
         return labourGradeManager.getAll();
     }
 
+    /**
+     * Generated editable form fields for making changes 
+     * to an employee's information.
+     * @return String null navigation string for refreshing the current page.
+     */
     public String editAction(Employee employee) {
-
         employee.setEditable(true);
         return null;
     }
 
+    /**
+     * Saves employee information inputted into form fields.
+     * @return String navigation string that refreshes current page. 
+     */
     public String saveAction(Employee e) {
 
         e.setEditable(false);
@@ -73,11 +155,9 @@ public class AdminController implements Serializable {
     }
 
     /**
-     * Deletes the employee
-     * 
-     * @param e
-     *            the employee
-     * @return navigation location
+     * Deletes a given employee.
+     * @param e the employee to delete.
+     * @return String navigation string for refreshing the current page.
      */
     public String delete(Employee e) {
 
@@ -91,11 +171,9 @@ public class AdminController implements Serializable {
     }
 
     /**
-     * Restores the employee so its no longer deleted
-     * 
-     * @param e
-     *            the employee
-     * @return navigation location
+     * Restores the employee so its no longer deleted.
+     * @param e the employee to delete.
+     * @return String navigation string for refreshing the current page.
      */
     public String restore(Employee e) {
 

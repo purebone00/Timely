@@ -3,7 +3,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    template="/resources/scaffold/pageTemplate.xhtml">
+    template="/resources/scaffold/pageTemplate.xhtml"
+    xmlns:b="http://bootsfaces.net/ui">
 
     <ui:param name="pageTitle" value="Server error" />
 
@@ -16,6 +17,14 @@
 	</ui:define>
 
     <ui:define name="main">
+
+        <h1>Session expired</h1>
+        <h3>You will be redirected to login page</h3>
+        <p>
+            <b:navLink outcome="/login.xhtml">Click here
+                if redirect didn't work or when you're impatient</b:navLink>.
+        </p>
+
         <p style="text-align: right; padding-top: 150px">
             <a target="_blank" href="http://jboss.org"> <h:graphicImage
                     value='#{resource["jboss-community.png"]}'
@@ -24,5 +33,8 @@
             </a> <br />
         </p>
     </ui:define>
+
+
+
 
 </ui:composition>

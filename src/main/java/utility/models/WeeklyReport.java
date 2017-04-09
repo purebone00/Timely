@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import manager.TsrowManager;
+import model.Tsrow;
 import model.Wpstarep;
 
 @SuppressWarnings("serial")
@@ -35,22 +36,23 @@ public class WeeklyReport implements Serializable {
     
     /**
      * Creates a Weekly Report.
-     * @param tsrowHours Output of {@link TsrowManager#getAllForWP(model.Workpack, String)}.
+     * @param tsrows List of Tsrows
      * @param report {@link Wpstarep} of the {@link Workpack} for the week.
      * @param rateMap rateMap Map of Labour Grades and their rates.
      */
-    public WeeklyReport(List<Object[]> tsrowHours, Wpstarep report, HashMap<String, BigDecimal> rateMap) {
+    public WeeklyReport(List<Tsrow> tsrows, Wpstarep report, HashMap<String, BigDecimal> rateMap) {
         curTotalCosts = BigDecimal.ZERO;
         curTotalHours = BigDecimal.ZERO;
         estCostsRemaining = BigDecimal.ZERO;
         estHoursRemaining = BigDecimal.ZERO;
         visited = 0;
         
-        for (Object[] obj : tsrowHours) {
-            BigDecimal op1 = obj[1] == null ? BigDecimal.ZERO : (BigDecimal) obj[1];
-            BigDecimal op2 = (BigDecimal) obj[2];
-            curTotalCosts = curTotalCosts.add(op1.multiply(op2));
-            curTotalHours = curTotalHours.add(op1);
+        for (Tsrow t : tsrows) {
+            BigDecimal rate = t.getTimesheet().getTsPayGrade() == null ?
+                    t.getTimesheet().getEmployee().getEmpLabGrd().getLgRate() :
+                    t.getTimesheet().getTsPayGrade().getLgRate();
+            curTotalCosts = curTotalCosts.add(t.getTotal().multiply(rate));
+            curTotalHours = curTotalHours.add(t.getTotal());
         }
         
         if (report != null) {

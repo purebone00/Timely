@@ -38,11 +38,13 @@
                 <b:form class="form-signin">
                     <span id="reauth-email" class="reauth-email"></span>
                     <b:inputText class="form-control"
-                        pt:placeholder="Email address" id="inputEmail"
-                        value="#{Master.login.userName}" />
+                        pt:placeholder="Username" id="inputUserName"
+                        value="#{Master.login.userName}" required="true" requiredMessage="Username is required"/>
+                    <b:message for="inputUserName" />
                     <b:inputSecret class="form-control"
                         pt:placeholder="Password" id="inputPassword"
-                        value="#{Master.login.password}" />
+                        value="#{Master.login.password}" required="true" requiredMessage="Password is required"/>
+                    <b:message for="inputPassword" />
                     <b:commandButton
                         class="btn btn-lg btn-primary btn-block btn-signin"
                         value="Sign In" action="#{Master.authenticate}" />

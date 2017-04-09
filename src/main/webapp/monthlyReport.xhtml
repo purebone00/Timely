@@ -26,15 +26,15 @@
                         <br />
 
                         <b:dataTable
-                            value="#{Master.projMan.getListOfMonths()}"
+                            value="#{Master.projMan.getMonthlyReports()}"
                             var="s">
                             <b:dataTableColumn>
                                 <f:facet name="header">Month</f:facet>
-                        		#{s}
+                        		#{s.month}
                         	</b:dataTableColumn>
                             <b:dataTableColumn>
                                 <h:dataTable class="table"
-                                    value="#{Master.projMan.getReportsForWpMonth(s)}"
+                                    value="#{s.rows}"
                                     var="t">
                                     <h:column>
                                         <f:facet name="header">WP#</f:facet>
@@ -115,7 +115,6 @@
                                     </h:column>
                                 </h:dataTable>
                             </b:dataTableColumn>
-
                         </b:dataTable>
                     </b:column>
                 </b:row>

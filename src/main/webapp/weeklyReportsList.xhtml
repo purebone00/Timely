@@ -27,15 +27,9 @@
                                     <h:outputText value="#{s}" />
                                 </b:dataTableColumn>
                                 <b:dataTableColumn>
-                                    <f:facet name="header">Statistics</f:facet>
-                                    <b:commandButton class="btn"
-                                        look="info" value="What"
-                                        action="#{Master.projMan.selectWeeklyReport(s)}" />
-                                </b:dataTableColumn>
-                                <b:dataTableColumn>
                                     <f:facet name="header">Reports</f:facet>
-                                    <h:commandButton class="btn"
-                                        value="What"
+                                    <b:commandButton class="btn"
+                                    	look="info" value="What"
                                         action="#{Master.projMan.selectProjectForWeeklyReport(s)}" />
                                 </b:dataTableColumn>
                             </b:dataTable>

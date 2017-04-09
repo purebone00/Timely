@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -25,6 +24,7 @@ import manager.WpstarepManager;
 import model.Employee;
 import model.Labgrd;
 import model.Project;
+import model.Tsrow;
 import model.Workpack;
 import model.WorkpackId;
 import model.Wplab;
@@ -32,43 +32,102 @@ import model.WplabId;
 import model.Wpstarep;
 import model.WpstarepId;
 import utility.DateTimeUtility;
+import utility.ReportUtility;
 import utility.models.MonthlyReport;
+import utility.models.MonthlyReportRow;
 import utility.models.WeeklyReport;
 
 @Stateful
 @Named("projMan")
 public class ProjectManagerController {
+	/**
+	 * Used for accessing work package data in database (Workpack table).
+	 */
     @Inject
     WorkPackageManager workPackageManager;
+    /**
+     * Used for accessing project data in database (Project table).
+     */
     @Inject
     ProjectManager projectManager;
+    /**
+     * Used for accessing timesheet row data in database (Tsrow table).
+     */
     @Inject
     WplabManager wplabManager;
+    /**
+     * Used for accessing Work package-labour grade association table data in database (Wplab table).
+     */
     @Inject
     TsrowManager tsRowManager;
+    /**
+     * Used for accessing work package status report data in database (Wpstarep table).
+     */
     @Inject
     WpstarepManager wpstarepManager;
+    /**
+     * Used for accessing labour grade data in database (Labgrd table).
+     */
     @Inject
     LabourGradeManager labgrdManager;
-    // fuck it
+    /**
+     * Used for accessing employee data in database (Employee table).
+     */
     @Inject
     EmployeeManager employeeManager;
+    /**
+    * Represents employee whose information is being altered.
+    * @HasGetter
+    * @HasSetter
+    */
+    private Employee emp;
+    
+    public Employee getEmp() {
+        return emp;
+    }
 
+    public void setEmp(Employee emp) {
+        this.emp = emp;
+    }
+    /**
+     * Represents the currently selected project to display details on.
+     */
     private Project selectedProject;
+    /**
+     * Exists so that viewing projects doesn't conflict with notifications.
+     * @HasGetter
+     * @HasSetter
+     */
+    private Project selectedProjectForViewing;
+    /**
+     * Represents the currently selected work package to display details on.
+     * @HasGetter
+     * @HasSetter
+     */
     private Workpack selectedWorkPackage;
+    /**
+     * The currently selected week.
+     * @HasGetter
+     * @HasSetter
+     */
     private String selectedWeek;
+    /**
+     * Name of a newly-generated work package.
+     * @HasGetter
+     * @HasSetter
+     */
     private String newWpName;
 
-    private List<Wplab> wpPlanHours;
-
-    /* I am a sad plant. */
+    /**
+     * Returns list of employees who have been assigned to the currently selected project.
+     * @return List<Employees> the employees on the currently selected project.
+     */
     public List<Employee> getEmployeesOnProject() {
         return employeeManager.getEmployeesOnProject(selectedProject.getProjNo());
     }
 
     /**
-     * Does not work. Display list of work packages within currently selected
-     * project.
+     * Display list of work packages within currently selected project.
      * 
      * @return A list of {@link Workpack}s in selected project.
      */
@@ -85,43 +144,89 @@ public class ProjectManagerController {
      * @return A list of {@link Project}'s.
      */
     public List<Project> listOfProjects(Employee emp) {
-        return projectManager.getManagedProjects(emp.getEmpId());
+        try {
+            setEmp(emp);  
+            return projectManager.getManagedProjects(emp.getEmpId());
+        } catch (NullPointerException e) {
+            return new ArrayList<Project>();
+        }
     }
-
-    public String selectProject(Project p) {
+    
+    /**
+     * Select project for managing (creating WP's, setting budget and estimates)
+     * @param p Project that has been selected
+     * @return String navigation string that takes user to view that displays the selected project's details
+     */
+    public String selectProjectForManaging(Project p) {
         setSelectedProject(p);
+        setSelectedProjectForViewing(p);
         
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
             if (initial != null) {
-                w.setInitialEst(new HashMap<String, BigDecimal>());
-                String fields = initial.getWsrEstDes();
-                String[] rows = fields.split(",");
-                
-                for (String s : rows) {
-                    String[] columns = s.split(":");
-                    w.getInitialEst().put(columns[0], new BigDecimal(columns[1]));
-                }
+                w.setInitialEst(ReportUtility.parseWsrEstDes(initial.getWsrEstDes()));
             }
         }
-
+        
         return "manageproject";
     }
-
+    
+    /**
+     * Select a project to show the weekly reports list for.
+     * @param p Project to show weekly reports list for.
+     * @return Sting navigation string that takes user to list of weekly reports for a given project
+     */
     public String selectProjectForReport(Project p) {
         setSelectedProject(p);
-
+        setSelectedProjectForViewing(p);
         return "weeklyReportsList";
     }
     
+    /**
+     * Select a report from the weekly reports list to see the details for.
+     * @param week
+     * @return String navigation string that takes user to detailed view of a single weekly report.
+     */
     public String selectProjectForWeeklyReport(String week) {
+        String empLastVisitWeek = emp.getEmpLastVisitedWeekReport() == null ?
+                "00000000" : emp.getEmpLastVisitedWeekReport();
+        
+        Integer visitWeek = new Integer(empLastVisitWeek);
+        Integer curWeek = new Integer(week);
+        
+        if(visitWeek.intValue() < curWeek.intValue()) {
+            emp.setEmpLastVisitedWeekReport(curWeek.toString());
+            employeeManager.merge(emp);
+        }
+        
         setSelectedWeek(week);
         
         return "weeklyReport";
     }
     
+    /**
+     * Select a project to see the monthly report for.
+     * @param p Project to see the monthly report for.
+     * @return String navigation string that takes user to view of a single monthly report.
+     */
     public String selectProjectForMonthlyReport(Project p) {
         setSelectedProject(p);
+        setSelectedProjectForViewing(p);
+        
+        List<MonthlyReport> reports = getMonthlyReports();
+        
+        String latestMonth = reports.get(0).getMonth();
+        String lastVisitMonth = emp.getEmpLastVisitedMonthReport() == null ?
+                "000000" : emp.getEmpLastVisitedMonthReport();
+
+        Integer visitMonth = new Integer(lastVisitMonth);
+        Integer curMonth = new Integer(latestMonth);
+        
+        if(visitMonth.intValue() < curMonth.intValue()) {
+            emp.setEmpLastVisitedMonthReport(curMonth.toString());
+            employeeManager.merge(emp);
+        }
+        
         
         return "monthlyReport";
     }
@@ -134,30 +239,20 @@ public class ProjectManagerController {
         this.selectedProject = selectedProject;
     }
 
+    public Project getSelectedProjectForViewing() {
+        return selectedProjectForViewing;
+    }
+
+    public void setSelectedProjectForViewing(Project selectedProjectForViewing) {
+        this.selectedProjectForViewing = selectedProjectForViewing;
+    }
+
     public String getSelectedWeek() {
         return this.selectedWeek;
     }
 
     public void setSelectedWeek(String selectedWeek) {
         this.selectedWeek = selectedWeek;
-    }
-
-    /**
-     * Gets a list of {@link Wplab} for {@link #selectedWorkPackage}.
-     * 
-     * @return
-     */
-    public List<Wplab> wpPlanHours() {
-        if (wpPlanHours == null) {
-            wpPlanHours = wplabManager.getWorkPackagePlannedHours(selectedWorkPackage.getId().getWpProjNo(),
-                    selectedWorkPackage.getId().getWpNo());
-        }
-
-        if (wpPlanHours.isEmpty()) {
-            wpPlanHours.add(new Wplab());
-        }
-
-        return wpPlanHours;
     }
 
     public String selectWorkPackage(Workpack workPackage) {
@@ -175,42 +270,30 @@ public class ProjectManagerController {
     }
 
     /**
-     * Add a new {@link Wplab} row.
-     * 
-     * @param w
-     *            The {@link Workpack} to create the row for.
-     * @return empty String.
-     */
-    public String addWplabRow(Workpack w) {
-        Wplab newRow = new Wplab();
-        WplabId id = new WplabId(w.getId().getWpProjNo(), w.getId().getWpNo(), "");
-        newRow.setId(id);
-        short i = 0;
-        newRow.setWlDel(i);
-        newRow.setEditable(true);
-        if (w.getWplabs() == null) {
-            w.setWplabs(new HashSet<Wplab>());
-        }
-        w.getWplabs().add(newRow);
-        return "";
-    }
-
-    /**
      * Create a new {@link Workpack}.
      * 
      * @return empty String.
      */
     public String createNewWP() {
-        String newWpNo;
-        if ((newWpNo = getNextAvailableWPName("")) == null) {
-            return "";
+        String newWpNo = isWpNameValid(getNewWpName());
+        if (newWpNo == null) { // user entered invalid wp name
+            // TODO display an error message
+            return ""; // stay on same page
         }
         Workpack newWp = new Workpack();
-        WorkpackId newWpId = new WorkpackId(selectedProject.getProjNo(), newWpNo);
-        newWp.setId(newWpId);
+        newWp.setId(new WorkpackId(selectedProject.getProjNo(), newWpNo));
         newWp.setWpNm("");
-        short i = 0;
-        newWp.setWpDel(i);
+        newWp.setWpDel((short) 0);
+        
+        newWp.setWplabs(new HashSet<Wplab>());
+        for (Labgrd l : labgrdManager.getAll()) {            
+            Wplab newRow = new Wplab();
+            newRow.setId(new WplabId(newWp.getId().getWpProjNo(), newWp.getId().getWpNo(), l.getLgId()));
+            newRow.setWlDel((short) 0);
+            newRow.setWlPlanHrs(BigDecimal.ZERO);
+            newWp.getWplabs().add(newRow);
+        }
+        
         selectedProject.getWorkPackages().add(newWp);
         return "";
     }
@@ -223,64 +306,68 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createChildWP(Workpack parent) {
-        String newChildWpNo;
-        if ((newChildWpNo = getNextAvailableWPName(parent.getId().getWpNo())) == null) {
-            return "";
+        String newChildWpNo = isWpNameValid(parent.getNamePrefix() + parent.getChildName());
+        if (newChildWpNo == null) { // user entered invalid wp name
+            // TODO display an error message
+            return ""; // stay on same page
         }
+        
         Workpack newChildWp = new Workpack();
-        WorkpackId newChildWpId = new WorkpackId(selectedProject.getProjNo(), newChildWpNo);
-        newChildWp.setId(newChildWpId);
+        newChildWp.setId(new WorkpackId(selectedProject.getProjNo(), newChildWpNo));
         newChildWp.setWpNm("");
-        short i = 0;
-        newChildWp.setWpDel(i);
+        newChildWp.setWpDel((short) 0);
+        
+        newChildWp.setWplabs(new HashSet<Wplab>());
+        for (Labgrd l : labgrdManager.getAll()) {            
+            Wplab newRow = new Wplab();
+            newRow.setId(new WplabId(newChildWp.getId().getWpProjNo(), newChildWp.getId().getWpNo(), l.getLgId()));
+            newRow.setWlDel((short) 0);
+            newRow.setWlPlanHrs(BigDecimal.ZERO);
+            newChildWp.getWplabs().add(newRow);
+        }
+        
         selectedProject.getWorkPackages().add(newChildWp);
         parent.setRemoveWplabs(true);
         return "";
     }
-
+    
     /**
-     * Finds the next available number for a {@link Workpack}. Returns null if
-     * none available.
-     * 
-     * @param parentName
-     *            The parent {@link Workpack}. Pass in an empty String for a top
-     *            level {@link Workpack}.
-     * @return The next available {@link Workpack} number. Null if none
-     *         available.
+     * Add an initial estimate to a work package.
+     * @param w
+     * @return
      */
-    public String getNextAvailableWPName(String parentName) {
-        String parentNameFormatted = parentName.replace("0", "");
-
-        // can't go more than 6 levels deep of WP's
-        if (parentNameFormatted.length() >= 6) {
+    public String addInitialEstimate(Workpack w) {
+        w.setInitialEst(new HashMap<String, BigDecimal>());
+        for (Labgrd l : labgrdManager.getAll()) {
+            w.getInitialEst().put(l.getLgId(), BigDecimal.ZERO);
+        }
+        return "";
+    }
+    
+    /**
+     * Checks if a WP name is valid (no duplicates).
+     * @param wpName name to check.
+     * @return the name if valid, else returns null.
+     */
+    public String isWpNameValid(String wpName) {
+        if (wpName.length() > 6) {
             return null;
         }
-
-        for (char i = 'A'; i <= 'Z'; i++) {
-            boolean goToNextLetter = false;
-            String s = parentNameFormatted + Character.toString(i);
-
-            if (workPackageManager.getWorkPackage(getSelectedProject().getProjNo(), s).isEmpty()) {
-                for (Workpack w : getSelectedProject().getWorkPackages()) {
-                    if (w.getId().getWpNo().matches(s + ".*")) {
-                        goToNextLetter = true;
-                        break;
-                    }
-                }
-
-                if (goToNextLetter) {
-                    continue;
-                }
-
-                if (6 - s.length() == 0) {
-                    return s;
-                } else {
-                    return String.format("%s" + "%0" + (6 - s.length()) + "d", s, 0);
+        
+        if (workPackageManager.getWorkPackage(getSelectedProject().getProjNo(), wpName).isEmpty()) {
+            for (Workpack w : getSelectedProject().getWorkPackages()) {
+                if (w.getId().getWpNo().matches(wpName + ".*")) {
+                    return null;
                 }
             }
-        }
 
-        // not able to find an available WP number
+            if (6 - wpName.length() == 0) {
+                return wpName;
+            } else {
+                return String.format("%s" + "%0" + (6 - wpName.length()) + "d", wpName, 0);
+            }
+        }
+        
         return null;
     }
 
@@ -317,12 +404,6 @@ public class ProjectManagerController {
         return true;
     }
 
-    public String selectWeeklyReport(String week) {
-        setSelectedWeek(week);
-
-        return "weeklyStatistics";
-    }
-
     /**
      * Saves changes made (new/modified {@link Workpack}'s, {@link Wplab}'s).
      * 
@@ -347,13 +428,7 @@ public class ProjectManagerController {
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             if (w.getInitialEst() != null) {                
                 Wpstarep workPackageReport = new Wpstarep();
-                String labourDays = "";
-                
-                for (Map.Entry<String, BigDecimal> entry : w.getInitialEst().entrySet()) {
-                    labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
-                }
-                
-                labourDays = labourDays.substring(0, labourDays.length()-1);
+                String labourDays = ReportUtility.unparseWsrEstDes(w.getInitialEst());
                 
                 workPackageReport.setWsrInsDt(new Date());
                 workPackageReport.setWsrUpDt(new Date());
@@ -379,7 +454,7 @@ public class ProjectManagerController {
      * @param month The month to get the monthly-report information for.
      * @return The monthly report.
      */
-    public MonthlyReport getReportForWpMonth(Workpack workpack, String month) {
+    private MonthlyReportRow getReportForWpMonth(Workpack workpack, String month) {
         
         DateTimeUtility dtu = new DateTimeUtility();
         String endDate = dtu.getEndOfWeek(dtu.getEndOfMonth(month + "01"));
@@ -404,17 +479,22 @@ public class ProjectManagerController {
             endDate = endDate2;
         }
         
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, endDate);
+        List<Tsrow> tsrowList = tsRowManager.find(workpack, endDate);
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
        
-        return new MonthlyReport(workpack, list, workpack.getWplabs(), report, getRateMap());
+        return new MonthlyReportRow(workpack, tsrowList, workpack.getWplabs(), report, getRateMap());
     }
 
-    public List<MonthlyReport> getReportsForWpMonth(String month) {
+    /**
+     * Generates the list of monthly reports.
+     * @param month
+     * @return
+     */
+    private List<MonthlyReportRow> getReportsForWpMonth(String month) {
         List<Workpack> leafs = new ArrayList<Workpack>();
         List<Workpack> parents = new ArrayList<Workpack>();
-        List<MonthlyReport> leafReports = new ArrayList<MonthlyReport>();
-        List<MonthlyReport> parentReports = new ArrayList<MonthlyReport>();
+        List<MonthlyReportRow> leafReports = new ArrayList<MonthlyReportRow>();
+        List<MonthlyReportRow> parentReports = new ArrayList<MonthlyReportRow>();
         
         for (Workpack w : getSelectedProject().getWorkPackages()) {
             if (isLeaf(w)) {
@@ -429,19 +509,35 @@ public class ProjectManagerController {
         }
         
         for (Workpack w : parents) {
-            List<MonthlyReport> childReports = new ArrayList<MonthlyReport>();
-            for (MonthlyReport r : leafReports) {
+            List<MonthlyReportRow> childReports = new ArrayList<MonthlyReportRow>();
+            for (MonthlyReportRow r : leafReports) {
                 if (r.getWorkpack().getId().getWpNo().matches("^" + w.getNamePrefix() + ".*")) {
                     childReports.add(r);
                 }
             }
-            parentReports.add(MonthlyReport.generateAggregate(w, childReports));
+            parentReports.add(MonthlyReportRow.generateAggregate(w, childReports));
         }
         
         leafReports.addAll(parentReports);
         Collections.sort(leafReports);
         
         return leafReports;
+    }
+    /**
+     * Returns a list of monthly reports.
+     * @return List<MonthlyReport>
+     */
+    public List<MonthlyReport> getMonthlyReports() {
+        ArrayList<MonthlyReport> reports = new ArrayList<MonthlyReport>();
+        
+        for (String month : getListOfMonths()) {
+            List<MonthlyReportRow> reportRows = getReportsForWpMonth(month);
+            MonthlyReport report = new MonthlyReport(reportRows, month);
+            reports.add(report);
+        }
+        Collections.sort(reports);
+        
+        return reports;
     }
 
     /**
@@ -453,43 +549,12 @@ public class ProjectManagerController {
      */
     public WeeklyReport getReportForWpWeek(Workpack workpack) {
 
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, getSelectedWeek());
+        List<Tsrow> tsrows = tsRowManager.find(workpack, getSelectedWeek());
 
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(),
                 getSelectedWeek());
 
-        return new WeeklyReport(list, report, getRateMap());
-    }
-
-    /**
-     * Copy and paste of
-     * {@link ResponsibleEngineerController#listOfWpPersonHours()} but this one
-     * takes in a {@link Workpack} as argument.<br>
-     * Gets a list of arrays representing the hours worked per labour grade for
-     * the {@link #selectedWorkPackage}.<br>
-     * Each array contains:
-     * <ul>
-     * <li>Index 0: Labour grade ID (String)</li>
-     * <li>Index 1: Total person hours worked for the labour grade in index 0
-     * for the selected WP (BigDecimal)</li>
-     * <li>Index 2: Pay rate for the labour grade in index 0 (BigDecimal)</li>
-     * </ul>
-     * 
-     * @return The list of arrays.
-     */
-    public List<Object[]> listOfWpPersonHours(Workpack workpack) {
-        List<Object[]> list = tsRowManager.getAllForWP(workpack, getSelectedWeek());
-        BigDecimal totalCost = BigDecimal.ZERO;
-        BigDecimal totalHours = BigDecimal.ZERO;
-        for (Object[] obj : list) {
-            BigDecimal op1 = (BigDecimal) obj[1];
-            BigDecimal op2 = (BigDecimal) obj[2];
-            totalCost = totalCost.add(op1.multiply(op2));
-            totalHours = totalHours.add(op1);
-        }
-        // setTotalCost(totalCost);
-        // setTotalHours(totalHours);
-        return list;
+        return new WeeklyReport(tsrows, report, getRateMap());
     }
 
     /**
@@ -503,37 +568,6 @@ public class ProjectManagerController {
      */
     public Wpstarep getResEngReport(Workpack w) {
         return wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), getSelectedWeek());
-    }
-
-    /**
-     * Gets the Responsible Engineer's Estimated Remaining Hours for the
-     * {@link #selectedWeek}.
-     * 
-     * @param w
-     *            The {@link Workpack} to get the Responsible Engineer's
-     *            Estimated Remaining Hours for.
-     * @return A list of Estimated Remaining Hours. Each list element contains
-     *         an String array where index 0 is the Labour Grade, and index 1 is
-     *         the Hours.
-     */
-    public List<String[]> getResEngReportHrs(Workpack w) {
-        Wpstarep wst = getResEngReport(w);
-        ArrayList<String[]> labourGradeDays = new ArrayList<String[]>();
-
-        if (wst != null) {
-            String fields = wst.getWsrEstDes();
-            String[] rows = fields.split(",");
-
-            // The list of "labour grades : hours" is stored as a single String
-            // in the database,
-            // this loop parses the String.
-            for (String s : rows) {
-                String[] columns = s.split(":");
-                labourGradeDays.add(new String[] { columns[0], columns[1] });
-            }
-        }
-
-        return labourGradeDays;
     }
 
     /**
@@ -565,26 +599,10 @@ public class ProjectManagerController {
         Date staDt = getSelectedProject().getProjStaDt();
         Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
 
-        Calendar cal = Calendar.getInstance();
-
-        cal.setTime(staDt);
-        int year = cal.get(Calendar.YEAR);
-        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String startDate = year + month + day;
-
-        cal.setTime(endDt);
-        year = cal.get(Calendar.YEAR);
-        month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String endDate = year + month + day;
-
-        if (flag == 0) {
-            endDate = year + month + day;
-            return dtu.getListOfAllWeekEnds(startDate, endDate);
-        } else if (flag == 1) {
-            endDate = getSelectedWeek();
-            return dtu.getListOfWeekEnds(startDate, endDate);
+        if (flag == 0) { // get list of all weeks
+            return dtu.getListOfAllWeekEnds(dtu.getDateString(staDt), dtu.getDateString(endDt));
+        } else if (flag == 1) { // get list of past 4 weeks, past 12 months, and then past years
+            return dtu.getListOfWeekEnds(dtu.getDateString(staDt), getSelectedWeek());
         }
         return null;
     }
@@ -608,7 +626,6 @@ public class ProjectManagerController {
      * */
     public String assignEmployeeToProject2(String empID){
     	Employee emp = employeeManager.find(Integer.parseInt(empID));
-        //get a reference to the selected project
         selectedProject.getEmployees().add(emp);
         // update on employee side
         emp.getProjects().add(selectedProject);
@@ -624,7 +641,7 @@ public class ProjectManagerController {
     /**
      * Removes given employee from selected project
      * 
-     * @return String navigation string. Just refresh the page bro.
+     * @return String navigation string for refreshing the current page.
      * @param empID
      *            ID of employee to put on project.
      */
@@ -633,20 +650,10 @@ public class ProjectManagerController {
         Employee e = employeeManager.find(Integer.parseInt(empID));
         if (!e.getWorkpackages().isEmpty()) {
             projectManager.removeFromProjectWithWp(selectedProject, e);
-
         }
         projectManager.removeFromProject(selectedProject, e);
         e.getProjects().remove(selectedProject);
         selectedProject.getEmployees().remove(e);
-
-        // projectManager.update(selectedProject);
-        // projectManager.flush();
-        // employeeManager.merge(e);
-        // employeeManager.flush();
-        //
-        // projectManager.find(selectedProject.getProjNo());
-        // employeeManager.find(Integer.parseInt(empID));
-        // refresh the page
 
         return null;
     }
@@ -694,25 +701,12 @@ public class ProjectManagerController {
         Date staDt = getSelectedProject().getProjStaDt();
         Date endDt = curDt.before(getSelectedProject().getProjEndDt()) ? curDt : getSelectedProject().getProjEndDt();
 
-        Calendar cal = Calendar.getInstance();
-
-        cal.setTime(staDt);
-        int year = cal.get(Calendar.YEAR);
-        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String startDate = year + month + day;
-
-        cal.setTime(endDt);
-        year = cal.get(Calendar.YEAR);
-        month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-        String endDate = year + month + day;
-
-        return dtu.getListOfMonths(startDate, endDate);
+        return dtu.getListOfMonths(dtu.getDateString(staDt), dtu.getDateString(endDt));
     }
-
+    /**
+     * 
+     */
     public List<Employee> allEmpInProject() {
-
         // return selectedProject.getEmployees();
         return employeeManager.getEmpProj(selectedProject);
     }
@@ -751,7 +745,10 @@ public class ProjectManagerController {
     public void setNewWpName(String newWpName) {
         this.newWpName = newWpName;
     }
-
+    /**
+     * Returns map of labour grades and pay rates.
+     * @return HashMap<String,BigDecimal> key = labour grade. value = pay rate.
+     */
     public HashMap<String, BigDecimal> getRateMap() {
         HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
         List<Labgrd> list = labgrdManager.getAll();
@@ -760,7 +757,12 @@ public class ProjectManagerController {
         }
         return map;
     }
-
+  
+    /**
+     * Checks if a workpack has been charged to.
+     * @param w
+     * @return
+     */
     public boolean isWpCharged(Workpack w) {
         return !tsRowManager.find(w).isEmpty();
     }
