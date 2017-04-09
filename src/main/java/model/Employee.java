@@ -222,6 +222,7 @@ public class Employee implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
 
+    
     @Column(name = "empID", unique = true, nullable = false)
     public Integer getEmpId() {
         return this.empId;

@@ -17,20 +17,28 @@
                 <b:row>
                     <b:form id="addUser">
                         <b:panelGrid col-spans="2,10" size="md">
-                            <h:outputText value="Firstname:" />
-                            <b:inputText span="6" class="form-control"
+                            <h:outputText value="First Name:" />
+                            <b:inputText span="6" id="firstName" class="form-control"
                                 value="#{Master.admin.newEmployee.empFnm}"
-                                required="true" />
-
-                            <h:outputText value="Lastname:" />
-                            <b:inputText span="6" class="form-control"
+                                required="true" requiredMessage="First Name is required"
+                                validatorMessage="First Name is a string"> 
+                            	<f:validateRegex pattern="^[a-zA-Z]+$" /> 
+                            </b:inputText>
+							<b:message for="firstName" />    
+							
+                            <h:outputText value="Last Name:" />
+                            <b:inputText span="6" id="lastName" class="form-control"
                                 value="#{Master.admin.newEmployee.empLnm}"
-                                required="true" />
-
+                                required="true" requiredMessage="Last Name is required"
+                                validatorMessage="Last Name is a string"> 
+                            	<f:validateRegex pattern="^[a-zA-Z]+$" /> 
+                            </b:inputText>
+                            <b:message for="lastName" />
+                            
                             <h:outputText value="Dept:" />
                             <b:inputText span="6" class="form-control"
                                 value="#{Master.admin.newEmployee.empDept}"
-                                required="true" />
+                                required="true" requiredMessage="Employee's Department is Required"/>
 
                             <h:outputText value="Labor Grade:" />
                             <b:selectOneMenu span="6"
@@ -44,7 +52,7 @@
                             <h:outputText value="Password:" />
                             <b:inputSecret span="6" class="form-control"
                                 value="#{Master.admin.newEmployee.empPw}"
-                                required="true" />
+                                required="true" requiredMessage="A password is required" />
                         </b:panelGrid>
                         <b:row>
                             <b:column span="1">
