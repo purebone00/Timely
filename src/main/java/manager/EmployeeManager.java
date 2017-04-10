@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 
 import model.Employee;
 import model.Project;
+import model.Title;
 import model.Workpack;
 
 @SuppressWarnings("serial")
@@ -179,5 +180,10 @@ public class EmployeeManager implements Serializable {
         List<Employee> employees = query.getResultList();
          
         return employees;
+    }
+    
+    public void removeTitle(Employee e, Title t){
+        em.createNativeQuery("DELETE FROM Emptitle WHERE Emptitle.etEmpID = ?1 AND Emptitle.etTitID = ?2")
+        .setParameter(1, e.getEmpId()).setParameter(2, t.getTitId()).executeUpdate();
     }
 }

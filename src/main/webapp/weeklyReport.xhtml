@@ -41,7 +41,7 @@
 												<h:column>
 													<f:facet name="header">Completed (Person Days)</f:facet>
 	                        					#{Master.projMan.getReportForWpWeek(t).getCurTotalDays()}
-	                        				</h:column>
+	                        					</h:column>
 
 												<h:column>
 													<f:facet name="header">Completed ($)</f:facet>
@@ -50,6 +50,11 @@
 														<f:convertNumber type="currency" />
 													</h:outputText>
 												</h:column>
+												
+												<h:column>
+													<f:facet name="header">Overtime (Person Days)</f:facet>
+	                        					#{Master.projMan.getReportForWpWeek(t).getOvertimeDays()}
+	                        					</h:column>
 
 												<h:column>
 													<f:facet name="header">Projected Remaining (Person Days)</f:facet>

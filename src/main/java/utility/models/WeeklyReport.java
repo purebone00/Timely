@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
-import manager.TsrowManager;
 import model.Tsrow;
 import model.Wpstarep;
 
@@ -32,6 +31,11 @@ public class WeeklyReport implements Serializable {
      */
     BigDecimal estHoursRemaining;
     
+    /**
+     * Overtime hours worked.
+     */
+    BigDecimal overtimeHrs;
+    
     int visited;
     
     /**
@@ -45,6 +49,7 @@ public class WeeklyReport implements Serializable {
         curTotalHours = BigDecimal.ZERO;
         estCostsRemaining = BigDecimal.ZERO;
         estHoursRemaining = BigDecimal.ZERO;
+        overtimeHrs = BigDecimal.ZERO;
         visited = 0;
         
         for (Tsrow t : tsrows) {
@@ -53,6 +58,7 @@ public class WeeklyReport implements Serializable {
                     t.getTimesheet().getTsPayGrade().getLgRate();
             curTotalCosts = curTotalCosts.add(t.getTotal().multiply(rate));
             curTotalHours = curTotalHours.add(t.getTotal());
+            overtimeHrs = overtimeHrs.add(t.getTsrOt() == null ? BigDecimal.ZERO : t.getTsrOt());
         }
         
         if (report != null) {
@@ -124,6 +130,18 @@ public class WeeklyReport implements Serializable {
         this.setEstHoursRemaining(estDaysRemaining.multiply(new BigDecimal(8)));
     }
     
+    public BigDecimal getOvertimeHrs() {
+        return overtimeHrs;
+    }
+
+    public void setOvertimeHrs(BigDecimal overtimeHrs) {
+        this.overtimeHrs = overtimeHrs;
+    }
+    
+    public BigDecimal getOvertimeDays() {
+        return this.getOvertimeHrs().divide(new BigDecimal(8));
+    }
+
     public int getVisited() {
         return this.visited;
     }

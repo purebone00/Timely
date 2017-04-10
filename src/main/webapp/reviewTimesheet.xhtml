@@ -73,6 +73,9 @@
 
                                     <b:dataTableColumn
                                         value="#{s.tsrFri}" label="Fri" />
+									
+									<b:dataTableColumn
+                                        value="#{s.tsrOt}" label="Overtime" />
 
                                     <b:dataTableColumn
                                         value="#{s.tsrNote}"
@@ -84,21 +87,18 @@
                     </div>
                     <b:column col-md="4" offset="2">
                     <b:form>
-                        <h:commandButton
+                        <b:commandButton
                             action="#{Master.taApprover.accept()}"
+                            look="success"
                             value="Approve" />
-                        <h:commandButton
+                        <b:commandButton
                             action="#{Master.taApprover.reject()}"
+                            look="danger"
                             value="Reject" />
                     </b:form>
                     </b:column>
                     <b:column col-md="2" offset="8">
 					<b:panel>
-						<p>
-							<b>Overtime: </b>
-							<h:outputText value="#{Master.taApprover.reviewTimesheet.tsOverTm}" />
-						</p>
-						<b:messages />
 						<p>
 							<b>Flextime: </b>
 							<h:outputText value="#{Master.taApprover.reviewTimesheet.tsFlexTm}" />

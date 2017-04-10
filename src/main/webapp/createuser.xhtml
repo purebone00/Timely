@@ -24,7 +24,6 @@
                                 validatorMessage="First Name is a string"> 
                             	<f:validateRegex pattern="^[a-zA-Z]+$" /> 
                             </b:inputText>
-							<b:message for="firstName" />    
 							
                             <h:outputText value="Last Name:" />
                             <b:inputText span="6" id="lastName" class="form-control"
@@ -33,12 +32,11 @@
                                 validatorMessage="Last Name is a string"> 
                             	<f:validateRegex pattern="^[a-zA-Z]+$" /> 
                             </b:inputText>
-                            <b:message for="lastName" />
                             
                             <h:outputText value="Dept:" />
                             <b:inputText span="6" class="form-control"
                                 value="#{Master.admin.newEmployee.empDept}"
-                                required="true" requiredMessage="Employee's Department is Required"/>
+                                required="true" requiredMessage="Employee's Department is required"/>
 
                             <h:outputText value="Labor Grade:" />
                             <b:selectOneMenu span="6"
@@ -51,8 +49,12 @@
 
                             <h:outputText value="Password:" />
                             <b:inputSecret span="6" class="form-control"
+                            	id="password"
                                 value="#{Master.admin.newEmployee.empPw}"
-                                required="true" requiredMessage="A password is required" />
+                                required="true" requiredMessage="A Password is required" 
+								validatorMessage="The new Password must have at least 8 characters and at most 16 characters."> 
+                                <f:validateLength minimum="8" maximum="16" />   
+                            </b:inputSecret>
                         </b:panelGrid>
                         <b:row>
                             <b:column span="1">
@@ -67,6 +69,9 @@
                                     value="Cancel" immediate="true"
                                     action="admin" />
                             </b:column>
+                        </b:row>
+                        <b:row>
+                        	<b:messages />
                         </b:row>
                     </b:form>
                 </b:row>
