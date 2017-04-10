@@ -7,8 +7,10 @@ import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import model.Employee;
 import model.Timesheet;
 import model.TimesheetId;
 
@@ -55,5 +57,10 @@ public class TimesheetManager {
                 .setParameter(1, employeeID);
         List<Timesheet> Tsrow = query.getResultList();
         return (Tsrow != null) ? Tsrow : new ArrayList<Timesheet>();
+    }
+    
+    public void flush() {
+        // TODO Auto-generated method stub
+        em.flush();
     }
 }
