@@ -42,6 +42,7 @@ public class Tsrow implements java.io.Serializable {
     private BigDecimal tsrWed;
     private BigDecimal tsrThu;
     private BigDecimal tsrFri;
+    private BigDecimal tsrOt;
     private String tsrNote;
     private short tsrDel;
     private Date tsrInsDt;
@@ -203,6 +204,15 @@ public class Tsrow implements java.io.Serializable {
 
     public void setTsrFri(BigDecimal tsrFri) {
         this.tsrFri = tsrFri;
+    }
+    
+    @Column(name = "tsrOt", precision = 4)
+    public BigDecimal getTsrOt() {
+        return this.tsrOt;
+    }
+
+    public void setTsrOt(BigDecimal tsrOt) {
+        this.tsrOt = tsrOt;
     }
 
     @Column(name = "tsrNote")

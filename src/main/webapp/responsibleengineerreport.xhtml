@@ -68,7 +68,7 @@
                                 </b:dataTableColumn>
                                 <b:dataTableColumn>
                                     <f:facet name="header">Total Cost</f:facet>
-                                    <h:outputText value="#{Master.resEng.curLabourGradeDays[s.lgId] * 8 * Master.resEng.labgrdRate[s]}">
+                                    <h:outputText value="#{Master.resEng.getTotalCost(s)}">
                                         <f:convertNumber type="currency" />
                                     </h:outputText>
                                     <f:facet name="footer">

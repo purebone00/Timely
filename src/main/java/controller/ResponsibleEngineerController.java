@@ -256,7 +256,9 @@ public class ResponsibleEngineerController implements Serializable {
                     t.getTimesheet().getTsPayGrade().getLgRate();
             BigDecimal rowHours = t.getTotal();
             
-            String labGrd = t.getTimesheet().getTsPayGrade().getLgId();
+            String labGrd = t.getTimesheet().getTsPayGrade() == null ? 
+                    t.getTimesheet().getEmployee().getEmpLabGrd().getLgId() : 
+                    t.getTimesheet().getTsPayGrade().getLgId();
             map.put(labGrd, map.get(labGrd).add(rowHours.divide(new BigDecimal(8))));
             
             totalCost = totalCost.add(rowRate.multiply(rowHours));
@@ -298,6 +300,16 @@ public class ResponsibleEngineerController implements Serializable {
             wpstarepManager.persist(workPackageReport);
         }
         return "responsibleengineer";
+    }
+    
+    /**
+     * Gets the total cost of the work done for a given Labour grade.
+     * @param l the labour grade.
+     * @return total cost.
+     */
+    public BigDecimal getTotalCost(Labgrd l) {
+        return getCurLabourGradeDays().get(l.getLgId()).multiply(new BigDecimal(8))
+                .multiply(getLabgrdRate().get(l));
     }
     
 }

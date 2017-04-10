@@ -73,6 +73,9 @@
 
                                     <b:dataTableColumn
                                         value="#{s.tsrFri}" label="Fri" />
+									
+									<b:dataTableColumn
+                                        value="#{s.tsrOt}" label="Overtime" />
 
                                     <b:dataTableColumn
                                         value="#{s.tsrNote}"
@@ -96,11 +99,6 @@
                     </b:column>
                     <b:column col-md="2" offset="8">
 					<b:panel>
-						<p>
-							<b>Overtime: </b>
-							<h:outputText value="#{Master.taApprover.reviewTimesheet.tsOverTm}" />
-						</p>
-						<b:messages />
 						<p>
 							<b>Flextime: </b>
 							<h:outputText value="#{Master.taApprover.reviewTimesheet.tsFlexTm}" />

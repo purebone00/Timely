@@ -210,6 +210,18 @@
 	                                        </f:facet>
                                         </b:dataTableColumn>
                                         <b:dataTableColumn>
+                                            <f:facet name="header">Overtime</f:facet>
+                                            <h:inputText
+                                                value="#{s.tsrOt}"
+                                                size="10"
+                                                rendered="#{s.editable}" />
+                                            <h:outputText
+                                                value="#{s.tsrOt}"
+                                                rendered="#{not s.editable}" />
+                                            <f:facet name="footer">#{Master.employee.dailyTotals[8]}
+	                                        </f:facet>
+                                        </b:dataTableColumn>
+                                        <b:dataTableColumn>
                                             <f:facet name="header">Notes</f:facet>
                                             <h:inputText
                                                 value="#{s.tsrNote}"
@@ -246,18 +258,6 @@
                                     </b:column>
                                     <b:column col-md="2" offset="2">
                                         <b:panel>
-                                            <p>
-                                                <b>Overtime: </b> 
-                                                <b:inputText value="#{Master.employee.overtime}" 
-                                                	rendered="#{Master.employee.overtimeEditable}" />
-                                                <h:outputText value="#{Master.employee.overtime}" 
-                                                	rendered="#{not Master.employee.overtimeEditable 
-                                                		and Master.employee.overtime != null}" />
-                                                <h:outputText value="0.0" 
-                                                	rendered="#{not Master.employee.overtimeEditable
-                                                		and Master.employee.overtime == null}" />
-                                            </p>
-                                            <b:messages />
                                             <p>
                                                 <b>Flextime: </b> 
                                                 <b:inputText value="#{Master.employee.flextime}" 

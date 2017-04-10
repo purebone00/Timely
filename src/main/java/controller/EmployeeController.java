@@ -138,9 +138,10 @@ public class EmployeeController implements Serializable {
     }
     /**
      * Number of columns for tracking hours worked per package.
-     * (one for each day of the week plus one for the sum of hours worked in the week). 
+     * (one for each day of the week plus one for the sum of hours worked in the week,
+     * plus one for overtime). 
      */
-    private static int DAYS_IN_WEEK_AND_TOTAL = 8;
+    private static int DAYS_IN_WEEK_AND_TOTAL = 9;
     /**
      * Total amount of hours charged per day over all work packages.
      * @HasGetter
@@ -177,6 +178,9 @@ public class EmployeeController implements Serializable {
             }
             if (row.getTotal() != null) {
                 dailyTotals[7] = dailyTotals[7].add(new BigDecimal(row.getTotal().doubleValue()));
+            }
+            if (row.getTsrOt() != null) {
+                dailyTotals[8] = dailyTotals[8].add(new BigDecimal(row.getTsrOt().doubleValue()));
             }
         }
         return dailyTotals;
@@ -227,11 +231,27 @@ public class EmployeeController implements Serializable {
     public Set<Tsrow> refreshTsrList(Set<Tsrow> tsrList, TimesheetId id) {
         int remainder = 0;
 
-        // commented this out because it was causing tsrows to never
-        // refresh, it would always be set to the first timesheet
-        // viewed.
-                if (tsrList != null)
-                    return tsrList;
+        boolean getRowsFromDb = false;
+        
+        if (tsrList != null) {    
+            Timesheet t = tManager.find(id);
+            
+            if (t == null) {
+                return tsrList;
+            }
+            
+            for (Tsrow tr : tsrList) {
+                // if selected timesheet week does not match up with weeks of rows in tsrList,
+                // get new set of rows from the db
+                if (tr.getTsrWkEnd() != null && !tr.getTsrWkEnd().equals(t.getId().getTsWkEnd())) {
+                    getRowsFromDb = true;
+                }
+            }
+            
+            if (!getRowsFromDb) {
+                return tsrList;
+            }
+        }
 
         tsrList = tManager.find(id).getTsrow();
 
@@ -241,6 +261,7 @@ public class EmployeeController implements Serializable {
             for (int i = 0; i < remainder; i++) {
                 Tsrow row = new Tsrow();
                 row.setTsrEmpId(emp.getEmpId());
+                row.setTsrWkEnd(id.getTsWkEnd());
                 tsrList.add(row);
             }
         }
@@ -373,7 +394,7 @@ public class EmployeeController implements Serializable {
         ts.setTsSubmit((short) 0);
         ts.setTsPayGrade(emp.getEmpLabGrd());
         Set<Tsrow> tsrList = new HashSet<Tsrow>();
-        tsrList = refreshTsrList(tsrList, tsId);
+        tsrList = refreshTsrList(tsrList, ts.getId());
         ts.setTsrow(tsrList);
         tManager.persist(ts);
         tsList.add(ts);

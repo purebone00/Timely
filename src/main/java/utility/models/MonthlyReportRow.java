@@ -55,6 +55,11 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
      * Variance between projTotalCosts and budgetTotalCosts.
      */
     BigDecimal varCosts;
+    
+    /**
+     * Overtime worked.
+     */
+    BigDecimal overtimeHrs;
 
     /**
      * The {@link Workpack} this report is for.
@@ -80,6 +85,7 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         projTotalCosts = BigDecimal.ZERO;
         varTime = BigDecimal.ZERO;
         varCosts = BigDecimal.ZERO;
+        overtimeHrs = BigDecimal.ZERO;
         visited = 0;
     }
 
@@ -107,6 +113,7 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         projTotalCosts = BigDecimal.ZERO;
         varTime = BigDecimal.ZERO;
         varCosts = BigDecimal.ZERO;
+        overtimeHrs = BigDecimal.ZERO;
         visited = 0;
         aggregate = false;
         
@@ -116,6 +123,7 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
                     t.getTimesheet().getTsPayGrade().getLgRate();
             curTotalCosts = curTotalCosts.add(t.getTotal().multiply(rate));
             curTotalHours = curTotalHours.add(t.getTotal());
+            overtimeHrs = overtimeHrs.add(t.getTsrOt() == null ? BigDecimal.ZERO : t.getTsrOt());
         }
 
         for (Wplab w : wplabs) {
@@ -253,6 +261,18 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         this.varCosts = varCosts;
     }
 
+    public BigDecimal getOvertimeHrs() {
+        return overtimeHrs;
+    }
+
+    public void setOvertimeHrs(BigDecimal overtimeHrs) {
+        this.overtimeHrs = overtimeHrs;
+    }
+    
+    public BigDecimal getOvertimeDays() {
+        return this.overtimeHrs.divide(new BigDecimal(8));
+    }
+
     public int getVisited() {
         return this.visited;
     }
@@ -277,6 +297,7 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
             report.setBudgetTotalHours(report.getBudgetTotalHours().add(m.getBudgetTotalHours()));
             report.setCurTotalCosts(report.getCurTotalCosts().add(m.getCurTotalCosts()));
             report.setCurTotalHours(report.getCurTotalHours().add(m.getCurTotalHours()));
+            report.setOvertimeHrs(report.getOvertimeHrs().add(m.getOvertimeHrs()));
 
             if (m.getProjTotalCosts() == null || m.getProjTotalHours() == null) {
                 report.setProjTotalCosts(null);
