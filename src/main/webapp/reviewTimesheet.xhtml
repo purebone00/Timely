@@ -84,11 +84,13 @@
                     </div>
                     <b:column col-md="4" offset="2">
                     <b:form>
-                        <h:commandButton
+                        <b:commandButton
                             action="#{Master.taApprover.accept()}"
+                            look="success"
                             value="Approve" />
-                        <h:commandButton
+                        <b:commandButton
                             action="#{Master.taApprover.reject()}"
+                            look="danger"
                             value="Reject" />
                     </b:form>
                     </b:column>
