@@ -275,14 +275,14 @@ public class AdminController implements Serializable {
         return employeeManager.getEmpNotSup(selectedSup);
     }
     
-    
-//    public void assignEmployeeToNewSup(Employee e){
-//        e.setEmpSupId(selectedSup.getEmpId());
-//        
-//    }
-    
     public void assignEmployeeToSup(Employee e){
         e.setEmpSupId(selectedSup.getEmpId());
         employeeManager.merge(e);
+    }
+    
+    public String removeEmpFromSup(Employee e){
+        e.setEmpSupId(null);
+        employeeManager.merge(e);
+        return null;
     }
 }
