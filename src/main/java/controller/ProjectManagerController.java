@@ -16,14 +16,19 @@ import javax.inject.Named;
 
 import manager.LabourGradeManager;
 import manager.EmployeeManager;
+import manager.EmployeeTitleManager;
 import manager.ProjectManager;
+import manager.TitleManager;
 import manager.TsrowManager;
 import manager.WorkPackageManager;
 import manager.WplabManager;
 import manager.WpstarepManager;
 import model.Employee;
+import model.Emptitle;
+import model.EmptitleId;
 import model.Labgrd;
 import model.Project;
+import model.Title;
 import model.Tsrow;
 import model.Workpack;
 import model.WorkpackId;
@@ -40,6 +45,9 @@ import utility.models.WeeklyReport;
 @Stateful
 @Named("projMan")
 public class ProjectManagerController {
+    private static final short PROJ_MAN_TIT_ID = 2;
+    private static final short RES_ENG_TIT_ID = 6;
+    
 	/**
 	 * Used for accessing work package data in database (Workpack table).
 	 */
@@ -75,6 +83,16 @@ public class ProjectManagerController {
      */
     @Inject
     EmployeeManager employeeManager;
+    /**
+     * Used for accessing title data in the database (Title table)
+     */
+    @Inject
+    TitleManager titleManager;
+    /**
+     * Used for accessing employee title data in the database (Emptitle table)
+     */
+    @Inject
+    EmployeeTitleManager emptitleManager;
     /**
     * Represents employee whose information is being altered.
     * @HasGetter
@@ -789,26 +807,154 @@ public class ProjectManagerController {
     	return employeeManager.getEmpNotWP(selectedWorkPackage);
     }
     
+    /**
+     * Assign an employee to as a Responsible Engineer to the selected Work Package.
+     * @param e The employee to assign.
+     * @return null
+     */
     public String assignEmployeeAsRE(Employee e) {
         selectedWorkPackage.setWpResEng(e.getEmpId());
+        boolean titleExists = false;
+        for (Title et : e.getTitles()) {
+            if (et.getTitId() == RES_ENG_TIT_ID) {
+                // check if the employee already is a RE
+                titleExists = true;
+            }
+        }
+        
+        if (!titleExists) {
+            // only need to add the title if the employee
+            // doesn't already have it
+            Title t = titleManager.find(RES_ENG_TIT_ID);
+            e.getTitles().add(t);
+            employeeManager.merge(e);
+        }
+        
         workPackageManager.merge(selectedWorkPackage);
         workPackageManager.flush();
         return null;
     }
     
+    /**
+     * Unassign an employee as a Responsible Engineer from the selected Work Package.
+     * @param e The employee to unassign.
+     * @return null.
+     */
     public String unassignEmployeeAsRE(Employee e) {
         selectedWorkPackage.setWpResEng(null);
+        boolean removeTitle = true;
+        for (Workpack w : e.getWorkpackages()) {
+            if (!selectedWorkPackage.getId().equals(w.getId())) { // ignore the selected wp
+                if (w.getWpResEng() != null && w.getWpResEng().equals(e.getEmpId())) {
+                    // if the employee is RE for any other WP, don't remove the title
+                    removeTitle = false;
+                }
+             }
+        }
+        
+        if (removeTitle) {
+            // only remove the title if this is the only WP employee is RE for
+            Emptitle et = emptitleManager.find(new EmptitleId(e.getEmpId(), RES_ENG_TIT_ID));
+            emptitleManager.remove(et);
+        }
+        
         workPackageManager.merge(selectedWorkPackage);
         workPackageManager.flush();
         return null;
     }
     
+    /**
+     * Checks if an employee is a responsible engineer for any work packages.
+     * @param e
+     * @return
+     */
     public boolean isResEng(Employee e) {
         return (e.getEmpId().equals(selectedWorkPackage.getWpResEng()));
     }
     
+    /**
+     * check if the selectedWorkPackage has an responsible engineer
+     * @return
+     */
     public boolean resEngAssigned() {
         return selectedWorkPackage.getWpResEng() != null;
+    }
+    
+    /**
+     * TODO move this and a bunch of other stuff to supervisorcontroller
+     * assign an employee as PM to the selected Project
+     * @param e
+     * @return
+     */
+    public String assignEmployeeAsPM(Employee e) {
+        selectedProject.setProjMan(e.getEmpId());
+        boolean titleExists = false;
+        for (Title et : e.getTitles()) {
+            if (et.getTitId() == PROJ_MAN_TIT_ID) {
+                // check if the employee already is a PM
+                titleExists = true;
+            }
+        }
+        
+        if (!titleExists) {
+            // only need to add the title if the employee
+            // doesn't already have it
+            Title t = titleManager.find(PROJ_MAN_TIT_ID);
+            e.getTitles().add(t);
+            employeeManager.merge(e);
+        }
+        
+        projectManager.merge(selectedProject);
+        projectManager.flush();
+        return null;
+    }
+    
+    /**
+     * TODO move this and a bunch of other stuff to supervisorcontroller
+     * unassign an employee as PM from the selected Project
+     * @param e
+     * @return
+     */
+    public String unassignEmployeeAsPM(Employee e) {
+        selectedProject.setProjMan(null);
+        boolean removeTitle = true;
+        for (Project p : e.getProjects()) {
+            if (!selectedProject.getProjNo().equals(p.getProjNo())) { // ignore the selected wp
+                if (p.getProjMan() != null && p.getProjMan().equals(e.getEmpId())) {
+                    // if the employee is PM for any other WP, don't remove the title
+                    removeTitle = false;
+                }
+             }
+        }
+        
+        if (removeTitle) {
+            // only remove the title if this is the only WP employee is PM for
+            Emptitle et = emptitleManager.find(new EmptitleId(e.getEmpId(), PROJ_MAN_TIT_ID));
+            emptitleManager.remove(et);
+        }
+        
+        projectManager.merge(selectedProject);
+        projectManager.flush();
+        return null;
+    }
+    
+    /**
+     * TODO move this and a bunch of other stuff to supervisorcontroller
+     * check if an employee is a PM for any projects.
+     * @param e
+     * @return
+     */
+    public boolean isProjMan(Employee e) {
+        return (e.getEmpId().equals(selectedProject.getProjMan()));
+    }
+    
+    /**
+     * TODO move this and a bunch of other stuff to supervisorcontroller
+     * check if the selected Project has a PM.
+     * @return
+     */
+    public boolean projManAssigned() {
+        return selectedProject.getProjMan() != null;
     }
     
 }
