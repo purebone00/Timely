@@ -7,11 +7,47 @@
 
   <filter>
     <filter-name>NoCacheFilter</filter-name>
-    <filter-class>utility.NoCacheFilter</filter-class>
+    <filter-class>utility.filters.NoCacheFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>NoCacheFilter</filter-name>
     <url-pattern>/faces/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>AdminFilter</filter-name>
+    <filter-class>utility.filters.AdminFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AdminFilter</filter-name>
+    <url-pattern>/faces/admin/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>ApproverFilter</filter-name>
+    <filter-class>utility.filters.ApproverFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ApproverFilter</filter-name>
+    <url-pattern>/faces/approver/*</url-pattern>
+  </filter-mapping>
+    
+  <filter>
+    <filter-name>EngineerFilter</filter-name>
+    <filter-class>utility.filters.EngineerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>EngineerFilter</filter-name>
+    <url-pattern>/faces/engineer/*</url-pattern>
+  </filter-mapping>
+  
+   <filter>
+    <filter-name>ManagerFilter</filter-name>
+    <filter-class>utility.filters.ManagerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ManagerFilter</filter-name>
+    <url-pattern>/faces/manager/*</url-pattern>
   </filter-mapping>
   
   <servlet>
