@@ -12,10 +12,12 @@ import javax.inject.Named;
 import manager.EmployeeManager;
 import manager.LabourGradeManager;
 import manager.ProjectManager;
+import manager.TitleManager;
 import manager.WorkPackageManager;
 import model.Employee;
 import model.Labgrd;
 import model.Project;
+import model.Title;
 import model.Workpack;
 import model.WorkpackId;
 
@@ -83,6 +85,29 @@ public class AdminController implements Serializable {
      */
     @Inject
     private WorkPackageManager workpackManager;
+    
+    /**
+     * Used for accessing title data in database (title table).
+     * @HasGetter
+     * @HasSetter
+     */
+    @Inject
+    private TitleManager titleManager;
+    
+    /**
+     * Represents the currently selected supervisor to display details on.
+     * @HasGetter
+     * @HasSetter
+     */
+    private Employee selectedSup;
+
+    public Employee getSelectedSup() {
+        return selectedSup;
+    }
+
+    public void setSelectedSup(Employee selectedSup) {
+        this.selectedSup = selectedSup;
+    }
 
     public EmployeeController getEmployeeController() {
         return employeeController;
@@ -185,5 +210,79 @@ public class AdminController implements Serializable {
         // return to current page
         return null;
     }
-
+    
+    /**
+     * Promotes given employee into a supervisor
+     * @param e employee to promote 
+     */
+    public String makeSup(Employee e) {
+        
+        e.getTitles().add(titleManager.find((short)1));
+        employeeManager.merge(e);
+        employeeManager.flush();
+        return null;
+    }
+    
+    /**
+     * Checks if given employee is a supervisor
+     * @param e employee being checked
+     * @return true if employee is a supervisor false otherwise
+     */
+    public boolean checkSup(Employee e){
+        for(Title t: e.getTitles()){
+            if(t.getTitId() == 1)
+                return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Removes given employee from being a supervisor
+     * @param e employee to demote 
+     */
+    public String removeSup(Employee e) {
+        employeeManager.removeTitle(e, titleManager.find((short)1));
+        employeeManager.flush();
+        employeeController.resetList();
+        return null;
+    }
+    
+    /**
+     * Action method to move to assignEmpToSup.xhtml
+     * @param e
+     * @return
+     */
+    public String selectSupForAssign(Employee e) {
+        setSelectedSup(e);
+        return "assignEmpToSup";
+    }
+    
+    /**
+     * Gets a list of employees supervised by selected supervisor
+     * @return list of employees
+     */
+    public List<Employee> getSupEmp(){
+        
+        return employeeManager.getEmpSup(selectedSup);
+    }
+    
+    /**
+     * Gets a list of employees not supervised by selected supervisor
+     * @return list of employees
+     */
+    public List<Employee> getNotSupEmp(){
+        
+        return employeeManager.getEmpNotSup(selectedSup);
+    }
+    
+    public void assignEmployeeToSup(Employee e){
+        e.setEmpSupId(selectedSup.getEmpId());
+        employeeManager.merge(e);
+    }
+    
+    public String removeEmpFromSup(Employee e){
+        e.setEmpSupId(null);
+        employeeManager.merge(e);
+        return null;
+    }
 }

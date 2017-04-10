@@ -18,6 +18,7 @@ import javax.persistence.TypedQuery;
 import model.Employee;
 import model.Labgrd;
 import model.Project;
+import model.Title;
 import model.Workpack;
 
 @SuppressWarnings("serial")
@@ -142,6 +143,33 @@ public class EmployeeManager implements Serializable {
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
     
+    
+    /**
+     * Gets employees not supervised by given employee
+     * @param e supervisor
+     * @return list of employees not supervised by given employee
+     */
+    public List<Employee> getEmpNotSup(Employee e) {
+        TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+                + "WHERE  e != :me AND e.empSupId IS NULL OR e.empSupId != :sup ", Employee.class);
+        query.setParameter("sup", e.getEmpId()).setParameter("me", e);
+        List<Employee> employees = query.getResultList();
+        return (employees != null) ? employees : new ArrayList<Employee>();
+    }
+    
+    /**
+     * Gets employees supervised by given employee
+     * @param e supervisor
+     * @return list of employees supervised by given employee
+     */
+    public List<Employee> getEmpSup(Employee e) {
+        TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+                + "WHERE e.empSupId = :sup", Employee.class);
+        query.setParameter("sup", e.getEmpId());
+        List<Employee> employees = query.getResultList();
+        return (employees != null) ? employees : new ArrayList<Employee>();
+    }
+    
     public List<Employee> getTaApprovers() {
         Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6", Employee.class);
         @SuppressWarnings("unchecked")
@@ -197,4 +225,15 @@ public class EmployeeManager implements Serializable {
          
         return employees;
     }
+    
+    /**
+     * Removes given title t from employee e
+     * @param e employee getting title removed
+     * @param t title to be removed
+     */
+    public void removeTitle(Employee e, Title t){
+        em.createNativeQuery("DELETE FROM Emptitle WHERE Emptitle.etEmpID = ?1 AND Emptitle.etTitID = ?2")
+        .setParameter(1, e.getEmpId()).setParameter(2, t.getTitId()).executeUpdate();
+    }
+    
 }

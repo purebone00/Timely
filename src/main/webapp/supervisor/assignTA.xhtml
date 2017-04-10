@@ -1,36 +1,24 @@
-
 <ui:composition template="/template/master_page.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui">
-	<ui:define name="title">Assigning Employees</ui:define>
+	<ui:define name="title">Assigning Timesheet Approver</ui:define>
 
 	<ui:define name="content">
         <div class="container">
-        	<b:row>
-        		<b:panelGrid colSpans="4,8" size="md">
-				    <h:outputText
-                       	value="No: #{Master.projMan.selectedProject.projNo}" />
-				    <h:outputText
-                       	value="Name: #{Master.projMan.selectedProject.projNm}" />
-				    <h:outputText
-                       	value="Description: #{Master.projMan.selectedProject.projDesc}" />
-				</b:panelGrid>
-        	</b:row>
             <b:row>
                 <!-- End of first column -->
 
                 <b:column col-md="6">
                     <b:form>
-                        <h4>Currently on project:</h4>
-	            		Employees on the current project listed here
-						<br /> Select one employee to move them onto a particular project.
+                        <h4>Current timesheet approvers</h4>
+	            		Employees currently assigned listed here
 						<br />
 
                         <b:dataTable
-                            value="#{Master.projMan.allEmpInProject()}"
+                            value="#{Master.supMan.getCurTA()}"
                             var="s" responsive="true">
 
                             <b:dataTableColumn>
@@ -94,15 +82,8 @@
                                 <f:facet name="header">Remove Employee</f:facet>
                                 <b:commandButton class="btn"
                                 	look="danger"
-                                    action="#{Master.projMan.removeEmployee(s.empId)}"
+                                    action="#{Master.supMan.removeTA(s)}"
                                     value="Remove Employee" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Assign as PM</f:facet>
-									<h:commandButton class="btn" value="Assign" action="#{Master.projMan.assignEmployeeAsPM(s)}"
-										rendered="#{not Master.projMan.projManAssigned()}"/>
-									<h:commandButton class="btn" value="Unassign" action="#{Master.projMan.unassignEmployeeAsPM(s)}"
-										rendered="#{Master.projMan.projManAssigned() and Master.projMan.isProjMan(s)}"/>
                             </b:dataTableColumn>
                         </b:dataTable>
                         <br />
@@ -112,15 +93,14 @@
                 <!-- End of 2nd column -->
                 <b:column col-md="6">
                     <b:form>
-                        <h4>Available to be assigned to project:</h4>
+                        <h4>Available to be assigned to supervisor:</h4>
 	            		Employees currently NOT on the project listed here
 						<br /> Select one employee to move them onto a particular project.
 						<br />
 
                         <b:dataTable
-                            value="#{Master.projMan.NotEmpInProject()}"
+                            value="#{Master.supMan.getNotTA()}"
                             var="s" responsive="true">
-
                             <b:dataTableColumn>
                                 <f:facet name="header">Employee ID</f:facet>
                                 <b:inputText value="#{s.empId}"
@@ -180,11 +160,11 @@
                             </b:dataTableColumn>
 
                             <b:dataTableColumn>
-                                <f:facet name="header">Add Employee</f:facet>
+                                <f:facet name="header">Assign timesheet Approver</f:facet>
                                 <b:commandButton class="btn"
                                 	look="primary"
-                                    action="#{Master.projMan.assignEmployeeToProject2(s.empId)}"
-                                    value="Add to Project" />
+                                    action="#{Master.supMan.assignTA(s)}"
+                                    value="Assign to timesheet approver" />                              
                             </b:dataTableColumn>
                         </b:dataTable>
                         <br />
@@ -193,21 +173,7 @@
                 </b:column>
 
                 <!-- End of 3rd column -->
-            </b:row>
-            <b:form>
-	            <b:row>
-	            	<h:commandLink value="assignEmpToWP.xhtml"
-	                            action="assignEmpToWP" />
-	            </b:row>
-	            <b:row>
-	                <h:commandLink value="assignPM.xhtml"
-	                    action="assignPM" />
-	            </b:row>
-	            <b:row>
-	            	<h:commandLink value="assignRespEng.xhtml"
-	                    action="assignRespEng" />
-	            </b:row>
-	        </b:form>
+            </b:row>      
         </div>
 	</ui:define>
 </ui:composition>
