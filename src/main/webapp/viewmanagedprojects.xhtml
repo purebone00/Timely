@@ -9,52 +9,55 @@
 
     <ui:define name="content">
         <div class="ui segment grid" id="content">
-        	<b:jumbotron class="text-center">
+            <b:jumbotron class="text-center">
                 <h1>Managed Projects</h1>
                 <span></span>
             </b:jumbotron>
 
             <div class="container">
                 <b:row>
-					<b:form>
-	                     <h:dataTable class="table table-bordered"
-                        value="#{Master.projMan.listOfProjects(Master.login.currentEmployee.currentEmployee)}"
-                        var="s">
-                        <h:column>
-                            <f:facet name="header">No</f:facet>	
+                    <b:form>
+                        <b:dataTable class="table table-bordered"
+                            value="#{Master.projMan.listOfProjects(Master.login.currentEmployee.currentEmployee)}"
+                            var="s">
+                            <b:dataTableColumn>
+                                <f:facet name="header">No</f:facet>	
 								#{s.projNo}
-							</h:column>
-                        <h:column>
-                            <f:facet name="header">Name</f:facet>	
+							</b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Name</f:facet>	
 								#{s.projNm}
-							</h:column>
-                        <h:column>
-                            <f:facet name="header">Description</f:facet>	
+							</b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Description</f:facet>	
 								#{s.projDesc}
-							</h:column>
+							</b:dataTableColumn>
 
-                        <h:column>
-                            <f:facet name="header">Work Package Estimates</f:facet>
-                                <h:commandButton class="btn"
-                                    value="Okay"
-                                    action="#{Master.projMan.selectProject(s)}" />
-                        </h:column>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Work Package Estimates</f:facet>
+                                <b:commandButton class="btn"
+                                	look="primary"
+                                    value="Select Project for Managing"
+                                    action="#{Master.projMan.selectProjectForManaging(s)}" />
+                            </b:dataTableColumn>
 
-                        <h:column>
-                            <f:facet name="header">Weekly Reports</f:facet>
-                                <h:commandButton class="btn"
-                                    value="Yeah"
+                            <b:dataTableColumn>
+                                <f:facet name="header">Weekly Reports</f:facet>
+                                <b:commandButton class="btn"
+                                	look="primary"
+                                    value="Select Project for Reports"
                                     action="#{Master.projMan.selectProjectForReport(s)}" />
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">Monthly Report</f:facet>
-                                <h:commandButton class="btn"
-                                    value="Turn Down For What"
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn>
+                                <f:facet name="header">Monthly Report</f:facet>
+                                <b:commandButton class="btn"
+                                	look="primary"
+                                    value="Select Project for Monthly Reports"
                                     action="#{Master.projMan.selectProjectForMonthlyReport(s)}" />
-                        </h:column>
-                    </h:dataTable>
-					</b:form>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:form>
                 </b:row>
             </div>
         </div>

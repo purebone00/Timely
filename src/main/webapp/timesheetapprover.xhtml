@@ -10,45 +10,82 @@
         <div class="ui segment grid">
             <div class="row">
                 <div class="column">
-					<div class="container text-center">
-	                    <div class="jumbotron">
-	                        <h1>Timesheets to Approve</h1>
-	                    </div>
+                    <div class="container text-center">
+                        <div class="jumbotron">
+                            <h1>Timesheets to Approve</h1>
+                        </div>
                     </div>
-					<div class="container">
-					<b:row>
-						<b:form>
-							<b:dataTable
-								responsive="true"
-								searching='false'
-								value="#{Master.taApprover.tsToApproveList}" var="row">
-								<b:dataTableColumn value="#{row.id.tsEmpId}" label="Employee" />
+                    <div class="container">
+                        <b:row>
+                            <b:column>
+                                <b:form>
+                                    <b:dataTable responsive="true"
+                                        searching='false'
+                                        value="#{Master.taApprover.listToBeApproved}"
+                                        var="row" paginated='false'>
+                                        <b:dataTableColumn
+                                            value="#{row.id.tsEmpId}"
+                                            label="Employee" />
 
-								<b:dataTableColumn value="#{row.id.tsWkEnd}" label="Week Of" />
+                                        <b:dataTableColumn
+                                            value="#{row.id.tsWkEnd}"
+                                            label="Week Of" />
 
-								<b:dataTableColumn value="#{row.tsUpDt}" order="asc"
-									label="Submit Date" />
+                                        <b:dataTableColumn
+                                            value="#{row.tsUpDt}"
+                                            order="asc"
+                                            label="Submit Date" />
 
-								<b:dataTableColumn label="View Timesheet">
-									<h:commandButton
-										action="#{Master.taApprover.goToReviewTimesheet(row)}"
-										value="View">
-									</h:commandButton>
-								</b:dataTableColumn>
-								
-								<b:dataTableColumn label="Approve">
-									<b:selectBooleanCheckbox value="#{row.isApprove}" caption=""/>
-								</b:dataTableColumn>
-							</b:dataTable>
+                                        <b:dataTableColumn
+                                            label="View Timesheet">
+                                            <h:commandButton
+                                                action="#{Master.taApprover.goToReviewTimesheet(row)}"
+                                                value="View">
+                                            </h:commandButton>
+                                        </b:dataTableColumn>
 
-								<h:commandButton
-									action="#{Master.taApprover.approveAllTimesheet()}"
-									value="Approve">
-								</h:commandButton>
-							</b:form>
-					</b:row>
-					</div>
-				</div>
+                                    </b:dataTable>
+                                </b:form>
+
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column>
+                                <b:form>
+                                    <b:dataTable responsive="true"
+                                        page-length="10"
+                                        value="#{Master.taApprover.listOfApproved}"
+                                        var="row">
+                                        <b:dataTableColumn
+                                            value="#{row.id.tsEmpId}"
+                                            label="Employee"
+                                            searchable="true" />
+
+                                        <b:dataTableColumn
+                                            value="#{row.id.tsWkEnd}"
+                                            label="Week Of"
+                                            searchable="true" />
+
+                                        <b:dataTableColumn
+                                            value="#{row.tsUpDt}"
+                                            order="asc"
+                                            label="Submit Date" />
+
+                                        <b:dataTableColumn
+                                            label="View Timesheet">
+                                            <b:commandButton
+                                            	look="info"
+                                                action="#{Master.taApprover.viewTimesheet(row)}"
+                                                value="View">
+                                            </b:commandButton>
+                                        </b:dataTableColumn>
+
+                                    </b:dataTable>
+                                </b:form>
+                            </b:column>
+                        </b:row>
+                    </div>
+                </div>
             </div>
         </div>
 

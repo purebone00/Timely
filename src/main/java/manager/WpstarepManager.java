@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import model.Labgrd;
 import model.Wpstarep;
 
 @Dependent
@@ -39,7 +38,7 @@ public class WpstarepManager {
      */
     public Wpstarep find(int wsrProjNo, String wsrWpNo, String wsrRepDt) {
         TypedQuery<Wpstarep> query = em.createQuery(
-                "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2 AND s.wsrRepDt=:code3",
+                "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2 AND s.id.wsrRepDt=:code3",
                 Wpstarep.class);
         query.setParameter("code", wsrProjNo);
         query.setParameter("code2", wsrWpNo);
@@ -47,18 +46,21 @@ public class WpstarepManager {
         List<Wpstarep> workStatusReports = query.getResultList();
         return (workStatusReports.isEmpty() ? null : workStatusReports.get(0));
     }
-    
+
     /**
-     * Gets the first Wpstarep ever submitted (in terms of time) for the given work package.
-     * @param wsrProjNo The Project Number of the Work Package.
-     * @param wsrWpNo The Work Package Number of the Work Package.
+     * Gets the first Wpstarep ever submitted (in terms of time) for the given
+     * work package.
+     * 
+     * @param wsrProjNo
+     *            The Project Number of the Work Package.
+     * @param wsrWpNo
+     *            The Work Package Number of the Work Package.
      * @return Weekly Status Report.
      */
     public Wpstarep getInitialEst(int wsrProjNo, String wsrWpNo) {
-        TypedQuery<Wpstarep> query = em.createQuery(
-                "select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2"
-                + " AND s.wsrRepDt='00000000'",
-                Wpstarep.class);
+        TypedQuery<Wpstarep> query = em
+                .createQuery("select s from Wpstarep s where s.id.wsrProjNo=:code AND s.id.wsrWpNo=:code2"
+                        + " AND s.id.wsrRepDt='00000000'", Wpstarep.class);
         query.setParameter("code", wsrProjNo);
         query.setParameter("code2", wsrWpNo);
         List<Wpstarep> workStatusReports = query.getResultList();

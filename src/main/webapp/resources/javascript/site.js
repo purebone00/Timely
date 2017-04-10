@@ -24,6 +24,13 @@ function statusClass() {
 	 });
 }
 
+function removeShowingEntriesOnPage(urlPath) {
+	var showEntries = document.getElementsByClassName("dataTables_info");
+	window.location.pathname+window.location.search
+	if(window.location.pathname+window.location.search === urlPath)
+	showEntries[0].style.display = "none";
+}
+
 function projectNumberChange() {
 	var projNo = document.getElementsByClassName("ProjectNo");
 	$(projNo).each(function(){
@@ -35,10 +42,21 @@ function projectNumberChange() {
 function redIfNotificate(notificationCount) {
 	var iconAwesome = document.getElementsByClassName("fa fa-exclamation fa-2x");
 	var icon = iconAwesome[0];
-	
-	if(parseInt(notificationCount.textContent) != 0) {
-		icon.style.color = "red";
-		icon.className += " animated infinite jello";
+	var splitNotif = notificationCount.textContent.split(',');
+	for(var notif in splitNotif) {
+		if(parseInt(notif.textContent) != 0) {
+			icon.style.color = "red";
+			icon.className += " animated infinite jello";
+		}
+	}
+}
+
+function grayIfNoNotificate(notificationCount) {
+	var iconAwesome = document.getElementsByClassName("fa fa-exclamation fa-2x");
+	var icon = iconAwesome[0];
+	if(parseInt(notificationCount.textContent) == 0) {
+		icon.removeAttribute("style");
+		icon.className = "fa fa-exclamation fa-2x";
 	}
 }
 
@@ -46,22 +64,64 @@ function addToNotifications() {
 	var nId = document.getElementById("dropdown");
 	var firstChild = nId.getElementsByTagName("ul")[0];
 	var notificationCount = document.getElementById("dtLdropdown");
+	var splitNotif = notificationCount.textContent.split(',');
+	var count = 0;
 	redIfNotificate(notificationCount);
-	if(parseInt(notificationCount.textContent) != 0) {
-		addTSANotification(firstChild, notificationCount);
+	
+	if(parseInt(splitNotif[0]) != 0) {
+		count = count + parseInt(splitNotif[0]);
+		addTSANotification(firstChild, splitNotif[0]);
 	}
+	if(parseInt(splitNotif[1]) != 0) {
+		count = count + parseInt(splitNotif[1]);
+		addWeekNotification(firstChild, splitNotif[1]);
+	}
+	if(parseInt(splitNotif[2]) != 0) {
+		count = count + parseInt(splitNotif[2]);
+		addMonthNotification(firstChild, splitNotif[2]);
+	}
+	
+	$(notificationCount).contents().filter(function() {
+	    return this.nodeType == 3
+	}).each(function(){
+	    this.textContent = this.textContent.replace(notificationCount.textContent,count);
+	});	
+	
+	grayIfNoNotificate(notificationCount);
 }
 
 function addTSANotification(firstChild, notificationCount) {
 	var newNotification = document.createElement("li");
-	var notificationMessage = "You have " + notificationCount.textContent + " timesheets to approve."; 
+	var notificationMessage = "You have " + notificationCount + " timesheets to approve."; 
 	newNotification.style.cursor = "pointer";
 	newNotification.innerHTML = "<a href=\"/Timely/faces/timesheetapprover.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
 	firstChild.appendChild(newNotification);
 }
 
+function addMonthNotification(firstChild, notificationCount) {
+	var newNotification = document.createElement("li");
+	var notificationMessage = "You have unvisited Monthly reports.";
+	newNotification.style.cursor = "pointer";
+	newNotification.innerHTML = "<a href=\"/Timely/faces/viewmanagedprojects.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
+	firstChild.appendChild(newNotification);
+}
+
+function addWeekNotification(firstChild, notificationCount) {
+	var newNotification = document.createElement("li");
+	var notificationMessage = "You have unvisited Weekly reports.";
+	newNotification.style.cursor = "pointer";
+	newNotification.innerHTML = "<a href=\"/Timely/faces/viewmanagedprojects.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
+	firstChild.appendChild(newNotification);
+}
+
 $(document).ready(function() {
+	var timesheetPath = "/Timely/faces/employeefunctions.xhtml";
+	var approvedTimesheetPath = "/Timely/faces/viewtimesheet.xhtml"
+	var reviewTimesheetPath = "/Timely/faces/reviewTimesheet.xhtml"
     $(".dropdown-toggle").dropdown();
+    removeShowingEntriesOnPage(timesheetPath);
+    removeShowingEntriesOnPage(approvedTimesheetPath);
+    removeShowingEntriesOnPage(reviewTimesheetPath);
 });
 
 

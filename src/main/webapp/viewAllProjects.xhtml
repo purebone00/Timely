@@ -1,3 +1,4 @@
+
 <ui:composition template="/template/master_page.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -16,7 +17,7 @@
                             #{Master.employee.emp.empLnm}!</h1>
                         <span></span>
                     </div>
-                    <b:column col-md="12">
+                    <div class="col-md-12">
                         <b:form>
                             <b:dataTable responsive="true"
                                 value="#{Master.supMan.listOfProjects()}"
@@ -49,10 +50,12 @@
                                 <!-- 								</b:dataTableColumn> -->
                                 <b:dataTableColumn>
                                     <f:facet name="header">Select Project</f:facet>
-                                    <h:commandButton
-                                        action="assignEmployees"
+                                    <!-- <h:commandButton action="assignEmployees" value="Choose Project">-->
+                                    <b:commandButton
+                                    	look="primary"
+                                        action="#{Master.projMan.assignEmployeeToProject(s.projNo)}"
                                         value="Choose Project">
-                                    </h:commandButton>
+                                    </b:commandButton>
                                 </b:dataTableColumn>
                             </b:dataTable>
                         </b:form>
@@ -64,7 +67,7 @@
                         <!-- 		                                    action="viewmanagedprojects" /> -->
                         <!-- 							</h:form> -->
                         <!-- 						</div> -->
-                    </b:column>
+                    </div>
                 </div>
             </div>
 

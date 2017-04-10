@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -26,7 +27,7 @@ public class WplabManager {
         query.setParameter("code2", wpNo);
         List<Wplab> plannedHours = query.getResultList();
 
-        return plannedHours;
+        return (plannedHours != null) ? plannedHours : new ArrayList<Wplab>();
     }
 
     public Wplab find(WplabId id) {

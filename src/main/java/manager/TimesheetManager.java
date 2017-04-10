@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -18,7 +19,9 @@ public class TimesheetManager {
     EntityManager em;
 
     public Timesheet find(TimesheetId id) {
-        return em.find(Timesheet.class, id);
+        Timesheet foundTimesheet = em.find(Timesheet.class, id);
+        
+        return (foundTimesheet != null) ? foundTimesheet : null;
     }
 
     public void persist(Timesheet tsrow) {
@@ -51,6 +54,6 @@ public class TimesheetManager {
                 .createQuery("select s from Timesheet s where s.id.tsEmpId = ?1", Timesheet.class)
                 .setParameter(1, employeeID);
         List<Timesheet> Tsrow = query.getResultList();
-        return Tsrow;
+        return (Tsrow != null) ? Tsrow : new ArrayList<Timesheet>();
     }
 }

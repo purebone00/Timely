@@ -8,7 +8,7 @@
 
     <ui:define name="content">
         <div class="ui segment grid" id="content">
-        	<b:jumbotron class="text-center">
+            <b:jumbotron class="text-center">
                 <h1>Create User</h1>
                 <span></span>
             </b:jumbotron>
@@ -16,58 +16,67 @@
             <div class="container">
                 <b:row>
                     <b:form id="addUser">
-                    	<b:panelGrid col-spans="2,10" size="md">
-							<h:outputText value="Firstname:" />
-	                        <b:inputText span="6"
-	                        	class="form-control"
-	                            value="#{Master.admin.newEmployee.empFnm}"
-	                            required="true" />
-	                        
-	                        <h:outputText value="Lastname:" />
-	                       	<b:inputText span="6"
-	                       		class="form-control"
-	                            value="#{Master.admin.newEmployee.empLnm}"
-	                            required="true" />
-	                            
-	                        <h:outputText value="Dept:" />
-	                        <b:inputText span="6"
-	                        	class="form-control"
-	                            value="#{Master.admin.newEmployee.empDept}"
-	                            required="true" />
-                        
-							<h:outputText value="Labor Grade:" />
-	                        <b:selectOneMenu span="6"
-	                        	class="form-control"
-	                            value="#{Master.admin.newEmployee.empLabGrd}"
-	                            converter="#{labgrdConverter}">
-	                            <f:selectItems class="selectpicker"
-	                                value="#{Master.admin.labourGrades}" />
-	                        </b:selectOneMenu>
-	                        
-	                        <h:outputText value="Password:" />
-	                        <b:inputSecret span="6"
-	                        	class="form-control"
-	                            value="#{Master.admin.newEmployee.empPw}"
-	                            required="true" />
-						</b:panelGrid>
-						<b:row>
-							<b:column span="1">
-		                        <b:commandButton id="addButton" class="btn"
-		                        	look="success"
-		                            value="Create"
-		                            action="#{Master.admin.addEmployee}" />
-		                    </b:column>
-		                    <b:column span="1">
-		                        <b:commandButton id="cancelButton"
-		                        	look="danger"
-		                            class="btn" value="Cancel"
-		                            immediate="true" action="admin" />
-	                        </b:column>
+                        <b:panelGrid col-spans="2,10" size="md">
+                            <h:outputText value="First Name:" />
+                            <b:inputText span="6" id="firstName" class="form-control"
+                                value="#{Master.admin.newEmployee.empFnm}"
+                                required="true" requiredMessage="First Name is required"
+                                validatorMessage="First Name is a string"> 
+                            	<f:validateRegex pattern="^[a-zA-Z]+$" /> 
+                            </b:inputText>
+							
+                            <h:outputText value="Last Name:" />
+                            <b:inputText span="6" id="lastName" class="form-control"
+                                value="#{Master.admin.newEmployee.empLnm}"
+                                required="true" requiredMessage="Last Name is required"
+                                validatorMessage="Last Name is a string"> 
+                            	<f:validateRegex pattern="^[a-zA-Z]+$" /> 
+                            </b:inputText>
+                            
+                            <h:outputText value="Dept:" />
+                            <b:inputText span="6" class="form-control"
+                                value="#{Master.admin.newEmployee.empDept}"
+                                required="true" requiredMessage="Employee's Department is required"/>
+
+                            <h:outputText value="Labor Grade:" />
+                            <b:selectOneMenu span="6"
+                                class="form-control"
+                                value="#{Master.admin.newEmployee.empLabGrd}"
+                                converter="#{labgrdConverter}">
+                                <f:selectItems class="selectpicker"
+                                    value="#{Master.admin.labourGrades}" />
+                            </b:selectOneMenu>
+
+                            <h:outputText value="Password:" />
+                            <b:inputSecret span="6" class="form-control"
+                            	id="password"
+                                value="#{Master.admin.newEmployee.empPw}"
+                                required="true" requiredMessage="A Password is required" 
+								validatorMessage="The new Password must have at least 8 characters and at most 16 characters."> 
+                                <f:validateLength minimum="8" maximum="16" />   
+                            </b:inputSecret>
+                        </b:panelGrid>
+                        <b:row>
+                            <b:column span="1">
+                                <b:commandButton id="addButton"
+                                    class="btn" look="success"
+                                    value="Create"
+                                    action="#{Master.admin.addEmployee}" />
+                            </b:column>
+                            <b:column span="1">
+                                <b:commandButton id="cancelButton"
+                                    look="danger" class="btn"
+                                    value="Cancel" immediate="true"
+                                    action="admin" />
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                        	<b:messages />
                         </b:row>
                     </b:form>
                 </b:row>
             </div>
-            
+
         </div>
     </ui:define>
 </ui:composition>

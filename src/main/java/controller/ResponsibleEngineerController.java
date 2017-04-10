@@ -3,17 +3,10 @@ package controller;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -23,45 +16,86 @@ import manager.WorkPackageManager;
 import manager.WpstarepManager;
 import model.Employee;
 import model.Labgrd;
+import model.Tsrow;
 import model.Workpack;
 import model.Wpstarep;
 import model.WpstarepId;
+import utility.DateTimeUtility;
+import utility.ReportUtility;
 
-@SessionScoped
+@SuppressWarnings("serial")
+@Stateful
 @Named("RE")
 public class ResponsibleEngineerController implements Serializable {
+    /**
+     * 
+     */
     @Inject
-    WorkPackageManager workPackageManager;
+    private WorkPackageManager workPackageManager;
+    /**
+     * 
+     */
     @Inject
-    TsrowManager tsRowManager;
+    private TsrowManager tsRowManager;
+    /**
+     * 
+     */
     @Inject
-    LabourGradeManager labourGradeManager;
+    private LabourGradeManager labourGradeManager;
+    /**
+     * 
+     */
     @Inject
-    WpstarepManager wpstarepManager;
-
-    private Workpack selectedWorkPackage;
+    private WpstarepManager wpstarepManager;
+    /**
+     * 
+     */
     @Inject
     private Wpstarep workPackageReport;
-
-    private HashMap<String, BigDecimal> labourGradeDays;
+    /**
+     * 
+     */
+    private Workpack selectedWorkPackage;
+    
+    /**
+     * Holds the estimated days of work remaining for a labour grade.
+     */
+    private HashMap<String, BigDecimal> estLabourGradeDays;
+    
+    /**
+     * Holds the completed days of work for a labour grade.
+     */
+    private HashMap<String, BigDecimal> curLabourGradeDays;
+    
+    /**
+     * Holds the initial work estimate for a labour grade.
+     */
     private HashMap<String, BigDecimal> initialEstimate;
-
-    private BigDecimal totalCost;
-    private BigDecimal totalHours;
-
-    private boolean preExisting;
+    
+    /**
+     * Holds the rate for a labour grade.
+     */
+    private HashMap<Labgrd, BigDecimal> labgrdRate;
+    
+    /**
+     * List of labour grades.
+     */
+    private List<Labgrd> labourGrades;
 
     /**
-     * Get a list of {@link Workpack}'s that an {@link Employee} is the
-     * responsible engineer for.
-     * 
-     * @param emp
-     *            The {@link Employee} responsible for the {@link Workpack}'s.
-     * @return list of {@link Workpack}'s.
+     * Total cost of the work done in the selected WP.
      */
-    public List<Workpack> listOfWorkPackages(Employee emp) {
-        return workPackageManager.getResponsibleWorkPackages(emp.getEmpId());
-    }
+    private BigDecimal totalCost;
+    
+    /**
+     * Total hours of the work done in the selected WP.
+     */
+    private BigDecimal totalHours;
+
+    /**
+     * Flag used to decide whether to persist or merge report.
+     */
+    private boolean preExisting;
 
     public Workpack getSelectedWorkPackage() {
         return selectedWorkPackage;
@@ -78,6 +112,86 @@ public class ResponsibleEngineerController implements Serializable {
     public void setWorkPackageReport(Wpstarep workPackageReport) {
         this.workPackageReport = workPackageReport;
     }
+    
+    public HashMap<Labgrd, BigDecimal> getLabgrdRate() {
+        return labgrdRate;
+    }
+
+    public void setLabgrdRate(HashMap<Labgrd, BigDecimal> labgrdRate) {
+        this.labgrdRate = labgrdRate;
+    }
+
+    public List<Labgrd> getLabourGrades() {
+        return labourGrades;
+    }
+
+    public void setLabourGrades(List<Labgrd> labourGrades) {
+        this.labourGrades = labourGrades;
+    }
+
+    public BigDecimal getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public BigDecimal getTotalHours() {
+        return totalHours;
+    }
+    
+    public void setTotalHours(BigDecimal totalHours) {
+        this.totalHours = totalHours;
+    }
+    
+    /**
+     * The total days of work done in the WP.
+     * @return
+     */
+    public BigDecimal getTotalDays() {
+        return totalHours.divide(new BigDecimal(8));
+    }
+    
+    public HashMap<String, BigDecimal> getEstLabourGradeDays() {
+        return estLabourGradeDays;
+    }
+
+    public void setEstLabourGradeDays(HashMap<String, BigDecimal> labourGradeDays) {
+        this.estLabourGradeDays = labourGradeDays;
+    }
+
+    public HashMap<String, BigDecimal> getCurLabourGradeDays() {
+        return curLabourGradeDays;
+    }
+
+    public void setCurLabourGradeDays(HashMap<String, BigDecimal> curLabourGradeDays) {
+        this.curLabourGradeDays = curLabourGradeDays;
+    }
+
+    public HashMap<String, BigDecimal> getInitialEstimate() {
+        return initialEstimate;
+    }
+
+    public void setInitialEstimate(HashMap<String, BigDecimal> initialEstimate) {
+        this.initialEstimate = initialEstimate;
+    }
+    
+    /**
+     * Get a list of {@link Workpack}'s that an {@link Employee} is the
+     * responsible engineer for.
+     * 
+     * @param emp
+     *            The {@link Employee} responsible for the {@link Workpack}'s.
+     * @return list of {@link Workpack}'s.
+     */
+    public List<Workpack> listOfWorkPackages(Employee emp) {
+       try { 
+           return workPackageManager.getResponsibleWorkPackages(emp.getEmpId());       
+       } catch (NullPointerException e) {
+           return new ArrayList<Workpack>();
+       }
+    }
 
     /**
      * Opens the weekly status report page for a work package.
@@ -87,138 +201,71 @@ public class ResponsibleEngineerController implements Serializable {
      * @return The navigation string.
      */
     public String selectWorkPackage(Workpack w) {
+        DateTimeUtility dtu = new DateTimeUtility();
         setSelectedWorkPackage(w);
-
-        // creates an arraylist to hold the "labour grade : hour" values
-        labourGradeDays = new HashMap<String, BigDecimal>();
-        for (Labgrd l : labourGradeManager.getAll()) {
-            labourGradeDays.put(l.getLgId(), BigDecimal.ZERO);
-        }
         
+        labourGrades = labourGradeManager.getAll();
+        labgrdRate = new HashMap<Labgrd, BigDecimal>();
+        for (Labgrd l : labourGrades) {
+            labgrdRate.put(l, l.getLgRate());
+        }
+
         initialEstimate = new HashMap<String, BigDecimal>();
-        Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());
-        
-        String fields;
-        String[] rows;
-        
-        if (initial != null) {            
-            fields = initial.getWsrEstDes();
-            rows = fields.split(",");
-            
-            for (String s : rows) {
-                String[] columns = s.split(":");
-                initialEstimate.put(columns[0], new BigDecimal(columns[1]));
-            }
-        }
-        
-        Wpstarep i = wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), getEndOfWeek());
+        curLabourGradeDays = getWpPersonDays();
+        estLabourGradeDays = new HashMap<String, BigDecimal>();
+        Wpstarep initial = wpstarepManager.getInitialEst(w.getId().getWpProjNo(), w.getId().getWpNo());        
+        Wpstarep current = wpstarepManager.find(w.getId().getWpProjNo(), w.getId().getWpNo(), dtu.getEndOfWeek());
 
-        if (i != null) { // if the weekly status report for this work package
+        if (initial != null) {
+            initialEstimate = ReportUtility.parseWsrEstDes(initial.getWsrEstDes());
+        }
+
+        if (current != null) { // if the weekly status report for this work package
                          // already exists, display it
             preExisting = true;
-            setWorkPackageReport(i);
-            labourGradeDays = new HashMap<String, BigDecimal>();
-            fields = i.getWsrEstDes();
-            rows = fields.split(",");
-
-            // The list of "labour grades : hours" is stored as a single String
-            // in the database,
-            // this loop parses the String.
-            for (String s : rows) {
-                String[] columns = s.split(":");
-                labourGradeDays.put(columns[0], new BigDecimal(columns[1]));
-            }
+            setWorkPackageReport(current);
+            estLabourGradeDays = ReportUtility.parseWsrEstDes(current.getWsrEstDes());
         } else {
+            for (Labgrd l : labourGrades) {
+                estLabourGradeDays.put(l.getLgId(), BigDecimal.ZERO);
+            }
             preExisting = false;
         }
 
         return "responsibleengineerreport";
     }
-
+    
     /**
-     * Gets a list of arrays representing the hours worked per labour grade for
-     * the {@link #selectedWorkPackage}.<br>
-     * Each array contains:
-     * <ul>
-     * <li>Index 0: Labour grade ID (String)</li>
-     * <li>Index 1: Total person hours worked for the labour grade in index 0
-     * for the selected WP (BigDecimal)</li>
-     * <li>Index 2: Pay rate for the labour grade in index 0 (BigDecimal)</li>
-     * </ul>
-     * 
-     * @return The list of arrays.
+     * Generates a map between labour grade and days worked for the selected work package.
+     * @return A map.
      */
-    public List<Object[]> listOfWpPersonHours() {
-        List<Object[]> list = tsRowManager.getAllForWP(getSelectedWorkPackage().getId().getWpProjNo(),
-                getSelectedWorkPackage().getId().getWpNo());
-        BigDecimal totalCost = BigDecimal.ZERO;
-        BigDecimal totalHours = BigDecimal.ZERO;
-        for (Object[] obj : list) {
-            BigDecimal op1 = (BigDecimal) obj[1];
-            BigDecimal op2 = (BigDecimal) obj[2];
-            if (op1 == null) {
-                op1 = BigDecimal.ZERO;
-            }
-            totalCost = totalCost.add(op1.multiply(op2));
-            totalHours = totalHours.add(op1);
+    private HashMap<String, BigDecimal> getWpPersonDays() {
+        List<Tsrow> tsrows = tsRowManager.find(getSelectedWorkPackage());
+        
+        HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
+        for (Labgrd l : labourGrades) {
+            map.put(l.getLgId(), BigDecimal.ZERO);
         }
         
-        List<Labgrd> labGrds = labourGradeManager.getAll();
-        List<Object[]> toAdd = new ArrayList<Object[]>();
+        totalCost = BigDecimal.ZERO;
+        totalHours = BigDecimal.ZERO;
         
-        for (Labgrd l : labGrds) {
-            boolean found = false;
-            for (Object[] o : list) {
-                if (o[0].equals(l.getLgId())) {
-                    found = true;
-                }
-            }
-            if (!found) {
-                toAdd.add(new Object[] {l.getLgId(), BigDecimal.ZERO, BigDecimal.ZERO});
-            }
+        for (Tsrow t : tsrows) {
+            BigDecimal rowRate = t.getTimesheet().getTsPayGrade() == null ? 
+                    t.getTimesheet().getEmployee().getEmpLabGrd().getLgRate() :
+                    t.getTimesheet().getTsPayGrade().getLgRate();
+            BigDecimal rowHours = t.getTotal();
+            
+            String labGrd = t.getTimesheet().getTsPayGrade() == null ? 
+                    t.getTimesheet().getEmployee().getEmpLabGrd().getLgId() : 
+                    t.getTimesheet().getTsPayGrade().getLgId();
+            map.put(labGrd, map.get(labGrd).add(rowHours.divide(new BigDecimal(8))));
+            
+            totalCost = totalCost.add(rowRate.multiply(rowHours));
+            totalHours = totalHours.add(rowHours);
         }
         
-        for (Object[] o : toAdd) {
-            list.add(o);
-        }
-        
-        Comparator<Object[]> comp = (Object[] a, Object[] b) -> {
-            String aS = (String) a[0];
-            String bS = (String) b[0];
-            return aS.compareTo(bS);
-        };
-        
-        Collections.sort(list, comp);
-        
-        setTotalCost(totalCost);
-        setTotalHours(totalHours);
-        return list;
-    }
-
-    /**
-     * The total cost of the work done in {@link #selectedWorkPackage}.
-     * 
-     * @return
-     */
-    public BigDecimal getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    /**
-     * The total hours of work done in {@link #selectedWorkPackage}.
-     * 
-     * @return navigation string
-     */
-    public BigDecimal getTotalHours() {
-        return totalHours;
-    }
-
-    public void setTotalHours(BigDecimal totalHours) {
-        this.totalHours = totalHours;
+        return map;
     }
 
     /**
@@ -227,28 +274,21 @@ public class ResponsibleEngineerController implements Serializable {
      * @return the navigation string.
      */
     public String submitReport() {
-        String labourDays = "";
+        DateTimeUtility dtu = new DateTimeUtility();
+        String labourDays = ReportUtility.unparseWsrEstDes(estLabourGradeDays);
 
-        // we have a single VARCHAR column called wsrEstDes in the Wpstarep
-        // table that stores the weekly estimate.
-        // this for-loop takes the list of labour grade estimates from the page
-        // and stores it as a single String with format:
-        // "labourGrade1:hours1, labourGrade2:hours2, labourGrade3:hours3, etc",
-        // so that it can be put into the database.
-        
-        for (Map.Entry<String, BigDecimal> entry : labourGradeDays.entrySet()) {
-            labourDays = labourDays + entry.getKey() + ":" + entry.getValue().toString() + ",";
-        }
-        
-        labourDays = labourDays.substring(0, labourDays.length()-1);
-        
-        workPackageReport.setWsrRepDt(getEndOfWeek());
-        workPackageReport.setId(
-                new WpstarepId(selectedWorkPackage.getId().getWpProjNo(), selectedWorkPackage.getId().getWpNo()));
+        workPackageReport.setId(new WpstarepId(selectedWorkPackage.getId().getWpProjNo(),
+                selectedWorkPackage.getId().getWpNo(), dtu.getEndOfWeek()));
         workPackageReport.setWsrWriter(selectedWorkPackage.getWpResEng());
         workPackageReport.setWsrEstDes(labourDays);
-        // TODO: for Wpstarep, give wsrProbLw and wsrProbNw default strings if
-        // they are empty.
+        
+        if (workPackageReport.getWsrProbLw() == null || workPackageReport.getWsrProbLw().trim().equals("")) {
+            workPackageReport.setWsrProbLw("None.");
+        }
+        
+        if (workPackageReport.getWsrProbNw() == null || workPackageReport.getWsrProbNw().trim().equals("")) {
+            workPackageReport.setWsrProbNw("None.");
+        }
 
         // checks if this is the first time the estimate is being made so it
         // knows
@@ -261,48 +301,15 @@ public class ResponsibleEngineerController implements Serializable {
         }
         return "responsibleengineer";
     }
-
+    
     /**
-     * Used to hold the 'labour grade : hours' fields in the weekly status
-     * report page.<br>
-     * Index 0 holds the labour grade, and index 1 holds the hours.
-     * 
-     * @return The list of strings representing the 'labour grade : hours"
-     *         fields.
+     * Gets the total cost of the work done for a given Labour grade.
+     * @param l the labour grade.
+     * @return total cost.
      */
-    public HashMap<String, BigDecimal> getLabourGradeDays() {
-        return labourGradeDays;
-    }
-
-    public void setLabourGradeDays(HashMap<String, BigDecimal> labourGradeDays) {
-        this.labourGradeDays = labourGradeDays;
+    public BigDecimal getTotalCost(Labgrd l) {
+        return getCurLabourGradeDays().get(l.getLgId()).multiply(new BigDecimal(8))
+                .multiply(getLabgrdRate().get(l));
     }
     
-    public HashMap<String, BigDecimal> getInitialEstimate() {
-        return initialEstimate;
-    }
-    
-    public void setInitialEstimate(HashMap<String, BigDecimal> initialEstimate) {
-        this.initialEstimate = initialEstimate;
-    }
-
-    /**
-     * Gets the end of the current week with format 'YYYYMMDD'.
-     * 
-     * @return The end of the current week with format 'YYYYMMDD'.
-     */
-    public String getEndOfWeek() {
-        Calendar c = new GregorianCalendar();
-        int currentDay = c.get(Calendar.DAY_OF_WEEK) != 7 ? c.get(Calendar.DAY_OF_WEEK) : 0;
-        int leftDays = Calendar.FRIDAY - currentDay;
-        c.add(Calendar.DATE, leftDays);
-        Date endWeek = c.getTime();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(endWeek);
-        int year = cal.get(Calendar.YEAR);
-        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
-
-        return year + month + day;
-    }
 }

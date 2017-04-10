@@ -57,10 +57,13 @@ public class DateTimeUtility {
 
         return year + month + day;
     }
-    
+
     /**
-     * Gets the date of the end of a given month in String with format 'YYYYMMDD'.
-     * @param date The date to get the end of the month for. Format: 'YYYYMMDD'.
+     * Gets the date of the end of a given month in String with format
+     * 'YYYYMMDD'.
+     * 
+     * @param date
+     *            The date to get the end of the month for. Format: 'YYYYMMDD'.
      * @return end of the month.
      */
     public String getEndOfMonth(String date) {
@@ -78,7 +81,8 @@ public class DateTimeUtility {
     }
 
     /**
-     * Gets a list of Week End Strings. Gets the past 4 weeks, then the past 12 months, then the past years.
+     * Gets a list of Week End Strings. Gets the past 4 weeks, then the past 12
+     * months, then the past years.
      * 
      * @param startDate
      *            Start date.
@@ -93,7 +97,7 @@ public class DateTimeUtility {
         String current = last;
 
         list.add(current);
-        
+
         int count = 1;
 
         while (current.compareTo(first) > 0) {
@@ -103,15 +107,15 @@ public class DateTimeUtility {
 
             Calendar c = new GregorianCalendar();
             c.set(dateYear, dateMonth, dateDay);
-            
-            if (count <= 4) {                
+
+            if (count <= 4) {
                 c.add(Calendar.DAY_OF_MONTH, -7);
             } else if (count <= 16) {
                 c.add(Calendar.MONTH, -1);
             } else {
                 c.add(Calendar.YEAR, -1);
             }
-            
+
             Date lastWeek = c.getTime();
             Calendar cal = Calendar.getInstance();
             cal.setTime(lastWeek);
@@ -127,7 +131,7 @@ public class DateTimeUtility {
 
         return list;
     }
-    
+
     /**
      * Gets a list of Week End Strings.
      * 
@@ -167,11 +171,15 @@ public class DateTimeUtility {
 
         return list;
     }
-    
+
     /**
-     * Gets a list of months in String format ('YYYYMM') between a given start date and end date.
-     * @param startDate the start date.
-     * @param endDate the end date.
+     * Gets a list of months in String format ('YYYYMM') between a given start
+     * date and end date.
+     * 
+     * @param startDate
+     *            the start date.
+     * @param endDate
+     *            the end date.
      * @return a list of months in String format ('YYYYMM').
      */
     public Set<String> getListOfMonths(String startDate, String endDate) {
@@ -179,9 +187,9 @@ public class DateTimeUtility {
         String first = getEndOfMonth(startDate);
         String last = getEndOfMonth(endDate);
         String current = last;
-        
+
         set.add(current.substring(0, 6));
-        
+
         while (!current.equals(first)) {
             Integer dateYear = Integer.parseInt(current.substring(0, 4));
             Integer dateMonth = Integer.parseInt(current.substring(4, 6)) - 1;
@@ -198,10 +206,25 @@ public class DateTimeUtility {
             String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
 
             current = getEndOfMonth(year + month + day);
-            
+
             set.add(current.substring(0, 6));
         }
-        
+
         return set;
+    }
+    
+    /**
+     * Gets the String representation of a Date.
+     * @param date
+     * @return
+     */
+    public String getDateString(Date date) {
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+        String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+        return year + month + day;
     }
 }

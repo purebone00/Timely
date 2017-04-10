@@ -1,112 +1,120 @@
 <ui:composition template="/template/master_page.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Weekly Report</ui:define>
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<ui:define name="title">Weekly Report</ui:define>
 
-    <ui:define name="content">
-        <div class="ui segment grid" id="content">
-            <div class="container text-centered">
-                <div class="jumbotron">
-                    <h1>Weekly Report</h1>
-                    <span></span>
-                </div>
-            </div>
+	<ui:define name="content">
+		<div class="ui segment grid" id="content">
+			<div class="container text-centered">
+				<div class="jumbotron">
+					<h1>Weekly Report</h1>
+					<span></span>
+				</div>
+			</div>
 
-            <div class="container">
-                <b:row>
-                    <b:column col-md="12">
-                        <b:panelGrid colSpans="3,9" columns="2">
-                            <strong>Project Number:</strong>
-                            <h:outputText
-                                value="#{Master.projMan.selectedProject.projNo}" />
-                            
-                            <strong>Week:</strong>
-                            <h:outputText
-                                value="#{Master.projMan.selectedWeek}" />
-                        </b:panelGrid>
-                        <br />
+			<div class="container">
+				<b:row>
+					<b:column col-md="12">
+						<b:panelGrid colSpans="3,9" columns="2">
+							<strong>Project Number:</strong>
+							<h:outputText value="#{Master.projMan.selectedProject.projNo}" />
 
-                        <b:dataTable
-                            value="#{Master.projMan.getLeafWorkpacks()}"
-                            var="s">
-                            <b:dataTableColumn>
-                                <f:facet name="header">Yes</f:facet>	
-								<h:dataTable
-                            		value="#{s.employees}"
-                            		var="e"
-                            		class="table">
-                            		<h:column>
-                            			<f:facet name="header">
-                            			Work Package: #{s.id.wpNo}
-                            			<h:dataTable class="table"
-                        					value="#{s}"
-                        					var="t">
-	                        				<h:column>
-	                        					<f:facet name="header">Completed (Person Days)</f:facet>
-	                        					#{Master.projMan.getReportForWpWeek(t)[0]/8}
-	                        				</h:column>
-	                        			
-	                        				<h:column>
-	                        					<f:facet name="header">Completed ($)</f:facet>
-	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[1]}">
-	                                    			<f:convertNumber type="currency" />
-	                                			</h:outputText>
-	                        				</h:column>
-	                        			
-	                        				<h:column>
-	                        					<f:facet name="header">Projected Remaining (Person Days)</f:facet>
-	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[2]/8}" 
-	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[2] != null}"/>
-	                        					<h:outputText value="N/A" 
-	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[2] == null}"/>
-	                        				</h:column>
-	                        			
-	                        				<h:column>
-	                        					<f:facet name="header">Projected Remaining ($)</f:facet>
-	                        					<h:outputText value="#{Master.projMan.getReportForWpWeek(t)[3]}"
-	                        						rendered="#{Master.projMan.getReportForWpWeek(t)[3] != null}">
-	                                    			<f:convertNumber type="currency" />
-	                                			</h:outputText>
-	                                			<h:outputText value="N/A"
-	                                				rendered="#{Master.projMan.getReportForWpWeek(t)[3] == null}"/>
-	                        				</h:column>
-                        				</h:dataTable>
-                            			</f:facet>
-                            			
-                            			
-                            			Employee: #{e.empFnm} #{e.empLnm}
-                            			
-                            			<table class="table">
-                            			<tr>
-                            				<ui:repeat value="#{Master.projMan.getListOfWeeks(1)}" var="w">
-                            					<td>#{w}</td>
-                            				</ui:repeat>
-                            			</tr>
-                            			<tr>
-                            				<ui:repeat value="#{Master.projMan.getListOfWeeks(1)}" var="w">
-                            					<td>
-                            						<h:outputText value="#{Master.projMan.getPersonDaysCharged(s, e, w)}"
-                            							rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) != null}">
-                            							<f:convertNumber type="number" minFractionDigits="1"/>
-                            						</h:outputText>
-                            						<h:outputText value="0.0"
-                            							rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) == null}">
-                            							<f:convertNumber type="number" minFractionDigits="1"/>
-                            						</h:outputText>
-                            					</td>
-                            				</ui:repeat>
-                            			</tr>
-                            			</table>
-                            		</h:column>
-                            	</h:dataTable>
+							<strong>Week:</strong>
+							<h:outputText value="#{Master.projMan.selectedWeek}" />
+						</b:panelGrid>
+						<br />
+
+						<b:dataTable value="#{Master.projMan.getLeafWorkpacks()}" var="s">
+							<b:dataTableColumn>
+								<f:facet name="header">Yes</f:facet>
+								<table class="table">
+									<tr>
+										<th>Work Package: #{s.id.wpNo}<br/>
+											Name: #{s.wpNm}<br/>
+											Description: #{s.wpDesc}
+										<h:dataTable class="table"
+												value="#{s}" var="t">
+												<h:column>
+													<f:facet name="header">Completed (Person Days)</f:facet>
+	                        					#{Master.projMan.getReportForWpWeek(t).getCurTotalDays()}
+	                        					</h:column>
+
+												<h:column>
+													<f:facet name="header">Completed ($)</f:facet>
+													<h:outputText
+														value="#{Master.projMan.getReportForWpWeek(t).getCurTotalCosts()}">
+														<f:convertNumber type="currency" />
+													</h:outputText>
+												</h:column>
+												
+												<h:column>
+													<f:facet name="header">Overtime (Person Days)</f:facet>
+	                        					#{Master.projMan.getReportForWpWeek(t).getOvertimeDays()}
+	                        					</h:column>
+
+												<h:column>
+													<f:facet name="header">Projected Remaining (Person Days)</f:facet>
+													<h:outputText
+														value="#{Master.projMan.getReportForWpWeek(t).getEstDaysRemaining()}"
+														rendered="#{Master.projMan.getReportForWpWeek(t).getEstDaysRemaining() != null}" />
+													<h:outputText value="N/A"
+														rendered="#{Master.projMan.getReportForWpWeek(t).getEstDaysRemaining() == null}" />
+												</h:column>
+
+												<h:column>
+													<f:facet name="header">Projected Remaining ($)</f:facet>
+													<h:outputText
+														value="#{Master.projMan.getReportForWpWeek(t).getEstCostsRemaining()}"
+														rendered="#{Master.projMan.getReportForWpWeek(t).getEstCostsRemaining() != null}">
+														<f:convertNumber type="currency" />
+													</h:outputText>
+													<h:outputText value="N/A"
+														rendered="#{Master.projMan.getReportForWpWeek(t).getEstCostsRemaining() == null}" />
+												</h:column>
+											</h:dataTable>
+										</th>
+									</tr>
+									<tr>
+										<td>
+											<p><b>Problems this week:</b> #{Master.projMan.getResEngReport(s).wsrProbLw}</p>
+											<p><b>Anticipated problems:</b> #{Master.projMan.getResEngReport(s).wsrProbNw}</p>
+										</td>
+									</tr>
+									<tr>
+										<td><h:dataTable class="table" value="#{s.employees}"
+												var="e">
+
+												<h:column>
+                            					#{e.empFnm} #{e.empLnm}
+                            				</h:column>
+
+												<c:forEach items="#{Master.projMan.getListOfWeeks(1)}"
+													var="w">
+													<h:column>
+														<f:facet name="header">#{w}</f:facet>
+														<h:outputText
+															value="#{Master.projMan.getPersonDaysCharged(s, e, w)}"
+															rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) != null}">
+															<f:convertNumber type="number" minFractionDigits="1" />
+														</h:outputText>
+														<h:outputText value="0.0"
+															rendered="#{Master.projMan.getPersonDaysCharged(s, e, w) == null}">
+															<f:convertNumber type="number" minFractionDigits="1" />
+														</h:outputText>
+													</h:column>
+												</c:forEach>
+											</h:dataTable></td>
+									</tr>
+								</table>
 							</b:dataTableColumn>
-                        </b:dataTable>
-                    </b:column>
-                </b:row>
-            </div>
-        </div>
-    </ui:define>
+						</b:dataTable>
+					</b:column>
+				</b:row>
+			</div>
+		</div>
+	</ui:define>
 </ui:composition>
