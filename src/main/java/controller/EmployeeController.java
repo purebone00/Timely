@@ -227,11 +227,27 @@ public class EmployeeController implements Serializable {
     public Set<Tsrow> refreshTsrList(Set<Tsrow> tsrList, TimesheetId id) {
         int remainder = 0;
 
-        // commented this out because it was causing tsrows to never
-        // refresh, it would always be set to the first timesheet
-        // viewed.
-                if (tsrList != null)
-                    return tsrList;
+        boolean getRowsFromDb = false;
+        
+        if (tsrList != null) {    
+            Timesheet t = tManager.find(id);
+            
+            if (t == null) {
+                return tsrList;
+            }
+            
+            for (Tsrow tr : tsrList) {
+                // if selected timesheet week does not match up with weeks of rows in tsrList,
+                // get new set of rows from the db
+                if (tr.getTsrWkEnd() != null && !tr.getTsrWkEnd().equals(t.getId().getTsWkEnd())) {
+                    getRowsFromDb = true;
+                }
+            }
+            
+            if (!getRowsFromDb) {
+                return tsrList;
+            }
+        }
 
         tsrList = tManager.find(id).getTsrow();
 
@@ -241,6 +257,7 @@ public class EmployeeController implements Serializable {
             for (int i = 0; i < remainder; i++) {
                 Tsrow row = new Tsrow();
                 row.setTsrEmpId(emp.getEmpId());
+                row.setTsrWkEnd(id.getTsWkEnd());
                 tsrList.add(row);
             }
         }
@@ -373,7 +390,7 @@ public class EmployeeController implements Serializable {
         ts.setTsSubmit((short) 0);
         ts.setTsPayGrade(emp.getEmpLabGrd());
         Set<Tsrow> tsrList = new HashSet<Tsrow>();
-        tsrList = refreshTsrList(tsrList, tsId);
+        tsrList = refreshTsrList(tsrList, ts.getId());
         ts.setTsrow(tsrList);
         tManager.persist(ts);
         tsList.add(ts);
