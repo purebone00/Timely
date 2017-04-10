@@ -270,7 +270,7 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
     }
     
     public BigDecimal getOvertimeDays() {
-        return this.overtimeHrs;
+        return this.overtimeHrs.divide(new BigDecimal(8));
     }
 
     public int getVisited() {
