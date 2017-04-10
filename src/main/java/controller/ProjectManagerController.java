@@ -614,6 +614,7 @@ public class ProjectManagerController {
 	 */
 	public String assignEmployeeToProject(int projectID){
 		setSelectedProject(projectManager.find(projectID));
+		setSelectedProjectForViewing(projectManager.find(projectID));
 		//System.out.println("assignEmployee: Project id = " + projectID + "; selected project name: " + selectedProject.getProjNm());
 		return "assignEmployees";
 	}
