@@ -688,6 +688,9 @@ public class ProjectManagerController {
     public String removeEmployeeFromWP(String empID){
 
     	Employee e = employeeManager.find(Integer.parseInt(empID));
+    	if (e.getEmpId().equals(selectedWorkPackage.getWpResEng())) {
+    	    unassignEmployeeAsRE(e);
+    	}
     	workPackageManager.removeFromWP(selectedWorkPackage, e);
         e.getWorkpackages().remove(selectedWorkPackage);
         selectedWorkPackage.getEmployees().remove(e);
@@ -784,6 +787,28 @@ public class ProjectManagerController {
      */
     public List<Employee> notEmpInWP(){
     	return employeeManager.getEmpNotWP(selectedWorkPackage);
+    }
+    
+    public String assignEmployeeAsRE(Employee e) {
+        selectedWorkPackage.setWpResEng(e.getEmpId());
+        workPackageManager.merge(selectedWorkPackage);
+        workPackageManager.flush();
+        return null;
+    }
+    
+    public String unassignEmployeeAsRE(Employee e) {
+        selectedWorkPackage.setWpResEng(null);
+        workPackageManager.merge(selectedWorkPackage);
+        workPackageManager.flush();
+        return null;
+    }
+    
+    public boolean isResEng(Employee e) {
+        return (e.getEmpId().equals(selectedWorkPackage.getWpResEng()));
+    }
+    
+    public boolean resEngAssigned() {
+        return selectedWorkPackage.getWpResEng() != null;
     }
     
 }
