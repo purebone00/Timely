@@ -120,7 +120,7 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
         this.wpDesc = wpDesc;
     }
 
-    @Column(name = "wpResEng")
+    @Column(name = "wpResEng", nullable = true)
     public Integer getWpResEng() {
         return this.wpResEng;
     }
