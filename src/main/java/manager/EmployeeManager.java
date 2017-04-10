@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 
 import model.Employee;
 import model.Project;
+import model.Workpack;
 
 @SuppressWarnings("serial")
 @Dependent
@@ -138,5 +139,45 @@ public class EmployeeManager implements Serializable {
         List<Employee> employees = query.getResultList();
 
         return (employees != null) ? employees : new ArrayList<Employee>();
+    }
+    
+    /**
+     * Get a list of employees not on the currently selected work package.
+     * Who knows if this will work.
+     * 
+     * @param wp Work package that returned list of employees does not belong to
+     * @return List<Employee> List of employees that do not belong to given work package.
+     * 
+     * */    
+    public List<Employee> getEmpNotWP(Workpack wp) {
+    	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
+			", Workpack AS wp " +
+			"WHERE wp = :selectWP AND wp " +
+			"NOT MEMBER OF e.workpackages", 
+    			Employee.class); 
+    	query.setParameter("selectWP", wp);
+        List<Employee> emps = query.getResultList();
+        return emps;
+     }
+    
+
+    /**
+     * Get a list of employees on the currently selected work package.
+     * Who knows if this will work.
+     * 
+     * @param wp Work package that returned list of employees belongs to
+     * @return List<Employee> List of employees that belong to given work package.
+     * 
+     * */    
+    public List<Employee> getEmpWP(Workpack wp){
+    	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
+    			", Workpack AS wp " +
+    			"WHERE wp = :selectWP AND wp " +
+    			"MEMBER OF e.workpackages", 
+        			Employee.class); 
+    	query.setParameter("selectWP", wp);
+        List<Employee> employees = query.getResultList();
+         
+        return employees;
     }
 }
