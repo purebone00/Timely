@@ -6,14 +6,12 @@
     xmlns:b="http://bootsfaces.net/ui"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <ui:define name="title">Manage Project</ui:define>
-
     <ui:define name="content">
         <div class="ui segment grid" id="content">
             <b:jumbotron class="text-center">
                 <h1>Manage Project</h1>
                 <span></span>
             </b:jumbotron>
-
             <div class="container">
                 <b:row>
                     <b:row>
@@ -38,19 +36,20 @@
                             var="s">
                             <b:dataTableColumn>
                                 <f:facet name="header">Number</f:facet>
-								#{s.id.wpNo}
-							</b:dataTableColumn>
+                                #{s.id.wpNo}
+                            </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Details</f:facet>
                                 <b:panelGrid colSpans="12">
-	                                Name:<br/>
-	                                <b:inputText class="form-control"
-	                                	span="12"
-	                                    value="#{s.wpNm}" />
-	                                Description:<br/>
-	                                <b:inputTextarea class="form-control"
-	                                	span="12" rows="15"
-	                                    value="#{s.wpDesc}" />
+                                    Name:<br/>
+                                    <b:inputText class="form-control"
+                                        span="12"
+                                        value="#{s.wpNm}" 
+                                        required="true" requiredMessage="Please provide a name."/>
+                                    Description:<br/>
+                                    <b:inputTextarea class="form-control"
+                                        span="12" rows="15"
+                                        value="#{s.wpDesc}" />
                                 </b:panelGrid>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
@@ -66,17 +65,27 @@
                                     <h:column>
                                         <f:facet name="header">Budget (PD)</f:facet>
                                         <b:inputText
+                                            id="budget"
                                             class="form-control"
-                                            value="#{l.wlPlanDays}" />
+                                            value="#{l.wlPlanDays}"
+                                            validateMessage="Budget must be a number."> 
+                                            <f:validateRegex pattern="^[0-9]*$" />
+                                            <f:convertNumber />
+                                        </b:inputText>
+                                        <b:message for="budget"/>
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Initial Est. (PD)</f:facet>
                                         <b:inputText
+                                            id="init_est"
                                             class="form-control"
                                             value="#{s.initialEst[l.id.wlLgId]}"
-                                            rendered="#{s.initialEst != null}">
+                                            rendered="#{s.initialEst != null}"
+                                            validateMessage="Initial Est. must be a number.">
+                                            <f:validateRegex pattern="^[0-9]*$" />
                                             <f:convertNumber />
                                         </b:inputText>
+                                        <b:message for="init_est"/>
                                         <h:outputText value="N/A"
                                             rendered="#{s.initialEst == null}" />
                                     </h:column>
@@ -87,12 +96,11 @@
                                     action="#{Master.projMan.addInitialEstimate(s)}"
                                     rendered="#{Master.projMan.isLeaf(s) and s.initialEst == null}" />
                             </b:dataTableColumn>
-
                             <b:dataTableColumn>
                                 <f:facet name="header">Add Child</f:facet>
                                 <h:panelGroup
                                     rendered="#{Master.projMan.isWpCharged(s) == false}">
-                            	Child WP#:<br />
+                                Child WP#:<br />
                                     <table>
                                         <tr>
                                             <td><h:outputText
@@ -100,7 +108,7 @@
                                             <td>
                                                 <div class="col-xs-4"
                                                     style="padding-left: 0">
-                                                    <h:inputText
+                                                    <b:inputText
                                                         value="#{s.childName}"
                                                         maxlength="1"
                                                         style="padding-left:0"
@@ -109,7 +117,6 @@
                                             </td>
                                         </tr>
                                     </table>
-
                                     <br />
                                     <b:commandButton class="btn"
                                         look="success" value="Add Child"
@@ -118,7 +125,7 @@
                             </b:dataTableColumn>
                         </b:dataTable>
                         <div class="col-xs-2" style="padding-left: 0">
-                            <h:inputText
+                            <b:inputText
                                 value="#{Master.projMan.newWpName}"
                                 maxlength="1" style="padding-left:0"
                                 class="form-control"
