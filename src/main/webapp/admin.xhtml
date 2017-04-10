@@ -122,6 +122,13 @@
                                     look="danger"
                                     action="#{Master.admin.removeSup(s)}"
                                     rendered="#{Master.admin.checkSup(s)==true}" />
+                            </b:dataTableColumn>                            
+                             <b:dataTableColumn>
+                                <f:facet name="header">Assign Employees</f:facet>
+                                <b:commandButton value="Select"
+                                    look="success"
+                                    action="#{Master.admin.selectSupForAssign(s)}"
+                                    rendered="#{Master.admin.checkSup(s)==true}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Save</f:facet>

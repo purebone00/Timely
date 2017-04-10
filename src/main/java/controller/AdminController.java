@@ -93,6 +93,21 @@ public class AdminController implements Serializable {
      */
     @Inject
     private TitleManager titleManager;
+    
+    /**
+     * Represents the currently selected supervisor to display details on.
+     * @HasGetter
+     * @HasSetter
+     */
+    private Employee selectedSup;
+
+    public Employee getSelectedSup() {
+        return selectedSup;
+    }
+
+    public void setSelectedSup(Employee selectedSup) {
+        this.selectedSup = selectedSup;
+    }
 
     public EmployeeController getEmployeeController() {
         return employeeController;
@@ -231,5 +246,32 @@ public class AdminController implements Serializable {
         employeeController.resetList();
         return null;
     }
-
+    
+    /**
+     * Action method to move to assignEmpToSup.xhtml
+     * @param e
+     * @return
+     */
+    public String selectSupForAssign(Employee e) {
+        setSelectedSup(e);
+        return "assignEmpToSup";
+    }
+    
+    /**
+     * Gets a list of employees supervised by selected supervisor
+     * @return list of employees
+     */
+    public List<Employee> getSupEmp(){
+        
+        return employeeManager.getEmpSup(selectedSup);
+    }
+    
+    /**
+     * Gets a list of employees not supervised by selected supervisor
+     * @return list of employees
+     */
+    public List<Employee> getNotSupEmp(){
+        
+        return employeeManager.getEmpNotSup(selectedSup);
+    }
 }

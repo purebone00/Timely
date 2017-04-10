@@ -142,6 +142,33 @@ public class EmployeeManager implements Serializable {
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
     
+    
+    /**
+     * Gets employees not supervised by given employee
+     * @param e supervisor
+     * @return list of employees not supervised by given employee
+     */
+    public List<Employee> getEmpNotSup(Employee e) {
+        TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+                + "WHERE  e.empSupId IS NULL OR e.empSupId != :sup", Employee.class);
+        query.setParameter("sup", e.getEmpId());
+        List<Employee> employees = query.getResultList();
+        return (employees != null) ? employees : new ArrayList<Employee>();
+    }
+    
+    /**
+     * Gets employees supervised by given employee
+     * @param e supervisor
+     * @return list of employees supervised by given employee
+     */
+    public List<Employee> getEmpSup(Employee e) {
+        TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+                + "WHERE e.empSupId = :sup", Employee.class);
+        query.setParameter("sup", e.getEmpId());
+        List<Employee> employees = query.getResultList();
+        return (employees != null) ? employees : new ArrayList<Employee>();
+    }
+    
     /**
      * Get a list of employees not on the currently selected work package.
      * Who knows if this will work.
