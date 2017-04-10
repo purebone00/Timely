@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateful;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -347,6 +349,20 @@ public class EmployeeController implements Serializable {
         setOvertimeEditable(false);
         curTimesheet.setTsOverTm(overtime);
         curTimesheet.setTsFlexTm(flextime);
+        if ((curTimesheet.getTsTotal().doubleValue() 
+        		- curTimesheet.getTsOverTm().doubleValue() 
+        		- curTimesheet.getTsFlexTm().doubleValue()) > 40 
+        		|| (curTimesheet.getTsTotal().doubleValue() 
+                		- curTimesheet.getTsOverTm().doubleValue() 
+                		- curTimesheet.getTsFlexTm().doubleValue()) 
+                		< 0 ) 
+        {
+        	FacesContext.getCurrentInstance().addMessage(
+	                null,
+	                new FacesMessage(FacesMessage.SEVERITY_FATAL,
+	                "Too much flextime and overtime.",
+	                "Please Try Again!"));
+        }
         tManager.merge(curTimesheet);
         return null;
     }

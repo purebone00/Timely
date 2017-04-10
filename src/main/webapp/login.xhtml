@@ -40,14 +40,13 @@
                     <b:inputText class="form-control"
                         pt:placeholder="Username" id="inputUserName"
                         value="#{Master.login.userName}" required="true" requiredMessage="Username is required"/>
-                    <b:message for="inputUserName" />
                     <b:inputSecret class="form-control"
                         pt:placeholder="Password" id="inputPassword"
                         value="#{Master.login.password}" required="true" requiredMessage="Password is required"/>
-                    <b:message for="inputPassword" />
                     <b:commandButton
                         class="btn btn-lg btn-primary btn-block btn-signin"
                         value="Sign In" action="#{Master.authenticate}" />
+                    <b:messages />
                 </b:form>
                 <a href="#" class="forgot-password"> Forgot the
                     password? </a>
