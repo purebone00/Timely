@@ -16,6 +16,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
+import model.Labgrd;
 import model.Project;
 import model.Title;
 import model.Workpack;
@@ -167,6 +168,22 @@ public class EmployeeManager implements Serializable {
         query.setParameter("sup", e.getEmpId());
         List<Employee> employees = query.getResultList();
         return (employees != null) ? employees : new ArrayList<Employee>();
+    }
+    
+    public List<Employee> getTaApprovers() {
+        Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6", Employee.class);
+        @SuppressWarnings("unchecked")
+        List<Employee> taApprovers = q.getResultList();
+        
+        return (taApprovers != null) ? taApprovers : new ArrayList<Employee>();
+    }
+    
+    public Employee find(String e) {
+        TypedQuery<Employee> query = em.createQuery("select e from Employee e where e.empLnm=:code", Employee.class);
+        query.setParameter("code", e);
+        Employee employee = query.getSingleResult();
+        
+        return (employee != null) ? employee : new Employee();
     }
     
     /**

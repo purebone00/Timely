@@ -101,6 +101,13 @@
 									 <h:inputText value="#{s.empLnm}" size="5" rendered="#{s.editable}" />
     								<h:outputText value="#{s.empFnm} #{s.empLnm}" rendered="#{not s.editable}" />
 								</b:dataTableColumn>
+								<b:dataTableColumn>
+	                                <f:facet name="header">Responsible Engineer</f:facet>
+									<h:commandButton class="btn" value="Assign" action="#{Master.projMan.assignEmployeeAsRE(s)}"
+										rendered="#{not Master.projMan.resEngAssigned()}"/>
+									<h:commandButton class="btn" value="Unassign" action="#{Master.projMan.unassignEmployeeAsRE(s)}"
+										rendered="#{Master.projMan.resEngAssigned() and Master.projMan.isResEng(s)}"/>
+								</b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Department</f:facet>
 									<b:inputText value="#{s.empDept}" size="10" rendered="#{s.editable}" />

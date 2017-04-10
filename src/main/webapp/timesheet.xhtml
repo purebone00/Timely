@@ -209,7 +209,7 @@
                                             <f:facet name="footer">#{Master.employee.dailyTotals[4]}
 	                                        </f:facet>
                                         </b:dataTableColumn>
-                                        <b:dataTableColumn>
+                                        <!-- <b:dataTableColumn>
                                             <f:facet name="header">Overtime</f:facet>
                                             <h:inputText
                                                 value="#{s.tsrOt}"
@@ -221,7 +221,7 @@
                                             <f:facet name="footer">#{Master.employee.dailyTotals[8]}
 	                                        </f:facet>
                                         </b:dataTableColumn>
-                                        <b:dataTableColumn>
+ -->                                        <b:dataTableColumn>
                                             <f:facet name="header">Notes</f:facet>
                                             <h:inputText
                                                 value="#{s.tsrNote}"
@@ -250,11 +250,34 @@
                                                 value="Add Row"
                                                 look="info"
                                                 action="#{Master.employee.addTsrow}" />
-                                            <b:commandButton
-                                                value="Submit Timesheet"
-                                                look="danger"
-                                                action="#{Master.employee.submitTimesheet}" />
-                                        </b:buttonGroup>
+											<b:button value="Submit Timesheet" look="danger"
+												onclick="$('.modalPseudoClass').modal();return false;"
+												size="md" />
+
+
+											<b:modal id="amodal" title="Timesheet Approver"
+												styleClass="modalPseudoClass" closable="false"
+												close-on-escape="false" backdrop="false">
+												<p>Choose your Timesheet Approver: </p>
+												<h:selectOneMenu
+												 class="form-control"
+												 value="#{Master.employee.taApprover}">
+													<f:selectItems class="selectpicker"
+														value="#{Master.employee.getTaApproverNames()}" />
+												</h:selectOneMenu>
+												<f:facet name="footer">
+													<b:button value="close" dismiss="modal"
+														onclick="return false;" />
+													<b:commandButton value="Ok" look="primary"
+														action="#{Master.employee.submitTimesheet}"
+														dismiss="modal"/>
+													<!-- <b:button value="Ok" look="primary" dismiss="modal"
+														onclick="return false;" />  -->
+												</f:facet>
+											</b:modal>
+											
+											
+										</b:buttonGroup>
                                     </b:column>
                                     <b:column col-md="2" offset="2">
                                         <b:panel>

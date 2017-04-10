@@ -352,5 +352,9 @@ public class Employee implements java.io.Serializable {
         this.empLastVisitedMonthReport = empLastVisitedMonthReport;
     }
 
+    public boolean equals(Object emp) {
+        Employee empObj = (Employee) emp;
+        return this.getEmpLnm().equals(empObj.getEmpLnm());
+    }
     
 }

@@ -64,6 +64,12 @@ public class EmployeeController implements Serializable {
      */
     private TimesheetId tsId;
     /**
+     * Collection of timesheet approvers.
+     * @HasGetter
+     * @HasSetter  
+     */
+    private List<Employee> timesheetApprovers;
+    /**
      * Collection of timesheet rows in the current timesheet.
      * @HasGetter
      * @HasSetter  
@@ -79,6 +85,12 @@ public class EmployeeController implements Serializable {
      * @HasGetter  
      */
     private Set<Timesheet> tsList;
+    /**
+     * Name of Ta Approver employee.
+     * @HasGetter  
+     */
+    private String taApprover;
+    
     /**
      * Represents current week's timesheet.
      * @HasGetter
@@ -363,17 +375,6 @@ public class EmployeeController implements Serializable {
     }
 
     /**
-     * Saves information in a timesheet to database.
-     * @return String navigation string for refreshing the current page.
-     */
-    public String submitTimesheet() {
-        if (curTimesheet.getTsSubmit() == 0) {
-            curTimesheet.setTsSubmit((short) 1);
-            tManager.merge(curTimesheet);
-        }
-        return null;
-    }
-    /**
      * Returns a list containing IDs of all projects belonging to the employee. 
      * @return List<Integer> list of project IDs
      */
@@ -409,6 +410,46 @@ public class EmployeeController implements Serializable {
         tManager.persist(ts);
         tsList.add(ts);
         return null;
+    }
+    /**
+     * Saves information in a timesheet to database.
+     * @return String navigation string for refreshing the current page.
+     */
+    public String submitTimesheet() {
+        String[] firstLast = taApprover.split(" ");
+        if (curTimesheet.getTsSubmit() == 0) {
+            curTimesheet.setTsSubmit((short) 1);
+            Employee chosenApprover = employeeManager.find(firstLast[1]);
+            curTimesheet.setTsApprId(chosenApprover.getEmpId());
+            tManager.merge(curTimesheet);
+        }
+        return "employeefunctions";
+    }
+    public List<String> getTaApproverNames() {
+        getTimesheetApprovers();
+        List<String> list = new ArrayList<String>();
+        for(Employee e : timesheetApprovers) {
+            String name = e.getEmpFnm() + " " + e.getEmpLnm();
+            list.add(name);
+        }
+        return list;
+    }
+    
+    public String getTaApprover() {
+        return taApprover;
+    }
+
+    public void setTaApprover(String taApprover) {
+        this.taApprover = taApprover;
+    }
+
+    public List<Employee> getTimesheetApprovers() {
+        timesheetApprovers = employeeManager.getTaApprovers();
+        return timesheetApprovers;
+    }
+
+    public void setTimesheetApprovers(List<Employee> timesheetApprovers) {
+        this.timesheetApprovers = timesheetApprovers;
     }
 
     public BigDecimal getOvertime() {
