@@ -170,11 +170,17 @@
                             </b:dataTableColumn>
 
                             <b:dataTableColumn>
-                                <f:facet name="header">Add Employee</f:facet>
+                                <f:facet name="header">Assign Employee</f:facet>
                                 <b:commandButton class="btn"
                                 	look="primary"
-                                    action="#{Master.projMan.assignEmployeeToProject2(s.empId)}"
-                                    value="Assign to Supervisor" />
+                                    action="#{Master.admin.assignEmployeeToSup(s)}"
+                                    value="Assign to Supervisor"
+                                     rendered="#{s.empSupId == null}" />
+                                <b:commandButton class="btn"
+                                	look="primary"
+                                    action="#{Master.admin.assignEmployeeToSup(s)}"
+                                    value="Reassign to Supervisor"
+                                     rendered="#{s.empSupId != null}" />
                             </b:dataTableColumn>
                         </b:dataTable>
                         <br />
