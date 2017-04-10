@@ -297,6 +297,16 @@ public class EmployeeController implements Serializable {
         if (list == null)
             list = employeeManager.getAll();
     }
+    
+    /**
+     * Updates the list with a new one from the database
+     */
+    public void resetList() {
+        list = employeeManager.getAll();
+    }
+    
+    
+    
     /**
      * Generated editable form fields for making changes 
      * to a timesheet.
