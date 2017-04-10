@@ -190,7 +190,8 @@ public class TimesheetApproverController implements Serializable {
         for (Timesheet t : listOfts) {
             if (t.getIsApprove() == true) {
                 t.setTsApprDt(new Date());
-                t.setTsApprId(emp.getEmpId());
+                t.setTsApprover(emp);
+                //t.setTsApprId(emp.getEmpId());
                 tManager.merge(t);
                 listOfts.remove(t);
             }

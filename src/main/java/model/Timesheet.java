@@ -64,8 +64,8 @@ public class Timesheet implements java.io.Serializable {
         this.employee = employee;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "tsApprID")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tsApprID", referencedColumnName="empId")
     public Employee getTsApprover() {
         return tsApprover;
     }

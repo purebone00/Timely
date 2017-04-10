@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
 
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
@@ -22,8 +23,7 @@ import model.Title;
 import model.Workpack;
 
 @SuppressWarnings("serial")
-@Dependent
-@Stateless
+@Stateful
 public class EmployeeManager implements Serializable {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
@@ -44,7 +44,7 @@ public class EmployeeManager implements Serializable {
     }
 
     public Employee find(int id) {
-        Employee foundEmployee = em.find(Employee.class, id);
+        Employee foundEmployee = em.find(Employee.class,id);
         
         return (foundEmployee != null) ? foundEmployee : new Employee();
     }
