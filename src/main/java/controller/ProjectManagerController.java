@@ -16,14 +16,19 @@ import javax.inject.Named;
 
 import manager.LabourGradeManager;
 import manager.EmployeeManager;
+import manager.EmployeeTitleManager;
 import manager.ProjectManager;
+import manager.TitleManager;
 import manager.TsrowManager;
 import manager.WorkPackageManager;
 import manager.WplabManager;
 import manager.WpstarepManager;
 import model.Employee;
+import model.Emptitle;
+import model.EmptitleId;
 import model.Labgrd;
 import model.Project;
+import model.Title;
 import model.Tsrow;
 import model.Workpack;
 import model.WorkpackId;
@@ -40,6 +45,8 @@ import utility.models.WeeklyReport;
 @Stateful
 @Named("projMan")
 public class ProjectManagerController {
+    private static final short RES_ENG_TIT_ID = 6;
+    
 	/**
 	 * Used for accessing work package data in database (Workpack table).
 	 */
@@ -75,6 +82,16 @@ public class ProjectManagerController {
      */
     @Inject
     EmployeeManager employeeManager;
+    /**
+     * Used for accessing title data in the database (Title table)
+     */
+    @Inject
+    TitleManager titleManager;
+    /**
+     * Used for accessing employee title data in the database (Emptitle table)
+     */
+    @Inject
+    EmployeeTitleManager emptitleManager;
     /**
     * Represents employee whose information is being altered.
     * @HasGetter
@@ -789,15 +806,57 @@ public class ProjectManagerController {
     	return employeeManager.getEmpNotWP(selectedWorkPackage);
     }
     
+    /**
+     * Assign an employee to as a Responsible Engineer to the selected Work Package.
+     * @param e The employee to assign.
+     * @return null
+     */
     public String assignEmployeeAsRE(Employee e) {
         selectedWorkPackage.setWpResEng(e.getEmpId());
+        boolean titleExists = false;
+        for (Title et : e.getTitles()) {
+            if (et.getTitId() == RES_ENG_TIT_ID) {
+                // check if the employee aready is a RE
+                titleExists = true;
+            }
+        }
+        
+        if (!titleExists) {
+            // only need to add the title if the employee
+            // doesn't already have it
+            Title t = titleManager.find(RES_ENG_TIT_ID);
+            e.getTitles().add(t);
+            employeeManager.merge(e);
+        }
+        
         workPackageManager.merge(selectedWorkPackage);
         workPackageManager.flush();
         return null;
     }
     
+    /**
+     * Unassign an employee as a Responsible Engineer from the selected Work Package.
+     * @param e The employee to unassign.
+     * @return null.
+     */
     public String unassignEmployeeAsRE(Employee e) {
         selectedWorkPackage.setWpResEng(null);
+        boolean removeTitle = true;
+        for (Workpack w : e.getWorkpackages()) {
+            if (!selectedWorkPackage.getId().equals(w.getId())) { // ignore the selected wp
+                if (w.getWpResEng() != null && w.getWpResEng().equals(e.getEmpId())) {
+                    // if the employee is RE for any other WP, don't remove the title
+                    removeTitle = false;
+                }
+             }
+        }
+        
+        if (removeTitle) {
+            // only remove the title if this is the only WP employee is RE for
+            Emptitle et = emptitleManager.find(new EmptitleId(e.getEmpId(), RES_ENG_TIT_ID));
+            emptitleManager.remove(et);
+        }
+        
         workPackageManager.merge(selectedWorkPackage);
         workPackageManager.flush();
         return null;
