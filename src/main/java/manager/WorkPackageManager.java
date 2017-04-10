@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import model.Employee;
 import model.Project;
 import model.Workpack;
 import model.WorkpackId;
@@ -79,6 +80,16 @@ public class WorkPackageManager {
         for (Workpack wo : w) {
             em.merge(wo);
         }
+    }
+    
+    public void flush() {
+        em.flush();
+    }
+    
+    /*ripped off from ProjectManager > removeFromProject() */
+    public void removeFromWP(Workpack wp, Employee e) {
+        em.createNativeQuery("DELETE FROM Empwp WHERE Empwp.ewEmpId = ?1 AND Empwp.ewWpNo = ?2 AND Empwp.ewProjNo = ?3")
+            .setParameter(1, e.getEmpId()).setParameter(2, wp.getId().getWpNo()).setParameter(3, wp.getId().getWpProjNo()).executeUpdate();
     }
 
 }
