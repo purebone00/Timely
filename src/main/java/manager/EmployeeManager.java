@@ -226,8 +226,14 @@ public class EmployeeManager implements Serializable {
         return employees;
     }
     
+    /**
+     * Removes given title t from employee e
+     * @param e employee getting title removed
+     * @param t title to be removed
+     */
     public void removeTitle(Employee e, Title t){
         em.createNativeQuery("DELETE FROM Emptitle WHERE Emptitle.etEmpID = ?1 AND Emptitle.etTitID = ?2")
         .setParameter(1, e.getEmpId()).setParameter(2, t.getTitId()).executeUpdate();
     }
+    
 }
