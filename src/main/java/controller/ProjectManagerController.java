@@ -673,6 +673,18 @@ public class ProjectManagerController {
         projectManager.removeFromProject(selectedProject, e);
         e.getProjects().remove(selectedProject);
         selectedProject.getEmployees().remove(e);
+                       
+        if (selectedProject.getProjMan() != null && selectedProject.getProjMan().equals(Integer.parseInt(empID))) {
+            selectedProject.setProjMan(null);
+            projectManager.merge(selectedProject);
+        }
+
+        for (Workpack w : selectedProject.getWorkPackages()) {
+            if (w.getWpResEng() != null && w.getWpResEng().equals(Integer.parseInt(empID))) {
+                w.setWpResEng(null);
+                workPackageManager.merge(w);
+            }
+        }
 
         return null;
     }
