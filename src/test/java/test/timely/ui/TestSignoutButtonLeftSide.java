@@ -31,7 +31,7 @@ public class TestSignoutButtonLeftSide{
     driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
     driver.findElement(By.id("j_idt16:j_idt18")).click();
     driver.findElement(By.linkText("Features")).click();
-    assertEquals("About Us", driver.findElement(By.id("j_idt47")).getText());
+    assertEquals("", driver.findElement(By.linkText("Sign Out")).getText());
   }
 
   @After

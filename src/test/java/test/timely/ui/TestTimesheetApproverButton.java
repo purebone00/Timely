@@ -30,8 +30,8 @@ public class TestTimesheetApproverButton{
     driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
     driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
     driver.findElement(By.id("j_idt16:j_idt18")).click();
-    driver.findElement(By.linkText("Features")).click();
-    assertEquals("About Us", driver.findElement(By.id("j_idt47")).getText());
+    driver.findElement(By.linkText("Timesheet Approver")).click();
+    assertEquals("Timesheet Approver", driver.findElement(By.id("j_idt47")).getText());
   }
 
   @After
