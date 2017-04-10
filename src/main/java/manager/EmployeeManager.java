@@ -151,8 +151,8 @@ public class EmployeeManager implements Serializable {
      */
     public List<Employee> getEmpNotSup(Employee e) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
-                + "WHERE  e.empSupId IS NULL OR e.empSupId != :sup", Employee.class);
-        query.setParameter("sup", e.getEmpId());
+                + "WHERE  e != :me AND e.empSupId IS NULL OR e.empSupId != :sup ", Employee.class);
+        query.setParameter("sup", e.getEmpId()).setParameter("me", e);
         List<Employee> employees = query.getResultList();
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
