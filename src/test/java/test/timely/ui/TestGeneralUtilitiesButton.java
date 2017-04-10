@@ -1,15 +1,14 @@
-package test.timely.login;
+package test.timely.ui;
 
-import java.util.regex.Pattern;
+
+
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
 
-public class Login {
+public class TestGeneralUtilitiesButton{
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -17,21 +16,22 @@ public class Login {
 
   @Before
   public void setUp() throws Exception {
-	  System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
+	System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
     driver = new FirefoxDriver();
-    
     baseUrl = "http://localhost:8080/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testLogin() throws Exception {
+  public void testJava() throws Exception {
     driver.get(baseUrl + "/Timely/");
     driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Admin");
+    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Ryan");
     driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
     driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
     driver.findElement(By.id("j_idt16:j_idt18")).click();
+    driver.findElement(By.linkText("Features")).click();
+    assertEquals("About Us", driver.findElement(By.id("j_idt47")).getText());
   }
 
   @After
@@ -60,19 +60,5 @@ public class Login {
       return false;
     }
   }
-
-  private String closeAlertAndGetItsText() {
-    try {
-      Alert alert = driver.switchTo().alert();
-      String alertText = alert.getText();
-      if (acceptNextAlert) {
-        alert.accept();
-      } else {
-        alert.dismiss();
-      }
-      return alertText;
-    } finally {
-      acceptNextAlert = true;
-    }
-  }
 }
+
