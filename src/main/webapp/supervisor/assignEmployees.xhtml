@@ -97,6 +97,13 @@
                                     action="#{Master.projMan.removeEmployee(s.empId)}"
                                     value="Remove Employee" />
                             </b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Assign as PM</f:facet>
+									<h:commandButton class="btn" value="Assign" action="#{Master.projMan.assignEmployeeAsPM(s)}"
+										rendered="#{not Master.projMan.projManAssigned()}"/>
+									<h:commandButton class="btn" value="Unassign" action="#{Master.projMan.unassignEmployeeAsPM(s)}"
+										rendered="#{Master.projMan.projManAssigned() and Master.projMan.isProjMan(s)}"/>
+                            </b:dataTableColumn>
                         </b:dataTable>
                         <br />
                         <b:commandButton look="success" class="btn" value="Save" />
