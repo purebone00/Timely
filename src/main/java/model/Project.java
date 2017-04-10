@@ -31,7 +31,7 @@ public class Project implements java.io.Serializable {
     private Integer projNo;
     private String projNm;
     private String projDesc;
-    private int projMan;
+    private Integer projMan;
     private Date projStaDt;
     private Date projEndDt;
     private short projStatus;
@@ -117,12 +117,12 @@ public class Project implements java.io.Serializable {
         this.projDesc = projDesc;
     }
 
-    @Column(name = "projMan", nullable = false)
-    public int getProjMan() {
+    @Column(name = "projMan")
+    public Integer getProjMan() {
         return this.projMan;
     }
 
-    public void setProjMan(int projMan) {
+    public void setProjMan(Integer projMan) {
         this.projMan = projMan;
     }
 
