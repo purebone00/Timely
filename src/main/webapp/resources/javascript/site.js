@@ -94,7 +94,7 @@ function addTSANotification(firstChild, notificationCount) {
 	var newNotification = document.createElement("li");
 	var notificationMessage = "You have " + notificationCount + " timesheets to approve."; 
 	newNotification.style.cursor = "pointer";
-	newNotification.innerHTML = "<a href=\"/Timely/faces/timesheetapprover.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
+	newNotification.innerHTML = "<a href=\"/Timely/faces/approver/timesheetapprover.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
 	firstChild.appendChild(newNotification);
 }
 
@@ -102,7 +102,7 @@ function addMonthNotification(firstChild, notificationCount) {
 	var newNotification = document.createElement("li");
 	var notificationMessage = "You have unvisited Monthly reports.";
 	newNotification.style.cursor = "pointer";
-	newNotification.innerHTML = "<a href=\"/Timely/faces/viewmanagedprojects.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
+	newNotification.innerHTML = "<a href=\"/Timely/faces/manager/viewmanagedprojects.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
 	firstChild.appendChild(newNotification);
 }
 
@@ -110,14 +110,14 @@ function addWeekNotification(firstChild, notificationCount) {
 	var newNotification = document.createElement("li");
 	var notificationMessage = "You have unvisited Weekly reports.";
 	newNotification.style.cursor = "pointer";
-	newNotification.innerHTML = "<a href=\"/Timely/faces/viewmanagedprojects.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
+	newNotification.innerHTML = "<a href=\"/Timely/faces/manager/viewmanagedprojects.xhtml\" role=\"menuitem\" tabindex=\"-1\">"+ notificationMessage +"</a>"
 	firstChild.appendChild(newNotification);
 }
 
 $(document).ready(function() {
-	var timesheetPath = "/Timely/faces/employeefunctions.xhtml";
-	var approvedTimesheetPath = "/Timely/faces/viewtimesheet.xhtml"
-	var reviewTimesheetPath = "/Timely/faces/reviewTimesheet.xhtml"
+	var timesheetPath = "/Timely/faces/employee/employeefunctions.xhtml";
+	var approvedTimesheetPath = "/Timely/faces/approver/viewtimesheet.xhtml"
+	var reviewTimesheetPath = "/Timely/faces/approver/reviewTimesheet.xhtml"
     $(".dropdown-toggle").dropdown();
     removeShowingEntriesOnPage(timesheetPath);
     removeShowingEntriesOnPage(approvedTimesheetPath);
