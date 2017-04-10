@@ -138,9 +138,10 @@ public class EmployeeController implements Serializable {
     }
     /**
      * Number of columns for tracking hours worked per package.
-     * (one for each day of the week plus one for the sum of hours worked in the week). 
+     * (one for each day of the week plus one for the sum of hours worked in the week,
+     * plus one for overtime). 
      */
-    private static int DAYS_IN_WEEK_AND_TOTAL = 8;
+    private static int DAYS_IN_WEEK_AND_TOTAL = 9;
     /**
      * Total amount of hours charged per day over all work packages.
      * @HasGetter
@@ -177,6 +178,9 @@ public class EmployeeController implements Serializable {
             }
             if (row.getTotal() != null) {
                 dailyTotals[7] = dailyTotals[7].add(new BigDecimal(row.getTotal().doubleValue()));
+            }
+            if (row.getTsrOt() != null) {
+                dailyTotals[8] = dailyTotals[8].add(new BigDecimal(row.getTsrOt().doubleValue()));
             }
         }
         return dailyTotals;
