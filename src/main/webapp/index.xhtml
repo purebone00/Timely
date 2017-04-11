@@ -213,6 +213,7 @@
 			<div class="container text-center">
 			
 				<b:dataTable responsive="true"
+				searching = "false"
 					value="#{Master.employee.pendingTsList()}" var="s">
 					<b:dataTableColumn value="#{s.id.tsEmpId}">
 						<f:facet name="header">Employee ID</f:facet>
