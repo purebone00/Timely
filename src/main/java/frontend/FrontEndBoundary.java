@@ -49,7 +49,7 @@ public class FrontEndBoundary implements Serializable {
 
     
 
-    public String finish() throws IOException {
+    public String finish() {
         employee.setEmp(null);
 
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -104,25 +104,21 @@ public class FrontEndBoundary implements Serializable {
     public void generateAllFeatures() {
     }
 
-    public String changePassword() throws IOException {
+    public String changePassword() {
         Employee emp = employee.getEmp();
-        Integer empChNo = emp.getEmpChNo();
         String newPassword = emp.getNewPassword();
         String currentPassword = emp.getOldPassword();
         String confirmNewPassword = emp.getNewPasswordConfirm();
-        String failed = "failedPasswordCheck";
-
-        if (empChNo.intValue() != emp.getEmpId().intValue())
-            return failed;
+        
         if (!confirmNewPassword.equals(newPassword))
-            return failed;
+            return null;
+        
         if (!currentPassword.equals(emp.getEmpPw()))
-            return failed;
+            return null;
 
         emp.setEmpPw(newPassword);
         employeeManager.merge(emp);
         finish();
-
         return "success";
     }
 

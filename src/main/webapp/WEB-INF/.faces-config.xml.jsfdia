@@ -29,15 +29,10 @@
   PATH="/changepassword.xhtml" SHAPE="96,785,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#changepassword.xhtml:0" NAME="item"
    PATH="/changepassword.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="failedPasswordCheck::#index.xhtml"
-    NAME="output" PATH="/index.xhtml" TARGET="rules:#index.xhtml"
-    TITLE="failedPasswordCheck" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="success::#login.xhtml" NAME="output1"
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="success" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#admin#admin.xhtml" PATH="/admin/admin.xhtml"
-  SHAPE="304,209,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#approver#reviewTimesheet.xhtml"
   PATH="/approver/reviewTimesheet.xhtml" SHAPE="256,1201,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#approver#reviewTimesheet.xhtml:0" NAME="item"
@@ -59,6 +54,8 @@
     TARGET="rules:#approver#viewtimesheet.xhtml" TITLE="view" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#admin.xhtml" PATH="/admin/admin.xhtml"
+  SHAPE="304,209,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#approver#viewtimesheet.xhtml"
   PATH="/approver/viewtimesheet.xhtml" SHAPE="256,1313,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
