@@ -57,13 +57,6 @@
                                 <h:outputText value="#{s.empDept}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Employee Sig</f:facet>
-                                <b:inputText value="#{s.empSig}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSig}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
                             <!--  <b:dataTableColumn>
 	                                <f:facet name="header">Employee Flex Time</f:facet>	
 									<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
@@ -74,20 +67,6 @@
                                 <b:inputText value="#{s.empLabGrd}"
                                     size="10" rendered="#{s.editable}" />
                                 <h:outputText value="#{s.empLabGrd}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Supervisor ID</f:facet>
-                                <b:inputText value="#{s.empSupId}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSupId}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Date of Hire</f:facet>
-                                <b:inputText value="#{s.empInsDt}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empInsDt}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
@@ -145,13 +124,6 @@
                                 <h:outputText value="#{s.empDept}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Employee Sig</f:facet>
-                                <b:inputText value="#{s.empSig}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSig}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
                             <!--  <b:dataTableColumn>
 	                                <f:facet name="header">Employee Flex Time</f:facet>	
 									<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
@@ -164,21 +136,6 @@
                                 <h:outputText value="#{s.empLabGrd}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Supervisor ID</f:facet>
-                                <b:inputText value="#{s.empSupId}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSupId}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Date of Hire</f:facet>
-                                <b:inputText value="#{s.empInsDt}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empInsDt}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-
                             <b:dataTableColumn>
                                 <f:facet name="header">Add Employee</f:facet>
                                 <b:commandButton class="btn"
@@ -199,7 +156,7 @@
 				<b:commandButton
              		look="primary"
                  	action="#{Master.supMan.assignTA()}"
-                	value="Assign Timesheet approver"/>		 
+                	value="Assign Timesheet Approver"/>		 
 	            </b:row>
 	        </b:form>
         </div>

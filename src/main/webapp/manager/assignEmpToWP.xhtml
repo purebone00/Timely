@@ -50,19 +50,6 @@
 								<h:outputText value="#{s.wpNm}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn>
-								<f:facet name="header">Status</f:facet>
-								<h:outputText value="#{s.wpStatus}" />
-							</b:dataTableColumn>
-
-							<b:dataTableColumn>
-								<f:facet name="header">Start date</f:facet>
-								<h:outputText value="#{s.wpStaDt}" />
-							</b:dataTableColumn>
-							<b:dataTableColumn>
-								<f:facet name="header">End date</f:facet>
-								<h:outputText value="#{s.wpEndDt}" />
-							</b:dataTableColumn>
-							<b:dataTableColumn>
 								<f:facet name="header">Description</f:facet>
 								<h:outputText value="#{s.wpDesc}" />
 							</b:dataTableColumn>
@@ -120,35 +107,10 @@
 									<h:outputText value="#{s.empDept}" rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn>
-									<f:facet name="header">Employee Sig</f:facet>
-									<b:inputText value="#{s.empSig}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empSig}" rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<!--  <b:dataTableColumn>
-		                                <f:facet name="header">Employee Flex Time</f:facet>	
-										<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
-	    								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
-									</b:dataTableColumn>  -->
-								<b:dataTableColumn>
 									<f:facet name="header">Labour Grade </f:facet>
 									<b:inputText value="#{s.empLabGrd}" size="10"
 										rendered="#{s.editable}" />
 									<h:outputText value="#{s.empLabGrd}"
-										rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Supervisor ID</f:facet>
-									<b:inputText value="#{s.empSupId}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empSupId}"
-										rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Date of Hire</f:facet>
-									<b:inputText value="#{s.empInsDt}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empInsDt}"
 										rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 							</b:dataTable>
@@ -199,35 +161,10 @@
 									<h:outputText value="#{s.empDept}" rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn>
-									<f:facet name="header">Employee Sig</f:facet>
-									<b:inputText value="#{s.empSig}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empSig}" rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<!--  <b:dataTableColumn>
-		                                <f:facet name="header">Employee Flex Time</f:facet>	
-										<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
-		   								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
-									</b:dataTableColumn>  -->
-								<b:dataTableColumn>
 									<f:facet name="header">Labour Grade </f:facet>
 									<b:inputText value="#{s.empLabGrd}" size="10"
 										rendered="#{s.editable}" />
 									<h:outputText value="#{s.empLabGrd}"
-										rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Supervisor ID</f:facet>
-									<b:inputText value="#{s.empSupId}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empSupId}"
-										rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Date of Hire</f:facet>
-									<b:inputText value="#{s.empInsDt}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empInsDt}"
 										rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 							</b:dataTable>

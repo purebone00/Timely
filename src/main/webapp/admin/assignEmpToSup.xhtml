@@ -60,13 +60,6 @@
                                 <h:outputText value="#{s.empDept}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Employee Sig</f:facet>
-                                <b:inputText value="#{s.empSig}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSig}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
                             <!--  <b:dataTableColumn>
 	                                <f:facet name="header">Employee Flex Time</f:facet>	
 									<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
@@ -77,20 +70,6 @@
                                 <b:inputText value="#{s.empLabGrd}"
                                     size="10" rendered="#{s.editable}" />
                                 <h:outputText value="#{s.empLabGrd}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Supervisor ID</f:facet>
-                                <b:inputText value="#{s.empSupId}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSupId}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Date of Hire</f:facet>
-                                <b:inputText value="#{s.empInsDt}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empInsDt}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
@@ -152,21 +131,6 @@
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
-                                <f:facet name="header">Supervisor ID</f:facet>
-                                <b:inputText value="#{s.empSupId}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSupId}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Date of Hire</f:facet>
-                                <b:inputText value="#{s.empInsDt}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empInsDt}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-
-                            <b:dataTableColumn>
                                 <f:facet name="header">Assign Employee</f:facet>
                                 <b:commandButton class="btn"
                                 	look="primary"
@@ -178,15 +142,8 @@
                                     action="#{Master.admin.assignEmployeeToSup(s)}"
                                     value="Reassign to Supervisor"
                                      rendered="#{s.empSupId != null}" />
-                            </b:dataTableColumn>
-                                                        <b:dataTableColumn>
-                                <f:facet name="header">Employee Sig</f:facet>
-                                <b:inputText value="#{s.empSig}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSig}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
-                        </b:dataTable>
+                            </b:dataTableColumn>                        
+                            </b:dataTable>
                         <br />
                         <b:commandButton look="success" class="btn" value="Save" />
                     </b:form>
