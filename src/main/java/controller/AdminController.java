@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import manager.EmployeeManager;
+import manager.EmployeeTitleManager;
 import manager.LabourGradeManager;
 import manager.ProjectManager;
 import manager.TitleManager;
@@ -93,6 +94,12 @@ public class AdminController implements Serializable {
      */
     @Inject
     private TitleManager titleManager;
+    
+    /**
+     * Used for accessing Emptitle data in database (Emptitle table).
+     */
+    @Inject
+    private EmployeeTitleManager emptitleManager;
     
     /**
      * Represents the currently selected supervisor to display details on.
@@ -190,6 +197,11 @@ public class AdminController implements Serializable {
 
         employeeManager.merge(e);
         // employeeManager.flush();
+        
+        employeeManager.removeSupervisorReferences(e);
+        projectManager.removeProjManReferences(e);
+        workpackManager.removeResEngReferences(e);
+        emptitleManager.removeAllTitles(e);
 
         // return to current page
         return null;
