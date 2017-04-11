@@ -33,16 +33,16 @@
     
         <b:listLinks rendered="#{Master.showAdmin()}">
             <b:navLink header="Admin" />
+            <b:navCommandLink icon-size="lg" iconAwesome="user-secret"
+                outcome="/admin/admin" value="Admin Control" rendered="#{Master.showAdmin()}" />
             <b:navCommandLink icon-size="lg" iconAwesome="user-plus"
-                href="#" value="Add User" rendered="true" />
+                outcome="/admin/createuser" value="Add User" rendered="#{Master.showAdmin()}" />
         </b:listLinks>
         
         <b:listLinks>
             <b:navLink header="User Controls" />
             <b:navLink value="Change Password" outcome="/changepassword"
                 iconAwesome="key" />
-            <b:navCommandLink icon-size="lg" iconAwesome="info" href="#"
-                value="Update User Info" rendered="true" />
         </b:listLinks>
 
     </b:form>
