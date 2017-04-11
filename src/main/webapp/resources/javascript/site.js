@@ -129,14 +129,16 @@ function addWeekNotification(firstChild, notificationCount) {
 
 $(document).ready(function() {
 	var timesheetPath = "/Timely/faces/employee/employeefunctions.xhtml";
-	var approvedTimesheetPath = "/Timely/faces/approver/viewtimesheet.xhtml"
-	var reviewTimesheetPath = "/Timely/faces/approver/reviewTimesheet.xhtml"
-	var indexTimesheetPath = "/Timely/faces/index.xhtml"
+	var approvedTimesheetPath = "/Timely/faces/approver/viewtimesheet.xhtml";
+	var reviewTimesheetPath = "/Timely/faces/approver/reviewTimesheet.xhtml";
+	var indexTimesheetPath = "/Timely/faces/index.xhtml";
+	var assignEmpToWP = "/Timely/faces/manager/assignEmpToWP.xhtml";
     $(".dropdown-toggle").dropdown();
     removeShowingEntriesOnPage(timesheetPath);
     removeShowingEntriesOnPage(approvedTimesheetPath);
     removeShowingEntriesOnPage(reviewTimesheetPath);
     removeShowingEntriesOnPage(indexTimesheetPath);
+    removeShowingEntriesOnPage(assignEmpToWP);
 });
 
 

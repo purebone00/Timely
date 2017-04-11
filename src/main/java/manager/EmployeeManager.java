@@ -84,14 +84,14 @@ public class EmployeeManager implements Serializable {
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
-    public Map<String, Employee> getActiveEmpMap() {
-        Map<String, Employee> employeeMap = new TreeMap<String, Employee>();
+    public Map<Integer, Employee> getActiveEmpMap() {
+        Map<Integer, Employee> employeeMap = new TreeMap<Integer, Employee>();
         TypedQuery<Employee> query = em.createQuery("select s from Employee s where s.empDel = 0", Employee.class);
         List<Employee> employees = query.getResultList();
         for (Employee e : employees) {
-            employeeMap.put(e.getEmpLnm(), e);
+            employeeMap.put(e.getEmpId(), e);
         }
-        return (employeeMap != null) ? employeeMap : new HashMap<String, Employee>();
+        return (employeeMap != null) ? employeeMap : new HashMap<Integer, Employee>();
     }
 
     /**
