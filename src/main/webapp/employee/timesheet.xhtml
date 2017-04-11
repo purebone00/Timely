@@ -67,18 +67,23 @@
                                         </b:dataTableColumn>
                                         <b:dataTableColumn order="desc">
                                             <f:facet name="header">WP No.</f:facet>
-                                            <b:inputText
+                                            <!-- <b:inputText
                                             	id="wpNumber"
                                                 value="#{s.tsrWpNo}"
                                                 size="10"
                                                 rendered="#{s.editable}"
                                                 validatorMessage="Work Package number must be a string"> 
                                             	<f:validateRegex pattern="^[a-zA-Z][a-zA-Z0-9]+$" />
-                                            </b:inputText>
+                                            </b:inputText> -->
                                             <h:outputText
                                                 value="#{s.tsrWpNo}"
-                                                rendered="#{not s.editable}" />
-                                        </b:dataTableColumn>
+                                                rendered="#{not s.editable}" /> 
+											<b:selectOneMenu class="form-control" value="#{s.tsrWpNo}"
+												rendered="#{s.editable}">
+												<f:selectItems class="selectpicker"
+													value="#{Master.employee.workPackList()}" />
+											</b:selectOneMenu>
+										</b:dataTableColumn>
                                         <b:dataTableColumn>
                                             <f:facet name="header">Totals</f:facet>
                                             <h:outputText
@@ -209,7 +214,7 @@
                                             <f:facet name="footer">#{Master.employee.dailyTotals[4]}
 	                                        </f:facet>
                                         </b:dataTableColumn>
-                                        <!-- <b:dataTableColumn>
+                                         <b:dataTableColumn>
                                             <f:facet name="header">Overtime</f:facet>
                                             <h:inputText
                                                 value="#{s.tsrOt}"
@@ -221,7 +226,7 @@
                                             <f:facet name="footer">#{Master.employee.dailyTotals[8]}
 	                                        </f:facet>
                                         </b:dataTableColumn>
- -->                                        <b:dataTableColumn>
+                                        <b:dataTableColumn>
                                             <f:facet name="header">Notes</f:facet>
                                             <h:inputText
                                                 value="#{s.tsrNote}"

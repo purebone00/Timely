@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import manager.EmployeeManager;
+import manager.ProjectManager;
 import manager.TimesheetManager;
 import manager.TsrowManager;
 import model.Employee;
@@ -30,6 +31,7 @@ import model.Project;
 import model.Timesheet;
 import model.TimesheetId;
 import model.Tsrow;
+import model.Workpack;
 import utility.DateTimeUtility;
 
 /**
@@ -44,6 +46,11 @@ public class EmployeeController implements Serializable {
 	 */
     @Inject
     private EmployeeManager employeeManager;
+    /**
+     * Used for accessing project data in database (Project table).  
+     */
+    @Inject
+    private ProjectManager projectManager;
 	/**
      * Used for accessing timesheet data in database (Timesheet table).  
 	 */
@@ -345,29 +352,45 @@ public class EmployeeController implements Serializable {
         for (Tsrow row : tsrList) {
             row.setEditable(false);
             row.setTimesheet(getCurTimesheet());
+            row.setTimesheet(curTimesheet);
+            
+            if(row.getTsrWpNo().isEmpty())
+                continue;
+                  
             if (row.getTsrProjNo() != 0 && !row.getTsrWpNo().isEmpty()) {
                 trManager.merge(row);
+            } else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                        "INVALID WPNO or PROJNO.",
+                        "Please Try Again!"));
             }
         }
+        
         setOvertimeEditable(false);
         curTimesheet.setTsOverTm(overtime);
         curTimesheet.setTsFlexTm(flextime);
-        if ((curTimesheet.getTsTotal().doubleValue() 
-        		- curTimesheet.getTsOverTm().doubleValue() 
-        		- curTimesheet.getTsFlexTm().doubleValue()) > 40 
-        		|| (curTimesheet.getTsTotal().doubleValue() 
-                		- curTimesheet.getTsOverTm().doubleValue() 
-                		- curTimesheet.getTsFlexTm().doubleValue()) 
-                		< 0 ) 
-        {
-        	FacesContext.getCurrentInstance().addMessage(
-	                null,
-	                new FacesMessage(FacesMessage.SEVERITY_FATAL,
-	                "Too much flextime and overtime.",
-	                "Please Try Again!"));
-        }
-        tManager.merge(curTimesheet);
-        return null;
+        if(curTimesheet.getTsOverTm() != null || curTimesheet.getTsFlexTm() != null) {
+            if ((curTimesheet.getTsTotal().doubleValue() 
+                    - curTimesheet.getTsOverTm().doubleValue() 
+                    - curTimesheet.getTsFlexTm().doubleValue()) > 40 
+                    || (curTimesheet.getTsTotal().doubleValue() 
+                            - curTimesheet.getTsOverTm().doubleValue() 
+                            - curTimesheet.getTsFlexTm().doubleValue()) 
+                            < 0 ) 
+            {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                        "Too much flextime and overtime.",
+                        "Please Try Again!"));
+            }
+        } else {
+            tManager.merge(curTimesheet);
+        }            
+        
+        return "timesheet";
     }
     /**
      * Adds a row to the current timesheet.
@@ -404,6 +427,15 @@ public class EmployeeController implements Serializable {
         }
         return list;
     }
+    
+    public List<String> workPackList() {
+        List<String> list = new ArrayList<String>();
+        list.add("");
+        for(Workpack w : emp.getWorkpackages()) {
+            list.add(w.getId().getWpNo());
+        }
+        return list;
+    }
     /**
      * Generates a new timesheet id.
      * @return TimesheetId newly-generated timesheet id.
@@ -430,6 +462,7 @@ public class EmployeeController implements Serializable {
         tsList.add(ts);
         return null;
     }
+    
     /**
      * Saves information in a timesheet to database.
      * @return String navigation string for refreshing the current page.
