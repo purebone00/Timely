@@ -11,22 +11,20 @@
 		<div class="container">
 	        <div class="row">
 	            <div class="col-xs-4">
-	            	<h2>assignEmpToWP.xhtml: </h2>
-	            	<h5>PM: Assigning employees to work projects</h5>
-					
-	            	<br/>
-	            	<h:form>
-	            	 <b><h:commandLink value="BACK: assignEmployees.xhtml" action="assignEmployees" /></b>
-	            	 <br/>
-	            	 <b><h:commandLink value="ALL PROJECTS: viewAllProjects.xhtml" action="viewAllProjects" /></b>
-	            	 </h:form>
-	            
+				<b:row>
+                    <h:form>
+                     <b><h:commandLink value="BACK to list of employees" action="assignEmployees" /></b>
+                     <br/>
+                     <b><h:commandLink value="BACK to list of projects" action="viewAllProjects" /></b>
+                     </h:form>
+                </b:row>
+                
 	            	<h4>
 	            	<h:outputText value="Project No.: #{Master.projMan.selectedProject.projNo}"/><br/>
 	            	<h:outputText value="Name: #{Master.projMan.selectedProject.projNm}"/><br/>
 	            	<b>
 	            	<h:outputText value="Current WP No.: #{Master.projMan.selectedWorkPackage.wpNm}"/><br/>
-	            	<h:outputText value="Current WP Name: #{Master.projMan.selectedWorkPackage.id.wpProjNo}"/><br/>
+	            	<h:outputText value="Current WP Name: #{Master.projMan.selectedWorkPackage.id.wpNo}"/><br/>
 	            	</b>
 	            	</h4>
 	            	
@@ -79,7 +77,6 @@
 	            <div class="col-xs-4">
 	            	<h:form>
 	            	<h4>Employees currently on WP:</h4>
-					Select one employee to move them OFF of a particular WP.
 					<br/>
 						<b:dataTable 
 	                            value="#{Master.projMan.allEmpInWP()}"
@@ -149,7 +146,6 @@
 	            <div class="col-xs-4">
 	            	<h:form>
 	            	<h4>Available to be assigned:</h4>
-					Select one employee to move them ON TO a particular WP.
 					<br/>
 						
 					<b:dataTable 
