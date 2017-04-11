@@ -30,7 +30,7 @@
 						<br />
 
                         <b:dataTable
-                            value="#{Master.projMan.allEmpInProject()}"
+                            value="#{Master.projMan.allEmpInProject(Master.employee.emp)}"
                             var="s" responsive="true">
 
                             <b:dataTableColumn>

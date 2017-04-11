@@ -738,11 +738,20 @@ public class ProjectManagerController {
         return dtu.getListOfMonths(dtu.getDateString(staDt), dtu.getDateString(endDt));
     }
     /**
-     * 
+     * Gets list of employees in the selected project that the logged in supervisor supervises.
      */
-    public List<Employee> allEmpInProject() {
+    public List<Employee> allEmpInProject(Employee supervisor) {
         // return selectedProject.getEmployees();
-        return employeeManager.getEmpProj(selectedProject);
+        List<Employee> empInProject = employeeManager.getEmpProj(selectedProject);
+        List<Employee> supervisedEmpInProj = new ArrayList<Employee>();
+        
+        //only keep the employees that the logged in supervisor supervises
+        for (Employee e : empInProject) {
+            if (e.getEmpSupId() != null && e.getEmpSupId().equals(supervisor.getEmpId())) {
+                supervisedEmpInProj.add(e);
+            }
+        }
+        return supervisedEmpInProj;
     }
 
     /**
