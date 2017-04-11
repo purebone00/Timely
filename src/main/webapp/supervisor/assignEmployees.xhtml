@@ -118,7 +118,7 @@
 						<br />
 
                         <b:dataTable
-                            value="#{Master.projMan.NotEmpInProject()}"
+                            value="#{Master.projMan.NotEmpInProject(Master.employee.emp)}"
                             var="s" responsive="true">
 
                             <b:dataTableColumn>

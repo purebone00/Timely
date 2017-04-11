@@ -746,14 +746,23 @@ public class ProjectManagerController {
     }
 
     /**
-     * Gets a list of employees not in the given project.
+     * Gets a list of employees not in the given project and supervised by a supervisor.
      * 
      * @param proj
      *            a project
      * @return list of employees
      */
-    public List<Employee> NotEmpInProject() {
-        return employeeManager.getEmpNotProj(selectedProject);
+    public List<Employee> NotEmpInProject(Employee supervisor) {
+        List<Employee> empNotProj = employeeManager.getEmpNotProj(selectedProject);
+        List<Employee> supervisedEmpNotProj = new ArrayList<Employee>();
+        
+        // only keep the employees that are supervised by the given supervisor.
+        for (Employee e : empNotProj) {
+            if (e.getEmpSupId() != null && e.getEmpSupId().equals(supervisor.getEmpId())) {
+                supervisedEmpNotProj.add(e);
+            }
+        }
+        return supervisedEmpNotProj;
     }
 
     /**
