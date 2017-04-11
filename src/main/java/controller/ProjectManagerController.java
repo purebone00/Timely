@@ -812,11 +812,23 @@ public class ProjectManagerController {
     }
     
     /**
-     * Gets a list of employees not in the given work package.
+     * Gets a list of employees not in the given work package but in the selected project.
      * @return list of employees
      */
     public List<Employee> notEmpInWP(){
-    	return employeeManager.getEmpNotWP(selectedWorkPackage);
+    	List<Employee> empNotInWp = employeeManager.getEmpNotWP(selectedWorkPackage);
+    	List<Employee> empInProjNotInWp = new ArrayList<Employee>();
+    	
+    	// only keep the employees that are in the selected project.
+    	for (Employee e : empNotInWp) {
+    	    for (Project p : e.getProjects()) {
+    	        if (p.getProjNo().equals(selectedProject.getProjNo())) {
+    	            empInProjNotInWp.add(e);
+    	            break;
+    	        }
+    	    }
+    	}
+    	return empInProjNotInWp;
     }
     
     /**
