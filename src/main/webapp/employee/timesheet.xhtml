@@ -17,25 +17,17 @@
 
                     <div class="container">
                         <b:row>
-                            <b:column col-md="4">
-                                <h4>EmployeeID:
+	                        <b:panelGrid colSpans="6,6" size="md">
+							    <h4>EmployeeID:
                                     #{Master.employee.emp.empId}</h4>
                                 <h4>Employee Name:
                                     #{Master.employee.emp.empFnm}
                                     #{Master.employee.emp.empLnm}</h4>
-                                <br></br>
-                            </b:column>
-
-                            <b:column col-md="4">
                                 <h4>Week Number:
                                     #{Master.employee.weekNumber}</h4>
-                            </b:column>
-
-                            <b:column col-md="4">
                                 <h4>Week End:
-                                    #{Master.employee.curTimesheet.id.tsWkEnd}
-                                </h4>
-                            </b:column>
+                                    #{Master.employee.curTimesheet.id.tsWkEnd}</h4>
+							</b:panelGrid>
                         </b:row>
                     </div>
 
