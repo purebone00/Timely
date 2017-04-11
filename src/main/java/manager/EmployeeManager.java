@@ -28,20 +28,22 @@ public class EmployeeManager implements Serializable {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
-    /* Who knows if this'll work.See ProjectManagerController. */
-    public List<Employee> getEmployeesOnProject(int pid) {
-        Query query = em.createNativeQuery("SELECT empChNo FROM Empproj WHERE projNo = ?1");
-        // TypedQuery<Employee> query = em.createQuery("select s from Empproj s
-        // where s.projectNo=:code", Employee.class);
-        // query.setParameter("code", pid);
-
-        query.setParameter(1, pid);
-        
-        @SuppressWarnings("unchecked")
-        List<Employee> employees = query.getResultList();
-
-        return (employees != null) ? employees : new ArrayList<Employee>();
-    }
+    
+    //Note used ?? Need to test
+//    /* Who knows if this'll work.See ProjectManagerController. */
+//    public List<Employee> getEmployeesOnProject(int pid) {
+//        Query query = em.createNativeQuery("SELECT empChNo FROM Empproj WHERE projNo = ?1 ");
+//        // TypedQuery<Employee> query = em.createQuery("select s from Empproj s
+//        // where s.projectNo=:code", Employee.class);
+//        // query.setParameter("code", pid);
+//
+//        query.setParameter(1, pid);
+//        
+//        @SuppressWarnings("unchecked")
+//        List<Employee> employees = query.getResultList();
+//
+//        return (employees != null) ? employees : new ArrayList<Employee>();
+//    }
 
     public Employee find(int id) {
         Employee foundEmployee = em.find(Employee.class,id);
