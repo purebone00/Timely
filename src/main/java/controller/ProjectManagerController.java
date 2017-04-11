@@ -46,7 +46,7 @@ import utility.models.WeeklyReport;
 @Named("projMan")
 public class ProjectManagerController {
     private static final short PROJ_MAN_TIT_ID = 2;
-    private static final short RES_ENG_TIT_ID = 6;
+    private static final short RES_ENG_TIT_ID = 3;
     
 	/**
 	 * Used for accessing work package data in database (Workpack table).

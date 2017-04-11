@@ -87,7 +87,6 @@
                                         value="#{Master.resEng.estLabourGradeDays[s.lgId]}"
                                         validatorMessage="Estimate must be greater than or equal to 0 and cannot be a string.">
                                         <f:convertNumber />
-                                        <f:validateRegex pattern="^[0-9]*$" />
                                     </b:inputText>
                                     <b:message for="estimate" />
                                 </b:dataTableColumn>
