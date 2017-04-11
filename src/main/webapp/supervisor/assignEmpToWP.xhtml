@@ -5,187 +5,213 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Assigning Employees To Work Packages</ui:define>
+    <ui:define name="title">Assigning Employees TO WPs</ui:define>
 
     <ui:define name="content">
-        <div class="ui segment grid" id="content">
-            <b:jumbotron class="text-center">
-                <h1>Assigning Employees to WorkPackages</h1>
-                <span></span>
-            </b:jumbotron>
-            
-	        <div class="container">
-	        	<b:row>
-	        		<b:panelGrid colSpans="4,8" size="md">
-					    <h:outputText
-	                        value="No: #{Master.projMan.selectedProject.projNo}" />
-					    <h:outputText
-	                        value="Name: #{Master.projMan.selectedProject.projNm}" />
-					    <h:outputText
-	                        value="Description: #{Master.projMan.selectedProject.projDesc}" />
-					</b:panelGrid>
-	        	</b:row>
-	            <b:row>
-	                <b:column col-md="6">
-	                    <b:form>
-	                        <h4>Currently on the Work Package:</h4>
-		            		Employees on the current WP listed here
-							<br /> Select one employee to move them onto a particular WP.
-							<br />
-	
-	                        <b:dataTable
-	                            value="#{Master.admin.employeeController.list}"
-	                            var="s" responsive="true">
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Remove Employee</f:facet>
-	                                <b:commandButton look="danger" value="Remove Employee" />
-	                            </b:dataTableColumn>
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Employee ID</f:facet>
-	                                <b:inputText value="#{s.empId}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empId}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Name</f:facet>
-	                                <b:inputText value="#{s.empFnm}"
-	                                    size="5" rendered="#{s.editable}" />
-	                                <b:inputText value="#{s.empLnm}"
-	                                    size="5" rendered="#{s.editable}" />
-	                                <h:outputText
-	                                    value="#{s.empFnm} #{s.empLnm}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Department</f:facet>
-	                                <b:inputText value="#{s.empDept}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empDept}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Employee Sig</f:facet>
-	                                <b:inputText value="#{s.empSig}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empSig}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
-	                            <!--  <b:dataTableColumn>
-		                                <f:facet name="header">Employee Flex Time</f:facet>	
-										<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
-	    								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
-									</b:dataTableColumn>  -->
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Labour Grade </f:facet>
-	                                <b:inputText value="#{s.empLabGrd}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empLabGrd}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Supervisor ID</f:facet>
-	                                <b:inputText value="#{s.empSupId}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empSupId}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Date of Hire</f:facet>
-	                                <b:inputText value="#{s.empInsDt}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empInsDt}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
-	                        </b:dataTable>
-	                        <br />
-	                        <b:commandButton class="btn" look="success" value="Save" />
-	                    </b:form>
-	                </b:column>
-	                <!-- End of 2nd column -->
-	
-	                <b:column col-md="6">
-	                    <b:form>
-	                        <h4>Available to be assigned to the Work Package:</h4>
-		            		Employees in the selected project but currently NOT on the selected WP
-							<br /> Select one employee to move them onto a particular WP.
-							<br />
-	
-	                        <b:dataTable
-	                            value="#{Master.admin.employeeController.list}"
-	                            var="s" responsive="true">
-	
+		<div class="container">
+	        <div class="row">
+	            <div class="col-xs-4">
+	            	<h2>assignEmpToWP.xhtml: </h2>
+	            	<h5>PM: Assigning employees to work projects</h5>
+					
+	            	<br/>
+	            	<h:form>
+	            	 <b><h:commandLink value="BACK: assignEmployees.xhtml" action="assignEmployees" /></b>
+	            	 <br/>
+	            	 <b><h:commandLink value="ALL PROJECTS: viewAllProjects.xhtml" action="viewAllProjects" /></b>
+	            	 </h:form>
+	            
+	            	<h4>
+	            	<h:outputText value="Project No.: #{Master.projMan.selectedProject.projNo}"/><br/>
+	            	<h:outputText value="Name: #{Master.projMan.selectedProject.projNm}"/><br/>
+	            	<b>
+	            	<h:outputText value="Current WP No.: #{Master.projMan.selectedWorkPackage.wpNm}"/><br/>
+	            	<h:outputText value="Current WP Name: #{Master.projMan.selectedWorkPackage.id.wpProjNo}"/><br/>
+	            	</b>
+	            	</h4>
+	            	
+					<br/>
+					<h3>Work Packages:</h3>
+					<br/>
+					<h:form>
+					<b:dataTable 
+                           value="#{Master.projMan.listOfProjectWPs()}"
+                           var="s"
+                           responsive="true">
+
+						<b:dataTableColumn>
+                               <f:facet name="header">WP ID</f:facet>
+  								<h:outputText value="#{s.id.getWpNo()}" />
+						</b:dataTableColumn>
+						<b:dataTableColumn>
+                               <f:facet name="header">Select</f:facet>
+  								<h:commandButton class="btn" action="#{Master.projMan.selectWorkPackage(s)}" value="*"/>
+						</b:dataTableColumn>
+						
+                           <b:dataTableColumn>
+                               <f:facet name="header">WP Name</f:facet>	
+  								<h:outputText value="#{s.wpNm}" />
+						</b:dataTableColumn>
+						<b:dataTableColumn>
+                               <f:facet name="header">Status</f:facet>	
+  								<h:outputText value="#{s.wpStatus}" />
+						</b:dataTableColumn>
+						
+						<b:dataTableColumn>
+                           	<f:facet name="header">Start date</f:facet>	
+  								<h:outputText value="#{s.wpStaDt}" />
+						</b:dataTableColumn>
+						<b:dataTableColumn>
+                           	<f:facet name="header">End date</f:facet>	
+  								<h:outputText value="#{s.wpEndDt}" />
+						</b:dataTableColumn>
+						<b:dataTableColumn>
+                           	<f:facet name="header">Description</f:facet>	
+  								<h:outputText value="#{s.wpDesc}" />
+						</b:dataTableColumn>
+                       </b:dataTable>
+				</h:form>
+								
+	            </div>
+	           <!-- 1st column end -->
+	           
+	           <!-- 2nd column start: Currently on WP -->
+	            <div class="col-xs-4">
+	            	<h:form>
+	            	<h4>Employees currently on WP:</h4>
+					Select one employee to move them OFF of a particular WP.
+					<br/>
+						<b:dataTable 
+	                            value="#{Master.projMan.allEmpInWP()}"
+	                            var="s"
+	                            responsive="true">
+								
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Employee ID</f:facet>
-	                                <b:inputText value="#{s.empId}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empId}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
+									<b:inputText value="#{s.empId}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empId}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn>
+	                                <f:facet name="header">REMOVE Employee</f:facet>
+									<h:commandButton class="btn" value="-" action="#{Master.projMan.removeEmployeeFromWP(s.empId)}"/>
+								</b:dataTableColumn>
 	                            <b:dataTableColumn>
-	                                <f:facet name="header">Name</f:facet>
-	                                <b:inputText value="#{s.empFnm}"
-	                                    size="5" rendered="#{s.editable}" />
-	                                <b:inputText value="#{s.empLnm}"
-	                                    size="5" rendered="#{s.editable}" />
-	                                <h:outputText
-	                                    value="#{s.empFnm} #{s.empLnm}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
+	                                <f:facet name="header">Name</f:facet>	
+									 <h:inputText value="#{s.empFnm}" size="5" rendered="#{s.editable}" />
+									 <h:inputText value="#{s.empLnm}" size="5" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empFnm} #{s.empLnm}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn>
+	                                <f:facet name="header">Responsible Engineer</f:facet>
+									<h:commandButton class="btn" value="Assign" action="#{Master.projMan.assignEmployeeAsRE(s)}"
+										rendered="#{not Master.projMan.resEngAssigned()}"/>
+									<h:commandButton class="btn" value="Unassign" action="#{Master.projMan.unassignEmployeeAsRE(s)}"
+										rendered="#{Master.projMan.resEngAssigned() and Master.projMan.isResEng(s)}"/>
+								</b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Department</f:facet>
-	                                <b:inputText value="#{s.empDept}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empDept}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
+									<b:inputText value="#{s.empDept}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empDept}" rendered="#{not s.editable}" /> 
+								</b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Employee Sig</f:facet>
-	                                <b:inputText value="#{s.empSig}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empSig}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
+									<b:inputText value="#{s.empSig}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empSig}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
 	                            <!--  <b:dataTableColumn>
-		                                <f:facet name="header">Employee Flex Time</f:facet>	
-										<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
-	    								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
-									</b:dataTableColumn>  -->
+	                                <f:facet name="header">Employee Flex Time</f:facet>	
+									<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
+								</b:dataTableColumn>  -->
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Labour Grade </f:facet>
-	                                <b:inputText value="#{s.empLabGrd}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empLabGrd}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
+									<b:inputText value="#{s.empLabGrd}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empLabGrd}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Supervisor ID</f:facet>
-	                                <b:inputText value="#{s.empSupId}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empSupId}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
+									<b:inputText value="#{s.empSupId}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empSupId}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
 	                            <b:dataTableColumn>
 	                                <f:facet name="header">Date of Hire</f:facet>
-	                                <b:inputText value="#{s.empInsDt}"
-	                                    size="10" rendered="#{s.editable}" />
-	                                <h:outputText value="#{s.empInsDt}"
-	                                    rendered="#{not s.editable}" />
-	                            </b:dataTableColumn>
-	
-	                            <b:dataTableColumn>
-	                                <f:facet name="header">Add Employee</f:facet>
-	                                <b:commandButton class="btn" look="primary" value="Add Employee" />
-	                            </b:dataTableColumn>
+									<b:inputText value="#{s.empInsDt}" size="10" rendered="#{s.editable}" />
+    								<h:outputText value="#{s.empInsDt}" rendered="#{not s.editable}" />
+								</b:dataTableColumn>
 	                        </b:dataTable>
-	                        <br />
-	                        <b:commandButton class="btn" look="success" value="Save" />
-	                    </b:form>
-	                </b:column>
-	
-	                <!-- End of 3rd column -->
-	            </b:row>
+	                        <br/>
+						<h:commandButton class="btn" value="Save"/>
+		            </h:form>
+	            </div>
+	            <!-- 2nd column end -->
+	            
+	            <!-- 3rd column start: Employees not on WP -->
+	            <div class="col-xs-4">
+	            	<h:form>
+	            	<h4>Available to be assigned:</h4>
+					Select one employee to move them ON TO a particular WP.
+					<br/>
+						
+					<b:dataTable 
+                            value="#{Master.projMan.notEmpInWP()}"
+                            var="s"
+                            responsive="true">
+
+                            <b:dataTableColumn>
+                                <f:facet name="header">Employee ID</f:facet>
+								<b:inputText value="#{s.empId}" size="10" rendered="#{s.editable}" />
+   								<h:outputText value="#{s.empId}" rendered="#{not s.editable}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn>
+                                <f:facet name="header">ADD Employee</f:facet>
+								<h:commandButton class="btn" value="+" action="#{Master.projMan.assignEmployeeToWP(s.empId)}"/>
+							</b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Name</f:facet>	
+								 <h:inputText value="#{s.empFnm}" size="5" rendered="#{s.editable}" />
+								 <h:inputText value="#{s.empLnm}" size="5" rendered="#{s.editable}" />
+   								<h:outputText value="#{s.empFnm} #{s.empLnm}" rendered="#{not s.editable}" />
+							</b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Department</f:facet>
+								<b:inputText value="#{s.empDept}" size="10" rendered="#{s.editable}" />
+   								<h:outputText value="#{s.empDept}" rendered="#{not s.editable}" /> 
+							</b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Employee Sig</f:facet>
+								<b:inputText value="#{s.empSig}" size="10" rendered="#{s.editable}" />
+   								<h:outputText value="#{s.empSig}" rendered="#{not s.editable}" />
+							</b:dataTableColumn>
+                            <!--  <b:dataTableColumn>
+                                <f:facet name="header">Employee Flex Time</f:facet>	
+								<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
+   								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
+							</b:dataTableColumn>  -->
+                            <b:dataTableColumn>
+                                <f:facet name="header">Labour Grade </f:facet>
+								<b:inputText value="#{s.empLabGrd}" size="10" rendered="#{s.editable}" />
+   								<h:outputText value="#{s.empLabGrd}" rendered="#{not s.editable}" />
+							</b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Supervisor ID</f:facet>
+								<b:inputText value="#{s.empSupId}" size="10" rendered="#{s.editable}" />
+   								<h:outputText value="#{s.empSupId}" rendered="#{not s.editable}" />
+							</b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <f:facet name="header">Date of Hire</f:facet>
+								<b:inputText value="#{s.empInsDt}" size="10" rendered="#{s.editable}" />
+   								<h:outputText value="#{s.empInsDt}" rendered="#{not s.editable}" />
+							</b:dataTableColumn>
+							
+
+                        </b:dataTable>
+                        <br/>
+					<h:commandButton class="btn" value="Save"/>
+	            </h:form>
             </div>
+            
+            <!-- 3rd column end -->
         </div>
+       </div>
     </ui:define>
 </ui:composition>
