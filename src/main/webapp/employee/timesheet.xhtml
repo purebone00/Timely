@@ -244,20 +244,25 @@
                                             <b:commandButton
                                                 value="Save Changes"
                                                 look="success"
-                                                action="#{Master.employee.saveAction}" />
+                                                action="#{Master.employee.saveAction}" 
+                                                disabled = "#{Master.employee.isSubmitted()}"/>
                                             <b:commandButton
                                                 value="Edit"
                                                 look="warning"
                                                 icon="edit"
                                                 action="#{Master.employee.editAction()}"
-                                                rendered="#{not s.editable}" />
+                                                rendered="#{not s.editable}" 
+                                                disabled = "#{Master.employee.isSubmitted()}"/>
                                             <b:commandButton
                                                 value="Add Row"
                                                 look="info"
-                                                action="#{Master.employee.addTsrow}" />
+                                                action="#{Master.employee.addTsrow}" 
+                                                disabled = "#{Master.employee.isSubmitted()}"/>
+                                                
 											<b:button value="Submit Timesheet" look="danger"
 												onclick="$('.modalPseudoClass').modal();return false;"
-												size="md" />
+												size="md" 
+												disabled = "#{Master.employee.isSubmitted()}"/>
 
 
 											<b:modal id="amodal" title="Timesheet Approver"
@@ -280,8 +285,6 @@
 														onclick="return false;" />  -->
 												</f:facet>
 											</b:modal>
-											
-											
 										</b:buttonGroup>
                                     </b:column>
                                     <b:column col-md="2" offset="2">

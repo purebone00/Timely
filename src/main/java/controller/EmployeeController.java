@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -48,11 +50,6 @@ public class EmployeeController implements Serializable {
 	 */
     @Inject
     private EmployeeManager employeeManager;
-    /**
-     * Used for accessing project data in database (Project table).  
-     */
-    @Inject
-    private ProjectManager projectManager;
     /**
      * Used for accessing workpackage data in database (WorkPack table).  
      */
@@ -472,6 +469,72 @@ public class EmployeeController implements Serializable {
         tsList.add(ts);
         return null;
     }
+    public boolean isSubmitted() {
+        return curTimesheet.getTsSubmit() == 2;
+    }
+    
+    public int getApprovedTs() {
+        
+        int count = 0;
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 2)
+                count++;
+        }
+        return count;
+    }
+    
+    public int getRejectedTs() {
+        
+        int count = 0;
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 3)
+                count++;
+        }
+        return count;
+    }
+    
+    public int getPendingTs() {
+
+        int count = 0;
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 1)
+                count++;
+        }
+        return count;
+    }
+    
+    public int getTsSize() {
+        getTsList();
+        return tsList.size();
+    }
+    
+    public List<Timesheet> approvedTsList() {
+        List<Timesheet> approvedList = new ArrayList<>();
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 2)
+                approvedList.add(t);
+        }
+        return approvedList;
+    }
+    
+    public List<Timesheet> rejectedTsList() {
+        List<Timesheet> rejectedList = new ArrayList<>();
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 3)
+                rejectedList.add(t);
+        }
+        return rejectedList;
+    }
+    
+    public List<Timesheet> pendingTsList() {
+        List<Timesheet> pendingList = new ArrayList<>();
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 1)
+                pendingList.add(t);
+        }
+        return pendingList;
+    }
+    
     
     /**
      * Saves information in a timesheet to database.
@@ -499,6 +562,22 @@ public class EmployeeController implements Serializable {
             list.put(name, e.getEmpId());
         }
         return list;
+    }
+    
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    
+    public String getTaApproverName(Integer tsApprId) {
+        String fullName = "TBD";
+        if(getTaApproverNames().containsValue(tsApprId))
+            fullName = getKeyByValue(getTaApproverNames(),tsApprId);
+        return fullName;
     }
     
     public Integer getTaApprover() {
