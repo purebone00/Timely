@@ -41,7 +41,7 @@ public class EmployeeManager implements Serializable {
 //        
 //        @SuppressWarnings("unchecked")
 //        List<Employee> employees = query.getResultList();
-//
+//  
 //        return (employees != null) ? employees : new ArrayList<Employee>();
 //    }
 
@@ -138,7 +138,7 @@ public class EmployeeManager implements Serializable {
 
     public List<Employee> getEmpProj(Project p) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" + ", Project AS p "
-                + "WHERE p = :selectProject AND p " + "MEMBER OF e.projects", Employee.class);
+                + "WHERE p = :selectProject AND p " + "MEMBER OF e.projects AND e.empDel != 1", Employee.class);
         query.setParameter("selectProject", p);
         List<Employee> employees = query.getResultList();
 

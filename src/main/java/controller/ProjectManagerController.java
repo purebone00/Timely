@@ -137,12 +137,13 @@ public class ProjectManagerController {
     private String newWpName;
 
     /**
+     * Seems to not be used
      * Returns list of employees who have been assigned to the currently selected project.
      * @return List<Employees> the employees on the currently selected project.
      */
-    public List<Employee> getEmployeesOnProject() {
-        return employeeManager.getEmployeesOnProject(selectedProject.getProjNo());
-    }
+//    public List<Employee> getEmployeesOnProject() {
+//        return employeeManager.getEmployeesOnProject(selectedProject.getProjNo());
+//    }
 
     /**
      * Display list of work packages within currently selected project.
