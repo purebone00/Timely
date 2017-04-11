@@ -999,4 +999,16 @@ public class ProjectManagerController {
         return selectedProject.getProjMan() != null;
     }
     
+    /**
+     * Go to the page to assign employees to WP
+     * @param p
+     * @return
+     */
+    public String selectProjectForWPAssigning(Project p) {
+        setSelectedProject(p);
+        setSelectedProjectForViewing(p);
+                
+        return "assignEmpToWP";
+    }
+    
 }
