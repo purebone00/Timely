@@ -9,16 +9,26 @@ $(function() {
 	});
 });
 
+$(function() {
+	$('.collapse').collapse();
+});
+
 function statusClass() {
 	var status = document.getElementsByClassName("status");
 	
 	$(status).each(function(){
 	    if($(this).text() == 1) {
-	    	$(this).addClass('btn btn-success');
-			$(this).html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
-	    } else {
+	    	$(this).addClass('btn btn-warning');
+			$(this).html('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>');
+	    } else if($(this).text() == 3) {
 	    	$(this).addClass('btn btn-danger');
 			$(this).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
+	    } else if($(this).text() == 2) {
+	    	$(this).addClass('btn btn-success');
+			$(this).html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+	    } else if($(this).text() == 0) {
+	    	$(this).addClass('btn btn-info');
+			$(this).html('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>');
 	    }
 	    	
 	 });
@@ -28,7 +38,10 @@ function removeShowingEntriesOnPage(urlPath) {
 	var showEntries = document.getElementsByClassName("dataTables_info");
 	window.location.pathname+window.location.search
 	if(window.location.pathname+window.location.search === urlPath)
-	showEntries[0].style.display = "none";
+	//showEntries[0].style.display = "none";
+	$(showEntries).each(function() {
+		$(this).css('display', 'none');
+	})
 }
 
 function projectNumberChange() {
@@ -118,10 +131,12 @@ $(document).ready(function() {
 	var timesheetPath = "/Timely/faces/employee/employeefunctions.xhtml";
 	var approvedTimesheetPath = "/Timely/faces/approver/viewtimesheet.xhtml"
 	var reviewTimesheetPath = "/Timely/faces/approver/reviewTimesheet.xhtml"
+	var indexTimesheetPath = "/Timely/faces/index.xhtml"
     $(".dropdown-toggle").dropdown();
     removeShowingEntriesOnPage(timesheetPath);
     removeShowingEntriesOnPage(approvedTimesheetPath);
     removeShowingEntriesOnPage(reviewTimesheetPath);
+    removeShowingEntriesOnPage(indexTimesheetPath);
 });
 
 
