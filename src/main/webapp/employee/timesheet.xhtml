@@ -73,7 +73,7 @@
                                                 size="10"
                                                 rendered="#{s.editable}"
                                                 validatorMessage="Work Package number must be a string"> 
-                                            	<f:validateRegex pattern="^[a-zA-Z]+$" />
+                                            	<f:validateRegex pattern="^[a-zA-Z][a-zA-Z0-9]+$" />
                                             </b:inputText>
                                             <h:outputText
                                                 value="#{s.tsrWpNo}"
