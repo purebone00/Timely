@@ -237,4 +237,15 @@ public class EmployeeManager implements Serializable {
         .setParameter(1, e.getEmpId()).setParameter(2, t.getTitId()).executeUpdate();
     }
     
+    /**
+     * Removes all references to the given employee as a supervisor.
+     * @param supervisor
+     */
+    public void removeSupervisorReferences(Employee supervisor) {
+        for (Employee e : getEmpSup(supervisor)) {
+            e.setEmpSupId(null);
+            merge(e);
+        }
+    }
+    
 }
