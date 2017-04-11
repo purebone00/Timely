@@ -171,7 +171,8 @@ public class EmployeeManager implements Serializable {
     }
     
     public List<Employee> getTaApprovers() {
-        Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6", Employee.class);
+        Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6 AND employee.empDel != 1"
+                , Employee.class);
         @SuppressWarnings("unchecked")
         List<Employee> taApprovers = q.getResultList();
         
