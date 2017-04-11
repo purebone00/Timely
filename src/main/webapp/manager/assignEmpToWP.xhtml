@@ -11,20 +11,6 @@
 		<div class="container">
 			<b:row>
 				<b:column col-md="4">
-					<h2>assignEmpToWP.xhtml:</h2>
-					<h5>PM: Assigning employees to work projects</h5>
-
-					<br />
-					<b:form>
-						<b:row>
-							<h:commandLink value="Back to Assign Employees"
-								action="assignEmployees" />
-						</b:row>
-						<b:row>
-							<h:commandLink value="Back to View All Projects"
-								action="viewAllProjects" />
-						</b:row>
-					</b:form>
 
 					<b:row>
 						<b:panelGrid colSpans="6,6" size="lg">
@@ -35,7 +21,7 @@
 							<h:outputText
 								value="Current WP No.: #{Master.projMan.selectedWorkPackage.wpNm}" />
 							<h:outputText
-								value="Current WP Name: #{Master.projMan.selectedWorkPackage.id.wpProjNo}" />
+								value="Current WP Name: #{Master.projMan.selectedWorkPackage.id.wpNo}" />
 						</b:panelGrid>
 					</b:row>
 
@@ -44,7 +30,8 @@
 					<br />
 					<b:form>
 						<b:dataTable value="#{Master.projMan.listOfProjectWPs()}" var="s"
-							responsive="true">
+							responsive="true"
+                            searching = "false">
 							<b:dataTableColumn>
 								<f:facet name="header">WP ID</f:facet>
 								<h:outputText value="#{s.id.getWpNo()}" />
@@ -58,19 +45,6 @@
 							<b:dataTableColumn>
 								<f:facet name="header">WP Name</f:facet>
 								<h:outputText value="#{s.wpNm}" />
-							</b:dataTableColumn>
-							<b:dataTableColumn>
-								<f:facet name="header">Status</f:facet>
-								<h:outputText value="#{s.wpStatus}" />
-							</b:dataTableColumn>
-
-							<b:dataTableColumn>
-								<f:facet name="header">Start date</f:facet>
-								<h:outputText value="#{s.wpStaDt}" />
-							</b:dataTableColumn>
-							<b:dataTableColumn>
-								<f:facet name="header">End date</f:facet>
-								<h:outputText value="#{s.wpEndDt}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn>
 								<f:facet name="header">Description</f:facet>
@@ -88,11 +62,12 @@
 							<h4>Employees currently on WP:</h4>
 						</b:row>
 						<b:row>
-							<h5>Select one employee to move them OFF of a particular WP.</h5>
 						</b:row>
 						<b:row>
 							<b:dataTable value="#{Master.projMan.allEmpInWP()}" var="s"
-								responsive="true">
+								responsive="true"
+                                searching="false"
+                                paginated="false">
 
 								<b:dataTableColumn>
 									<f:facet name="header">Employee ID</f:facet>
@@ -130,35 +105,10 @@
 									<h:outputText value="#{s.empDept}" rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn>
-									<f:facet name="header">Employee Sig</f:facet>
-									<b:inputText value="#{s.empSig}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empSig}" rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<!--  <b:dataTableColumn>
-		                                <f:facet name="header">Employee Flex Time</f:facet>	
-										<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
-	    								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
-									</b:dataTableColumn>  -->
-								<b:dataTableColumn>
 									<f:facet name="header">Labour Grade </f:facet>
 									<b:inputText value="#{s.empLabGrd}" size="10"
 										rendered="#{s.editable}" />
 									<h:outputText value="#{s.empLabGrd}"
-										rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Supervisor ID</f:facet>
-									<b:inputText value="#{s.empSupId}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empSupId}"
-										rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Date of Hire</f:facet>
-									<b:inputText value="#{s.empInsDt}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empInsDt}"
 										rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 							</b:dataTable>
@@ -176,11 +126,14 @@
 					<b:form>
 						<b:row>
 							<h4>Available to be assigned:</h4>
-							<h5>Select one employee to move them ON TO a particular WP.</h5>
 						</b:row>
 						<b:row>
 							<b:dataTable value="#{Master.projMan.notEmpInWP()}" var="s"
-								responsive="true">
+								responsive="true"
+                                searching="false"
+                                
+                                paginted="false"
+                                >
 
 								<b:dataTableColumn>
 									<f:facet name="header">Employee ID</f:facet>
@@ -209,35 +162,10 @@
 									<h:outputText value="#{s.empDept}" rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn>
-									<f:facet name="header">Employee Sig</f:facet>
-									<b:inputText value="#{s.empSig}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empSig}" rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<!--  <b:dataTableColumn>
-		                                <f:facet name="header">Employee Flex Time</f:facet>	
-										<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
-		   								<h:outputText value="#{s.empFlxTm}" rendered="#{not s.editable}" /> 
-									</b:dataTableColumn>  -->
-								<b:dataTableColumn>
 									<f:facet name="header">Labour Grade </f:facet>
 									<b:inputText value="#{s.empLabGrd}" size="10"
 										rendered="#{s.editable}" />
 									<h:outputText value="#{s.empLabGrd}"
-										rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Supervisor ID</f:facet>
-									<b:inputText value="#{s.empSupId}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empSupId}"
-										rendered="#{not s.editable}" />
-								</b:dataTableColumn>
-								<b:dataTableColumn>
-									<f:facet name="header">Date of Hire</f:facet>
-									<b:inputText value="#{s.empInsDt}" size="10"
-										rendered="#{s.editable}" />
-									<h:outputText value="#{s.empInsDt}"
 										rendered="#{not s.editable}" />
 								</b:dataTableColumn>
 							</b:dataTable>

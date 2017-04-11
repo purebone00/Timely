@@ -1,28 +1,247 @@
 <ui:composition template="/template/master_page.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Employee</ui:define>
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+	<ui:define name="title">Employee</ui:define>
 
-    <ui:define name="content">
-        <div class="ui segment grid">
-            <div class="row">
-                <div class="column">
-                    <div class="container">
-                        <div class="jumbotron text-center">
-                            <h1>Hello,
-                                #{Master.employee.emp.empFnm}
-                                #{Master.employee.emp.empLnm}!</h1>
-                            <h2>What would you like to do today?</h2>
-                            <span></span>
-                        </div>
-                        <div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ui:define>
+	<ui:define name="content">
+		<div class="ui segment grid">
+			<div class="row">
+				<div class="column">
+					<div class="container">
+						<div class="jumbotron text-center">
+							<h1>Hello, #{Master.employee.emp.empFnm}
+								#{Master.employee.emp.empLnm}!</h1>
+							<h2>What would you like to do today?</h2>
+							<span></span>
+
+						</div>
+						<div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Dashboard</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-calendar fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div class="huge">#{Master.employee.getTsSize()}</div>
+									<div>Timesheets</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel-footer">
+							<span class="pull-left"><b:navLink value="View Details"
+									outcome="/employee/employeefunctions"></b:navLink></span> <span
+								class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="panel panel-green">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-calendar-check-o  fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div class="huge">#{Master.employee.getApprovedTs()}</div>
+									<div>Approved Timesheets</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel-footer">
+							<span class="pull-left"><b:navLink value="View Details"
+									onclick="$('.BmodalPseudoClass').modal();return false;"></b:navLink></span>
+							<span class="pull-right"><i
+								class="fa fa-arrow-circle-right"></i></span>
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6">
+					<div class="panel panel-red">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-calendar-times-o fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div class="huge">#{Master.employee.getRejectedTs()}</div>
+									<div>Rejected Timesheets</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel-footer">
+							<span class="pull-left"><b:navLink value="View Details"
+									onclick="$('.CmodalPseudoClass').modal();return false;"></b:navLink></span>
+							<span class="pull-right"><i
+								class="fa fa-arrow-circle-right"></i></span>
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="panel panel-yellow">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-eye fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div class="huge">#{Master.employee.getPendingTs()}</div>
+									<div>Pending Timesheets</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel-footer">
+							<span class="pull-left"><b:navLink value="View Details"
+									onclick="$('.DmodalPseudoClass').modal();return false;"></b:navLink></span>
+							<span class="pull-right"><i
+								class="fa fa-arrow-circle-right"></i></span>
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<b:modal id="bmodal" title="Approved Timesheets"
+			styleClass="BmodalPseudoClass" closable="false"
+			close-on-escape="false" backdrop="false">
+			<div class="container text-center">
+
+				<b:dataTable responsive="true" searching="false" paginated="false"
+					value="#{Master.employee.approvedTsList()}" var="s">
+					<b:dataTableColumn value="#{s.id.tsEmpId}">
+						<f:facet name="header">Employee ID</f:facet>
+
+					</b:dataTableColumn>
+					<b:dataTableColumn order="desc" value="#{s.id.tsWkEnd}">
+						<f:facet name="header">Week End</f:facet>
+
+					</b:dataTableColumn>
+					<b:dataTableColumn>
+						<f:facet name="header">Status</f:facet>
+						<p class="status">#{s.tsSubmit}</p>
+					</b:dataTableColumn>
+					<b:dataTableColumn>
+						<f:facet name="header">Approver</f:facet>
+						<p class="status">#{Master.employee.getTaApproverName(s.tsApprId)}
+						</p>
+					</b:dataTableColumn>
+
+				</b:dataTable>
+
+			</div>
+			<f:facet name="footer">
+				<b:button value="close" dismiss="modal" onclick="return false;" />
+				<b:button value="Ok" look="primary" dismiss="modal"
+					onclick="return false;" />
+			</f:facet>
+		</b:modal>
+
+		<b:modal id="cmodal" title="Rejected Timesheets"
+			styleClass="CmodalPseudoClass" closable="false"
+			close-on-escape="false" backdrop="false">
+			<div class="container text-center">
+
+				<b:dataTable responsive="true" searching="false" paginated="false"
+					value="#{Master.employee.rejectedTsList()}" var="s">
+					<b:dataTableColumn value="#{s.id.tsEmpId}">
+						<f:facet name="header">Employee ID</f:facet>
+
+					</b:dataTableColumn>
+					<b:dataTableColumn order="desc" value="#{s.id.tsWkEnd}">
+						<f:facet name="header">Week End</f:facet>
+
+					</b:dataTableColumn>
+					<b:dataTableColumn>
+						<f:facet name="header">Status</f:facet>
+						<p class="status">#{s.tsSubmit}</p>
+					</b:dataTableColumn>
+					<b:dataTableColumn>
+						<f:facet name="header">Approver</f:facet>
+						<p class="status">#{Master.employee.getTaApproverName(s.tsApprId)}
+						</p>
+					</b:dataTableColumn>
+
+				</b:dataTable>
+
+			</div>
+			<f:facet name="footer">
+				<b:button value="close" dismiss="modal" onclick="return false;" />
+				<b:button value="Ok" look="primary" dismiss="modal"
+					onclick="return false;" />
+			</f:facet>
+		</b:modal>
+
+		<b:modal id="dmodal" title="Pending Timesheets" searching="false"
+			styleClass="DmodalPseudoClass" closable="false"
+			close-on-escape="false" backdrop="false">
+			<div class="container text-center">
+
+			
+
+				<b:dataTable responsive="true" searching="false" paginated="false"
+					value="#{Master.employee.pendingTsList()}" var="s">
+					<b:dataTableColumn value="#{s.id.tsEmpId}">
+						<f:facet name="header">Employee ID</f:facet>
+
+					</b:dataTableColumn>
+					<b:dataTableColumn order="desc" value="#{s.id.tsWkEnd}">
+						<f:facet name="header">Week End</f:facet>
+
+					</b:dataTableColumn>
+					<b:dataTableColumn>
+						<f:facet name="header">Status</f:facet>
+						<p class="status">#{s.tsSubmit}</p>
+					</b:dataTableColumn>
+					<b:dataTableColumn>
+						<f:facet name="header">Approver</f:facet>
+						<p class="status">#{Master.employee.getTaApproverName(s.tsApprId)}
+						</p>
+					</b:dataTableColumn>
+
+				</b:dataTable>
+
+			</div>
+			<f:facet name="footer">
+				<b:button value="close" dismiss="modal" onclick="return false;" />
+				<b:button value="Ok" look="primary" dismiss="modal"
+					onclick="return false;" />
+			</f:facet>
+		</b:modal>
+
+
+	</ui:define>
 </ui:composition>
