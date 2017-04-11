@@ -26,12 +26,14 @@ import manager.EmployeeManager;
 import manager.ProjectManager;
 import manager.TimesheetManager;
 import manager.TsrowManager;
+import manager.WorkPackageManager;
 import model.Employee;
 import model.Project;
 import model.Timesheet;
 import model.TimesheetId;
 import model.Tsrow;
 import model.Workpack;
+import model.WorkpackId;
 import utility.DateTimeUtility;
 
 /**
@@ -51,6 +53,11 @@ public class EmployeeController implements Serializable {
      */
     @Inject
     private ProjectManager projectManager;
+    /**
+     * Used for accessing workpackage data in database (WorkPack table).  
+     */
+    @Inject
+    private WorkPackageManager wpManager;
 	/**
      * Used for accessing timesheet data in database (Timesheet table).  
 	 */
@@ -358,14 +365,17 @@ public class EmployeeController implements Serializable {
                 continue;
                   
             if (row.getTsrProjNo() != 0 && !row.getTsrWpNo().isEmpty()) {
-                trManager.merge(row);
-            } else {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                        "INVALID WPNO or PROJNO.",
-                        "Please Try Again!"));
-            }
+                
+                if(wpManager.find(new WorkpackId(row.getTsrProjNo(),row.getTsrWpNo())) != null)
+                    trManager.merge(row);
+                else {
+                    FacesContext.getCurrentInstance().addMessage(
+                            null,
+                            new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Project Number and Work Package Number do not match.",
+                            "Please Try Again!"));
+                }
+            } 
         }
         
         setOvertimeEditable(false);
