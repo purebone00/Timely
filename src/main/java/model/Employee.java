@@ -29,7 +29,7 @@ import javax.persistence.Transient;
 @Table(name = "Employee")
 public class Employee implements java.io.Serializable {
     /* ==================================================== */
-    private Integer empChNo;
+    
     private String newPasswordConfirm;
     private String newPassword;
     private String oldPassword;
@@ -69,15 +69,6 @@ public class Employee implements java.io.Serializable {
 
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
-    }
-
-    @Transient
-    public Integer getEmpChNo() {
-        return empChNo;
-    }
-
-    public void setEmpChNo(Integer empChNo) {
-        this.empChNo = empChNo;
     }
 
     @Transient

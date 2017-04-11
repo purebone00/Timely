@@ -64,12 +64,7 @@
                                 <h:outputText value="#{s.empDept}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn>
-                                <f:facet name="header">Employee Sig</f:facet>
-                                <b:inputText value="#{s.empSig}" size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSig}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
+
                             <!--  <b:dataTableColumn>
 									<f:facet name="header">Employee Flex Time</f:facet>	
 									<b:inputText value="#{s.empFlxTm}" size="10" rendered="#{s.editable}" />
@@ -87,12 +82,14 @@
                                 <h:outputText value="#{s.empLabGrd}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
+                            <!-- 
                             <b:dataTableColumn>
                                 <f:facet name="header">Supervisor ID</f:facet>
                                 <b:inputText value="#{s.empSupId}" size="10" rendered="#{s.editable}" />
                                 <h:outputText value="#{s.empSupId}"
                                     rendered="#{not s.editable}" />
                             </b:dataTableColumn>
+                             -->
                             <b:dataTableColumn>
                                 <f:facet name="header">Edit</f:facet>
                                 <b:commandButton value="Edit"
@@ -111,6 +108,30 @@
                                     look="primary"
                                     action="#{Master.admin.restore(s)}"
                                     rendered="#{s.empDel == 1}" />
+                            </b:dataTableColumn>
+                             <b:dataTableColumn>
+                                <f:facet name="header">Make Supervisor</f:facet>
+                                <b:commandButton value="Promote"
+                                    look="success"
+                                    action="#{Master.admin.makeSup(s)}"
+                                    rendered="#{Master.admin.checkSup(s)==false}" />
+                                <b:commandButton value="Demote"
+                                    look="danger"
+                                    action="#{Master.admin.removeSup(s)}"
+                                    rendered="#{Master.admin.checkSup(s)==true}" />
+                            </b:dataTableColumn>                            
+                             <b:dataTableColumn>
+                                <f:facet name="header">Assign Employees</f:facet>
+                                <b:commandButton value="Select"
+                                    look="success"
+                                    action="#{Master.admin.selectSupForAssign(s)}"
+                                    rendered="#{Master.admin.checkSup(s)==true}" />
+                            </b:dataTableColumn>
+                                                        <b:dataTableColumn>
+                                <f:facet name="header">Employee Sig</f:facet>
+                                <b:inputText value="#{s.empSig}" size="10" rendered="#{s.editable}" />
+                                <h:outputText value="#{s.empSig}"
+                                    rendered="#{not s.editable}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Save</f:facet>

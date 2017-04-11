@@ -9,11 +9,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateful;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -89,7 +94,7 @@ public class EmployeeController implements Serializable {
      * Name of Ta Approver employee.
      * @HasGetter  
      */
-    private String taApprover;
+    private Integer taApprover;
     
     /**
      * Represents current week's timesheet.
@@ -309,6 +314,16 @@ public class EmployeeController implements Serializable {
         if (list == null)
             list = employeeManager.getAll();
     }
+    
+    /**
+     * Updates the list with a new one from the database
+     */
+    public void resetList() {
+        list = employeeManager.getAll();
+    }
+    
+    
+    
     /**
      * Generated editable form fields for making changes 
      * to a timesheet.
@@ -337,6 +352,20 @@ public class EmployeeController implements Serializable {
         setOvertimeEditable(false);
         curTimesheet.setTsOverTm(overtime);
         curTimesheet.setTsFlexTm(flextime);
+        if ((curTimesheet.getTsTotal().doubleValue() 
+        		- curTimesheet.getTsOverTm().doubleValue() 
+        		- curTimesheet.getTsFlexTm().doubleValue()) > 40 
+        		|| (curTimesheet.getTsTotal().doubleValue() 
+                		- curTimesheet.getTsOverTm().doubleValue() 
+                		- curTimesheet.getTsFlexTm().doubleValue()) 
+                		< 0 ) 
+        {
+        	FacesContext.getCurrentInstance().addMessage(
+	                null,
+	                new FacesMessage(FacesMessage.SEVERITY_FATAL,
+	                "Too much flextime and overtime.",
+	                "Please Try Again!"));
+        }
         tManager.merge(curTimesheet);
         return null;
     }
@@ -406,30 +435,34 @@ public class EmployeeController implements Serializable {
      * @return String navigation string for refreshing the current page.
      */
     public String submitTimesheet() {
-        String[] firstLast = taApprover.split(" ");
-        if (curTimesheet.getTsSubmit() == 0) {
-            curTimesheet.setTsSubmit((short) 1);
-            Employee chosenApprover = employeeManager.find(firstLast[1]);
-            curTimesheet.setTsApprId(chosenApprover.getEmpId());
-            tManager.merge(curTimesheet);
-        }
-        return "employeefunctions";
+        Employee approver = null;
+        
+        curTimesheet.setTsSubmit((short) 1);
+        
+        approver = employeeManager.find(getTaApprover());
+        curTimesheet.setTsApprover(approver);
+        //tManager.updateTsApproverId(emp.getEmpId(), getTaApprover().intValue(), curTimesheet.getId().getTsWkEnd());
+        //curTimesheet.setTsApprId(Integer.parseInt(getTaApprover()));
+        tManager.merge(curTimesheet);
+        tManager.flush();
+    
+        return null;
     }
-    public List<String> getTaApproverNames() {
+    public Map<String, Integer> getTaApproverNames() {
         getTimesheetApprovers();
-        List<String> list = new ArrayList<String>();
+        Map<String, Integer> list = new LinkedHashMap<String, Integer>();
         for(Employee e : timesheetApprovers) {
             String name = e.getEmpFnm() + " " + e.getEmpLnm();
-            list.add(name);
+            list.put(name, e.getEmpId());
         }
         return list;
     }
     
-    public String getTaApprover() {
+    public Integer getTaApprover() {
         return taApprover;
     }
 
-    public void setTaApprover(String taApprover) {
+    public void setTaApprover(Integer taApprover) {
         this.taApprover = taApprover;
     }
 

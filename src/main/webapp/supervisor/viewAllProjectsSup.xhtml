@@ -58,11 +58,6 @@
                                     </b:commandButton>
                                 </b:dataTableColumn>
                             </b:dataTable>
-                            <b:commandButton
-            					look="primary"
-                				action="#{Master.supMan.assignTA()}"
-               					value="Assign Timesheet approver">
-           					 </b:commandButton>
                         </b:form>
                         <!-- 						<div class="column"> -->
                         <!-- 							<h:form> -->
@@ -75,7 +70,11 @@
                     </div>
                 </div>
             </div>
-			
+			<b:commandButton
+            	look="primary"
+                action="#{Master.supMan.assignTA()}"
+                value="Assign Timesheet approver">
+            </b:commandButton>
         </div>
 
     </ui:define>
