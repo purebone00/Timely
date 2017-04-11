@@ -84,14 +84,14 @@ public class EmployeeManager implements Serializable {
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
-    public Map<String, Employee> getActiveEmpMap() {
-        Map<String, Employee> employeeMap = new TreeMap<String, Employee>();
+    public Map<Integer, Employee> getActiveEmpMap() {
+        Map<Integer, Employee> employeeMap = new TreeMap<Integer, Employee>();
         TypedQuery<Employee> query = em.createQuery("select s from Employee s where s.empDel = 0", Employee.class);
         List<Employee> employees = query.getResultList();
         for (Employee e : employees) {
-            employeeMap.put(e.getEmpLnm(), e);
+            employeeMap.put(e.getEmpId(), e);
         }
-        return (employeeMap != null) ? employeeMap : new HashMap<String, Employee>();
+        return (employeeMap != null) ? employeeMap : new HashMap<Integer, Employee>();
     }
 
     /**
@@ -151,7 +151,7 @@ public class EmployeeManager implements Serializable {
      */
     public List<Employee> getEmpNotSup(Employee e) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
-                + "WHERE  e != :me AND e.empSupId IS NULL OR e.empSupId != :sup ", Employee.class);
+                + "WHERE  e != :me AND e.empDel != 1 AND e.empSupId IS NULL OR e.empSupId != :sup ", Employee.class);
         query.setParameter("sup", e.getEmpId()).setParameter("me", e);
         List<Employee> employees = query.getResultList();
         return (employees != null) ? employees : new ArrayList<Employee>();
@@ -164,7 +164,7 @@ public class EmployeeManager implements Serializable {
      */
     public List<Employee> getEmpSup(Employee e) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
-                + "WHERE e.empSupId = :sup", Employee.class);
+                + "WHERE e.empSupId = :sup AND e.empDel != 1 ", Employee.class);
         query.setParameter("sup", e.getEmpId());
         List<Employee> employees = query.getResultList();
         return (employees != null) ? employees : new ArrayList<Employee>();

@@ -36,7 +36,7 @@ public class LoginController implements Serializable {
     /**
      * Username entered during login attempt.
      */
-    private String userName;
+    private Integer userName;
     /**
      * Password entered during login attempt.
      * @HasGetter
@@ -53,7 +53,7 @@ public class LoginController implements Serializable {
      * Returns map containing all employees. Key = last name. Value = employee object.
      * @return Map<String,Employee> map of employee objects indexed by last name.
      */
-    private Map<String, Employee> empMap;
+    private Map<Integer, Employee> empMap;
     /**
      * Not used.
      */
@@ -85,11 +85,11 @@ public class LoginController implements Serializable {
     
     
 
-    public String getUserName() {
+    public Integer getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUserName(Integer userName) {
         this.userName = userName;
     }
 

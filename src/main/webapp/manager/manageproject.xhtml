@@ -68,8 +68,9 @@
                                             id="budget"
                                             class="form-control"
                                             value="#{l.wlPlanDays}"
-                                            validateMessage="Budget must be a number."> 
-                                            <f:validateRegex pattern="^[0-9]*$" />
+                                            validateMessage="Budget must be a number."
+                                            required="true"
+                                            requiredMessage="Please enter a value."> 
                                             <f:convertNumber />
                                         </b:inputText>
                                         <b:message for="budget"/>
@@ -81,8 +82,8 @@
                                             class="form-control"
                                             value="#{s.initialEst[l.id.wlLgId]}"
                                             rendered="#{s.initialEst != null}"
-                                            validateMessage="Initial Est. must be a number.">
-                                            <f:validateRegex pattern="^[0-9]*$" />
+                                            validateMessage="Initial Est. must be a number."
+                                            required="true">
                                             <f:convertNumber />
                                         </b:inputText>
                                         <b:message for="init_est"/>
