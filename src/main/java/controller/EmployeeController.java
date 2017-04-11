@@ -371,6 +371,7 @@ public class EmployeeController implements Serializable {
                             new FacesMessage(FacesMessage.SEVERITY_FATAL,
                             "Project Number and Work Package Number do not match.",
                             "Please Try Again!"));
+                    row.setTsrWpNo("");
                 }
             } 
         }
