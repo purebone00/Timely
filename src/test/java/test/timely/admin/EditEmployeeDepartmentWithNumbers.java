@@ -1,4 +1,17 @@
+//Input: Joy Nelson
+//Requirements: requires testsuite that runs Promotion before you can run Demotion
+//Requirements: 3911ERD_ver21
+
 package test.timely.admin;
+
+import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -15,22 +28,25 @@ public class EditEmployeeDepartmentWithNumbers {
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
 
-
   @Before
   public void setUp() throws Exception {
+	  
+	System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
     driver = new FirefoxDriver();
     baseUrl = "http://localhost:8080/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testEditEmployeeDepartmentWithNumbers() throws Exception {
-    driver.get(baseUrl + "/Timely/faces/admin/admin.xhtml");
-    driver.findElement(By.id("j_idt52:j_idt53:2:j_idt82")).click();
-    driver.findElement(By.id("input_j_idt52:j_idt53:2:departmentError")).clear();
-    driver.findElement(By.id("input_j_idt52:j_idt53:2:departmentError")).sendKeys("1111");
-    driver.findElement(By.xpath("//table[@id='j_idt52:j_idt53']/tbody/tr[3]/td")).click();
-    // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+  public void loginAdmin() throws Exception {
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
+	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
   }
 
   @After
@@ -75,3 +91,4 @@ public class EditEmployeeDepartmentWithNumbers {
     }
   }
 }
+

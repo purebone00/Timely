@@ -1,4 +1,4 @@
-//requires reset to 4911ERD_ver7.sql
+//compatabile 4911ERD_ver21 requires database reset to run
 
 package test.timely.login;
 
@@ -11,7 +11,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class LoginRyan {
+public class LoginNoUserName {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -28,12 +28,15 @@ public class LoginRyan {
 
   @Test
   public void testLogin() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Ryan");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt77")).click();
+	    // Warning: assertTextNotPresent may require manual changes
+	    assertFalse(driver.findElement(By.cssSelector("BODY")).getText().matches("Joy Nelson"));
   }
 
   @After

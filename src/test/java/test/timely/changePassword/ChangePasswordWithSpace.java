@@ -1,6 +1,8 @@
-//requires reset to 4911ERD_ver7.sql
+//Input: Joy Nelson
+//Requirements: requires testsuite that runs Promotion before you can run Demotion
+//Requirements: 3911ERD_ver21
 
-package test.timely.login;
+package test.timely.changePassword;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +13,16 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class LoginRyan {
+import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class ChangePasswordWithSpace {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -19,21 +30,23 @@ public class LoginRyan {
 
   @Before
   public void setUp() throws Exception {
-	  System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
+	  
+	System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
     driver = new FirefoxDriver();
-    
     baseUrl = "http://localhost:8080/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testLogin() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Ryan");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
+  public void loginAdmin() throws Exception {
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
+	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
   }
 
   @After
@@ -78,3 +91,4 @@ public class LoginRyan {
     }
   }
 }
+

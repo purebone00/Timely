@@ -1,4 +1,17 @@
+//Input: Joy Nelson
+//Requirements: requires testsuite that runs Promotion before you can run Demotion
+//Requirements: 3911ERD_ver21
+
 package test.timely.admin;
+
+import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -16,32 +29,24 @@ public class CreateUser {
   private StringBuffer verificationErrors = new StringBuffer();
 
   @Before
-	public void setUp() throws Exception {      
-		System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
-  	driver = new FirefoxDriver();
-	}
+  public void setUp() throws Exception {
+	  
+	System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
+    driver = new FirefoxDriver();
+    baseUrl = "http://localhost:8080/";
+    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+  }
 
   @Test
-  public void testCreateUser() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Admin");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
-    driver.findElement(By.name("j_idt47:j_idt48")).click();
-    driver.findElement(By.name("addUser:j_idt18")).clear();
-    driver.findElement(By.name("addUser:j_idt18")).sendKeys("Bob");
-    driver.findElement(By.name("addUser:j_idt20")).clear();
-    driver.findElement(By.name("addUser:j_idt20")).sendKeys("Left");
-    driver.findElement(By.name("addUser:j_idt22")).clear();
-    driver.findElement(By.name("addUser:j_idt22")).sendKeys("IS");
-    driver.findElement(By.name("addUser:j_idt27")).clear();
-    driver.findElement(By.name("addUser:j_idt27")).sendKeys("Comp@4911");
-    driver.findElement(By.id("addUser:addButton")).click();
-    driver.findElement(By.cssSelector("input.form-control.input-sm")).clear();
-    driver.findElement(By.cssSelector("input.form-control.input-sm")).sendKeys("Bob");
-    driver.findElement(By.xpath("//table[@id='j_idt49:j_idt50']/tbody/tr/td[9]/button")).click();
+  public void loginAdmin() throws Exception {
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
+	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
   }
 
   @After
@@ -86,3 +91,4 @@ public class CreateUser {
     }
   }
 }
+
