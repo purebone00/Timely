@@ -45,8 +45,12 @@ public class Show10EntiresWith1Entry {
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    new Select(driver.findElement(By.name("j_idt52:j_idt53_length"))).selectByVisibleText("100");
+	    try {
+	      assertEquals("10", driver.findElement(By.cssSelector("th.sortin")).getAttribute("css=th.sorting"));
+	    } catch (Error e) {
+	      verificationErrors.append(e.toString());
+	    }
   }
 
   @After

@@ -37,7 +37,7 @@ public class Show100Entries {
   }
 
   @Test
-  public void loginAdmin() throws Exception {
+  public void Show100Entriesjava() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
