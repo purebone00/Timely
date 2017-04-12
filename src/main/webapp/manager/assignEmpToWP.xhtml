@@ -37,7 +37,7 @@
 						<b:dataTableColumn>
 							<f:facet name="header">Select</f:facet>
 							<b:commandButton look="primary"
-								action="#{Master.projMan.selectWorkPackage(s)}" value="*" />
+								action="#{Master.projMan.selectWorkPackage(s)}" value="" iconAwesome="check" />
 						</b:dataTableColumn>
 
 						<b:dataTableColumn>
@@ -73,7 +73,7 @@
 							</b:dataTableColumn>
 							<b:dataTableColumn>
 								<f:facet name="header">REMOVE Employee</f:facet>
-								<b:commandButton look="danger" value="-"
+								<b:commandButton look="danger" value="" iconAwesome="minus-circle"
 									action="#{Master.projMan.removeEmployeeFromWP(s.empId)}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn>
@@ -135,7 +135,7 @@
 							</b:dataTableColumn>
 							<b:dataTableColumn>
 								<f:facet name="header">ADD Employee</f:facet>
-								<h:commandButton class="btn" value="+"
+								<h:commandButton class="btn" value="" iconAwesome="plus-circle"
 									action="#{Master.projMan.assignEmployeeToWP(s.empId)}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn>

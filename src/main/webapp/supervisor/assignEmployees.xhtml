@@ -1,4 +1,3 @@
-
 <ui:composition template="/template/master_page.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -25,9 +24,7 @@
                 <b:column col-md="6">
                     <b:form>
                         <h4>Currently on project:</h4>
-
 						<br />
-
                         <b:dataTable
                             value="#{Master.projMan.allEmpInProject(Master.employee.emp)}"
                             var="s" responsive="true">
@@ -91,9 +88,7 @@
                 <b:column col-md="6">
                     <b:form>
                         <h4>Available to be assigned to project:</h4>
-
 						<br />
-
                         <b:dataTable
                             value="#{Master.projMan.NotEmpInProject(Master.employee.emp)}"
                             var="s" responsive="true">
