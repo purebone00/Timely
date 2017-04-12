@@ -73,11 +73,7 @@
                                         <b:inputText
                                             id="budget"
                                             class="form-control"
-                                            value="#{l.wlPlanDays}"
-                                            validateMessage="Budget must be a number."
-                                            required="true"
-                                            requiredMessage="Please enter a value."> 
-                                            <f:convertNumber />
+                                            value="#{l.wlPlanDays}">
                                         </b:inputText>
                                         <b:message for="budget"/>
                                     </h:column>
@@ -87,10 +83,7 @@
                                             id="init_est"
                                             class="form-control"
                                             value="#{s.initialEst[l.id.wlLgId]}"
-                                            rendered="#{s.initialEst != null}"
-                                            validateMessage="Initial Est. must be a number."
-                                            required="true">
-                                            <f:convertNumber />
+                                            rendered="#{s.initialEst != null}">
                                         </b:inputText>
                                         <b:message for="init_est"/>
                                         <h:outputText value="N/A"
@@ -132,6 +125,8 @@
                                 </h:panelGroup>
                             </b:dataTableColumn>
                         </b:dataTable>
+                        <b:row>
+                        </b:row>
                         <div class="col-xs-2" style="padding-left: 0">
                             <b:inputText
                                 value="#{Master.projMan.newWpName}"

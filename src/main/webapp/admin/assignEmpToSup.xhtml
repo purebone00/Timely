@@ -1,4 +1,3 @@
-
 <ui:composition template="/template/master_page.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -45,20 +44,12 @@
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Name</f:facet>
-                                <h:inputText value="#{s.empFnm}"
-                                    size="5" rendered="#{s.editable}" />
-                                <h:inputText value="#{s.empLnm}"
-                                    size="5" rendered="#{s.editable}" />
                                 <h:outputText
-                                    value="#{s.empFnm} #{s.empLnm}"
-                                    rendered="#{not s.editable}" />
+                                    value="#{s.empFnm} #{s.empLnm}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Department</f:facet>
-                                <b:inputText value="#{s.empDept}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empDept}"
-                                    rendered="#{not s.editable}" />
+                                <h:outputText value="#{s.empDept}" />
                             </b:dataTableColumn>
                             <!--  <b:dataTableColumn>
 	                                <f:facet name="header">Employee Flex Time</f:facet>	
@@ -67,10 +58,7 @@
 								</b:dataTableColumn>  -->
                             <b:dataTableColumn>
                                 <f:facet name="header">Labour Grade </f:facet>
-                                <b:inputText value="#{s.empLabGrd}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empLabGrd}"
-                                    rendered="#{not s.editable}" />
+                                <h:outputText value="#{s.empLabGrd}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Remove Employee</f:facet>
@@ -87,7 +75,7 @@
                 <!-- End of 2nd column -->
                 <b:column col-md="6">
                     <b:form>
-                        <h4>Available to be assigned to supervisor:</h4>
+                        <h4>Available to be Assigned:</h4>
 						<br />
 
                         <b:dataTable
@@ -95,27 +83,16 @@
                             var="s" responsive="true">
                             <b:dataTableColumn>
                                 <f:facet name="header">Employee ID</f:facet>
-                                <b:inputText value="#{s.empId}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empId}"
-                                    rendered="#{not s.editable}" />
+                                <h:outputText value="#{s.empId}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Name</f:facet>
-                                <b:inputText value="#{s.empFnm}"
-                                    size="5" rendered="#{s.editable}" />
-                                <b:inputText value="#{s.empLnm}"
-                                    size="5" rendered="#{s.editable}" />
                                 <h:outputText
-                                    value="#{s.empFnm} #{s.empLnm}"
-                                    rendered="#{not s.editable}" />
+                                    value="#{s.empFnm} #{s.empLnm}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Department</f:facet>
-                                <b:inputText value="#{s.empDept}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empDept}"
-                                    rendered="#{not s.editable}" />
+                                <h:outputText value="#{s.empDept}" />
                             </b:dataTableColumn>
 
                             <!--  <b:dataTableColumn>
@@ -125,10 +102,7 @@
 								</b:dataTableColumn>  -->
                             <b:dataTableColumn>
                                 <f:facet name="header">Labour Grade </f:facet>
-                                <b:inputText value="#{s.empLabGrd}"
-                                    size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empLabGrd}"
-                                    rendered="#{not s.editable}" />
+                                <h:outputText value="#{s.empLabGrd}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Assign Employee</f:facet>
@@ -141,7 +115,7 @@
                                 	look="primary"
                                     action="#{Master.admin.assignEmployeeToSup(s)}"
                                     value="Reassign to Supervisor"
-                                     rendered="#{s.empSupId != null}" />
+                                    rendered="#{s.empSupId != null}" />
                             </b:dataTableColumn>                        
                             </b:dataTable>
                         <br />

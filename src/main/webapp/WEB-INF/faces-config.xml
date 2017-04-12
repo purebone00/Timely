@@ -62,12 +62,5 @@
       <redirect />
     </navigation-case>
   </navigation-rule>
-
-  <validator>
-    <validator-id>passwordValidator</validator-id>
-    <validator-class>
-        validators.PasswordValidator
-    </validator-class>
-    
-  </validator>
+  
 </faces-config>

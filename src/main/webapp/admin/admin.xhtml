@@ -127,12 +127,6 @@
                                     action="#{Master.admin.selectSupForAssign(s)}"
                                     rendered="#{Master.admin.checkSup(s)==true}" />
                             </b:dataTableColumn>
-                                                        <b:dataTableColumn>
-                                <f:facet name="header">Employee Sig</f:facet>
-                                <b:inputText value="#{s.empSig}" size="10" rendered="#{s.editable}" />
-                                <h:outputText value="#{s.empSig}"
-                                    rendered="#{not s.editable}" />
-                            </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Save</f:facet>
                                 <b:commandButton value="Save Changes"
