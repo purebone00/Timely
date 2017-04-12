@@ -302,6 +302,7 @@ public class ProjectManagerController {
         newWp.setId(new WorkpackId(selectedProject.getProjNo(), newWpNo));
         newWp.setWpNm("");
         newWp.setWpDel((short) 0);
+        newWp.setWpStatus((short) 0);
         
         newWp.setWplabs(new HashSet<Wplab>());
         for (Labgrd l : labgrdManager.getAll()) {            
@@ -334,6 +335,7 @@ public class ProjectManagerController {
         newChildWp.setId(new WorkpackId(selectedProject.getProjNo(), newChildWpNo));
         newChildWp.setWpNm("");
         newChildWp.setWpDel((short) 0);
+        newChildWp.setWpStatus((short) 0);
         
         newChildWp.setWplabs(new HashSet<Wplab>());
         for (Labgrd l : labgrdManager.getAll()) {            
@@ -499,8 +501,8 @@ public class ProjectManagerController {
         
         List<Tsrow> tsrowList = tsRowManager.find(workpack, endDate);
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
-       
-        return new MonthlyReportRow(workpack, tsrowList, workpack.getWplabs(), report, getRateMap());
+        workpack.setCharged(isWpCharged(workpack));
+        return new MonthlyReportRow(workpack, tsrowList, workpack.getWplabs(), report, getRateMap(), month);
     }
 
     /**
@@ -1009,6 +1011,27 @@ public class ProjectManagerController {
         setSelectedProjectForViewing(p);
                 
         return "assignEmpToWP";
+    }
+    
+    /**
+     * Sets a workpack as closed.
+     * @param w
+     * @return
+     */
+    public String closeWorkpack(Workpack w) {
+        w.setWpStatus((short) 1);
+        w.setWpEndDt(new Date());
+        workPackageManager.merge(w);
+        return null;
+    }
+    
+    /**
+     * Checks if the WP is open
+     * @param w
+     * @return
+     */
+    public boolean wpIsOpen(Workpack w) {
+        return w.getWpStatus() == null || w.getWpStatus() != 1;
     }
     
 }

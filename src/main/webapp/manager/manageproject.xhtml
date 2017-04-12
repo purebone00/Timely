@@ -36,7 +36,10 @@
                             var="s">
                             <b:dataTableColumn>
                                 <f:facet name="header">Number</f:facet>
-                                #{s.id.wpNo}
+                                #{s.id.wpNo}<br/>
+                                <b:commandButton value="Close"
+                                	rendered="#{Master.projMan.isLeaf(s) and Master.projMan.wpIsOpen(s)}"
+                                	action="#{Master.projMan.closeWorkpack(s)}"/>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Details</f:facet>
@@ -100,7 +103,7 @@
                             <b:dataTableColumn>
                                 <f:facet name="header">Add Child</f:facet>
                                 <h:panelGroup
-                                    rendered="#{Master.projMan.isWpCharged(s) == false}">
+                                    rendered="#{Master.projMan.wpIsOpen(s) and Master.projMan.isWpCharged(s) == false}">
                                 Child WP#:<br />
                                     <table>
                                         <tr>
