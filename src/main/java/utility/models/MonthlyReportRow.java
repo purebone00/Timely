@@ -170,14 +170,14 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         }
 
         if (projTotalCosts != null && projTotalHours != null) {
-            if (budgetTotalCosts.equals(BigDecimal.ZERO)) {
+            if (budgetTotalCosts.doubleValue() == 0) {
                 varCosts = new BigDecimal(1);
-            } else {                
+            } else {
                 varCosts = ((projTotalCosts.subtract(budgetTotalCosts)).divide(budgetTotalCosts, 2,
                         RoundingMode.HALF_EVEN));
             }
             
-            if (budgetTotalHours.equals(BigDecimal.ZERO)) {
+            if (budgetTotalHours.doubleValue() == 0) {
                 varTime = new BigDecimal(1);
             } else {                
                 varTime = ((projTotalHours.subtract(budgetTotalHours)).divide(budgetTotalHours, 2, RoundingMode.HALF_EVEN));
@@ -338,13 +338,13 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         }
 
         if (report.getProjTotalCosts() != null && report.getProjTotalHours() != null) {
-            if (report.getProjTotalCosts().equals(BigDecimal.ZERO)) {
+            if (report.getProjTotalCosts().doubleValue() == 0) {
                 report.setVarCosts(new BigDecimal(1));
             } else {
                 report.setVarCosts(((report.getProjTotalCosts().subtract(report.getBudgetTotalCosts()))
                         .divide(report.getBudgetTotalCosts(), 2, RoundingMode.HALF_EVEN)));                
             }
-            if (report.getProjTotalHours().equals(BigDecimal.ZERO)) {
+            if (report.getProjTotalHours().doubleValue() == 0) {
                 report.setVarTime(new BigDecimal(1));
             } else {                
                 report.setVarTime(((report.getProjTotalHours().subtract(report.getBudgetTotalHours()))
