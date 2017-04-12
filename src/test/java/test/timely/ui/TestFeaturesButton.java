@@ -1,6 +1,8 @@
+//Input: Joy Nelson
+//Requirements: requires testsuite that runs Promotion before you can run Demotion
+//Requirements: 3911ERD_ver21
+
 package test.timely.ui;
-
-
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +13,16 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class TestFeaturesButton{
+import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class TestFeaturesButton {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -19,6 +30,7 @@ public class TestFeaturesButton{
 
   @Before
   public void setUp() throws Exception {
+	  
 	System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
     driver = new FirefoxDriver();
     baseUrl = "http://localhost:8080/";
@@ -26,15 +38,15 @@ public class TestFeaturesButton{
   }
 
   @Test
-  public void testJava() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Ryan");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
-    driver.findElement(By.linkText("Features")).click();
-    assertEquals("Features", driver.findElement(By.id("j_idt47")).getText());
+  public void loginAdmin() throws Exception {
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
+	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
   }
 
   @After

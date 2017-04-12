@@ -2,7 +2,7 @@
 //Requirements: requires testsuite that runs Promotion before you can run Demotion
 //Requirements: 3911ERD_ver21
 
-package test.timely.ui;
+package test.timely.ResponsbileEngineer;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +22,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class TestAboutUsButton {
+public class EstimatedWorkRemainingSQL {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
