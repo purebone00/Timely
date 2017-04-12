@@ -12,6 +12,7 @@ import model.Tsrow;
 import model.Workpack;
 import model.Wplab;
 import model.Wpstarep;
+import utility.DateTimeUtility;
 
 @SuppressWarnings("serial")
 public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportRow> {
@@ -103,7 +104,7 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
      *            Map of Labour Grades and their rates.
      */
     public MonthlyReportRow(Workpack workpack, List<Tsrow> tsrows, Set<Wplab> wplabs, Wpstarep report,
-            HashMap<String, BigDecimal> rateMap) {
+            HashMap<String, BigDecimal> rateMap, String month) {
         this.workpack = workpack;
         budgetTotalHours = BigDecimal.ZERO;
         budgetTotalCosts = BigDecimal.ZERO;
@@ -158,6 +159,14 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         if (!workpack.getCharged()) {
             projTotalCosts = budgetTotalCosts;
             projTotalHours = budgetTotalHours;
+        }
+        
+        if (workpack.getWpStatus() != null && workpack.getWpStatus() == (short) 1) {
+            DateTimeUtility dtu = new DateTimeUtility();
+            if (dtu.getDateString(workpack.getWpEndDt()).compareTo(dtu.getEndOfMonth(month + "01")) <= 0) {
+                projTotalCosts = curTotalCosts;
+                projTotalHours = curTotalHours;
+            }
         }
 
         if (projTotalCosts != null && projTotalHours != null) {

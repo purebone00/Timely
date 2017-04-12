@@ -440,7 +440,10 @@ public class EmployeeController implements Serializable {
         List<String> list = new ArrayList<String>();
         list.add("");
         for(Workpack w : emp.getWorkpackages()) {
-            list.add(w.getId().getWpNo());
+            // only get open WP's
+            if (w.getWpStatus() != null && w.getWpStatus() != 1) {                
+                list.add(w.getId().getWpNo());
+            }
         }
         return list;
     }
