@@ -2,7 +2,7 @@
 //Requirements: requires testsuite that runs Promotion before you can run Demotion
 //Requirements: 3911ERD_ver21
 
-package test.timely.Manage.workPackages;
+package test.timely.Manage.workPackageEstimates;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;

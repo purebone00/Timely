@@ -44,9 +44,13 @@ public class Show25Entries {
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    driver.findElement(By.id("j_idt16:j_idt17")).click();
+	    new Select(driver.findElement(By.name("j_idt52:j_idt53_length"))).selectByVisibleText("25");
+	    try {
+	      assertEquals("25", driver.findElement(By.cssSelector("th.sortin")).getAttribute("css=th.sorting"));
+	    } catch (Error e) {
+	      verificationErrors.append(e.toString());
+	    }
   }
 
   @After

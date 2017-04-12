@@ -1,6 +1,5 @@
-//Input: Joy Nelson
-//Requirements: requires testsuite that runs Promotion before you can run Demotion
-//Requirements: 3911ERD_ver21
+//DEPRECATED, REMOVED ADD BUTTON, no longer possible for admin to delete themselves
+//Requirements: 3911ERD_ver09
 
 package test.timely.admin;
 
@@ -38,7 +37,7 @@ public class Add2Admins {
   }
 
   @Test
-  public void loginAdmin() throws Exception {
+  public void Add2AdminsTest() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
@@ -46,7 +45,10 @@ public class Add2Admins {
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
 	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt76")).click();
+	    driver.findElement(By.id("j_idt12:j_idt53:7:j_idt22")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt11")).click();
+	    assertEquals("Add Admin", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
   }
 
   @After

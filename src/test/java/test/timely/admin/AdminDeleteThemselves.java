@@ -1,5 +1,5 @@
-//Input: Joy Nelson
-//Requirements: requires testsuite that runs Promotion before you can run Demotion
+//This will test if possible for Admin to delete themselves
+//After test: requires database reset after
 //Requirements: 3911ERD_ver21
 
 package test.timely.admin;
@@ -38,15 +38,16 @@ public class AdminDeleteThemselves {
   }
 
   @Test
-  public void loginAdmin() throws Exception {
-	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+  public void AdminDeleteThemselvesTest() throws Exception {
+	  driver.get(baseUrl + "/Timely/");
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("00001");
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    driver.findElement(By.id("j_idt52:j_idt53:0:j_idt77")).click();
+	    //make sure the button doesn't change to restore, or the admin is deleted
+	    assertTrue(driver.findElement(By.cssSelector("BODY")).getText().matches("Restore"));
   }
 
   @After

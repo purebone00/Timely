@@ -2,7 +2,7 @@
 //Requirements: requires testsuite that runs Promotion before you can run Demotion
 //Requirements: 3911ERD_ver21
 
-package test.timely.Manage.workPackages;
+package test.timely.Manage.workPackageEstimates;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +22,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class NameField5000Characters {
+public class AddChildCharacters {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
