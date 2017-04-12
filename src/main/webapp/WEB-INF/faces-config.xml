@@ -62,6 +62,13 @@
       <redirect />
     </navigation-case>
   </navigation-rule>
+  
+  <converter>
+    <converter-id>bigDecimalConverter</converter-id>
+    <converter-class>
+        validators.BigDecimalConverter
+    </converter-class>
+</converter>
 
   <validator>
     <validator-id>passwordValidator</validator-id>
