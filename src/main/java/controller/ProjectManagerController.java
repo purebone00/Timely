@@ -499,7 +499,7 @@ public class ProjectManagerController {
         
         List<Tsrow> tsrowList = tsRowManager.find(workpack, endDate);
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
-       
+        workpack.setCharged(isWpCharged(workpack));
         return new MonthlyReportRow(workpack, tsrowList, workpack.getWplabs(), report, getRateMap());
     }
 

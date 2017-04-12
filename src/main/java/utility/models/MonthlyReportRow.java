@@ -154,11 +154,25 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
             projTotalCosts = null;
             projTotalHours = null;
         }
+        
+        if (!workpack.getCharged()) {
+            projTotalCosts = budgetTotalCosts;
+            projTotalHours = budgetTotalHours;
+        }
 
         if (projTotalCosts != null && projTotalHours != null) {
-            varCosts = ((projTotalCosts.subtract(budgetTotalCosts)).divide(budgetTotalCosts, 2,
-                    RoundingMode.HALF_EVEN));
-            varTime = ((projTotalHours.subtract(budgetTotalHours)).divide(budgetTotalHours, 2, RoundingMode.HALF_EVEN));
+            if (budgetTotalCosts.equals(BigDecimal.ZERO)) {
+                varCosts = new BigDecimal(1);
+            } else {                
+                varCosts = ((projTotalCosts.subtract(budgetTotalCosts)).divide(budgetTotalCosts, 2,
+                        RoundingMode.HALF_EVEN));
+            }
+            
+            if (budgetTotalHours.equals(BigDecimal.ZERO)) {
+                varTime = new BigDecimal(1);
+            } else {                
+                varTime = ((projTotalHours.subtract(budgetTotalHours)).divide(budgetTotalHours, 2, RoundingMode.HALF_EVEN));
+            }
         } else {
             varCosts = null;
             varTime = null;
@@ -303,16 +317,30 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
                 report.setProjTotalCosts(null);
                 report.setProjTotalHours(null);
             } else {
+                if (report.getProjTotalCosts() == null) {
+                    report.setProjTotalCosts(BigDecimal.ZERO);
+                }
+                if (report.getProjTotalHours() == null) {
+                    report.setProjTotalHours(BigDecimal.ZERO);
+                }
                 report.setProjTotalCosts(report.getProjTotalCosts().add(m.getProjTotalCosts()));
                 report.setProjTotalHours(report.getProjTotalHours().add(m.getProjTotalHours()));
             }
         }
 
         if (report.getProjTotalCosts() != null && report.getProjTotalHours() != null) {
-            report.setVarCosts(((report.getProjTotalCosts().subtract(report.getBudgetTotalCosts()))
-                    .divide(report.getBudgetTotalCosts(), 2, RoundingMode.HALF_EVEN)));
-            report.setVarTime(((report.getProjTotalHours().subtract(report.getBudgetTotalHours()))
-                    .divide(report.getBudgetTotalHours(), 2, RoundingMode.HALF_EVEN)));
+            if (report.getProjTotalCosts().equals(BigDecimal.ZERO)) {
+                report.setVarCosts(new BigDecimal(1));
+            } else {
+                report.setVarCosts(((report.getProjTotalCosts().subtract(report.getBudgetTotalCosts()))
+                        .divide(report.getBudgetTotalCosts(), 2, RoundingMode.HALF_EVEN)));                
+            }
+            if (report.getProjTotalHours().equals(BigDecimal.ZERO)) {
+                report.setVarTime(new BigDecimal(1));
+            } else {                
+                report.setVarTime(((report.getProjTotalHours().subtract(report.getBudgetTotalHours()))
+                        .divide(report.getBudgetTotalHours(), 2, RoundingMode.HALF_EVEN)));
+            }
         } else {
             report.setVarCosts(null);
             report.setVarTime(null);
