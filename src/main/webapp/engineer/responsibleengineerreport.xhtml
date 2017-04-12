@@ -85,7 +85,8 @@
                                     <b:inputText
                                     	id="estimate"
                                         value="#{Master.resEng.estLabourGradeDays[s.lgId]}"
-                                        validatorMessage="Estimate must be greater than or equal to 0 and cannot be a string.">
+                                        validatorMessage="Estimate must be greater than or equal to 0 and cannot be a string."
+                                        required="true">
                                         <f:convertNumber />
                                     </b:inputText>
                                     <b:message for="estimate" />
@@ -93,15 +94,20 @@
                             </b:dataTable>
                             <br />
 						Problems This Period:<br />
-                            <b:inputTextarea class="form-control"
+                            <b:inputTextarea class="form-control" id="problemsLW"
                                 value="#{Master.resEng.workPackageReport.wsrProbLw}"
-                                cols="30" rows="6"
-                                />
+                                cols="30" rows="6">
+                                <f:validateLength maximum="255"/>
+							</b:inputTextarea>
+							<b:message for="problemsLW"/>
                             <br />
 						Problems Anticipated:<br />
-                            <b:inputTextarea class="form-control"
+                            <b:inputTextarea class="form-control" id="problemsNW"
                                 value="#{Master.resEng.workPackageReport.wsrProbNw}"
-                                cols="30" rows="6" />
+                                cols="30" rows="6">
+                                <f:validateLength maximum="255"/>
+							</b:inputTextarea>
+							<b:message for="problemsNW"/>
                             <br />
                             <b:commandButton look="primary"
                                 value="Submit"
