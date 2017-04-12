@@ -28,20 +28,22 @@ public class EmployeeManager implements Serializable {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
-    /* Who knows if this'll work.See ProjectManagerController. */
-    public List<Employee> getEmployeesOnProject(int pid) {
-        Query query = em.createNativeQuery("SELECT empChNo FROM Empproj WHERE projNo = ?1");
-        // TypedQuery<Employee> query = em.createQuery("select s from Empproj s
-        // where s.projectNo=:code", Employee.class);
-        // query.setParameter("code", pid);
-
-        query.setParameter(1, pid);
-        
-        @SuppressWarnings("unchecked")
-        List<Employee> employees = query.getResultList();
-
-        return (employees != null) ? employees : new ArrayList<Employee>();
-    }
+    
+    //Note used ?? Need to test
+//    /* Who knows if this'll work.See ProjectManagerController. */
+//    public List<Employee> getEmployeesOnProject(int pid) {
+//        Query query = em.createNativeQuery("SELECT empChNo FROM Empproj WHERE projNo = ?1 ");
+//        // TypedQuery<Employee> query = em.createQuery("select s from Empproj s
+//        // where s.projectNo=:code", Employee.class);
+//        // query.setParameter("code", pid);
+//
+//        query.setParameter(1, pid);
+//        
+//        @SuppressWarnings("unchecked")
+//        List<Employee> employees = query.getResultList();
+//  
+//        return (employees != null) ? employees : new ArrayList<Employee>();
+//    }
 
     public Employee find(int id) {
         Employee foundEmployee = em.find(Employee.class,id);
@@ -84,14 +86,14 @@ public class EmployeeManager implements Serializable {
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
-    public Map<String, Employee> getActiveEmpMap() {
-        Map<String, Employee> employeeMap = new TreeMap<String, Employee>();
+    public Map<Integer, Employee> getActiveEmpMap() {
+        Map<Integer, Employee> employeeMap = new TreeMap<Integer, Employee>();
         TypedQuery<Employee> query = em.createQuery("select s from Employee s where s.empDel = 0", Employee.class);
         List<Employee> employees = query.getResultList();
         for (Employee e : employees) {
-            employeeMap.put(e.getEmpLnm(), e);
+            employeeMap.put(e.getEmpId(), e);
         }
-        return (employeeMap != null) ? employeeMap : new HashMap<String, Employee>();
+        return (employeeMap != null) ? employeeMap : new HashMap<Integer, Employee>();
     }
 
     /**
@@ -128,7 +130,7 @@ public class EmployeeManager implements Serializable {
 
     public List<Employee> getEmpNotProj(Project p) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" + ", Project AS p "
-                + "WHERE p = :selectProject AND p " + "NOT MEMBER OF e.projects", Employee.class);
+                + "WHERE p = :selectProject AND p " + "NOT MEMBER OF e.projects AND e.empDel != 1", Employee.class);
         query.setParameter("selectProject", p);
         List<Employee> employees = query.getResultList();
         return (employees != null) ? employees : new ArrayList<Employee>();
@@ -136,7 +138,7 @@ public class EmployeeManager implements Serializable {
 
     public List<Employee> getEmpProj(Project p) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" + ", Project AS p "
-                + "WHERE p = :selectProject AND p " + "MEMBER OF e.projects", Employee.class);
+                + "WHERE p = :selectProject AND p " + "MEMBER OF e.projects AND e.empDel != 1", Employee.class);
         query.setParameter("selectProject", p);
         List<Employee> employees = query.getResultList();
 
@@ -151,7 +153,7 @@ public class EmployeeManager implements Serializable {
      */
     public List<Employee> getEmpNotSup(Employee e) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
-                + "WHERE  e != :me AND e.empSupId IS NULL OR e.empSupId != :sup ", Employee.class);
+                + "WHERE  e != :me AND e.empDel != 1 AND e.empSupId IS NULL OR e.empSupId != :sup ", Employee.class);
         query.setParameter("sup", e.getEmpId()).setParameter("me", e);
         List<Employee> employees = query.getResultList();
         return (employees != null) ? employees : new ArrayList<Employee>();
@@ -164,14 +166,15 @@ public class EmployeeManager implements Serializable {
      */
     public List<Employee> getEmpSup(Employee e) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
-                + "WHERE e.empSupId = :sup", Employee.class);
+                + "WHERE e.empSupId = :sup AND e.empDel != 1 ", Employee.class);
         query.setParameter("sup", e.getEmpId());
         List<Employee> employees = query.getResultList();
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
     
     public List<Employee> getTaApprovers() {
-        Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6", Employee.class);
+        Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6 AND employee.empDel != 1"
+                , Employee.class);
         @SuppressWarnings("unchecked")
         List<Employee> taApprovers = q.getResultList();
         
@@ -198,7 +201,7 @@ public class EmployeeManager implements Serializable {
     	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
 			", Workpack AS wp " +
 			"WHERE wp = :selectWP AND wp " +
-			"NOT MEMBER OF e.workpackages", 
+			"NOT MEMBER OF e.workpackages AND e.empDel != 1", 
     			Employee.class); 
     	query.setParameter("selectWP", wp);
         List<Employee> emps = query.getResultList();
@@ -218,7 +221,7 @@ public class EmployeeManager implements Serializable {
     	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
     			", Workpack AS wp " +
     			"WHERE wp = :selectWP AND wp " +
-    			"MEMBER OF e.workpackages", 
+    			"MEMBER OF e.workpackages AND e.empDel != 1", 
         			Employee.class); 
     	query.setParameter("selectWP", wp);
         List<Employee> employees = query.getResultList();

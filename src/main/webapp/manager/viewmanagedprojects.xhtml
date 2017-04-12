@@ -56,6 +56,14 @@
                                     value="Select Project for Monthly Reports"
                                     action="#{Master.projMan.selectProjectForMonthlyReport(s)}" />
                             </b:dataTableColumn>
+                            
+                            <b:dataTableColumn>
+                             	<f:facet name="header">Assign Employees</f:facet>
+                             	<b:commandButton
+                                     	look="primary"
+                                         action="#{Master.projMan.selectProjectForWPAssigning(s)}"
+                                         value="Select Project" />
+                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:form>
                 </b:row>

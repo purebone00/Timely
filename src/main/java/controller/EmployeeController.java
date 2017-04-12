@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -23,13 +25,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import manager.EmployeeManager;
+import manager.ProjectManager;
 import manager.TimesheetManager;
 import manager.TsrowManager;
+import manager.WorkPackageManager;
 import model.Employee;
 import model.Project;
 import model.Timesheet;
 import model.TimesheetId;
 import model.Tsrow;
+import model.Workpack;
+import model.WorkpackId;
 import utility.DateTimeUtility;
 
 /**
@@ -44,6 +50,11 @@ public class EmployeeController implements Serializable {
 	 */
     @Inject
     private EmployeeManager employeeManager;
+    /**
+     * Used for accessing workpackage data in database (WorkPack table).  
+     */
+    @Inject
+    private WorkPackageManager wpManager;
 	/**
      * Used for accessing timesheet data in database (Timesheet table).  
 	 */
@@ -345,29 +356,48 @@ public class EmployeeController implements Serializable {
         for (Tsrow row : tsrList) {
             row.setEditable(false);
             row.setTimesheet(getCurTimesheet());
+            row.setTimesheet(curTimesheet);
+            
+            if(row.getTsrWpNo().isEmpty())
+                continue;
+                  
             if (row.getTsrProjNo() != 0 && !row.getTsrWpNo().isEmpty()) {
-                trManager.merge(row);
-            }
+                
+                if(wpManager.find(new WorkpackId(row.getTsrProjNo(),row.getTsrWpNo())) != null)
+                    trManager.merge(row);
+                else {
+                    FacesContext.getCurrentInstance().addMessage(
+                            null,
+                            new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Project Number and Work Package Number do not match.",
+                            "Please Try Again!"));
+                }
+            } 
         }
+        
         setOvertimeEditable(false);
         curTimesheet.setTsOverTm(overtime);
         curTimesheet.setTsFlexTm(flextime);
-        if ((curTimesheet.getTsTotal().doubleValue() 
-        		- curTimesheet.getTsOverTm().doubleValue() 
-        		- curTimesheet.getTsFlexTm().doubleValue()) > 40 
-        		|| (curTimesheet.getTsTotal().doubleValue() 
-                		- curTimesheet.getTsOverTm().doubleValue() 
-                		- curTimesheet.getTsFlexTm().doubleValue()) 
-                		< 0 ) 
-        {
-        	FacesContext.getCurrentInstance().addMessage(
-	                null,
-	                new FacesMessage(FacesMessage.SEVERITY_FATAL,
-	                "Too much flextime and overtime.",
-	                "Please Try Again!"));
-        }
-        tManager.merge(curTimesheet);
-        return null;
+        if(curTimesheet.getTsOverTm() != null || curTimesheet.getTsFlexTm() != null) {
+            if ((curTimesheet.getTsTotal().doubleValue() 
+                    - curTimesheet.getTsOverTm().doubleValue() 
+                    - curTimesheet.getTsFlexTm().doubleValue()) > 40 
+                    || (curTimesheet.getTsTotal().doubleValue() 
+                            - curTimesheet.getTsOverTm().doubleValue() 
+                            - curTimesheet.getTsFlexTm().doubleValue()) 
+                            < 0 ) 
+            {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                        "Too much flextime and overtime.",
+                        "Please Try Again!"));
+            }
+        } else {
+            tManager.merge(curTimesheet);
+        }            
+        
+        return "timesheet";
     }
     /**
      * Adds a row to the current timesheet.
@@ -404,6 +434,15 @@ public class EmployeeController implements Serializable {
         }
         return list;
     }
+    
+    public List<String> workPackList() {
+        List<String> list = new ArrayList<String>();
+        list.add("");
+        for(Workpack w : emp.getWorkpackages()) {
+            list.add(w.getId().getWpNo());
+        }
+        return list;
+    }
     /**
      * Generates a new timesheet id.
      * @return TimesheetId newly-generated timesheet id.
@@ -430,6 +469,73 @@ public class EmployeeController implements Serializable {
         tsList.add(ts);
         return null;
     }
+    public boolean isSubmitted() {
+        return curTimesheet.getTsSubmit() == 2;
+    }
+    
+    public int getApprovedTs() {
+        
+        int count = 0;
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 2)
+                count++;
+        }
+        return count;
+    }
+    
+    public int getRejectedTs() {
+        
+        int count = 0;
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 3)
+                count++;
+        }
+        return count;
+    }
+    
+    public int getPendingTs() {
+
+        int count = 0;
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 1)
+                count++;
+        }
+        return count;
+    }
+    
+    public int getTsSize() {
+        getTsList();
+        return tsList.size();
+    }
+    
+    public List<Timesheet> approvedTsList() {
+        List<Timesheet> approvedList = new ArrayList<>();
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 2)
+                approvedList.add(t);
+        }
+        return approvedList;
+    }
+    
+    public List<Timesheet> rejectedTsList() {
+        List<Timesheet> rejectedList = new ArrayList<>();
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 3)
+                rejectedList.add(t);
+        }
+        return rejectedList;
+    }
+    
+    public List<Timesheet> pendingTsList() {
+        List<Timesheet> pendingList = new ArrayList<>();
+        for(Timesheet t : tsList) {
+            if(t.getTsSubmit() == 1)
+                pendingList.add(t);
+        }
+        return pendingList;
+    }
+    
+    
     /**
      * Saves information in a timesheet to database.
      * @return String navigation string for refreshing the current page.
@@ -456,6 +562,22 @@ public class EmployeeController implements Serializable {
             list.put(name, e.getEmpId());
         }
         return list;
+    }
+    
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    
+    public String getTaApproverName(Integer tsApprId) {
+        String fullName = "TBD";
+        if(getTaApproverNames().containsValue(tsApprId))
+            fullName = getKeyByValue(getTaApproverNames(),tsApprId);
+        return fullName;
     }
     
     public Integer getTaApprover() {
