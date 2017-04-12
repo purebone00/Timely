@@ -30,8 +30,8 @@
                     </b:row>
                 </b:row>
                 <b:row>
-                    <b:form>
-                        <b:dataTable class="table table-bordered"
+                    <b:form id="workpackList">
+                        <b:dataTable class="table table-bordered" id="workpackTable"
                             value="#{Master.projMan.selectedProject.workPackages}"
                             var="s">
                             <b:dataTableColumn>
@@ -46,13 +46,15 @@
                                 <b:panelGrid colSpans="12">
                                     Name:<br/>
                                     <b:inputText class="form-control"
-                                        span="12"
+                                        span="12" id="wpName"
                                         value="#{s.wpNm}" 
                                         required="true" requiredMessage="Please provide a name."/>
+									<b:message for="wpName"/>
                                     Description:<br/>
                                     <b:inputTextarea class="form-control"
-                                        span="12" rows="15"
+                                        span="12" rows="15" id="wpDesc"
                                         value="#{s.wpDesc}" />
+									<b:message for="wpDesc"/>
                                 </b:panelGrid>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
@@ -122,9 +124,10 @@
                                         </tr>
                                     </table>
                                     <br />
-                                    <b:commandButton class="btn"
+                                    <b:commandButton class="btn" id="addChildWP"
                                         look="success" value="Add Child"
                                         action="#{Master.projMan.createChildWP(s)}" />
+									<b:message for="addChildWP"/>
                                 </h:panelGroup>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -136,8 +139,9 @@
                                 pt:placeholder="New WP #" />
                         </div>
                         <b:commandButton class="btn" look="success"
-                            value="Add Work Package"
+                            value="Add Work Package" id="addWP"
                             action="#{Master.projMan.createNewWP()}" />
+						<b:message for="addWP"/>
                         <br />
                         <b:commandButton class="btn" value="Save"
                             look="primary"
