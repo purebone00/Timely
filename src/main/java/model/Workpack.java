@@ -36,6 +36,7 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	private BigDecimal totalDays;
 	private String childName;
 	private HashMap<String, BigDecimal> initialEst;
+	private boolean charged;
 	/* =============================================== */
 
     private WorkpackId id;
@@ -275,6 +276,15 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	
 	public void setInitialEst(HashMap<String, BigDecimal> initialEst) {
 	    this.initialEst = initialEst;
+	}
+	
+	@Transient
+	public boolean getCharged() {
+	    return this.charged;
+	}
+	
+	public void setCharged(boolean charged) {
+	    this.charged = charged;
 	}
     
     public String toString(){

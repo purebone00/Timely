@@ -12,6 +12,7 @@ import model.Tsrow;
 import model.Workpack;
 import model.Wplab;
 import model.Wpstarep;
+import utility.DateTimeUtility;
 
 @SuppressWarnings("serial")
 public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportRow> {
@@ -103,7 +104,7 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
      *            Map of Labour Grades and their rates.
      */
     public MonthlyReportRow(Workpack workpack, List<Tsrow> tsrows, Set<Wplab> wplabs, Wpstarep report,
-            HashMap<String, BigDecimal> rateMap) {
+            HashMap<String, BigDecimal> rateMap, String month) {
         this.workpack = workpack;
         budgetTotalHours = BigDecimal.ZERO;
         budgetTotalCosts = BigDecimal.ZERO;
@@ -154,11 +155,33 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
             projTotalCosts = null;
             projTotalHours = null;
         }
+        
+        if (!workpack.getCharged()) {
+            projTotalCosts = budgetTotalCosts;
+            projTotalHours = budgetTotalHours;
+        }
+        
+        if (workpack.getWpStatus() != null && workpack.getWpStatus() == (short) 1) {
+            DateTimeUtility dtu = new DateTimeUtility();
+            if (dtu.getDateString(workpack.getWpEndDt()).compareTo(dtu.getEndOfMonth(month + "01")) <= 0) {
+                projTotalCosts = curTotalCosts;
+                projTotalHours = curTotalHours;
+            }
+        }
 
         if (projTotalCosts != null && projTotalHours != null) {
-            varCosts = ((projTotalCosts.subtract(budgetTotalCosts)).divide(budgetTotalCosts, 2,
-                    RoundingMode.HALF_EVEN));
-            varTime = ((projTotalHours.subtract(budgetTotalHours)).divide(budgetTotalHours, 2, RoundingMode.HALF_EVEN));
+            if (budgetTotalCosts.doubleValue() == 0) {
+                varCosts = new BigDecimal(1);
+            } else {
+                varCosts = ((projTotalCosts.subtract(budgetTotalCosts)).divide(budgetTotalCosts, 2,
+                        RoundingMode.HALF_EVEN));
+            }
+            
+            if (budgetTotalHours.doubleValue() == 0) {
+                varTime = new BigDecimal(1);
+            } else {                
+                varTime = ((projTotalHours.subtract(budgetTotalHours)).divide(budgetTotalHours, 2, RoundingMode.HALF_EVEN));
+            }
         } else {
             varCosts = null;
             varTime = null;
@@ -303,16 +326,30 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
                 report.setProjTotalCosts(null);
                 report.setProjTotalHours(null);
             } else {
+                if (report.getProjTotalCosts() == null) {
+                    report.setProjTotalCosts(BigDecimal.ZERO);
+                }
+                if (report.getProjTotalHours() == null) {
+                    report.setProjTotalHours(BigDecimal.ZERO);
+                }
                 report.setProjTotalCosts(report.getProjTotalCosts().add(m.getProjTotalCosts()));
                 report.setProjTotalHours(report.getProjTotalHours().add(m.getProjTotalHours()));
             }
         }
 
         if (report.getProjTotalCosts() != null && report.getProjTotalHours() != null) {
-            report.setVarCosts(((report.getProjTotalCosts().subtract(report.getBudgetTotalCosts()))
-                    .divide(report.getBudgetTotalCosts(), 2, RoundingMode.HALF_EVEN)));
-            report.setVarTime(((report.getProjTotalHours().subtract(report.getBudgetTotalHours()))
-                    .divide(report.getBudgetTotalHours(), 2, RoundingMode.HALF_EVEN)));
+            if (report.getProjTotalCosts().doubleValue() == 0) {
+                report.setVarCosts(new BigDecimal(1));
+            } else {
+                report.setVarCosts(((report.getProjTotalCosts().subtract(report.getBudgetTotalCosts()))
+                        .divide(report.getBudgetTotalCosts(), 2, RoundingMode.HALF_EVEN)));                
+            }
+            if (report.getProjTotalHours().doubleValue() == 0) {
+                report.setVarTime(new BigDecimal(1));
+            } else {                
+                report.setVarTime(((report.getProjTotalHours().subtract(report.getBudgetTotalHours()))
+                        .divide(report.getBudgetTotalHours(), 2, RoundingMode.HALF_EVEN)));
+            }
         } else {
             report.setVarCosts(null);
             report.setVarTime(null);

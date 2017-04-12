@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateful;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -293,15 +296,25 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createNewWP() {
+        if (!getNewWpName().matches("^[a-zA-Z]$")) {
+            FacesMessage message = new FacesMessage("Invalid WP name. Must be a letter between A-Z.");
+            FacesContext.getCurrentInstance()
+                .addMessage("workpackList:addWP", message);
+            return null;
+        }
+        
         String newWpNo = isWpNameValid(getNewWpName());
         if (newWpNo == null) { // user entered invalid wp name
-            // TODO display an error message
+            FacesMessage message = new FacesMessage("Invalid WP name. Cannot be a duplicate.");
+            FacesContext.getCurrentInstance()
+                .addMessage("workpackList:addWP", message);
             return ""; // stay on same page
         }
         Workpack newWp = new Workpack();
         newWp.setId(new WorkpackId(selectedProject.getProjNo(), newWpNo));
         newWp.setWpNm("");
         newWp.setWpDel((short) 0);
+        newWp.setWpStatus((short) 0);
         
         newWp.setWplabs(new HashSet<Wplab>());
         for (Labgrd l : labgrdManager.getAll()) {            
@@ -324,16 +337,31 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createChildWP(Workpack parent) {
+        if (!parent.getChildName().matches("^[a-zA-Z]$")) {
+            FacesMessage message = new FacesMessage("Invalid WP name. Must be a letter between A-Z.");
+            FacesContext context = FacesContext.getCurrentInstance();
+            UIComponent component = UIComponent.getCurrentComponent(context);
+            String clientID = component.getClientId();
+            FacesContext.getCurrentInstance()
+                .addMessage(clientID, message);
+            return null;
+        }
         String newChildWpNo = isWpNameValid(parent.getNamePrefix() + parent.getChildName());
         if (newChildWpNo == null) { // user entered invalid wp name
-            // TODO display an error message
-            return ""; // stay on same page
+            FacesMessage message = new FacesMessage("Invalid WP name. Cannot be a duplicate.");
+            FacesContext context = FacesContext.getCurrentInstance();
+            UIComponent component = UIComponent.getCurrentComponent(context);
+            String clientID = component.getClientId();
+            FacesContext.getCurrentInstance()
+                .addMessage(clientID, message);
+            return null; // stay on same page
         }
         
         Workpack newChildWp = new Workpack();
         newChildWp.setId(new WorkpackId(selectedProject.getProjNo(), newChildWpNo));
         newChildWp.setWpNm("");
         newChildWp.setWpDel((short) 0);
+        newChildWp.setWpStatus((short) 0);
         
         newChildWp.setWplabs(new HashSet<Wplab>());
         for (Labgrd l : labgrdManager.getAll()) {            
@@ -499,8 +527,8 @@ public class ProjectManagerController {
         
         List<Tsrow> tsrowList = tsRowManager.find(workpack, endDate);
         Wpstarep report = wpstarepManager.find(workpack.getId().getWpProjNo(), workpack.getId().getWpNo(), endDate);
-       
-        return new MonthlyReportRow(workpack, tsrowList, workpack.getWplabs(), report, getRateMap());
+        workpack.setCharged(isWpCharged(workpack));
+        return new MonthlyReportRow(workpack, tsrowList, workpack.getWplabs(), report, getRateMap(), month);
     }
 
     /**
@@ -1009,6 +1037,46 @@ public class ProjectManagerController {
         setSelectedProjectForViewing(p);
                 
         return "assignEmpToWP";
+    }
+    
+    /**
+     * Sets a workpack to closed.
+     * @param w
+     * @return
+     */
+    public String closeWorkpack(Workpack w) {
+        FacesMessage message = new FacesMessage("Cannot close a WP with pending Timesheets.");
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIComponent component = UIComponent.getCurrentComponent(context);
+        String clientID = component.getClientId();
+        
+        for (Tsrow t : tsRowManager.find(w)) {
+            if (t.getTimesheet().getTsSubmit() != null) {
+                if (t.getTimesheet().getTsSubmit() != (short) 2) {
+                    FacesContext.getCurrentInstance()
+                        .addMessage(clientID, message);
+                    return null;
+                }
+            } else {
+                FacesContext.getCurrentInstance()
+                .addMessage(clientID, message);
+                return null;
+            }
+        }
+        
+        w.setWpStatus((short) 1);
+        w.setWpEndDt(new Date());
+        workPackageManager.merge(w);
+        return null;
+    }
+    
+    /**
+     * Checks if the WP is open
+     * @param w
+     * @return
+     */
+    public boolean wpIsOpen(Workpack w) {
+        return w.getWpStatus() == null || w.getWpStatus() != 1;
     }
     
 }
