@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateful;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -293,9 +296,18 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createNewWP() {
+        if (!getNewWpName().matches("^[a-zA-Z]$")) {
+            FacesMessage message = new FacesMessage("Invalid WP name. Must be a letter between A-Z.");
+            FacesContext.getCurrentInstance()
+                .addMessage("workpackList:addWP", message);
+            return null;
+        }
+        
         String newWpNo = isWpNameValid(getNewWpName());
         if (newWpNo == null) { // user entered invalid wp name
-            // TODO display an error message
+            FacesMessage message = new FacesMessage("Invalid WP name. Cannot be a duplicate.");
+            FacesContext.getCurrentInstance()
+                .addMessage("workpackList:addWP", message);
             return ""; // stay on same page
         }
         Workpack newWp = new Workpack();
@@ -325,10 +337,24 @@ public class ProjectManagerController {
      * @return empty String.
      */
     public String createChildWP(Workpack parent) {
+        if (!parent.getChildName().matches("^[a-zA-Z]$")) {
+            FacesMessage message = new FacesMessage("Invalid WP name. Must be a letter between A-Z.");
+            FacesContext context = FacesContext.getCurrentInstance();
+            UIComponent component = UIComponent.getCurrentComponent(context);
+            String clientID = component.getClientId();
+            FacesContext.getCurrentInstance()
+                .addMessage(clientID, message);
+            return null;
+        }
         String newChildWpNo = isWpNameValid(parent.getNamePrefix() + parent.getChildName());
         if (newChildWpNo == null) { // user entered invalid wp name
-            // TODO display an error message
-            return ""; // stay on same page
+            FacesMessage message = new FacesMessage("Invalid WP name. Cannot be a duplicate.");
+            FacesContext context = FacesContext.getCurrentInstance();
+            UIComponent component = UIComponent.getCurrentComponent(context);
+            String clientID = component.getClientId();
+            FacesContext.getCurrentInstance()
+                .addMessage(clientID, message);
+            return null; // stay on same page
         }
         
         Workpack newChildWp = new Workpack();
