@@ -201,7 +201,7 @@ public class EmployeeManager implements Serializable {
     	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
 			", Workpack AS wp " +
 			"WHERE wp = :selectWP AND wp " +
-			"NOT MEMBER OF e.workpackages", 
+			"NOT MEMBER OF e.workpackages AND e.empDel != 1", 
     			Employee.class); 
     	query.setParameter("selectWP", wp);
         List<Employee> emps = query.getResultList();
@@ -221,7 +221,7 @@ public class EmployeeManager implements Serializable {
     	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
     			", Workpack AS wp " +
     			"WHERE wp = :selectWP AND wp " +
-    			"MEMBER OF e.workpackages", 
+    			"MEMBER OF e.workpackages AND e.empDel != 1", 
         			Employee.class); 
     	query.setParameter("selectWP", wp);
         List<Employee> employees = query.getResultList();
