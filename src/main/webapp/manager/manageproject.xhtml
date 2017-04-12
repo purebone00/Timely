@@ -37,9 +37,10 @@
                             <b:dataTableColumn>
                                 <f:facet name="header">Number</f:facet>
                                 #{s.id.wpNo}<br/>
-                                <b:commandButton value="Close"
+                                <b:commandButton value="Close" id="closeWP"
                                 	rendered="#{Master.projMan.isLeaf(s) and Master.projMan.wpIsOpen(s)}"
                                 	action="#{Master.projMan.closeWorkpack(s)}"/>
+                                <b:message for="closeWP"/>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Details</f:facet>

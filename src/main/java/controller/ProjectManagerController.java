@@ -1040,11 +1040,30 @@ public class ProjectManagerController {
     }
     
     /**
-     * Sets a workpack as closed.
+     * Sets a workpack to closed.
      * @param w
      * @return
      */
     public String closeWorkpack(Workpack w) {
+        FacesMessage message = new FacesMessage("Cannot close a WP with pending Timesheets.");
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIComponent component = UIComponent.getCurrentComponent(context);
+        String clientID = component.getClientId();
+        
+        for (Tsrow t : tsRowManager.find(w)) {
+            if (t.getTimesheet().getTsSubmit() != null) {
+                if (t.getTimesheet().getTsSubmit() != (short) 2) {
+                    FacesContext.getCurrentInstance()
+                        .addMessage(clientID, message);
+                    return null;
+                }
+            } else {
+                FacesContext.getCurrentInstance()
+                .addMessage(clientID, message);
+                return null;
+            }
+        }
+        
         w.setWpStatus((short) 1);
         w.setWpEndDt(new Date());
         workPackageManager.merge(w);
