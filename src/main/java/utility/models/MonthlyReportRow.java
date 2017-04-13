@@ -312,6 +312,12 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         this.aggregate = aggregate;
     }
 
+    /**
+     * Generate a monthly report for a parent work package, which is an aggregate of a number of child work packages.
+     * @param workpack The work package to generate the report for.
+     * @param reports The list of child work package reports to generate this parent report with.
+     * @return
+     */
     public static MonthlyReportRow generateAggregate(Workpack workpack, List<MonthlyReportRow> reports) {
         MonthlyReportRow report = new MonthlyReportRow();
 

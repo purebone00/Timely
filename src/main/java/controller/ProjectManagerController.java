@@ -756,7 +756,10 @@ public class ProjectManagerController {
         return null;
     }
     
-    
+    /**
+     * Get a list of the months for the current selected project.
+     * @return
+     */
     public Set<String> getListOfMonths() {
         DateTimeUtility dtu = new DateTimeUtility();
         Date curDt = new Date();

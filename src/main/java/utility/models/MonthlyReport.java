@@ -4,8 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MonthlyReport implements Comparable<MonthlyReport> {
+    /**
+     * The rows that make up the monthly report.
+     */
     List<MonthlyReportRow> rows;
+    
+    /**
+     * The month of the monthly report.
+     */
     String month;
+    
+    /**
+     * Flag indicating whether this monthly report has been viewed or not.
+     */
     int visited;
     
     public MonthlyReport() {
@@ -49,6 +60,10 @@ public class MonthlyReport implements Comparable<MonthlyReport> {
         this.visited = visited;
     }
     
+    /**
+     * Add a row to the monthly report.
+     * @param row
+     */
     public void addRow(MonthlyReportRow row) {
         rows.add(row);
     }
