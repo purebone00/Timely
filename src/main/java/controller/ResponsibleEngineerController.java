@@ -23,10 +23,21 @@ import model.WpstarepId;
 import utility.DateTimeUtility;
 import utility.ReportUtility;
 
+/**
+ * This class deals with Responsible Engineer functionality.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @SuppressWarnings("serial")
 @Stateful
 @Named("RE")
 public class ResponsibleEngineerController implements Serializable {
+    /**
+     * Number of person hours in a person day.
+     */
+    private static final int HOURS_IN_DAY = 8;
+    
     /**
      * Used for accessing work package data in database (Workpack table).
      */
@@ -97,82 +108,154 @@ public class ResponsibleEngineerController implements Serializable {
      */
     private boolean preExisting;
 
+    /**
+     * get selectedWorkPackage.
+     * @return selectedWorkPackage.
+     */
     public Workpack getSelectedWorkPackage() {
         return selectedWorkPackage;
     }
 
+    /**
+     * set selectedWorkPackage.
+     * @param w work package.
+     */
     public void setSelectedWorkPackage(Workpack w) {
         selectedWorkPackage = w;
     }
 
+    /**
+     * get workPackageReport.
+     * @return workPackageReport.
+     */
     public Wpstarep getWorkPackageReport() {
         return workPackageReport;
     }
 
+    /**
+     * sets workPackageReport.
+     * @param workPackageReport workPackageReport
+     */
     public void setWorkPackageReport(Wpstarep workPackageReport) {
         this.workPackageReport = workPackageReport;
     }
     
+    /**
+     * Gets labgrdRate.
+     * @return labgrdRate
+     */
     public HashMap<Labgrd, BigDecimal> getLabgrdRate() {
         return labgrdRate;
     }
 
+    /**
+     * Sets labgrdRate.
+     * @param labgrdRate labgrdRate
+     */
     public void setLabgrdRate(HashMap<Labgrd, BigDecimal> labgrdRate) {
         this.labgrdRate = labgrdRate;
     }
 
+    /**
+     * Gets labourGrades.
+     * @return labourGrades.
+     */
     public List<Labgrd> getLabourGrades() {
         return labourGrades;
     }
 
+    /**
+     * Sets labourGrades.
+     * @param labourGrades labourGrades
+     */
     public void setLabourGrades(List<Labgrd> labourGrades) {
         this.labourGrades = labourGrades;
     }
 
+    /**
+     * Gets totalCost.
+     * @return totalCost
+     */
     public BigDecimal getTotalCost() {
         return totalCost;
     }
 
+    /**
+     * Sets totalCost.
+     * @param totalCost totalCost
+     */
     public void setTotalCost(BigDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
+    /**
+     * Gets totalHours.
+     * @return totalHours
+     */
     public BigDecimal getTotalHours() {
         return totalHours;
     }
     
+    /**
+     * Sets totalHours.
+     * @param totalHours totalHours
+     */
     public void setTotalHours(BigDecimal totalHours) {
         this.totalHours = totalHours;
     }
     
     /**
      * The total days of work done in the WP.
-     * @return
+     * @return total person days
      */
     public BigDecimal getTotalDays() {
-        return totalHours.divide(new BigDecimal(8));
+        return totalHours.divide(new BigDecimal(HOURS_IN_DAY));
     }
     
+    /**
+     * Get estLabourGradeDays.
+     * @return estLabourGradeDays
+     */
     public HashMap<String, BigDecimal> getEstLabourGradeDays() {
         return estLabourGradeDays;
     }
 
+    /**
+     * Set estLabourGradeDays.
+     * @param labourGradeDays estLabourGradeDays
+     */
     public void setEstLabourGradeDays(HashMap<String, BigDecimal> labourGradeDays) {
         this.estLabourGradeDays = labourGradeDays;
     }
 
+    /**
+     * Get curLabourGradeDays.
+     * @return curLabourGradeDays
+     */
     public HashMap<String, BigDecimal> getCurLabourGradeDays() {
         return curLabourGradeDays;
     }
 
+    /**
+     * Set curLabourGradeDays.
+     * @param curLabourGradeDays curLabourGradeDays
+     */
     public void setCurLabourGradeDays(HashMap<String, BigDecimal> curLabourGradeDays) {
         this.curLabourGradeDays = curLabourGradeDays;
     }
 
+    /**
+     * Get initialEstimate.
+     * @return initialEstimate initialEstimate
+     */
     public HashMap<String, BigDecimal> getInitialEstimate() {
         return initialEstimate;
     }
 
+    /**
+     * Set initialEstimate.
+     * @param initialEstimate initialEstimate
+     */
     public void setInitialEstimate(HashMap<String, BigDecimal> initialEstimate) {
         this.initialEstimate = initialEstimate;
     }
@@ -251,15 +334,15 @@ public class ResponsibleEngineerController implements Serializable {
         totalHours = BigDecimal.ZERO;
         
         for (Tsrow t : tsrows) {
-            BigDecimal rowRate = t.getTimesheet().getTsPayGrade() == null ? 
-                    t.getTimesheet().getEmployee().getEmpLabGrd().getLgRate() :
-                    t.getTimesheet().getTsPayGrade().getLgRate();
+            BigDecimal rowRate = t.getTimesheet().getTsPayGrade() == null 
+                    ? t.getTimesheet().getEmployee().getEmpLabGrd().getLgRate() 
+                            : t.getTimesheet().getTsPayGrade().getLgRate();
             BigDecimal rowHours = t.getTotal();
             
-            String labGrd = t.getTimesheet().getTsPayGrade() == null ? 
-                    t.getTimesheet().getEmployee().getEmpLabGrd().getLgId() : 
-                    t.getTimesheet().getTsPayGrade().getLgId();
-            map.put(labGrd, map.get(labGrd).add(rowHours.divide(new BigDecimal(8))));
+            String labGrd = t.getTimesheet().getTsPayGrade() == null 
+                    ? t.getTimesheet().getEmployee().getEmpLabGrd().getLgId() 
+                            : t.getTimesheet().getTsPayGrade().getLgId();
+            map.put(labGrd, map.get(labGrd).add(rowHours.divide(new BigDecimal(HOURS_IN_DAY))));
             
             totalCost = totalCost.add(rowRate.multiply(rowHours));
             totalHours = totalHours.add(rowHours);
@@ -308,7 +391,7 @@ public class ResponsibleEngineerController implements Serializable {
      * @return total cost.
      */
     public BigDecimal getTotalCost(Labgrd l) {
-        return getCurLabourGradeDays().get(l.getLgId()).multiply(new BigDecimal(8))
+        return getCurLabourGradeDays().get(l.getLgId()).multiply(new BigDecimal(HOURS_IN_DAY))
                 .multiply(getLabgrdRate().get(l));
     }
     
