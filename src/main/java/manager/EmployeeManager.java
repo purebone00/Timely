@@ -176,7 +176,7 @@ public class EmployeeManager implements Serializable {
      */
     public List<Employee> getEmpNotProj(Project p) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" + ", Project AS p "
-                + "WHERE p = :selectProject AND p " + "NOT MEMBER OF e.projects", Employee.class);
+                + "WHERE p = :selectProject AND p " + "NOT MEMBER OF e.projects AND e.empDel != 1", Employee.class);
         query.setParameter("selectProject", p);
         List<Employee> employees = query.getResultList();
         return (employees != null) ? employees : new ArrayList<Employee>();
@@ -189,7 +189,7 @@ public class EmployeeManager implements Serializable {
      */
     public List<Employee> getEmpProj(Project p) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" + ", Project AS p "
-                + "WHERE p = :selectProject AND p " + "MEMBER OF e.projects", Employee.class);
+                + "WHERE p = :selectProject AND p " + "MEMBER OF e.projects AND e.empDel != 1", Employee.class);
         query.setParameter("selectProject", p);
         List<Employee> employees = query.getResultList();
 
@@ -228,7 +228,8 @@ public class EmployeeManager implements Serializable {
      * @return timesheet approvers
      */
     public List<Employee> getTaApprovers() {
-        Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6", Employee.class);
+        Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6 AND employee.empDel != 1"
+                , Employee.class);
         @SuppressWarnings("unchecked")
         List<Employee> taApprovers = q.getResultList();
         
@@ -260,7 +261,7 @@ public class EmployeeManager implements Serializable {
     	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
 			", Workpack AS wp " +
 			"WHERE wp = :selectWP AND wp " +
-			"NOT MEMBER OF e.workpackages", 
+			"NOT MEMBER OF e.workpackages AND e.empDel != 1", 
     			Employee.class); 
     	query.setParameter("selectWP", wp);
         List<Employee> emps = query.getResultList();
@@ -280,7 +281,7 @@ public class EmployeeManager implements Serializable {
     	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
     			", Workpack AS wp " +
     			"WHERE wp = :selectWP AND wp " +
-    			"MEMBER OF e.workpackages", 
+    			"MEMBER OF e.workpackages AND e.empDel != 1", 
         			Employee.class); 
     	query.setParameter("selectWP", wp);
         List<Employee> employees = query.getResultList();
@@ -296,6 +297,17 @@ public class EmployeeManager implements Serializable {
     public void removeTitle(Employee e, Title t) {
         em.createNativeQuery("DELETE FROM Emptitle WHERE Emptitle.etEmpID = ?1 AND Emptitle.etTitID = ?2")
         .setParameter(1, e.getEmpId()).setParameter(2, t.getTitId()).executeUpdate();
+    }
+    
+    /**
+     * Removes all references to the given employee as a supervisor.
+     * @param supervisor
+     */
+    public void removeSupervisorReferences(Employee supervisor) {
+        for (Employee e : getEmpSup(supervisor)) {
+            e.setEmpSupId(null);
+            merge(e);
+        }
     }
     
 }
