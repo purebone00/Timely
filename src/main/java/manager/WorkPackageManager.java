@@ -15,6 +15,12 @@ import model.Project;
 import model.Workpack;
 import model.WorkpackId;
 
+/**
+ * Does CRUD for work packages.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @Dependent
 @Stateless
 public class WorkPackageManager {
@@ -54,6 +60,11 @@ public class WorkPackageManager {
         return (workpackages != null) ? workpackages : new ArrayList<Workpack>();
     }
     
+    /**
+     * Get a work package by WorkpackId.
+     * @param wpId WorkpackId.
+     * @return Work package.
+     */
     public Workpack find(WorkpackId wpId) {
         return em.find(Workpack.class, wpId);
     }
@@ -73,25 +84,45 @@ public class WorkPackageManager {
         return (workpackages != null) ? workpackages : new ArrayList<Workpack>();
     }
 
+    /**
+     * Persist a workpack.
+     * @param w workpack
+     */
     public void persist(Workpack w) {
         em.persist(w);
     }
 
+    /**
+     * Merge a workpack.
+     * @param w workpack
+     */
     public void merge(Workpack w) {
         em.merge(w);
     }
 
+    /**
+     * Merge a set of workpacks.
+     * @param w set of workpacks
+     */
     public void merge(Set<Workpack> w) {
         for (Workpack wo : w) {
             em.merge(wo);
         }
     }
     
+    /**
+     * Flush.
+     */
     public void flush() {
         em.flush();
     }
     
     /*ripped off from ProjectManager > removeFromProject() */
+    /**
+     * Remove an employee from a work package.
+     * @param wp work package.
+     * @param e employee.
+     */
     public void removeFromWP(Workpack wp, Employee e) {
         em.createNativeQuery("DELETE FROM Empwp WHERE Empwp.ewEmpId = ?1 AND Empwp.ewWpNo = ?2 AND Empwp.ewProjNo = ?3")
             .setParameter(1, e.getEmpId()).setParameter(2, wp.getId().getWpNo()).setParameter(3, wp.getId().getWpProjNo()).executeUpdate();

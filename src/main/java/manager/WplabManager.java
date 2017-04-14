@@ -14,6 +14,12 @@ import model.Workpack;
 import model.Wplab;
 import model.WplabId;
 
+/**
+ * Does CRUD for Wplabs.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @Dependent
 @Stateless
 public class WplabManager {
@@ -36,14 +42,27 @@ public class WplabManager {
         return (plannedHours != null) ? plannedHours : new ArrayList<Wplab>();
     }
 
+    /**
+     * Find a Wplab by WplabId.
+     * @param id WplabId.
+     * @return Wplab
+     */
     public Wplab find(WplabId id) {
         return em.find(Wplab.class, id);
     }
 
+    /**
+     * Update a Wplab.
+     * @param wplab Wplab.
+     */
     public void update(Wplab wplab) {
         em.merge(wplab);
     }
 
+    /**
+     * Remove a Wplab.
+     * @param w wplab
+     */
     public void remove(Wplab w) {
         w = find(w.getId());
         em.remove(w);

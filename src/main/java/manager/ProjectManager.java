@@ -15,13 +15,22 @@ import model.Labgrd;
 import model.Project;
 import model.Workpack;
 
-
+/**
+ * Does CRUD for Projects.
+ * @author Timely
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 @Dependent
 @Stateless
 public class ProjectManager implements Serializable{
     @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
 
+    /**
+     * Get a project by id.
+     * @param id project id
+     * @return project
+     */
     public Project find(int id) {
         
         Project foundProject = em.find(Project.class, id);
@@ -29,22 +38,41 @@ public class ProjectManager implements Serializable{
         return (foundProject != null) ? foundProject : new Project();
     }
 
+    /**
+     * Persist a project.
+     * @param project project
+     */
     public void persist(Project project) {
         em.persist(project);
     }
     
+    /**
+     * Flush.
+     */
     public void flush() {
         em.flush();
     }
     
+    /**
+     * Update a project.
+     * @param project project
+     */
     public void update(Project project) {
         em.merge(project);  
     }
    
+    /**
+     * Merge a project.
+     * @param project project
+     */
     public void merge(Project project) {
         em.merge(project);
     } 
     
+    /**
+     * Remove a project.
+     * @param project project
+     */
     public void remove(Project project) {
         project = find(project.getProjNo());
         em.remove(project);
@@ -91,7 +119,7 @@ public class ProjectManager implements Serializable{
      */
     public void removeFromProjectWithWp(Project p, Employee e) {
     	
-    	for(Workpack w:e.getWorkpackages()){
+    	for (Workpack w : e.getWorkpackages()) {
     		Query query = em.createNativeQuery("DELETE FROM Empwp WHERE Empwp.ewEmpId = :id AND Empwp.ewProjNo = :no AND Empwp.ewWpNo = :wp");
        		query.setParameter("id", e.getEmpId()).setParameter("no", p.getProjNo()).setParameter("wp", w.getId().getWpNo());
         	query.executeUpdate();

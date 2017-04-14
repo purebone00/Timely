@@ -12,6 +12,12 @@ import javax.persistence.TypedQuery;
 
 import model.Labgrd;
 
+/**
+ * Does CRUD for Labgrd.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @SuppressWarnings("serial")
 @Dependent
 @Stateless

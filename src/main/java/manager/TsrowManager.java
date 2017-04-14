@@ -16,29 +16,56 @@ import model.Employee;
 import model.Tsrow;
 import model.Workpack;
 
+/**
+ * Does CRUD for Tsrows.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @Dependent
 @Stateless
 public class TsrowManager {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
+    /**
+     * Get a Tsrow by id.
+     * @param id id
+     * @return Tsrow
+     */
     public Tsrow find(int id) {
         Tsrow foundRow = em.find(Tsrow.class, id);
         return (foundRow != null) ? foundRow : new Tsrow();
     }
 
+    /**
+     * Persist a Tsrow.
+     * @param tsrow tsrow
+     */
     public void persist(Tsrow tsrow) {
         em.persist(tsrow);
     }
 
+    /**
+     * Update a Tsrow.
+     * @param tsrow tsrow
+     */
     public void update(Tsrow tsrow) {
         em.merge(tsrow);
     }
 
+    /**
+     * Merge a Tsrow.
+     * @param tsrow tsrow
+     */
     public void merge(Tsrow tsrow) {
         em.merge(tsrow);
     }
 
+    /**
+     * Remove a Tsrow.
+     * @param tsrow tsrow
+     */
     public void remove(Tsrow tsrow) {
         em.remove(tsrow);
     }
@@ -49,8 +76,7 @@ public class TsrowManager {
      * leaving this code here in case shit hits the fan
      * 
      * @author Joe Fong
-     * @param employeeID
-     * @return
+     * @return list of Tsrows
      */
     public List<Tsrow> getAll() {
         TypedQuery<Tsrow> query = em.createQuery("select s from Tsrow s", Tsrow.class);
@@ -64,8 +90,9 @@ public class TsrowManager {
      * leaving this code here in case shit hits the fan
      * 
      * @author Joe Fong
-     * @param employeeID
-     * @return
+     * @param name name
+     * @param wkEnd week end
+     * @return list of Tsrows
      */
     public ArrayList<Tsrow> getAllForTable(int name, String wkEnd) {
         TypedQuery<Tsrow> query = em
@@ -113,8 +140,8 @@ public class TsrowManager {
 
     /**
      * Gets all Tsrows for a Workpackage.
-     * @param w
-     * @return
+     * @param w Workpack
+     * @return list of Tsrows
      */
     public List<Tsrow> find(Workpack w) {
         TypedQuery<Tsrow> query = em.createQuery("SELECT s from Tsrow s WHERE s.tsrProjNo = ?1 " + "AND s.tsrWpNo = ?2",
@@ -129,9 +156,9 @@ public class TsrowManager {
     
     /**
      * Gets all Tsrows for a Workpackage up to and including a given week.
-     * @param w
-     * @param week
-     * @return
+     * @param w work package.
+     * @param week week.
+     * @return list of tsrows
      */
     public List<Tsrow> find(Workpack w, String week) {
         TypedQuery<Tsrow> query = em.createQuery("SELECT s from Tsrow s WHERE s.tsrProjNo = ?1 " + "AND s.tsrWpNo = ?2"
