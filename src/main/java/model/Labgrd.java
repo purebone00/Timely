@@ -43,9 +43,20 @@ public class Labgrd implements java.io.Serializable {
      */
     private Date lgUpDt;
 
+    /**
+     * Default ctor.
+     */
     public Labgrd() {
     }
 
+    /**
+     * Create a Labgrd.
+     * @param lgId labgrd id.
+     * @param lgRate rate
+     * @param lgDel delete flag
+     * @param lgInsDt insert date
+     * @param lgUpDt update date
+     */
     public Labgrd(String lgId, BigDecimal lgRate, short lgDel, Date lgInsDt, Date lgUpDt) {
         this.lgId = lgId;
         this.lgRate = lgRate;
@@ -54,6 +65,10 @@ public class Labgrd implements java.io.Serializable {
         this.lgUpDt = lgUpDt;
     }
 
+    /**
+     * Get lgId.
+     * @return lgId
+     */
     @Id
 
     @Column(name = "lgID", unique = true, nullable = false, length = 2)
@@ -61,44 +76,80 @@ public class Labgrd implements java.io.Serializable {
         return this.lgId;
     }
 
+    /**
+     * Set lgId
+     * @param lgId lgId
+     */
     public void setLgId(String lgId) {
         this.lgId = lgId;
     }
 
+    /**
+     * Get lgRate.
+     * @return lgRate
+     */
     @Column(name = "lgRate", nullable = false, precision = 5)
     public BigDecimal getLgRate() {
         return this.lgRate;
     }
 
+    /**
+     * Set lgRate.
+     * @param lgRate lgRate
+     */
     public void setLgRate(BigDecimal lgRate) {
         this.lgRate = lgRate;
     }
 
+    /**
+     * Get lgDel.
+     * @return lgDel
+     */
     @Column(name = "lgDel", nullable = false)
     public short getLgDel() {
         return this.lgDel;
     }
 
+    /**
+     * Set lgDel.
+     * @param lgDel lgDel
+     */
     public void setLgDel(short lgDel) {
         this.lgDel = lgDel;
     }
 
+    /**
+     * Get lgInsDt.
+     * @return lgInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "lgInsDt", nullable = false, length = 19)
     public Date getLgInsDt() {
         return this.lgInsDt;
     }
 
+    /**
+     * Set lgInsDt.
+     * @param lgInsDt lgInsDt
+     */
     public void setLgInsDt(Date lgInsDt) {
         this.lgInsDt = lgInsDt;
     }
 
+    /**
+     * Get lgUpDt.
+     * @return lgUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "lgUpDt", nullable = false, length = 19)
     public Date getLgUpDt() {
         return this.lgUpDt;
     }
 
+    /**
+     * Set lgUpDt. 
+     * @param lgUpDt lgUpDt
+     */
     public void setLgUpDt(Date lgUpDt) {
         this.lgUpDt = lgUpDt;
     }

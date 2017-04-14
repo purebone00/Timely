@@ -20,21 +20,40 @@ public class EmptitlePK implements Serializable {
      */
     private int etTitID;
 
+    /**
+     * Default ctor.
+     */
     public EmptitlePK() {
     }
 
+    /**
+     * Get etEmpID.
+     * @return etEmpID
+     */
     public int getEtEmpID() {
         return this.etEmpID;
     }
 
+    /**
+     * Set etEmpID.
+     * @param etEmpID etEmpID
+     */
     public void setEtEmpID(int etEmpID) {
         this.etEmpID = etEmpID;
     }
 
+    /**
+     * Get etTitID.
+     * @return etTitID
+     */
     public int getEtTitID() {
         return this.etTitID;
     }
 
+    /**
+     * Set etTitID.
+     * @param etTitID etTitID
+     */
     public void setEtTitID(int etTitID) {
         this.etTitID = etTitID;
     }

@@ -50,9 +50,20 @@ public class Empwp implements java.io.Serializable {
      */
     private Date ewUpDt;
 
+    /**
+     * Default ctor.
+     */
     public Empwp() {
     }
 
+    /**
+     * Create a Empwp.
+     * @param id EmpwpId.
+     * @param ewAssDt assign date.
+     * @param ewDel delete flag
+     * @param ewInsDt insert date
+     * @param ewUpDt update date
+     */
     public Empwp(EmpwpId id, Date ewAssDt, short ewDel, Date ewInsDt, Date ewUpDt) {
         this.id = id;
         this.ewAssDt = ewAssDt;
@@ -61,6 +72,15 @@ public class Empwp implements java.io.Serializable {
         this.ewUpDt = ewUpDt;
     }
 
+    /**
+     * Create a Empwp.
+     * @param id EmpwpId
+     * @param ewAssDt assign date
+     * @param ewEstHrs estimated hours
+     * @param ewDel delete flag
+     * @param ewInsDt insert date
+     * @param ewUpDt update date
+     */
     public Empwp(EmpwpId id, Date ewAssDt, BigDecimal ewEstHrs, short ewDel, Date ewInsDt, Date ewUpDt) {
         this.id = id;
         this.ewAssDt = ewAssDt;
@@ -70,6 +90,10 @@ public class Empwp implements java.io.Serializable {
         this.ewUpDt = ewUpDt;
     }
 
+    /**
+     * Get id.
+     * @return id
+     */
     @EmbeddedId
 
     @AttributeOverrides({ @AttributeOverride(name = "ewEmpId", column = @Column(name = "ewEmpID", nullable = false)),
@@ -79,54 +103,98 @@ public class Empwp implements java.io.Serializable {
         return this.id;
     }
 
+    /**
+     * Set id.
+     * @param id id
+     */
     public void setId(EmpwpId id) {
         this.id = id;
     }
 
+    /**
+     * Get ewAssDt.
+     * @return ewAssDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ewAssDt", nullable = false, length = 19)
     public Date getEwAssDt() {
         return this.ewAssDt;
     }
 
+    /**
+     * Set ewAssDt.
+     * @param ewAssDt ewAssDt
+     */
     public void setEwAssDt(Date ewAssDt) {
         this.ewAssDt = ewAssDt;
     }
 
+    /**
+     * Get ewEstHrs.
+     * @return ewEstHrs
+     */
     @Column(name = "ewEstHrs", precision = 5)
     public BigDecimal getEwEstHrs() {
         return this.ewEstHrs;
     }
 
+    /**
+     * Set ewEstHrs.
+     * @param ewEstHrs ewEstHrs
+     */
     public void setEwEstHrs(BigDecimal ewEstHrs) {
         this.ewEstHrs = ewEstHrs;
     }
 
+    /**
+     * Get ewDel.
+     * @return ewDel
+     */
     @Column(name = "ewDel", nullable = false)
     public short getEwDel() {
         return this.ewDel;
     }
 
+    /**
+     * Set ewDel.
+     * @param ewDel ewDel
+     */
     public void setEwDel(short ewDel) {
         this.ewDel = ewDel;
     }
 
+    /**
+     * Get ewInsDt.
+     * @return ewInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ewInsDt", nullable = false, length = 19)
     public Date getEwInsDt() {
         return this.ewInsDt;
     }
 
+    /**
+     * Set ewInsDt.
+     * @param ewInsDt ewInsDt
+     */
     public void setEwInsDt(Date ewInsDt) {
         this.ewInsDt = ewInsDt;
     }
 
+    /**
+     * Get ewUpDt.
+     * @return ewUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ewUpDt", nullable = false, length = 19)
     public Date getEwUpDt() {
         return this.ewUpDt;
     }
 
+    /**
+     * Set ewUpDt.
+     * @param ewUpDt ewUpDt
+     */
     public void setEwUpDt(Date ewUpDt) {
         this.ewUpDt = ewUpDt;
     }
