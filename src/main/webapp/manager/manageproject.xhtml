@@ -49,12 +49,16 @@
                                     <b:inputText class="form-control"
                                         span="12" id="wpName"
                                         value="#{s.wpNm}" 
-                                        required="true" requiredMessage="Please provide a name."/>
+                                        required="true" requiredMessage="Please provide a name.">
+                                        <f:validateLength maximum="64"/>
+									</b:inputText>
 									<b:message for="wpName"/>
                                     Description:<br/>
                                     <b:inputTextarea class="form-control"
                                         span="12" rows="15" id="wpDesc"
-                                        value="#{s.wpDesc}" />
+                                        value="#{s.wpDesc}">
+                                        <f:validateLength maximum="255"/>
+									</b:inputTextarea>
 									<b:message for="wpDesc"/>
                                 </b:panelGrid>
                             </b:dataTableColumn>
@@ -109,7 +113,7 @@
                             <b:dataTableColumn>
                                 <f:facet name="header">Add Child</f:facet>
                                 <h:panelGroup
-                                    rendered="#{Master.projMan.wpIsOpen(s) and Master.projMan.isWpCharged(s) == false}">
+                                    rendered="#{Master.projMan.wpIsOpen(s) and Master.projMan.isWpCharged(s) == false and s.notLowestLevel}">
                                 Child WP#:<br />
                                     <table>
                                         <tr>

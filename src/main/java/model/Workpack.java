@@ -349,6 +349,11 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	    return this.charged;
 	}
 	
+	@Transient
+	public boolean getNotLowestLevel() {
+	    return this.getId().getWpNo().replaceAll("0", "").length() != 6;
+	}
+	
 	public void setCharged(boolean charged) {
 	    this.charged = charged;
 	}
