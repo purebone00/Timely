@@ -1,5 +1,11 @@
+//requires reset to 4911ERD_ver7.sql
+
+
+
 /*
- * JBoss, Home of Professional Open Source
+ 
+
+* JBoss, Home of Professional Open Source
  * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
