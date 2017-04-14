@@ -40,13 +40,38 @@ public class AddARowEditRow {
   @Test
   public void loginAdmin() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100004");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt50:0:j_idt63")).click();
+	  driver.findElement(By.id("j_idt54:j_idt114")).click();
+	  driver.findElement(By.id("j_idt54:j_idt113")).click();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:monHours")).clear();
+	  
+	  //editing the row before hand, so don't need to reset database after
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:monHours")).sendKeys("2");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:tuesHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:tuesHours")).sendKeys("2");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:wedHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:wedHours")).sendKeys("2");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:thursHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:thursHours")).sendKeys("2");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:friHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:friHours")).sendKeys("2");
+	  
+
+	  driver.findElement(By.id("j_idt54:j_idt113")).click();
+	  driver.findElement(By.id("j_idt54:j_idt112")).click();
+	  
+	  //verify that the values are still ones
+	  assertEquals("2", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[6]")).getText());
+	  assertEquals("2", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[7]")).getText());
+	  assertEquals("2", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[8]")).getText());
+	  assertEquals("2", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[9]")).getText());
+	  assertEquals("2", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[10]")).getText());
   }
 
   @After

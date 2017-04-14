@@ -39,14 +39,24 @@ public class EnterHTML {
 
   @Test
   public void loginAdmin() throws Exception {
-	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.get(baseUrl + "/Timely/faces/index.xhtml");
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.linkText("Responsible Engineer")).click();
+	  driver.findElement(By.id("j_idt48:0:j_idt57:j_idt58")).click();
+	  driver.findElement(By.linkText("Strong Random Password Generator")).click();
+	  driver.findElement(By.id("lst-ib")).clear();
+	  driver.findElement(By.id("lst-ib")).sendKeys("generate long string");
+	  // ERROR: Caught exception [ERROR: Unsupported command [selectWindow | null | ]]
+	  driver.findElement(By.id("input_j_idt59:j_idt60:0:estimate")).clear();
+	  driver.findElement(By.id("input_j_idt59:j_idt60:0:estimate")).sendKeys("$(\"div[id=\"+t+\"]\").text(\"The DOM is now loaded and can be manipulated.\");");
+	  driver.findElement(By.id("j_idt59:j_idt84")).click();
+	  driver.findElement(By.id("j_idt48:0:j_idt57:j_idt58")).click();
+	  // Warning: assertTextNotPresent may require manual changes
+	  assertFalse(driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*id=input_j_idt59:j_idt60:0:estimate[\\s\\S]*$"));
+
   }
 
   @After

@@ -1,6 +1,7 @@
-//Input: Joy Nelson
-//Requirements: requires testsuite that runs Promotion before you can run Demotion
-//Requirements: 3911ERD_ver21
+//Populate database w/ 1000 entires
+//Populate database w/ 500 entires
+//check login times
+//Requirements: 3911ERD_with1000Entries
 
 package test.timely.stress;
 

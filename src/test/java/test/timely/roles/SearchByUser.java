@@ -1,5 +1,4 @@
-//Input: Joy Nelson
-//Requirements: requires testsuite that runs Promotion before you can run Demotion
+
 //Requirements: 3911ERD_ver21
 
 package test.timely.roles;
@@ -39,14 +38,7 @@ public class SearchByUser {
 
   @Test
   public void loginAdmin() throws Exception {
-	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  //deprecated no longer has search feature
   }
 
   @After

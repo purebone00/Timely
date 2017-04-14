@@ -39,14 +39,34 @@ public class PressBackOnBrowserBeforeCommiting {
 
   @Test
   public void loginAdmin() throws Exception {
-	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.get(baseUrl + "/Timely/faces/manager/viewmanagedprojects.xhtml");
+	  driver.findElement(By.linkText("Sign Out")).click();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100001");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("Project Manager")).click();
+	  driver.findElement(By.id("j_idt50:j_idt51:0:j_idt72")).click();
+	  driver.findElement(By.xpath("//table[@id='j_idt103:j_idt107']/tbody/tr/td")).click();
+	  
+	  //push back before commiting
+	  driver.navigate().back();
+	  
+	  driver.findElement(By.linkText("Project Manager")).click();
+	  driver.findElement(By.id("j_idt50:j_idt51:0:j_idt72")).click();
+	  driver.findElement(By.xpath("//table[@id='j_idt103:j_idt107']/tbody/tr/td")).click();
+	  
+	  //data should not be commmited
+	  
+	  driver.findElement(By.name("j_idt103:j_idt107:1:j_idt114")).click();
+	  driver.findElement(By.id("j_idt70:j_idt101")).click();
+	  driver.findElement(By.id("j_idt70:j_idt75:0:j_idt82")).click();
+	  assertEquals("No data available in table", driver.findElement(By.cssSelector("td.dataTables_empty")).getText());
+
+
   }
 
   @After
