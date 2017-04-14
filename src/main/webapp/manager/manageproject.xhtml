@@ -73,7 +73,12 @@
                                         <b:inputText
                                             id="budget"
                                             class="form-control"
-                                            value="#{l.wlPlanDays}">
+                                            value="#{l.wlPlanDays}"
+                                            validateMessage="Budget must be a number."
+                                            required="true"
+                                            requiredMessage="Please enter a number.">
+                                            <f:convertNumber/>
+                                            <f:validateDoubleRange minimum="0"/>
                                         </b:inputText>
                                         <b:message for="budget"/>
                                     </h:column>
@@ -83,7 +88,12 @@
                                             id="init_est"
                                             class="form-control"
                                             value="#{s.initialEst[l.id.wlLgId]}"
-                                            rendered="#{s.initialEst != null}">
+                                            rendered="#{s.initialEst != null}"
+                                            validateMessage="Initial Est. must be a number"
+                                            required="true"
+                                            requiredMessage="Please enter a number.">
+                                            <f:convertNumber/>
+                                            <f:validateDoubleRange minimum="0"/>
                                         </b:inputText>
                                         <b:message for="init_est"/>
                                         <h:outputText value="N/A"
