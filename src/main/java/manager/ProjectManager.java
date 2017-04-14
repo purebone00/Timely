@@ -50,7 +50,11 @@ public class ProjectManager implements Serializable{
         em.remove(project);
     }
 
-
+    /**
+     * Get all projects managed by a given employee.
+     * @param employeeId Employee.
+     * @return List of projects managed by a given employee.
+     */
     public List<Project> getManagedProjects(int employeeId) {
         TypedQuery<Project> query = em.createQuery("select s from Project s where s.projMan=:code", Project.class);
         query.setParameter("code", employeeId);
@@ -59,6 +63,10 @@ public class ProjectManager implements Serializable{
         return projects;
     }
     
+    /**
+     * Get all projects in the system.
+     * @return List of all projects.
+     */
     public List<Project> getAllProjects() {
         TypedQuery<Project> query = em.createQuery("select s from Project s", Project.class);
         List<Project> projects = query.getResultList();
@@ -66,11 +74,21 @@ public class ProjectManager implements Serializable{
         return projects;
     }
     
+    /**
+     * Remove an employee from a project.
+     * @param p The project to remove from.
+     * @param e The employee to remove.
+     */
     public void removeFromProject(Project p, Employee e) {
     	 em.createNativeQuery("DELETE FROM Empproj WHERE Empproj.epEmpId = ?1 AND Empproj.epProjNo = ?2")
     				.setParameter(1, e.getEmpId()).setParameter(2, p.getProjNo()).executeUpdate();
     }
     
+    /**
+     * Remove an employee from all WP's within a given project.
+     * @param p The project to remove the employee from.
+     * @param e The employee to remove.
+     */
     public void removeFromProjectWithWp(Project p, Employee e) {
     	
     	for(Workpack w:e.getWorkpackages()){

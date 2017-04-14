@@ -11,7 +11,14 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class WorkpackId implements java.io.Serializable {
 
+    /**
+     * Project number.
+     */
     private int wpProjNo;
+    
+    /**
+     * Work package number.
+     */
     private String wpNo;
 
     public WorkpackId() {

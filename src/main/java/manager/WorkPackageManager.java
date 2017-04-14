@@ -21,6 +21,11 @@ public class WorkPackageManager {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
+    /**
+     * Get all work packages a given employee is responsible for.
+     * @param employeeId the employee.
+     * @return List of responsible work packages.
+     */
     public List<Workpack> getResponsibleWorkPackages(int employeeId) {
         TypedQuery<Workpack> query = em.createQuery("select s from Workpack s where s.wpResEng=:code", Workpack.class);
         query.setParameter("code", employeeId);

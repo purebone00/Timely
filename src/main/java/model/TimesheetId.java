@@ -11,7 +11,14 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TimesheetId implements java.io.Serializable {
 
+    /**
+     * Employee Id.
+     */
     private int tsEmpId;
+    
+    /**
+     * Week end date of the timesheet.
+     */
     private String tsWkEnd;
 
     public TimesheetId() {

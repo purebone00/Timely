@@ -20,6 +20,12 @@ public class WplabManager {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
+    /**
+     * Gets all the Wplabs with a given project number and work package number.
+     * @param projNo Project number.
+     * @param wpNo Work package number.
+     * @return List of Wplabs.
+     */
     public List<Wplab> getWorkPackagePlannedHours(int projNo, String wpNo) {
         TypedQuery<Wplab> query = em
                 .createQuery("select s from Wplab s where s.id.wlProjNo=:code AND s.id.wlWpNo=:code2", Wplab.class);

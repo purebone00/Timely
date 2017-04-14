@@ -10,8 +10,14 @@ public class EmptitlePK implements Serializable {
     // default serial version id, required for serializable classes.
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Employee ID.
+     */
     private int etEmpID;
 
+    /**
+     * Title ID.
+     */
     private int etTitID;
 
     public EmptitlePK() {

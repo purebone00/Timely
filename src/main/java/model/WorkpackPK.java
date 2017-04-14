@@ -12,9 +12,15 @@ public class WorkpackPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Project number.
+	 */
 	@Column(insertable=false, updatable=false)
 	private int wpProjNo;
 
+	/**
+	 * Work package number.
+	 */
 	private String wpNo;
 
 	public WorkpackPK() {

@@ -28,32 +28,32 @@ import utility.ReportUtility;
 @Named("RE")
 public class ResponsibleEngineerController implements Serializable {
     /**
-     * 
+     * Used for accessing work package data in database (Workpack table).
      */
     @Inject
     private WorkPackageManager workPackageManager;
     /**
-     * 
+     * Used for accessing timesheet row data in database (Tsrow table).
      */
     @Inject
     private TsrowManager tsRowManager;
     /**
-     * 
+     * Used for accessing labour grade data in database (Labgrd table).
      */
     @Inject
     private LabourGradeManager labourGradeManager;
     /**
-     * 
+     * Used for accessing work package status report data in database (Wpstarep table).
      */
     @Inject
     private WpstarepManager wpstarepManager;
     /**
-     * 
+     * The current work package status report.
      */
     @Inject
     private Wpstarep workPackageReport;
     /**
-     * 
+     * The selected work pacakge.
      */
     private Workpack selectedWorkPackage;
     

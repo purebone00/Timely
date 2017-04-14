@@ -19,6 +19,10 @@ public class LabourGradeManager implements Serializable {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
+    /**
+     * Get a list of all labour grades in the system.
+     * @return List of all labour grades in the system.
+     */
     public List<Labgrd> getAll() {
         TypedQuery<Labgrd> query = em.createQuery("select s from Labgrd s", Labgrd.class);
         List<Labgrd> labourGrades = query.getResultList();
@@ -26,6 +30,11 @@ public class LabourGradeManager implements Serializable {
         return (labourGrades != null) ? labourGrades : new ArrayList<Labgrd>();
     }
 
+    /**
+     * Find a labour grade by labour grade ide.
+     * @param lgId Labour grade id.
+     * @return Labour grade that matches the given id.
+     */
     public Labgrd find(String lgId) {
         TypedQuery<Labgrd> query = em.createQuery("select s from Labgrd s where s.lgId=:code", Labgrd.class);
         query.setParameter("code", lgId);
