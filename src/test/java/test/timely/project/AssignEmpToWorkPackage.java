@@ -38,15 +38,21 @@ public class AssignEmpToWorkPackage {
   }
 
   @Test
-  public void loginAdmin() throws Exception {
+  public void AddEmployeeToProjectTest() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100001");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.linkText("Project Manager")).click();
+	  driver.findElement(By.id("j_idt50:j_idt51:0:j_idt72")).click();
+	  driver.findElement(By.id("j_idt55:j_idt56:0:j_idt62")).click();
+	  driver.findElement(By.name("j_idt103:j_idt107:1:j_idt114")).click();
+	  driver.findElement(By.id("j_idt103:j_idt129")).click();
+	  driver.findElement(By.xpath("//table[@id='j_idt70:j_idt75']/tbody/tr[2]/td")).click();
+	  driver.findElement(By.cssSelector("tr.even.parent > td")).click();
+	  assertEquals("100013", driver.findElement(By.xpath("//table[@id='j_idt70:j_idt75']/tbody/tr[2]/td")).getAttribute("value"));
+
   }
 
   @After

@@ -24,14 +24,19 @@ public class ViewWeeklyReport{
 
   @Test
   public void testJava() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Ryan");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
-    driver.findElement(By.linkText("Timesheet Approver")).click();
-    assertEquals("Timesheet Approver", driver.findElement(By.id("j_idt47")).getText());
+	  driver.findElement(By.linkText("Project Manager")).click();
+	    driver.findElement(By.id("j_idt50:j_idt51:0:j_idt69")).click();
+	    assertEquals("Monthly Report", driver.findElement(By.cssSelector("h1")).getText());
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100001");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    driver.findElement(By.linkText("View Details")).click();
+	    driver.findElement(By.linkText("Project Manager")).click();
+	    driver.findElement(By.id("j_idt50:j_idt51:0:j_idt66")).click();
+	    driver.findElement(By.id("j_idt48:j_idt49:0:j_idt55")).click();
+	    assertEquals("Weekly Report", driver.findElement(By.cssSelector("tbody > tr > th")).getText());
   }
 
   @After

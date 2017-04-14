@@ -1,5 +1,4 @@
-//Input: Joy Nelson
-//Requirements: requires testsuite that runs Promotion before you can run Demotion
+//Remove an existing employee from a project, double check their data isn't wiped from workpackge, the data should be the same after removal from WP
 //Requirements: 3911ERD_ver21
 
 package test.timely.project;
@@ -39,14 +38,33 @@ public class RemoveEmpFromProject {
 
   @Test
   public void loginAdmin() throws Exception {
-	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.findElement(By.name("j_idt103:j_idt107:1:j_idt114")).click();
+	  driver.get(baseUrl + "/Timely/faces/manager/viewmanagedprojects.xhtml");
+	  driver.findElement(By.linkText("Sign Out")).click();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100001");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("Project Manager")).click();
+	  driver.findElement(By.id("j_idt50:j_idt51:0:j_idt72")).click();
+	  driver.findElement(By.xpath("//table[@id='j_idt103:j_idt107']/tbody/tr/td")).click();
+	  driver.findElement(By.name("j_idt103:j_idt107:1:j_idt114")).click();
+	  driver.findElement(By.id("j_idt70:j_idt101")).click();
+	  driver.findElement(By.id("j_idt70:j_idt75:0:j_idt82")).click();
+	  driver.findElement(By.id("j_idt70:j_idt75:0:j_idt82")).click();
+	  driver.findElement(By.id("j_idt70:j_idt101")).click();
+	  assertEquals("No data available in table", driver.findElement(By.cssSelector("td.dataTables_empty")).getText());
+	  driver.findElement(By.name("j_idt103:j_idt107:1:j_idt114")).click();
+	  driver.findElement(By.linkText("Project Manager")).click();
+	  driver.findElement(By.id("j_idt50:j_idt51:0:j_idt66")).click();
+	  assertEquals("$22,246.00", driver.findElement(By.xpath("//table[@id='j_idt54']/tbody/tr/td/table/tbody/tr/th/table/tbody/tr/td[2]")).getText());
+	  
+
+
+
   }
 
   @After

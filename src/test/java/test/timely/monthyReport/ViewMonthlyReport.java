@@ -39,14 +39,19 @@ public class ViewMonthlyReport {
 
   @Test
   public void loginAdmin() throws Exception {
-	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	  driver.findElement(By.linkText("Project Manager")).click();
+	    driver.findElement(By.id("j_idt50:j_idt51:0:j_idt69")).click();
+	    assertEquals("Monthly Report", driver.findElement(By.cssSelector("h1")).getText());
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100001");
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    driver.findElement(By.linkText("View Details")).click();
+	    driver.findElement(By.linkText("Project Manager")).click();
+	    driver.findElement(By.id("j_idt50:j_idt51:0:j_idt66")).click();
+	    driver.findElement(By.id("j_idt48:j_idt49:0:j_idt55")).click();
+	    assertEquals("Monthly Report", driver.findElement(By.cssSelector("tbody > tr > th")).getText());
   }
 
   @After

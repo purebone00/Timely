@@ -39,14 +39,21 @@ public class EditRowThenAddRow {
 
   @Test
   public void loginAdmin() throws Exception {
-	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.findElement(By.id("j_idt54:j_idt112")).click();
+	  driver.get(baseUrl + "/Timely/");
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt50:2:j_idt63")).click();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:satHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:satHours")).sendKeys("1");
+	  driver.findElement(By.id("j_idt54:j_idt113")).click();
+	  driver.findElement(By.id("j_idt54:j_idt114")).click();
+	  assertTrue(isElementPresent(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr[6]/td[3]")));
+
   }
 
   @After

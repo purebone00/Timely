@@ -39,14 +39,46 @@ public class EditTimesheetRowValidData {
 
   @Test
   public void loginAdmin() throws Exception {
-	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.findElement(By.id("j_idt54:j_idt112")).click();
+	  driver.get(baseUrl + "/Timely/");
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt50:2:j_idt63")).click();	
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:satHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:satHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:satHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:satHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:sunHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:sunHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:monHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:monHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:tuesHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:tuesHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:wedHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:wedHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:thursHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:thursHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:friHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:0:friHours")).sendKeys("1");
+	  driver.findElement(By.name("j_idt54:j_idt56:0:j_idt102")).clear();
+	  driver.findElement(By.name("j_idt54:j_idt56:0:j_idt102")).sendKeys("1");
+	  driver.findElement(By.name("j_idt54:j_idt56:0:j_idt107")).clear();
+	  driver.findElement(By.name("j_idt54:j_idt56:0:j_idt107")).sendKeys("1");
+
+	  driver.findElement(By.id("j_idt54:j_idt112")).click();
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[4]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[5]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[6]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[7]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[8]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[9]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[10]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[11]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[12]")).getText());
   }
 
   @After

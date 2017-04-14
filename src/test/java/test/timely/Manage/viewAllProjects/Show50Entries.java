@@ -40,13 +40,14 @@ public class Show50Entries {
   @Test
   public void loginAdmin() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100001");
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    driver.findElement(By.linkText("Project Manager")).click();
+	    new Select(driver.findElement(By.name("j_idt50:j_idt51_length"))).selectByVisibleText("50");
+	    assertEquals("Showing 1 to 50 of 200 entries", driver.findElement(By.id("j_idt50:j_idt51_info")).getText());
   }
 
   @After

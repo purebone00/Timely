@@ -40,13 +40,24 @@ public class AssignTimesheetApprover {
   @Test
   public void loginAdmin() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100001");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("Project Manager")).click();
+	  driver.findElement(By.linkText("Sign Out")).click();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.id("j_idt52:j_idt53:9:j_idt85")).click();
+	  driver.findElement(By.xpath("//table[@id='j_idt84:j_idt86']/tbody/tr[3]/td")).click();
+	  // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+	  assertEquals("P6", driver.findElement(By.xpath("//table[@id='j_idt58:j_idt60']/tbody/tr/td[4]")).getText());
+
+
   }
 
   @After

@@ -1,5 +1,4 @@
-//Input: Joy Nelson
-//Requirements: requires testsuite that runs Promotion before you can run Demotion
+//Deprecated, they removed the button, so this bug no longer exists
 //Requirements: 3911ERD_ver21
 
 package test.timely.timesheet;
@@ -40,13 +39,78 @@ public class AddNewTimesheet10x {
   @Test
   public void loginAdmin() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100004");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt50:0:j_idt63")).click();
+	  driver.findElement(By.id("j_idt54:j_idt114")).click();
+	  driver.findElement(By.id("j_idt54:j_idt113")).click();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:monHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:monHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:tuesHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:tuesHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:wedHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:wedHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:thursHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:thursHours")).sendKeys("1");
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:friHours")).clear();
+	  driver.findElement(By.id("input_j_idt54:j_idt56:3:friHours")).sendKeys("1");
+	  driver.findElement(By.id("j_idt54:j_idt112")).click();
+	  driver.findElement(By.id("j_idt54:j_idt113")).click();
+	  driver.findElement(By.id("j_idt54:j_idt112")).click();
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[6]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[7]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[9]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[6]")).getText());
+	  assertEquals("1", driver.findElement(By.xpath("//table[@id='j_idt54:j_idt56']/tbody/tr/td[6]")).getText());
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt50:1:j_idt63")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.linkText("1")).click();
+	  driver.findElement(By.id("j_idt49:j_idt50:1:j_idt63")).click();
+	  
+	 
+
+	  //try to add another timesheet
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+
+	  //try to add another timesheet
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  //try to add another timesheet
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  //try to add another timesheet
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  //try to add another timesheet
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  //try to add another timesheet
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  //try to add another timesheet
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  //try to add another timesheet
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  driver.findElement(By.id("j_idt49:j_idt65")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  
+	  assertEquals("Timesheets", driver.findElement(By.cssSelector("h1")).getText());
   }
 
   @After
