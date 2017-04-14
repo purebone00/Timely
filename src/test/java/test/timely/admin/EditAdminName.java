@@ -37,7 +37,7 @@ public class EditAdminName {
   }
 
   @Test
-  public void EditEmployeeDepartmentWithNumbersTest() throws Exception {
+  public void EditEmployeeDepartmentWithNumbersjava() throws Exception {
 	    driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");

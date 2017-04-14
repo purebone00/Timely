@@ -1,4 +1,4 @@
-//Input: Joy Nelson
+//Input: Change Employee Signature
 //Requirements: requires testsuite that runs Promotion before you can run Demotion
 //Requirements: 3911ERD_ver21
 
@@ -38,15 +38,23 @@ public class EditEmployeeSig {
   }
 
   @Test
-  public void loginAdmin() throws Exception {
+  public void EditEmployeeSigjava() throws Exception {
+	  //new login procedure:
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    
+	   //change employee signature
+	    
+	    driver.findElement(By.id("j_idt52:j_idt53:2:j_idt74")).click();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:departmentError")).clear();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:departmentError")).sendKeys("CC6");
+	    driver.findElement(By.xpath("//table[@id='j_idt52:j_idt53']/tbody/tr[4]/td")).click();
+	    // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+	    assertEquals("CC", driver.findElement(By.id("j_idt52:j_idt53:2:j_idt65")).getText());
   }
 
   @After

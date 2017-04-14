@@ -46,6 +46,8 @@ public class DemoteEmployee {
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
 	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
+	    
+	    //after you demote an employee, they button should display promote
 	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
   }
 

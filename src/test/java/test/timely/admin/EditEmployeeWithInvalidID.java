@@ -38,15 +38,26 @@ public class EditEmployeeWithInvalidID {
   }
 
   @Test
-  public void loginAdmin() throws Exception {
+  public void EditEmployeeWithInvalidIDjava() throws Exception {
+	  //new login procedure:
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    
+	    driver.findElement(By.xpath("//table[@id='j_idt52:j_idt53']/tbody/tr[3]/td")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:2:j_idt74")).click();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:empId")).click();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:empId")).clear();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:empId")).sendKeys("#*(*#$#$");
+	    // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+	    driver.findElement(By.cssSelector("span.bf-message-detail")).click();
+	    driver.findElement(By.cssSelector("span.bf-message-detail")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:2:j_idt56")).click();
+	    driver.findElement(By.cssSelector("span.bf-message-detail")).click();
+	    assertEquals("Employee id must be a number greater than zero", driver.findElement(By.id("j_idt52:j_idt53:2:j_idt56")).getText());
   }
 
   @After

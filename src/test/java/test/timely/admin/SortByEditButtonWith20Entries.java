@@ -38,7 +38,7 @@ public class SortByEditButtonWith20Entries {
   }
 
   @Test
-  public void loginAdmin() throws Exception {
+  public void SortByEditButtonWith20Entriesjava() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");

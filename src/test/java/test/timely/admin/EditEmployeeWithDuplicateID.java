@@ -38,15 +38,25 @@ public class EditEmployeeWithDuplicateID {
   }
 
   @Test
-  public void loginAdmin() throws Exception {
+  public void EditEmployeeWithDuplicateIDjava() throws Exception {
+	  //new login procedure:
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    
+	   //
+	    
+	    driver.findElement(By.xpath("//table[@id='j_idt52:j_idt53']/tbody/tr[3]/td")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:2:j_idt74")).click();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:j_idt88")).clear();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:j_idt88")).sendKeys("Cow");
+	    driver.findElement(By.xpath("//table[@id='j_idt52:j_idt53']/tbody/tr[3]/td")).click();
+	    // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+	    assertEquals("Department is a string", driver.findElement(By.id("j_idt52:j_idt53:2:j_idt65")).getText());
+	    assertEquals("Cow", driver.findElement(By.xpath("//table[@id='j_idt52:j_idt53']/tbody/tr[3]/td[9]")).getText());
   }
 
   @After

@@ -40,13 +40,49 @@ public class ChangeSuccessful {
   @Test
   public void loginAdmin() throws Exception {
 	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	  driver.findElement(By.linkText("Change Password")).click();
+	    
+	  	//login normally
+	  	
+	   
 	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
-	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
-	    driver.findElement(By.id("j_idt52:j_idt53:7:j_idt82")).click();
-	    assertEquals("Promote", driver.findElement(By.id("j_idt52:j_idt53:7:j_idt81")).getText());
+	    driver.findElement(By.linkText("Change Password")).click();
+	    driver.findElement(By.id("input_j_idt50:oldPassword")).clear();
+	    
+	    //changed password
+	    driver.findElement(By.id("input_j_idt50:oldPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("input_j_idt50:inputNewPassword")).clear();
+	    driver.findElement(By.id("input_j_idt50:inputNewPassword")).sendKeys("P@$$w0rd");
+	    driver.findElement(By.id("input_j_idt50:confirmPassword")).clear();
+	    driver.findElement(By.id("input_j_idt50:confirmPassword")).sendKeys("P@$$w0rd");
+	    driver.findElement(By.id("j_idt50:j_idt56")).click();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    
+	    //log back in w/ new credentials
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("P@$$w0rd");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    assertEquals("Hello, Tony Romo!", driver.findElement(By.cssSelector("h1")).getText());
+	    
+	    
+	    //cleanup:  reset database back to normal
+	  
+	    driver.findElement(By.id("input_j_idt50:oldPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("input_j_idt50:inputNewPassword")).clear();
+	    driver.findElement(By.id("input_j_idt50:inputNewPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("input_j_idt50:confirmPassword")).clear();
+	    driver.findElement(By.id("input_j_idt50:confirmPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt50:j_idt56")).click();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    
   }
 
   @After
