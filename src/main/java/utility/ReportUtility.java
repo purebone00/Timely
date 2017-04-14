@@ -4,14 +4,20 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Utility methods for Responsible Engineer Reports.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 public class ReportUtility {
 
     /**
      * The list of "labour grade : person days" estimates is stored as a single
      * string in the database. This method parses that string into a map.
      * 
-     * @param wsrEstDes
-     * @return map
+     * @param wsrEstDes wsrEstDes string
+     * @return map map of labgrds to days
      */
     public static HashMap<String, BigDecimal> parseWsrEstDes(String wsrEstDes) {
         HashMap<String, BigDecimal> map = new HashMap<String, BigDecimal>();
@@ -30,8 +36,8 @@ public class ReportUtility {
      * The list of "labour grade : person days" estimates is stored as a single
      * string in the database. This method generates that string from a map.
      * 
-     * @param map
-     * @return wsrEstDes string
+     * @param map map of labgrds to days
+     * @return wsrEstDes string wsrEstDes string
      */
     public static String unparseWsrEstDes(HashMap<String, BigDecimal> map) {
         String string = "";

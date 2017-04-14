@@ -8,8 +8,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Utility methods related to Date and Time.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 public class DateTimeUtility {
     
+    /**
+     * Number of days in a week.
+     */
     private static final int DAYS_IN_WEEK = 7;
 
     /**
@@ -20,7 +29,7 @@ public class DateTimeUtility {
      */
     public String getEndOfWeek() {
         Calendar c = new GregorianCalendar();
-        int currentDay = c.get(Calendar.DAY_OF_WEEK) != 7 ? c.get(Calendar.DAY_OF_WEEK) : 0;
+        int currentDay = c.get(Calendar.DAY_OF_WEEK) != DAYS_IN_WEEK ? c.get(Calendar.DAY_OF_WEEK) : 0;
         int leftDays = Calendar.FRIDAY - currentDay;
         c.add(Calendar.DATE, leftDays);
         Date endWeek = c.getTime();
@@ -47,7 +56,7 @@ public class DateTimeUtility {
         Integer dateDay = Integer.parseInt(date.substring(6));
         Calendar c = new GregorianCalendar();
         c.set(dateYear, dateMonth, dateDay);
-        int currentDay = c.get(Calendar.DAY_OF_WEEK) != 7 ? c.get(Calendar.DAY_OF_WEEK) : 0;
+        int currentDay = c.get(Calendar.DAY_OF_WEEK) != DAYS_IN_WEEK ? c.get(Calendar.DAY_OF_WEEK) : 0;
         int leftDays = Calendar.FRIDAY - currentDay;
         c.add(Calendar.DATE, leftDays);
         Date endWeek = c.getTime();
@@ -217,8 +226,8 @@ public class DateTimeUtility {
     
     /**
      * Gets the String representation of a Date.
-     * @param date
-     * @return
+     * @param date date
+     * @return date string
      */
     public String getDateString(Date date) {
         Calendar cal = Calendar.getInstance();

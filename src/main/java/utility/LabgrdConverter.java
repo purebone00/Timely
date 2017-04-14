@@ -9,11 +9,21 @@ import javax.inject.Inject;
 
 import manager.LabourGradeManager;
 
+/**
+ * Converter for Labgrds
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @ManagedBean
 @RequestScoped
 public class LabgrdConverter implements Converter {
+    
+    /**
+     * Labour grade manager.
+     */
     @Inject
-    LabourGradeManager labourGradeManager;
+    private LabourGradeManager labourGradeManager;
 
     @Override
     public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {

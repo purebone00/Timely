@@ -20,62 +20,62 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
     /**
      * Total Hours Budgeted.
      */
-    BigDecimal budgetTotalHours;
+    private BigDecimal budgetTotalHours;
 
     /**
      * Total Costs Budgeted.
      */
-    BigDecimal budgetTotalCosts;
+    private BigDecimal budgetTotalCosts;
 
     /**
      * Total Hours Currently Completed.
      */
-    BigDecimal curTotalHours;
+    private BigDecimal curTotalHours;
 
     /**
      * Total Costs Currently Spent.
      */
-    BigDecimal curTotalCosts;
+    private BigDecimal curTotalCosts;
 
     /**
      * Projected Total Hours.
      */
-    BigDecimal projTotalHours;
+    private BigDecimal projTotalHours;
 
     /**
      * Projected Total Costs.
      */
-    BigDecimal projTotalCosts;
+    private BigDecimal projTotalCosts;
 
     /**
      * Variance between projTotalHours and budgetTotalHours.
      */
-    BigDecimal varTime;
+    private BigDecimal varTime;
 
     /**
      * Variance between projTotalCosts and budgetTotalCosts.
      */
-    BigDecimal varCosts;
+    private BigDecimal varCosts;
     
     /**
      * Overtime worked.
      */
-    BigDecimal overtimeHrs;
+    private BigDecimal overtimeHrs;
 
     /**
      * The {@link Workpack} this report is for.
      */
-    Workpack workpack;
+    private Workpack workpack;
 
     /**
      * Visited flag.
      */
-    int visited;
+    private int visited;
 
     /**
      * If report is an aggregate report.
      */
-    public boolean aggregate;
+    private boolean aggregate;
 
     public MonthlyReportRow() {
         budgetTotalHours = BigDecimal.ZERO;
