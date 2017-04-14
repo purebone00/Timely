@@ -1,6 +1,4 @@
-//Input: Joy Nelson
-//Requirements: requires testsuite that runs Promotion before you can run Demotion
-//Requirements: 3911ERD_ver21
+//bug found, docuemnt expired
 
 package test.timely.initial;
 
@@ -45,6 +43,26 @@ public class PressBackOnBrowserBeforeCommiting {
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
 	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
 	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    
+	    
+	    driver.findElement(By.linkText("View Details")).click();
+	    driver.findElement(By.linkText("Browser Navigation commands Selenium WebDriver tutorials - ToolsQA")).click();
+	    driver.findElement(By.linkText("View Details")).click();
+	    
+	    
+	    //go backwards
+	    driver.navigate().back();
+	    
+	    //return to page
+	    driver.navigate().forward();
+	    
+	    //submit details
+	    driver.findElement(By.id("j_idt49:j_idt50:0:j_idt63")).click();
+	    driver.findElement(By.id("j_idt54:j_idt113")).click();
+	    
+	    //should have saved element value
+	    assertEquals("saved", driver.findElement(By.id("input_j_idt54:j_idt56:3:satHours")).getAttribute("value"));
+	    
   }
 
   @After

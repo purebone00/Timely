@@ -1,6 +1,4 @@
-//Input: Joy Nelson
-//Requirements: requires testsuite that runs Promotion before you can run Demotion
-//Requirements: 3911ERD_ver21
+//Test if you put SQL into the database, using the change password field
 
 package test.timely.changePassword;
 
