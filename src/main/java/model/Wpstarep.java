@@ -20,17 +20,64 @@ import javax.persistence.TemporalType;
 @Table(name = "Wpstarep")
 public class Wpstarep implements java.io.Serializable {
 
+    /**
+     * Work status report id.
+     */
     private WpstarepId id;
+    
+    /**
+     * Writer of this report.
+     */
     private Integer wsrWriter;
+    
+    /**
+     * Unused field.
+     */
     private BigDecimal wsrProgLw;
+    
+    /**
+     * Problems last week.
+     */
     private String wsrProbLw;
+    
+    /**
+     * Unused field.
+     */
     private BigDecimal wsrProgNw;
+    
+    /**
+     * Anticipated problems.
+     */
     private String wsrProbNw;
+    
+    /**
+     * Unused field.
+     */
     private BigDecimal wsrEstWrh;
+    
+    /**
+     * String containing estimated work remaining.
+     */
     private String wsrEstDes;
+    
+    /**
+     * Submit flag. (unused)
+     */
     private short wsrSubmit;
+    
+    /**
+     * Delete flag.
+     */
     private short wsrDel;
+    
+    /**
+     * Insert date.
+     */
     private Date wsrInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date wsrUpDt;
 
     public Wpstarep() {

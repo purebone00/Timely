@@ -19,11 +19,34 @@ import javax.persistence.Transient;
 @Table(name = "Wplab")
 public class Wplab implements Serializable {
 	
+    /**
+     * Whether this wplab is editable or not.
+     */
 	private boolean editable = false;
+	
+	/**
+	 * Wplab id.
+	 */
 	private WplabId id;
+	
+	/**
+	 * Hours planned for this work package labour grade.
+	 */
 	private BigDecimal wlPlanHrs;
+	
+	/**
+	 * Delete flag.
+	 */
 	private short wlDel;
+	
+	/**
+	 * Insert date.
+	 */
     private Date wlInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date wlUpDt;
     
     public Wplab() {

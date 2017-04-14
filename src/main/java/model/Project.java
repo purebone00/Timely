@@ -28,15 +28,54 @@ import javax.persistence.TemporalType;
 @Table(name = "Project")
 public class Project implements java.io.Serializable {
 
+    /**
+     * Project number.
+     */
     private Integer projNo;
+    
+    /**
+     * Project name.
+     */
     private String projNm;
+    
+    /**
+     * Project description.
+     */
     private String projDesc;
+    
+    /**
+     * Project manager.
+     */
     private Integer projMan;
+    
+    /**
+     * Project start date.
+     */
     private Date projStaDt;
+    
+    /**
+     * Project end date.
+     */
     private Date projEndDt;
+    
+    /**
+     * Project status.
+     */
     private short projStatus;
+    
+    /**
+     * Project deleted flag.
+     */
     private short projDel;
+    
+    /**
+     * Insert date.
+     */
     private Date projInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date projUdDt;
 
     public Project() {

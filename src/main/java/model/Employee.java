@@ -30,36 +30,123 @@ import javax.persistence.Transient;
 public class Employee implements java.io.Serializable {
     /* ==================================================== */
     
+    /**
+     * New password confirm field in change password form.
+     */
     private String newPasswordConfirm;
+    
+    /**
+     * New password field in change password form.
+     */
     private String newPassword;
+    
+    /**
+     * Old password field in change password form.
+     */
     private String oldPassword;
+
     private String projectNo;
     private String wpNo;
     private String title;
 
+    /**
+     * Employee number.
+     */
     private Integer empId;
+    
+    /**
+     * Password.
+     */
     private String empPw;
+    
+    /**
+     * First name.
+     */
     private String empFnm;
+    
+    /**
+     * Last name.
+     */
     private String empLnm;
+    
+    /**
+     * Department.
+     */
     private String empDept;
+    
+    /**
+     * Signature.
+     */
     private String empSig;
+    
+    /**
+     * Flex time.
+     */
     private BigDecimal empFlxTm;
+    
+    /**
+     * Emplyoee Labour grade.
+     */
     private Labgrd empLabGrd;
-    // private String empLabGrd;
+
+    /**
+     * Employee's supervisor's employee number.
+     */
     private Integer empSupId;
+    
+    /**
+     * Deleted flag.
+     */
     private short empDel;
+    
+    /**
+     * Insert date.
+     */
     private Date empInsDt;
+    
+    /**
+     * Updated date.
+     */
     private Date empUpDt;
 
+    /**
+     * Last weekly report employee has visited.
+     */
     private String empLastVisitedWeekReport;
+    
+    /**
+     * Last monthly report employee has visited.
+     */
     private String empLastVisitedMonthReport;
     
+    /**
+     * If model is editable.
+     */
     boolean editable;
 
+    /**
+     * Projects employee is in.
+     */
     private Set<Project> projects;
+    
+    /**
+     * Titles employee has.
+     */
     private Set<Title> titles;
+    
+    /**
+     * Employee's timesheets.
+     */
     private Set<Timesheet> timesheet;
+    
+    /**
+     * Work packages employee is in.
+     */
     private Set<Workpack> workpackages;
+    
+    /**
+     * Timesheets for employee to approve.
+     */
     private Set<Timesheet> timesheetsToApprove;
 
     @Transient

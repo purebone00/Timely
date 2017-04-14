@@ -11,7 +11,14 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class EmptitleId implements java.io.Serializable {
 
+    /**
+     * Employee number.
+     */
     private int etEmpId;
+    
+    /**
+     * Title number.
+     */
     private short etTitId;
 
     public EmptitleId() {

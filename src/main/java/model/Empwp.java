@@ -20,11 +20,34 @@ import javax.persistence.TemporalType;
 @Table(name = "Empwp")
 public class Empwp implements java.io.Serializable {
 
+    /**
+     * Empwp id.
+     */
     private EmpwpId id;
+    
+    /**
+     * Assign date.
+     */
     private Date ewAssDt;
+    
+    /**
+     * Estimated hours.
+     */
     private BigDecimal ewEstHrs;
+    
+    /**
+     * Deleted flag.
+     */
     private short ewDel;
+    
+    /**
+     * Insert date.
+     */
     private Date ewInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date ewUpDt;
 
     public Empwp() {

@@ -31,24 +31,90 @@ import javax.persistence.Transient;
 @Table(name = "Workpack")
 public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	
+    /**
+     * Whether to remove the wplabs for this work package or not.
+     */
 	private boolean removeWplabs = false;
+	
+	/**
+	 * Total cost of this work package.
+	 */
 	private BigDecimal totalCost;
+	
+	/**
+	 * Total work of this work package.
+	 */
 	private BigDecimal totalDays;
+	
+	/**
+	 * Name of the child of this work package.
+	 */
 	private String childName;
+	
+	/**
+	 * Initial estimate of this work package.
+	 */
 	private HashMap<String, BigDecimal> initialEst;
+	
+	/**
+	 * If this work package has been charged to.
+	 */
 	private boolean charged;
 	/* =============================================== */
 
+	/**
+	 * Work package Id.
+	 */
     private WorkpackId id;
+    
+    /**
+     * Work package name.
+     */
     private String wpNm;
+    
+    /**
+     * Work package description.
+     */
     private String wpDesc;
+    
+    /**
+     * Work package responsible engineer.
+     */
     private Integer wpResEng;
+    
+    /**
+     * Work package status.
+     */
     private Short wpStatus;
+    
+    /**
+     * Work package start date.
+     */
     private Date wpStaDt;
+    
+    /**
+     * Work package end date.
+     */
     private Date wpEndDt;
+    
+    /**
+     * Delete flag.
+     */
     private short wpDel;
+    
+    /**
+     * Insert date.
+     */
     private Date wpInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date wpUpDt;
+    
+    /**
+     * Employees in this work package.
+     */
     private Set<Employee> employees;
 
     public Workpack() {

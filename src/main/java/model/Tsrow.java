@@ -31,23 +31,89 @@ public class Tsrow implements java.io.Serializable {
     /* ====================================== */
 
     private Long tsr_id;
+    /**
+     * Employee id of owner of timesheet row.
+     */
     private int tsrEmpId;
+    
+    /**
+     * Week this timesheet row is for.
+     */
     private String tsrWkEnd;
+    
+    /**
+     * Project of timesheet row.
+     */
     private int tsrProjNo;
+    
+    /**
+     * Work package of timesheet row.
+     */
     private String tsrWpNo;
+    
+    /**
+     * Hours for Saturday.
+     */
     private BigDecimal tsrSat;
+    
+    /**
+     * Hours for Sunday.
+     */
     private BigDecimal tsrSun;
+    
+    /**
+     * Hours for Monday.
+     */
     private BigDecimal tsrMon;
+    
+    /**
+     * Hours for Tuesday.
+     */
     private BigDecimal tsrTue;
+    
+    /**
+     * Hours for Wednesday.
+     */
     private BigDecimal tsrWed;
+    
+    /**
+     * Hours for Thursday.
+     */
     private BigDecimal tsrThu;
+    
+    /**
+     * Hours for Friday.
+     */
     private BigDecimal tsrFri;
+    
+    /**
+     * Hours for overtime.
+     */
     private BigDecimal tsrOt;
+    
+    /**
+     * Notes column.
+     */
     private String tsrNote;
+    
+    /**
+     * Row deleted flag.
+     */
     private short tsrDel;
+    
+    /**
+     * Insert date.
+     */
     private Date tsrInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date tsrUpDt;
 
+    /**
+     * Timesheet this row is a part of.
+     */
     private Timesheet timesheet;
 
     @ManyToOne
