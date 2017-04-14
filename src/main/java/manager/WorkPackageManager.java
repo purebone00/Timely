@@ -127,5 +127,16 @@ public class WorkPackageManager {
         em.createNativeQuery("DELETE FROM Empwp WHERE Empwp.ewEmpId = ?1 AND Empwp.ewWpNo = ?2 AND Empwp.ewProjNo = ?3")
             .setParameter(1, e.getEmpId()).setParameter(2, wp.getId().getWpNo()).setParameter(3, wp.getId().getWpProjNo()).executeUpdate();
     }
+    
+    /**
+     * Removes all references to the given employee as a responsible engineer.
+     * @param resEng
+     */
+    public void removeResEngReferences(Employee resEng) {
+        for (Workpack w : getResponsibleWorkPackages(resEng.getEmpId())) {
+            w.setWpResEng(null);
+            merge(w);
+        }
+    }
 
 }
