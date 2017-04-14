@@ -14,29 +14,32 @@ public class WeeklyReport implements Serializable {
     /**
      * Total Costs Currently Spent.
      */
-    BigDecimal curTotalCosts;
+    private BigDecimal curTotalCosts;
     
     /**
      * Total Hours Currently Completed.
      */
-    BigDecimal curTotalHours;
+    private BigDecimal curTotalHours;
     
     /**
      * Estimated Costs Remaining.
      */
-    BigDecimal estCostsRemaining;
+    private BigDecimal estCostsRemaining;
     
     /**
      * Estimated Hours Remaining.
      */
-    BigDecimal estHoursRemaining;
+    private BigDecimal estHoursRemaining;
     
     /**
      * Overtime hours worked.
      */
-    BigDecimal overtimeHrs;
+    private BigDecimal overtimeHrs;
     
-    int visited;
+    /**
+     * Visited flag.
+     */
+    private int visited;
     
     /**
      * Creates a Weekly Report.

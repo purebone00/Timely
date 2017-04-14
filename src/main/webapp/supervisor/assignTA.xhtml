@@ -14,7 +14,6 @@
                 <b:column col-md="6">
                     <b:form>
                         <h4>Current timesheet approvers</h4>
-	            		Employees currently assigned listed here
 						<br />
 
                         <b:dataTable
@@ -66,17 +65,15 @@
                             </b:dataTableColumn>
                         </b:dataTable>
                         <br />
-                        <b:commandButton look="success" class="btn" value="Save" />
+
                     </b:form>
                 </b:column>
                 <!-- End of 2nd column -->
                 <b:column col-md="6">
                     <b:form>
-                        <h4>Available to be assigned to supervisor:</h4>
-	            		Employees currently NOT on the project listed here
-						<br /> Select one employee to move them onto a particular project.
-						<br />
-
+                        <h4>Available to Be Assigned</h4>
+	            		
+						<br /> 
                         <b:dataTable
                             value="#{Master.supMan.getNotTA()}"
                             var="s" responsive="true">
@@ -125,7 +122,7 @@
                             </b:dataTableColumn>
                         </b:dataTable>
                         <br />
-                        <b:commandButton look="success" class="btn" value="Save" />
+                        
                     </b:form>
                 </b:column>
 

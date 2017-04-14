@@ -34,14 +34,16 @@ public class LoginAdmin {
   }
 
   @Test
-  public void testLoginRyan() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Admin");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
-    assertEquals("Admin", driver.findElement(By.cssSelector("h1")).getText());
+  public void loginAdmin() throws Exception {
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    assertEquals("Admin", driver.findElement(By.cssSelector("h1")).getText());
+	    driver.findElement(By.linkText("Sign Out")).click();
+	    assertEquals("Sign In", driver.findElement(By.id("j_idt16:j_idt18")).getText());
   }
 
   @After

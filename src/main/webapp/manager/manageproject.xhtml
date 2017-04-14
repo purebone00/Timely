@@ -30,26 +30,36 @@
                     </b:row>
                 </b:row>
                 <b:row>
-                    <b:form>
-                        <b:dataTable class="table table-bordered"
+                    <b:form id="workpackList">
+                        <b:dataTable class="table table-bordered" id="workpackTable"
                             value="#{Master.projMan.selectedProject.workPackages}"
                             var="s">
                             <b:dataTableColumn>
                                 <f:facet name="header">Number</f:facet>
-                                #{s.id.wpNo}
+                                #{s.id.wpNo}<br/>
+                                <b:commandButton value="Close" id="closeWP"
+                                	rendered="#{Master.projMan.isLeaf(s) and Master.projMan.wpIsOpen(s)}"
+                                	action="#{Master.projMan.closeWorkpack(s)}"/>
+                                <b:message for="closeWP"/>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
                                 <f:facet name="header">Details</f:facet>
                                 <b:panelGrid colSpans="12">
                                     Name:<br/>
                                     <b:inputText class="form-control"
-                                        span="12"
+                                        span="12" id="wpName"
                                         value="#{s.wpNm}" 
-                                        required="true" requiredMessage="Please provide a name."/>
+                                        required="true" requiredMessage="Please provide a name.">
+                                        <f:validateLength maximum="64"/>
+									</b:inputText>
+									<b:message for="wpName"/>
                                     Description:<br/>
                                     <b:inputTextarea class="form-control"
-                                        span="12" rows="15"
-                                        value="#{s.wpDesc}" />
+                                        span="12" rows="15" id="wpDesc"
+                                        value="#{s.wpDesc}">
+                                        <f:validateLength maximum="255"/>
+									</b:inputTextarea>
+									<b:message for="wpDesc"/>
                                 </b:panelGrid>
                             </b:dataTableColumn>
                             <b:dataTableColumn>
@@ -70,8 +80,9 @@
                                             value="#{l.wlPlanDays}"
                                             validateMessage="Budget must be a number."
                                             required="true"
-                                            requiredMessage="Please enter a value."> 
-                                            <f:convertNumber />
+                                            requiredMessage="Please enter a number.">
+                                            <f:convertNumber/>
+                                            <f:validateDoubleRange minimum="0"/>
                                         </b:inputText>
                                         <b:message for="budget"/>
                                     </h:column>
@@ -82,9 +93,11 @@
                                             class="form-control"
                                             value="#{s.initialEst[l.id.wlLgId]}"
                                             rendered="#{s.initialEst != null}"
-                                            validateMessage="Initial Est. must be a number."
-                                            required="true">
-                                            <f:convertNumber />
+                                            validateMessage="Initial Est. must be a number"
+                                            required="true"
+                                            requiredMessage="Please enter a number.">
+                                            <f:convertNumber/>
+                                            <f:validateDoubleRange minimum="0"/>
                                         </b:inputText>
                                         <b:message for="init_est"/>
                                         <h:outputText value="N/A"
@@ -100,7 +113,7 @@
                             <b:dataTableColumn>
                                 <f:facet name="header">Add Child</f:facet>
                                 <h:panelGroup
-                                    rendered="#{Master.projMan.isWpCharged(s) == false}">
+                                    rendered="#{Master.projMan.wpIsOpen(s) and Master.projMan.isWpCharged(s) == false and s.notLowestLevel}">
                                 Child WP#:<br />
                                     <table>
                                         <tr>
@@ -119,12 +132,15 @@
                                         </tr>
                                     </table>
                                     <br />
-                                    <b:commandButton class="btn"
+                                    <b:commandButton class="btn" id="addChildWP"
                                         look="success" value="Add Child"
                                         action="#{Master.projMan.createChildWP(s)}" />
+									<b:message for="addChildWP"/>
                                 </h:panelGroup>
                             </b:dataTableColumn>
                         </b:dataTable>
+                        <b:row>
+                        </b:row>
                         <div class="col-xs-2" style="padding-left: 0">
                             <b:inputText
                                 value="#{Master.projMan.newWpName}"
@@ -133,8 +149,9 @@
                                 pt:placeholder="New WP #" />
                         </div>
                         <b:commandButton class="btn" look="success"
-                            value="Add Work Package"
+                            value="Add Work Package" id="addWP"
                             action="#{Master.projMan.createNewWP()}" />
+						<b:message for="addWP"/>
                         <br />
                         <b:commandButton class="btn" value="Save"
                             look="primary"

@@ -7,7 +7,6 @@ public class SearchTestSuite {
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTestSuite(LoginRyan.class);
     suite.addTestSuite(Search.class);
     return suite;
   }

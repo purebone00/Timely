@@ -17,9 +17,24 @@ import javax.persistence.TemporalType;
 @Entity
 public class Emptitle implements java.io.Serializable {
 
+    /**
+     * Employee title id.
+     */
     private EmptitleId id;
+    
+    /**
+     * Delete flag.
+     */
     private short etDel;
+    
+    /**
+     * Insert date.
+     */
     private Date etInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date etUpDt;
 
     public Emptitle() {

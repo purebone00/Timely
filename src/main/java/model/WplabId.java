@@ -9,8 +9,19 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class WplabId implements Serializable {
 	
+    /**
+     * Project number.
+     */
 	private int wlProjNo;
+	
+	/**
+	 * Work package number.
+	 */
 	private String wlWpNo;
+	
+	/**
+	 * Labour grade.
+	 */
 	private String wlLgId;
 	
 	public WplabId() {

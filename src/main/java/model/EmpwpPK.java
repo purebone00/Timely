@@ -12,12 +12,21 @@ public class EmpwpPK implements Serializable {
     // default serial version id, required for serializable classes.
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Employee Id.
+     */
     @Column(insertable = false, updatable = false)
     private int ewEmpID;
 
+    /**
+     * Project number.
+     */
     @Column(insertable = false, updatable = false)
     private int ewProjNo;
 
+    /**
+     * Work package number.
+     */
     @Column(insertable = false, updatable = false)
     private String ewWpNo;
 

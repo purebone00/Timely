@@ -1,3 +1,5 @@
+//requires reset to 4911ERD_ver7.sql
+
 package test.timely.login;
 
 import java.util.regex.Pattern;

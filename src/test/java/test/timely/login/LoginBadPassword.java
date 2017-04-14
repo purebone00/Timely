@@ -25,14 +25,12 @@ public class LoginBadPassword {
   }
 
   @Test
-  public void testLogin() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("ryan");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
-    assertEquals("unable to login", driver.findElement(By.cssSelector("h3")).getText());
+  public void loginBadPassword() throws Exception {
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("bad");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    assertEquals("Invalid Login", driver.findElement(By.cssSelector("span.bf-message-summary")).getText());
   }
 
   @After

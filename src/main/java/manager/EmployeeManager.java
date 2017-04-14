@@ -22,51 +22,88 @@ import model.Project;
 import model.Title;
 import model.Workpack;
 
+/**
+ * Does CRUD for Employees.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @SuppressWarnings("serial")
 @Stateful
 public class EmployeeManager implements Serializable {
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
-    
-    //Note used ?? Need to test
-//    /* Who knows if this'll work.See ProjectManagerController. */
-//    public List<Employee> getEmployeesOnProject(int pid) {
-//        Query query = em.createNativeQuery("SELECT empChNo FROM Empproj WHERE projNo = ?1 ");
-//        // TypedQuery<Employee> query = em.createQuery("select s from Empproj s
-//        // where s.projectNo=:code", Employee.class);
-//        // query.setParameter("code", pid);
-//
-//        query.setParameter(1, pid);
-//        
-//        @SuppressWarnings("unchecked")
-//        List<Employee> employees = query.getResultList();
-//  
-//        return (employees != null) ? employees : new ArrayList<Employee>();
-//    }
+    /* Who knows if this'll work.See ProjectManagerController. */
+    /**
+     * Get employees on a project.
+     * @param pid project id
+     * @return list of employees
+     */
+    public List<Employee> getEmployeesOnProject(int pid) {
+        Query query = em.createNativeQuery("SELECT empChNo FROM Empproj WHERE projNo = ?1");
+        // TypedQuery<Employee> query = em.createQuery("select s from Empproj s
+        // where s.projectNo=:code", Employee.class);
+        // query.setParameter("code", pid);
 
+        query.setParameter(1, pid);
+        
+        @SuppressWarnings("unchecked")
+        List<Employee> employees = query.getResultList();
+
+        return (employees != null) ? employees : new ArrayList<Employee>();
+    }
+    
+    /**
+     * find an employee.
+     * @param id employee id
+     * @return employee
+     */
     public Employee find(int id) {
-        Employee foundEmployee = em.find(Employee.class,id);
+        Employee foundEmployee = em.find(Employee.class, id);
         
         return (foundEmployee != null) ? foundEmployee : new Employee();
     }
-
+    
+    /**
+     * Flush.
+     */
     public void flush() {
         em.flush();
     }
 
+    /**
+     * Persist.
+     * @param employee employee to persist.
+     */
     public void persist(Employee employee) {
         em.persist(employee);
     }
   
+    /**
+     * Merge.
+     * @param employee employee to merge.
+     */
     public void merge(Employee employee) {
         em.merge(employee);
     } 
+    
+    /**
+     * Remove.
+     * @param employee employee to remove.
+     */
     public void remove(Employee employee) {
         employee = find(employee.getEmpId());
         em.remove(employee);
     }
 
+    /**
+     * Get all employees.
+     * @return all employees
+     */
     public List<Employee> getAll() {
         TypedQuery<Employee> query = em.createQuery("select s from Employee s", Employee.class);
         List<Employee> employees = query.getResultList();
@@ -75,7 +112,7 @@ public class EmployeeManager implements Serializable {
     }
 
     /**
-     * Get all employees that have not been deleted
+     * Get all employees that have not been deleted.
      * 
      * @return list of employees
      */
@@ -86,6 +123,10 @@ public class EmployeeManager implements Serializable {
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
+    /**
+     * Get map of all active employees.
+     * @return map of all active employees.
+     */
     public Map<Integer, Employee> getActiveEmpMap() {
         Map<Integer, Employee> employeeMap = new TreeMap<Integer, Employee>();
         TypedQuery<Employee> query = em.createQuery("select s from Employee s where s.empDel = 0", Employee.class);
@@ -128,6 +169,11 @@ public class EmployeeManager implements Serializable {
         return emp.getProjects();
     }
 
+    /**
+     * Get employees not on a project.
+     * @param p project
+     * @return employees not on project
+     */
     public List<Employee> getEmpNotProj(Project p) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" + ", Project AS p "
                 + "WHERE p = :selectProject AND p " + "NOT MEMBER OF e.projects AND e.empDel != 1", Employee.class);
@@ -136,6 +182,11 @@ public class EmployeeManager implements Serializable {
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
 
+    /**
+     * get employees on a project.
+     * @param p project
+     * @return employees on project
+     */
     public List<Employee> getEmpProj(Project p) {
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" + ", Project AS p "
                 + "WHERE p = :selectProject AND p " + "MEMBER OF e.projects AND e.empDel != 1", Employee.class);
@@ -147,7 +198,7 @@ public class EmployeeManager implements Serializable {
     
     
     /**
-     * Gets employees not supervised by given employee
+     * Gets employees not supervised by given employee.
      * @param e supervisor
      * @return list of employees not supervised by given employee
      */
@@ -160,7 +211,7 @@ public class EmployeeManager implements Serializable {
     }
     
     /**
-     * Gets employees supervised by given employee
+     * Gets employees supervised by given employee.
      * @param e supervisor
      * @return list of employees supervised by given employee
      */
@@ -172,6 +223,10 @@ public class EmployeeManager implements Serializable {
         return (employees != null) ? employees : new ArrayList<Employee>();
     }
     
+    /** 
+     * Get timesheet approvers.
+     * @return timesheet approvers
+     */
     public List<Employee> getTaApprovers() {
         Query q = em.createNativeQuery("select * from employee INNER JOIN emptitle ON employee.empID = emptitle.etEmpID WHERE emptitle.etTitID = 6 AND employee.empDel != 1"
                 , Employee.class);
@@ -181,6 +236,11 @@ public class EmployeeManager implements Serializable {
         return (taApprovers != null) ? taApprovers : new ArrayList<Employee>();
     }
     
+    /**
+     * Find an employee.
+     * @param e Employee.
+     * @return Employee.
+     */
     public Employee find(String e) {
         TypedQuery<Employee> query = em.createQuery("select e from Employee e where e.empLnm=:code", Employee.class);
         query.setParameter("code", e);
@@ -217,7 +277,7 @@ public class EmployeeManager implements Serializable {
      * @return List<Employee> List of employees that belong to given work package.
      * 
      * */    
-    public List<Employee> getEmpWP(Workpack wp){
+    public List<Employee> getEmpWP(Workpack wp) {
     	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e" +	
     			", Workpack AS wp " +
     			"WHERE wp = :selectWP AND wp " +
@@ -230,11 +290,11 @@ public class EmployeeManager implements Serializable {
     }
     
     /**
-     * Removes given title t from employee e
+     * Removes given title t from employee e.
      * @param e employee getting title removed
      * @param t title to be removed
      */
-    public void removeTitle(Employee e, Title t){
+    public void removeTitle(Employee e, Title t) {
         em.createNativeQuery("DELETE FROM Emptitle WHERE Emptitle.etEmpID = ?1 AND Emptitle.etTitID = ?2")
         .setParameter(1, e.getEmpId()).setParameter(2, t.getTitId()).executeUpdate();
     }

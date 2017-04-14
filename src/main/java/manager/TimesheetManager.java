@@ -14,30 +14,56 @@ import model.Employee;
 import model.Timesheet;
 import model.TimesheetId;
 
+/**
+ * Does CRUD for Timesheets.
+ * @author Timely
+ * @version 1.0
+ */
 @Dependent
 @Stateless
 public class TimesheetManager {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
+    /**
+     * Get a timesheet by TimesheetId.
+     * @param id TimesheetId
+     * @return timesheet
+     */
     public Timesheet find(TimesheetId id) {
         Timesheet foundTimesheet = em.find(Timesheet.class, id);
         
         return (foundTimesheet != null) ? foundTimesheet : null;
     }
 
+    /**
+     * Persist a timesheet.
+     * @param tsrow timesheet
+     */
     public void persist(Timesheet tsrow) {
         em.persist(tsrow);
     }
 
+    /**
+     * Update a timesheet.
+     * @param tsrow timesheet
+     */
     public void update(Timesheet tsrow) {
         em.merge(tsrow);
     }
 
+    /**
+     * Merge a timesheet.
+     * @param tsrow timesheet.
+     */
     public void merge(Timesheet tsrow) {
         em.merge(tsrow);
     }
 
+    /**
+     * Remove a timesheet.
+     * @param tsrow timesheet
+     */
     public void remove(Timesheet tsrow) {
         em.remove(tsrow);
     }
@@ -48,8 +74,8 @@ public class TimesheetManager {
      * this code here in case shit hits the fan
      * 
      * @author Joe Fong
-     * @param employeeID
-     * @return
+     * @param employeeID employee id.
+     * @return list of timesheets
      */
     public List<Timesheet> getAll(int employeeID) {
         TypedQuery<Timesheet> query = em
@@ -59,6 +85,9 @@ public class TimesheetManager {
         return (Tsrow != null) ? Tsrow : new ArrayList<Timesheet>();
     }
     
+    /**
+     * Flush.
+     */
     public void flush() {
         // TODO Auto-generated method stub
         em.flush();

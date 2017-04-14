@@ -11,8 +11,14 @@ public class TimesheetPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Employee Id.
+	 */
 	private int tsEmpID;
 
+	/**
+	 * Week end date of the Timesheet.
+	 */
 	private String tsWkEnd;
 
 	public int getTsEmpID() {

@@ -1,4 +1,18 @@
+//Input: Joy Nelson
+//Requirements: requires testsuite that runs Promotion before you can run Demotion
+//Requirements: 3911ERD_ver21
+
 package test.timely.admin;
+
+import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
@@ -16,21 +30,34 @@ public class EditEmployeeWithInvalidID {
 
   @Before
   public void setUp() throws Exception {
+	  
+	System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
     driver = new FirefoxDriver();
     baseUrl = "http://localhost:8080/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testEditEmployeeWithInvalidID() throws Exception {
-    driver.get(baseUrl + "/Timely/faces/admin/admin.xhtml");
-    driver.findElement(By.id("j_idt52:j_idt53:3:j_idt82")).click();
-    driver.findElement(By.id("input_j_idt52:j_idt53:3:empId")).click();
-    driver.findElement(By.id("input_j_idt52:j_idt53:3:empId")).clear();
-    driver.findElement(By.id("input_j_idt52:j_idt53:3:empId")).sendKeys("abcd");
-    // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
-    driver.findElement(By.xpath("//div[@id='j_idt52:j_idt53:3:j_idt56']/span")).click();
-    assertEquals("Employee id must be a number greater than zero", driver.findElement(By.cssSelector("span.bf-message-detail")).getText());
+  public void EditEmployeeWithInvalidIDjava() throws Exception {
+	  //new login procedure:
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("000001");
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	    driver.findElement(By.id("j_idt16:j_idt18")).click();
+	    
+	    driver.findElement(By.xpath("//table[@id='j_idt52:j_idt53']/tbody/tr[3]/td")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:2:j_idt74")).click();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:empId")).click();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:empId")).clear();
+	    driver.findElement(By.id("input_j_idt52:j_idt53:2:empId")).sendKeys("#*(*#$#$");
+	    // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+	    driver.findElement(By.cssSelector("span.bf-message-detail")).click();
+	    driver.findElement(By.cssSelector("span.bf-message-detail")).click();
+	    driver.findElement(By.id("j_idt52:j_idt53:2:j_idt56")).click();
+	    driver.findElement(By.cssSelector("span.bf-message-detail")).click();
+	    assertEquals("Employee id must be a number greater than zero", driver.findElement(By.id("j_idt52:j_idt53:2:j_idt56")).getText());
   }
 
   @After
@@ -75,3 +102,4 @@ public class EditEmployeeWithInvalidID {
     }
   }
 }
+

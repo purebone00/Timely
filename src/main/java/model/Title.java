@@ -19,10 +19,29 @@ import javax.persistence.TemporalType;
 @Table(name = "Title")
 public class Title implements java.io.Serializable {
 
+    /**
+     * Title id number.
+     */
     private short titId;
+    
+    /**
+     * Title name.
+     */
     private String titNm;
+    
+    /**
+     * Title deleted flag.
+     */
     private short titDel;
+    
+    /**
+     * Insert date.
+     */
     private Date titInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date titUpDt;
 
     public Title() {

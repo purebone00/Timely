@@ -1,14 +1,26 @@
+//DEPRECATEDED, Buttons were removed
+
 package test.timely.ui;
 
-
-
+import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 
-public class TestContactUsButton{
+import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class TestContactUsButton {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -16,6 +28,7 @@ public class TestContactUsButton{
 
   @Before
   public void setUp() throws Exception {
+	  
 	System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
     driver = new FirefoxDriver();
     baseUrl = "http://localhost:8080/";
@@ -23,15 +36,16 @@ public class TestContactUsButton{
   }
 
   @Test
-  public void testJava() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Ryan");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
-    driver.findElement(By.linkText("Contact Us")).click();
-    assertEquals("Contact Us", driver.findElement(By.id("j_idt47")).getText());
+  public void loginAdmin() throws Exception {
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("Contact Us")).click();
+
+	  assertEquals("Contact Us", driver.findElement(By.cssSelector("div.column")).getText());
   }
 
   @After
@@ -58,6 +72,21 @@ public class TestContactUsButton{
       return true;
     } catch (NoAlertPresentException e) {
       return false;
+    }
+  }
+
+  private String closeAlertAndGetItsText() {
+    try {
+      Alert alert = driver.switchTo().alert();
+      String alertText = alert.getText();
+      if (acceptNextAlert) {
+        alert.accept();
+      } else {
+        alert.dismiss();
+      }
+      return alertText;
+    } finally {
+      acceptNextAlert = true;
     }
   }
 }

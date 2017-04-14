@@ -10,16 +10,30 @@ import javax.persistence.TypedQuery;
 
 import model.Wpstarep;
 
+/**
+ * Does CRUD for Wpstarep.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @Dependent
 @Stateless
 public class WpstarepManager {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
+    /**
+     * Persist a Wpstarep.
+     * @param wpstarep wpstarep
+     */
     public void persist(Wpstarep wpstarep) {
         em.persist(wpstarep);
     }
 
+    /**
+     * Merge a Wpstarep.
+     * @param wpstarep wpstarep
+     */
     public void merge(Wpstarep wpstarep) {
         em.merge(wpstarep);
     }

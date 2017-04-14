@@ -10,13 +10,22 @@ import javax.inject.Inject;
 
 import manager.EmployeeManager;
 
-
+/**
+ * Converter for TaApprover.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @ManagedBean
 @RequestScoped
 @FacesConverter(value="TaApproverConverter")
 public class TaApproverConverter implements Converter{
+    
+    /**
+     * Manager for employees.
+     */
     @Inject
-    EmployeeManager eManager;
+    private EmployeeManager eManager;
 
     @Override
     public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {

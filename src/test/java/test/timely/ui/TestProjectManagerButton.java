@@ -24,14 +24,14 @@ public class TestProjectManagerButton{
 
   @Test
   public void testJava() throws Exception {
-    driver.get(baseUrl + "/Timely/");
-    driver.findElement(By.id("input_j_idt16:inputEmail")).clear();
-    driver.findElement(By.id("input_j_idt16:inputEmail")).sendKeys("Ryan");
-    driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
-    driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
-    driver.findElement(By.id("j_idt16:j_idt18")).click();
-    driver.findElement(By.linkText("Project Manager")).click();
-    assertEquals("Project Manager", driver.findElement(By.id("j_idt47")).getText());
+	  driver.get(baseUrl + "/Timely/faces/login.xhtml?expired=true");
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputUserName")).sendKeys("100002");
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).clear();
+	  driver.findElement(By.id("input_j_idt16:inputPassword")).sendKeys("Comp@4911");
+	  driver.findElement(By.id("j_idt16:j_idt18")).click();
+	  driver.findElement(By.linkText("General Utilities")).click();
+	  assertEquals("About Us", driver.findElement(By.cssSelector("div.column")).getText());
   }
 
   @After

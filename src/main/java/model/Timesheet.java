@@ -28,21 +28,75 @@ import javax.persistence.Transient;
 public class Timesheet implements java.io.Serializable {
 
     private TimesheetId id;
+    
+    /**
+     * Total hours on timesheet.
+     */
     private BigDecimal tsTotal;
+    
+    /**
+     * Overtime on timesheet.
+     */
     private BigDecimal tsOverTm;
+    
+    /**
+     * Flextime on timesheet.
+     */
     private BigDecimal tsFlexTm;
+    
+    /**
+     * Date that timesheet is signed.
+     */
     private Date tsSignDt;
+    
+    /**
+     * Timesheet submit flag.
+     */
     private Short tsSubmit;
+    
+    /**
+     * Labour grade of employee at time of timesheet.
+     */
     private Labgrd tsPayGrade;
+    
+    /**
+     * Date timesheet was approved.
+     */
     private Date tsApprDt;
+    
+    /**
+     * Timesheet approver id.
+     */
     private Integer tsApprId;
+    
+    /**
+     * Timesheet delete flag.
+     */
     private short tsDel;
+    
+    /**
+     * Insert date.
+     */
     private Date tsInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date tsUpDt;
     
+    /**
+     * If timesheet has been approved.
+     */
     private Boolean isApprove;
 
+    /**
+     * Employee that this timesheet is for.
+     */
     private Employee employee;
+    
+    /**
+     * Timesheet approver.
+     */
     private Employee tsApprover;
     /* ============================================== */
     @Transient

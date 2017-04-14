@@ -11,8 +11,19 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class EmpwpId implements java.io.Serializable {
 
+    /**
+     * Employee Id.
+     */
     private int ewEmpId;
+    
+    /**
+     * Project number.
+     */
     private int ewProjNo;
+    
+    /**
+     * Work package number.
+     */
     private String ewWpNo;
 
     public EmpwpId() {

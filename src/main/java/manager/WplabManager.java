@@ -14,12 +14,24 @@ import model.Workpack;
 import model.Wplab;
 import model.WplabId;
 
+/**
+ * Does CRUD for Wplabs.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @Dependent
 @Stateless
 public class WplabManager {
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
+    /**
+     * Gets all the Wplabs with a given project number and work package number.
+     * @param projNo Project number.
+     * @param wpNo Work package number.
+     * @return List of Wplabs.
+     */
     public List<Wplab> getWorkPackagePlannedHours(int projNo, String wpNo) {
         TypedQuery<Wplab> query = em
                 .createQuery("select s from Wplab s where s.id.wlProjNo=:code AND s.id.wlWpNo=:code2", Wplab.class);
@@ -30,14 +42,27 @@ public class WplabManager {
         return (plannedHours != null) ? plannedHours : new ArrayList<Wplab>();
     }
 
+    /**
+     * Find a Wplab by WplabId.
+     * @param id WplabId.
+     * @return Wplab
+     */
     public Wplab find(WplabId id) {
         return em.find(Wplab.class, id);
     }
 
+    /**
+     * Update a Wplab.
+     * @param wplab Wplab.
+     */
     public void update(Wplab wplab) {
         em.merge(wplab);
     }
 
+    /**
+     * Remove a Wplab.
+     * @param w wplab
+     */
     public void remove(Wplab w) {
         w = find(w.getId());
         em.remove(w);

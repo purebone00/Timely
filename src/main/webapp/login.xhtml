@@ -39,7 +39,8 @@
                     <span id="reauth-email" class="reauth-email"></span>
                     <b:inputText class="form-control"
                         pt:placeholder="Username" id="inputUserName"
-                        value="#{Master.login.userName}" required="true" requiredMessage="Username is required"/>
+                        value="#{Master.login.userName}" required="true" requiredMessage="Username is required"
+                        converterMessage="The username is the employee id."/>
                     <b:inputSecret class="form-control"
                         pt:placeholder="Password" id="inputPassword"
                         value="#{Master.login.password}" required="true" requiredMessage="Password is required"/>

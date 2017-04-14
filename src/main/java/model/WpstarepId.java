@@ -11,8 +11,19 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class WpstarepId implements java.io.Serializable {
 
+    /**
+     * Project number.
+     */
     private int wsrProjNo;
+    
+    /**
+     * Work package number.
+     */
     private String wsrWpNo;
+    
+    /**
+     * Report date.
+     */
     private String wsrRepDt;
 
     public WpstarepId() {

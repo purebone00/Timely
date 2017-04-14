@@ -18,10 +18,29 @@ import javax.persistence.TemporalType;
 @Table(name = "Labgrd")
 public class Labgrd implements java.io.Serializable {
 
+    /**
+     * Labour grade id string.
+     */
     private String lgId;
+    
+    /**
+     * Labour grade rate.
+     */
     private BigDecimal lgRate;
+    
+    /**
+     * Labour grade deleted flag.
+     */
     private short lgDel;
+    
+    /**
+     * Insert date.
+     */
     private Date lgInsDt;
+    
+    /**
+     * Update date.
+     */
     private Date lgUpDt;
 
     public Labgrd() {

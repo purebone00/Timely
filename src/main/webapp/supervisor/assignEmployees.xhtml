@@ -1,4 +1,3 @@
-
 <ui:composition template="/template/master_page.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -25,10 +24,7 @@
                 <b:column col-md="6">
                     <b:form>
                         <h4>Currently on project:</h4>
-	            		Employees on the current project listed here
-						<br /> Select one employee to move them onto a particular project.
 						<br />
-
                         <b:dataTable
                             value="#{Master.projMan.allEmpInProject(Master.employee.emp)}"
                             var="s" responsive="true">
@@ -85,17 +81,14 @@
                             </b:dataTableColumn>
                         </b:dataTable>
                         <br />
-                        <b:commandButton look="success" class="btn" value="Save" />
+                        
                     </b:form>
                 </b:column>
                 <!-- End of 2nd column -->
                 <b:column col-md="6">
                     <b:form>
                         <h4>Available to be assigned to project:</h4>
-	            		Employees currently NOT on the project listed here
-						<br /> Select one employee to move them onto a particular project.
 						<br />
-
                         <b:dataTable
                             value="#{Master.projMan.NotEmpInProject(Master.employee.emp)}"
                             var="s" responsive="true">
@@ -145,7 +138,7 @@
                             </b:dataTableColumn>
                         </b:dataTable>
                         <br />
-                        <b:commandButton look="success" class="btn" value="Save" />
+                        
                     </b:form>
                 </b:column>
 
