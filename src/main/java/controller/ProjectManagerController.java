@@ -45,57 +45,74 @@ import utility.models.MonthlyReport;
 import utility.models.MonthlyReportRow;
 import utility.models.WeeklyReport;
 
+/**
+ * This class deals with project manager functionality.
+ * @author Timely
+ * @version 1.0
+ */
 @Stateful
 @Named("projMan")
 public class ProjectManagerController {
+    /**
+     * Project manager title id.
+     */
     private static final short PROJ_MAN_TIT_ID = 2;
+    
+    /**
+     * Responsible engineer title id.
+     */
     private static final short RES_ENG_TIT_ID = 3;
+    
+    /**
+     * Length of a work package number.
+     */
+    private static final int WP_NO_LENGTH = 6;
     
 	/**
 	 * Used for accessing work package data in database (Workpack table).
 	 */
     @Inject
-    WorkPackageManager workPackageManager;
+    private WorkPackageManager workPackageManager;
     /**
      * Used for accessing project data in database (Project table).
      */
     @Inject
-    ProjectManager projectManager;
+    private ProjectManager projectManager;
     /**
      * Used for accessing timesheet row data in database (Tsrow table).
      */
     @Inject
-    WplabManager wplabManager;
+    private WplabManager wplabManager;
     /**
      * Used for accessing Work package-labour grade association table data in database (Wplab table).
      */
     @Inject
-    TsrowManager tsRowManager;
+    private TsrowManager tsRowManager;
     /**
      * Used for accessing work package status report data in database (Wpstarep table).
      */
     @Inject
-    WpstarepManager wpstarepManager;
+    private WpstarepManager wpstarepManager;
     /**
      * Used for accessing labour grade data in database (Labgrd table).
      */
     @Inject
-    LabourGradeManager labgrdManager;
+    private LabourGradeManager labgrdManager;
     /**
      * Used for accessing employee data in database (Employee table).
      */
     @Inject
-    EmployeeManager employeeManager;
+    private EmployeeManager employeeManager;
     /**
-     * Used for accessing title data in the database (Title table)
+     * Used for accessing title data in the database (Title table).
      */
     @Inject
-    TitleManager titleManager;
+    private TitleManager titleManager;
     /**
-     * Used for accessing employee title data in the database (Emptitle table)
+     * Used for accessing employee title data in the database (Emptitle table).
      */
     @Inject
-    EmployeeTitleManager emptitleManager;
+    private EmployeeTitleManager emptitleManager;
     /**
     * Represents employee whose information is being altered.
     * @HasGetter
@@ -103,42 +120,55 @@ public class ProjectManagerController {
     */
     private Employee emp;
     
-    public Employee getEmp() {
-        return emp;
-    }
-
-    public void setEmp(Employee emp) {
-        this.emp = emp;
-    }
     /**
      * Represents the currently selected project to display details on.
      */
     private Project selectedProject;
+    
     /**
      * Exists so that viewing projects doesn't conflict with notifications.
      * @HasGetter
      * @HasSetter
      */
     private Project selectedProjectForViewing;
+    
     /**
      * Represents the currently selected work package to display details on.
      * @HasGetter
      * @HasSetter
      */
     private Workpack selectedWorkPackage;
+    
     /**
      * The currently selected week.
      * @HasGetter
      * @HasSetter
      */
     private String selectedWeek;
+    
     /**
      * Name of a newly-generated work package.
      * @HasGetter
      * @HasSetter
      */
     private String newWpName;
+    
+    /**
+     * Gets emp.
+     * @return emp.
+     */
+    public Employee getEmp() {
+        return emp;
+    }
 
+    /**
+     * Sets emp.
+     * @param emp emp.
+     */
+    public void setEmp(Employee emp) {
+        this.emp = emp;
+    }
+    
     /**
      * Returns list of employees who have been assigned to the currently selected project.
      * @return List<Employees> the employees on the currently selected project.
@@ -159,22 +189,22 @@ public class ProjectManagerController {
     /**
      * Gets a list of {@link Project}'s that an {@link Employee} manages.
      * 
-     * @param emp
+     * @param empl
      *            The {@link Employee} that manages the {@link Project}'s you
      *            want to get.
      * @return A list of {@link Project}'s.
      */
-    public List<Project> listOfProjects(Employee emp) {
+    public List<Project> listOfProjects(Employee empl) {
         try {
-            setEmp(emp);  
-            return projectManager.getManagedProjects(emp.getEmpId());
+            setEmp(empl);  
+            return projectManager.getManagedProjects(empl.getEmpId());
         } catch (NullPointerException e) {
             return new ArrayList<Project>();
         }
     }
     
     /**
-     * Select project for managing (creating WP's, setting budget and estimates)
+     * Select project for managing (creating WPs, setting budget and estimates).
      * @param p Project that has been selected
      * @return String navigation string that takes user to view that displays the selected project's details
      */
@@ -205,17 +235,17 @@ public class ProjectManagerController {
     
     /**
      * Select a report from the weekly reports list to see the details for.
-     * @param week
+     * @param week week.
      * @return String navigation string that takes user to detailed view of a single weekly report.
      */
     public String selectProjectForWeeklyReport(String week) {
-        String empLastVisitWeek = emp.getEmpLastVisitedWeekReport() == null ?
-                "00000000" : emp.getEmpLastVisitedWeekReport();
+        String empLastVisitWeek = emp.getEmpLastVisitedWeekReport() == null 
+                ? "00000000" : emp.getEmpLastVisitedWeekReport();
         
         Integer visitWeek = new Integer(empLastVisitWeek);
         Integer curWeek = new Integer(week);
         
-        if(visitWeek.intValue() < curWeek.intValue()) {
+        if (visitWeek.intValue() < curWeek.intValue()) {
             emp.setEmpLastVisitedWeekReport(curWeek.toString());
             employeeManager.merge(emp);
         }
@@ -237,13 +267,13 @@ public class ProjectManagerController {
         List<MonthlyReport> reports = getMonthlyReports();
         
         String latestMonth = reports.get(0).getMonth();
-        String lastVisitMonth = emp.getEmpLastVisitedMonthReport() == null ?
-                "000000" : emp.getEmpLastVisitedMonthReport();
+        String lastVisitMonth = emp.getEmpLastVisitedMonthReport() == null 
+                ? "000000" : emp.getEmpLastVisitedMonthReport();
 
         Integer visitMonth = new Integer(lastVisitMonth);
         Integer curMonth = new Integer(latestMonth);
         
-        if(visitMonth.intValue() < curMonth.intValue()) {
+        if (visitMonth.intValue() < curMonth.intValue()) {
             emp.setEmpLastVisitedMonthReport(curMonth.toString());
             employeeManager.merge(emp);
         }
@@ -252,40 +282,77 @@ public class ProjectManagerController {
         return "monthlyReport";
     }
 
+    /**
+     * get selectedProject.
+     * @return selectedProject.
+     */
     public Project getSelectedProject() {
         return this.selectedProject;
     }
 
+    /**
+     * set selectedProject.
+     * @param selectedProject selectedProject
+     */
     public void setSelectedProject(Project selectedProject) {
         this.selectedProject = selectedProject;
     }
 
+    /**
+     * get selectedProjectForViewing.
+     * @return selectedProjectForViewing.
+     */
     public Project getSelectedProjectForViewing() {
         return selectedProjectForViewing;
     }
 
+    /**
+     * set selectedProjectForViewing.
+     * @param selectedProjectForViewing selectedProjectForViewing.
+     */
     public void setSelectedProjectForViewing(Project selectedProjectForViewing) {
         this.selectedProjectForViewing = selectedProjectForViewing;
     }
 
+    /**
+     * get selectedWeek.
+     * @return selectedWeek.
+     */
     public String getSelectedWeek() {
         return this.selectedWeek;
     }
 
+    /**
+     * set selectedWeek.
+     * @param selectedWeek selected week.
+     */
     public void setSelectedWeek(String selectedWeek) {
         this.selectedWeek = selectedWeek;
     }
 
+    /**
+     * Select a work package for managing.
+     * @param workPackage the work package to manage.
+     * @return work package.
+     */
     public String selectWorkPackage(Workpack workPackage) {
         setSelectedWorkPackage(workPackage);
 
         return "workpackage";
     }
 
+    /**
+     * get selectedWorkPackage.
+     * @return selectedWorkPackage
+     */
     public Workpack getSelectedWorkPackage() {
         return this.selectedWorkPackage;
     }
 
+    /**
+     * set selectedWorkPackage.
+     * @param workPackage selectedWorkPackage.
+     */
     public void setSelectedWorkPackage(Workpack workPackage) {
         this.selectedWorkPackage = workPackage;
     }
@@ -379,8 +446,8 @@ public class ProjectManagerController {
     
     /**
      * Add an initial estimate to a work package.
-     * @param w
-     * @return
+     * @param w workpack.
+     * @return empty string.
      */
     public String addInitialEstimate(Workpack w) {
         w.setInitialEst(new HashMap<String, BigDecimal>());
@@ -396,7 +463,7 @@ public class ProjectManagerController {
      * @return the name if valid, else returns null.
      */
     public String isWpNameValid(String wpName) {
-        if (wpName.length() > 6) {
+        if (wpName.length() > WP_NO_LENGTH) {
             return null;
         }
         
@@ -407,7 +474,7 @@ public class ProjectManagerController {
                 }
             }
 
-            if (6 - wpName.length() == 0) {
+            if (WP_NO_LENGTH - wpName.length() == 0) {
                 return wpName;
             } else {
                 return String.format("%s" + "%0" + (6 - wpName.length()) + "d", wpName, 0);
@@ -426,7 +493,7 @@ public class ProjectManagerController {
      */
     public boolean isLeaf(Workpack workPackage) {
         String nameFormatted = workPackage.getId().getWpNo().replace("0", "");
-        if (nameFormatted.length() == 6) {
+        if (nameFormatted.length() == WP_NO_LENGTH) {
             return true;
         }
 
@@ -466,8 +533,9 @@ public class ProjectManagerController {
                 toBeRemoved.add(wp);
             }
         }
-        if (!toBeRemoved.isEmpty())
-            wplabManager.removeByWp(toBeRemoved);
+        if (!toBeRemoved.isEmpty()) {
+            wplabManager.removeByWp(toBeRemoved);            
+        }
         
         List<Wpstarep> initialEstimates = new ArrayList<Wpstarep>();
         
@@ -533,8 +601,8 @@ public class ProjectManagerController {
 
     /**
      * Generates the list of monthly reports.
-     * @param month
-     * @return
+     * @param month month.
+     * @return monthly reports.
      */
     private List<MonthlyReportRow> getReportsForWpMonth(String month) {
         List<Workpack> leafs = new ArrayList<Workpack>();
@@ -636,7 +704,7 @@ public class ProjectManagerController {
      * format 'YYYYMMDD', from the Project's start date to the Project's end
      * date. If the current date comes before the Project's end date, the last
      * date in the list will be the end of the current week.
-     * 
+     * @param flag 0 for all weeks, 1 for past 4 weeks, past 12 months, and past years
      * @return A list of end of weeks in the format 'YYYYMMDD'.
      */
     public List<String> getListOfWeeks(int flag) {
@@ -654,14 +722,13 @@ public class ProjectManagerController {
     }
 	
 	/**
-	 * Action method that leads to page where you can assign employees to a project
+	 * Action method that leads to page where you can assign employees to a project.
 	 * @param projectID id of the project
 	 * @return String navigation string
 	 */
 	public String assignEmployeeToProject(int projectID){
 		setSelectedProject(projectManager.find(projectID));
 		setSelectedProjectForViewing(projectManager.find(projectID));
-		//System.out.println("assignEmployee: Project id = " + projectID + "; selected project name: " + selectedProject.getProjNm());
 		return "assignEmployees";
 	}
 	
@@ -672,21 +739,21 @@ public class ProjectManagerController {
      * @param empID ID of employee to put on project.
      * */
     public String assignEmployeeToProject2(String empID){
-    	Employee emp = employeeManager.find(Integer.parseInt(empID));
-        selectedProject.getEmployees().add(emp);
+    	Employee empl = employeeManager.find(Integer.parseInt(empID));
+        selectedProject.getEmployees().add(empl);
         // update on employee side
-        emp.getProjects().add(selectedProject);
+        empl.getProjects().add(selectedProject);
         // update database
         projectManager.update(selectedProject);
         projectManager.flush();
-        employeeManager.merge(emp);
+        employeeManager.merge(empl);
         employeeManager.flush();
         // refresh the page
         return null;
     }
 
     /**
-     * Removes given employee from selected project
+     * Removes given employee from selected project.
      * 
      * @return String navigation string for refreshing the current page.
      * @param empID
@@ -723,16 +790,16 @@ public class ProjectManagerController {
      * @return String navigation string.
      * @param empID ID of employee to put on project.
      * */
-    public String assignEmployeeToWP(String empID){
-    	Employee emp = employeeManager.find(Integer.parseInt(empID));
+    public String assignEmployeeToWP(String empID) {
+    	Employee empl = employeeManager.find(Integer.parseInt(empID));
         //get a reference to the selected project
-        selectedWorkPackage.getEmployees().add(emp);
+        selectedWorkPackage.getEmployees().add(empl);
         //update on employee side
-        emp.getWorkpackages().add(selectedWorkPackage);
+        empl.getWorkpackages().add(selectedWorkPackage);
         //update database
         workPackageManager.merge(selectedWorkPackage);
         workPackageManager.flush();
-        employeeManager.merge(emp);
+        employeeManager.merge(empl);
         employeeManager.flush();
         //refresh the page
         return null;
@@ -743,7 +810,7 @@ public class ProjectManagerController {
      * @return String navigation string. 
      * @param empID ID of employee to put on work package.
      * */
-    public String removeEmployeeFromWP(String empID){
+    public String removeEmployeeFromWP(String empID) {
 
     	Employee e = employeeManager.find(Integer.parseInt(empID));
     	if (e.getEmpId().equals(selectedWorkPackage.getWpResEng())) {
@@ -758,7 +825,7 @@ public class ProjectManagerController {
     
     /**
      * Get a list of the months for the current selected project.
-     * @return
+     * @return list of months.
      */
     public Set<String> getListOfMonths() {
         DateTimeUtility dtu = new DateTimeUtility();
@@ -770,6 +837,8 @@ public class ProjectManagerController {
     }
     /**
      * Gets list of employees in the selected project that the logged in supervisor supervises.
+     * @param supervisor supervisor
+     * @return list of all employees in project supervised by supervisor
      */
     public List<Employee> allEmpInProject(Employee supervisor) {
         // return selectedProject.getEmployees();
@@ -788,8 +857,8 @@ public class ProjectManagerController {
     /**
      * Gets a list of employees not in the given project and supervised by a supervisor.
      * 
-     * @param proj
-     *            a project
+     * @param supervisor
+     *            supervisor
      * @return list of employees
      */
     public List<Employee> NotEmpInProject(Employee supervisor) {
@@ -821,10 +890,18 @@ public class ProjectManagerController {
         return tsRowManager.getTotalDaysForEmpWP(workpack, employee, week);
     }
 
+    /**
+     * get newWpName.
+     * @return newWpName
+     */
     public String getNewWpName() {
         return this.newWpName;
     }
 
+    /**
+     * set newWpName.
+     * @param newWpName newWpName.
+     */
     public void setNewWpName(String newWpName) {
         this.newWpName = newWpName;
     }
@@ -843,8 +920,8 @@ public class ProjectManagerController {
   
     /**
      * Checks if a workpack has been charged to.
-     * @param w
-     * @return
+     * @param w workpack
+     * @return true if charged, else false
      */
     public boolean isWpCharged(Workpack w) {
         return !tsRowManager.find(w).isEmpty();
@@ -938,26 +1015,26 @@ public class ProjectManagerController {
     
     /**
      * Checks if an employee is a responsible engineer for any work packages.
-     * @param e
-     * @return
+     * @param e employee
+     * @return true if is responsible engineer, else false
      */
     public boolean isResEng(Employee e) {
         return (e.getEmpId().equals(selectedWorkPackage.getWpResEng()));
     }
     
     /**
-     * check if the selectedWorkPackage has an responsible engineer
-     * @return
+     * check if the selectedWorkPackage has an responsible engineer.
+     * @return true if has a responsible engineer, else false.
      */
     public boolean resEngAssigned() {
         return selectedWorkPackage.getWpResEng() != null;
     }
     
     /**
-     * TODO move this and a bunch of other stuff to supervisorcontroller
-     * assign an employee as PM to the selected Project
-     * @param e
-     * @return
+     * TODO move this and a bunch of other stuff to supervisorcontroller.
+     * assign an employee as PM to the selected Project.
+     * @param e employee.
+     * @return null string.
      */
     public String assignEmployeeAsPM(Employee e) {
         selectedProject.setProjMan(e.getEmpId());
@@ -983,10 +1060,10 @@ public class ProjectManagerController {
     }
     
     /**
-     * TODO move this and a bunch of other stuff to supervisorcontroller
-     * unassign an employee as PM from the selected Project
-     * @param e
-     * @return
+     * TODO move this and a bunch of other stuff to supervisorcontroller.
+     * unassign an employee as PM from the selected Project.
+     * @param e employee.
+     * @return null string.
      */
     public String unassignEmployeeAsPM(Employee e) {
         selectedProject.setProjMan(null);
@@ -1014,26 +1091,26 @@ public class ProjectManagerController {
     /**
      * TODO move this and a bunch of other stuff to supervisorcontroller
      * check if an employee is a PM for any projects.
-     * @param e
-     * @return
+     * @param e employee.
+     * @return true if is project manager, else false.
      */
     public boolean isProjMan(Employee e) {
         return (e.getEmpId().equals(selectedProject.getProjMan()));
     }
     
     /**
-     * TODO move this and a bunch of other stuff to supervisorcontroller
+     * TODO move this and a bunch of other stuff to supervisorcontroller.
      * check if the selected Project has a PM.
-     * @return
+     * @return true if project has a manager.
      */
     public boolean projManAssigned() {
         return selectedProject.getProjMan() != null;
     }
     
     /**
-     * Go to the page to assign employees to WP
-     * @param p
-     * @return
+     * Go to the page to assign employees to WP.
+     * @param p project.
+     * @return navigation string.
      */
     public String selectProjectForWPAssigning(Project p) {
         setSelectedProject(p);
@@ -1044,8 +1121,8 @@ public class ProjectManagerController {
     
     /**
      * Sets a workpack to closed.
-     * @param w
-     * @return
+     * @param w work package.
+     * @return null string.
      */
     public String closeWorkpack(Workpack w) {
         FacesMessage message = new FacesMessage("Cannot close a WP with pending Timesheets.");
@@ -1074,9 +1151,9 @@ public class ProjectManagerController {
     }
     
     /**
-     * Checks if the WP is open
-     * @param w
-     * @return
+     * Checks if the WP is open.
+     * @param w work package.
+     * @return true if is open, else false.
      */
     public boolean wpIsOpen(Workpack w) {
         return w.getWpStatus() == null || w.getWpStatus() != 1;

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 public class DateTimeUtility {
+    
+    private static final int DAYS_IN_WEEK = 7;
 
     /**
      * Gets the date of the end of the current week (Friday) in String with
