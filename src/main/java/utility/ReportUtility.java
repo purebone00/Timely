@@ -43,7 +43,7 @@ public class ReportUtility {
         String string = "";
 
         for (Map.Entry<String, BigDecimal> entry : map.entrySet()) {
-            string = string + entry.getKey() + ":" + entry.getValue().toString() + ",";
+            string = string + entry.getKey() + ":" + entry.getValue() + ",";
         }
 
         return string.substring(0, string.length() - 1);
