@@ -26,10 +26,20 @@ import javax.persistence.UniqueConstraint;
         "tsrWpNo" }))
 public class Tsrow implements java.io.Serializable {
 
-    boolean editable;
-    BigDecimal total;
+    /**
+     * If row is editable or not.
+     */
+    private boolean editable;
+    
+    /**
+     * Total of the row.
+     */
+    private BigDecimal total;
     /* ====================================== */
 
+    /**
+     * Row id.
+     */
     private Long tsr_id;
     /**
      * Employee id of owner of timesheet row.
@@ -116,6 +126,10 @@ public class Tsrow implements java.io.Serializable {
      */
     private Timesheet timesheet;
 
+    /**
+     * Get timesheet.
+     * @return timesheet
+     */
     @ManyToOne
     @JoinColumns({ @JoinColumn(name = "tsrWkEnd", referencedColumnName = "tsWkEnd"),
             @JoinColumn(name = "tsrEmpID", referencedColumnName = "tsEmpID") })
@@ -123,14 +137,31 @@ public class Tsrow implements java.io.Serializable {
         return timesheet;
     }
 
+    /**
+     * Set timesheet.
+     * @param timesheet timesheet
+     */
     public void setTimesheet(Timesheet timesheet) {
         this.timesheet = timesheet;
     }
 
+    /**
+     * Default ctor.
+     */
     public Tsrow() {
         total = new BigDecimal(0);
     }
 
+    /**
+     * Create a tsrow.
+     * @param tsrEmpId employee id
+     * @param tsrWkEnd week end string
+     * @param tsrProjNo project number
+     * @param tsrWpNo wp number
+     * @param tsrDel delete flag
+     * @param tsrInsDt insert date
+     * @param tsrUpDt update date
+     */
     public Tsrow(int tsrEmpId, String tsrWkEnd, int tsrProjNo, String tsrWpNo, short tsrDel, Date tsrInsDt,
             Date tsrUpDt) {
         this.tsrEmpId = tsrEmpId;
@@ -142,6 +173,24 @@ public class Tsrow implements java.io.Serializable {
         this.tsrUpDt = tsrUpDt;
     }
 
+    /**
+     * Create a Tsrow
+     * @param tsrEmpId employee id
+     * @param tsrWkEnd week end string
+     * @param tsrProjNo project number
+     * @param tsrWpNo wp number
+     * @param tsrSat sat hours
+     * @param tsrSun sun hours
+     * @param tsrMon mon hours
+     * @param tsrTue tue hours
+     * @param tsrWed wed hours
+     * @param tsrThu thu hours
+     * @param tsrFri fri hours
+     * @param tsrNote note
+     * @param tsrDel delete flag 
+     * @param tsrInsDt insert date
+     * @param tsrUpDt update date
+     */
     public Tsrow(int tsrEmpId, String tsrWkEnd, int tsrProjNo, String tsrWpNo, BigDecimal tsrSat, BigDecimal tsrSun,
             BigDecimal tsrMon, BigDecimal tsrTue, BigDecimal tsrWed, BigDecimal tsrThu, BigDecimal tsrFri,
             String tsrNote, short tsrDel, Date tsrInsDt, Date tsrUpDt) {
@@ -162,6 +211,10 @@ public class Tsrow implements java.io.Serializable {
         this.tsrUpDt = tsrUpDt;
     }
 
+    /**
+     * Get tsr_id.
+     * @return tsr_id
+     */
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "tsr_id", unique = true, nullable = false)
@@ -169,167 +222,311 @@ public class Tsrow implements java.io.Serializable {
         return this.tsr_id;
     }
 
+    /**
+     * Set tsr_id. 
+     * @param id tsr_id
+     */
     public void setId(Long id) {
         this.tsr_id = id;
     }
 
+    /**
+     * Get tsrEmpId.
+     * @return tsrEmpId
+     */
     @Column(name = "tsrEmpID", insertable = false, updatable = false, nullable = false)
     public int getTsrEmpId() {
         return this.tsrEmpId;
     }
 
+    /**
+     * Set tsrEmpId.
+     * @param tsrEmpId tsrEmpId
+     */
     public void setTsrEmpId(int tsrEmpId) {
         this.tsrEmpId = tsrEmpId;
     }
 
+    /**
+     * Get tsrWkEnd.
+     * @return tsrWkEnd
+     */
     @Column(name = "tsrWkEnd", insertable = false, updatable = false, nullable = false, length = 8)
     public String getTsrWkEnd() {
         return this.tsrWkEnd;
     }
 
+    /**
+     * Set tsrWkEnd.
+     * @param tsrWkEnd tsrWkEnd
+     */
     public void setTsrWkEnd(String tsrWkEnd) {
         this.tsrWkEnd = tsrWkEnd;
     }
 
+    /**
+     * Get tsrProjNo.
+     * @return tsrProjNo
+     */
     @Column(name = "tsrProjNo", nullable = false)
     public int getTsrProjNo() {
         return this.tsrProjNo;
     }
 
+    /**
+     * Set tsrProjNo.
+     * @param tsrProjNo tsrProjNo
+     */
     public void setTsrProjNo(int tsrProjNo) {
         this.tsrProjNo = tsrProjNo;
     }
 
+    /**
+     * Get tsrWpNo.
+     * @return tsrWpNo
+     */
     @Column(name = "tsrWpNo", nullable = false, length = 8)
     public String getTsrWpNo() {
         return this.tsrWpNo;
     }
 
+    /**
+     * Set tsrWpNo.
+     * @param tsrWpNo tsrWpNo
+     */
     public void setTsrWpNo(String tsrWpNo) {
         this.tsrWpNo = tsrWpNo;
     }
 
+    /**
+     * Get tsrSat.
+     * @return tsrSat
+     */
     @Column(name = "tsrSat", precision = 4)
     public BigDecimal getTsrSat() {
         return this.tsrSat;
     }
 
+    /**
+     * Set tsrSat.
+     * @param tsrSat tsrSat
+     */
     public void setTsrSat(BigDecimal tsrSat) {
         this.tsrSat = tsrSat;
     }
 
+    /**
+     * Get tsrSun.
+     * @return tsrSun
+     */
     @Column(name = "tsrSun", precision = 4)
     public BigDecimal getTsrSun() {
         return this.tsrSun;
     }
 
+    /**
+     * Set tsrSun.
+     * @param tsrSun tsrSun
+     */
     public void setTsrSun(BigDecimal tsrSun) {
         this.tsrSun = tsrSun;
     }
 
+    /**
+     * Get tsrMon.
+     * @return tsrMon
+     */
     @Column(name = "tsrMon", precision = 4)
     public BigDecimal getTsrMon() {
         return this.tsrMon;
     }
 
+    /**
+     * Set tsrMon.
+     * @param tsrMon tsrMon
+     */
     public void setTsrMon(BigDecimal tsrMon) {
         this.tsrMon = tsrMon;
     }
 
+    /**
+     * Get tsrTue.
+     * @return tsrTue
+     */
     @Column(name = "tsrTue", precision = 4)
     public BigDecimal getTsrTue() {
         return this.tsrTue;
     }
 
+    /**
+     * Set tsrTue.
+     * @param tsrTue tsrTue
+     */
     public void setTsrTue(BigDecimal tsrTue) {
         this.tsrTue = tsrTue;
     }
 
+    /**
+     * Get tsrWed.
+     * @return tsrWed
+     */
     @Column(name = "tsrWed", precision = 4)
     public BigDecimal getTsrWed() {
         return this.tsrWed;
     }
 
+    /**
+     * Set tsrWed.
+     * @param tsrWed tsrWed
+     */
     public void setTsrWed(BigDecimal tsrWed) {
         this.tsrWed = tsrWed;
     }
 
+    /**
+     * Get tsrThu.
+     * @return tsrThu
+     */
     @Column(name = "tsrThu", precision = 4)
     public BigDecimal getTsrThu() {
         return this.tsrThu;
     }
 
+    /**
+     * Set tsrThu.
+     * @param tsrThu tsrThu
+     */
     public void setTsrThu(BigDecimal tsrThu) {
         this.tsrThu = tsrThu;
     }
 
+    /**
+     * Get tsrFri.
+     * @return tsrFri
+     */
     @Column(name = "tsrFri", precision = 4)
     public BigDecimal getTsrFri() {
         return this.tsrFri;
     }
 
+    /**
+     * Set tsrFri.
+     * @param tsrFri tsrFri
+     */
     public void setTsrFri(BigDecimal tsrFri) {
         this.tsrFri = tsrFri;
     }
     
+    /**
+     * Get tsrOt.
+     * @return tsrOt
+     */
     @Column(name = "tsrOt", precision = 4)
     public BigDecimal getTsrOt() {
         return this.tsrOt;
     }
 
+    /**
+     * Set tsrOt. 
+     * @param tsrOt tsrOt
+     */
     public void setTsrOt(BigDecimal tsrOt) {
         this.tsrOt = tsrOt;
     }
 
+    /**
+     * Get tsrNote.
+     * @return tsrNote
+     */
     @Column(name = "tsrNote")
     public String getTsrNote() {
         return this.tsrNote;
     }
 
+    /**
+     * Set tsrNote.
+     * @param tsrNote tsrNote
+     */
     public void setTsrNote(String tsrNote) {
         this.tsrNote = tsrNote;
     }
 
+    /**
+     * Get tsrDel.
+     * @return tsrDel
+     */
     @Column(name = "tsrDel", nullable = false)
     public short getTsrDel() {
         return this.tsrDel;
     }
 
+    /**
+     * Set tsrDel.
+     * @param tsrDel tsrDel
+     */
     public void setTsrDel(short tsrDel) {
         this.tsrDel = tsrDel;
     }
 
+    /**
+     * Get tsrInsDt.
+     * @return tsrInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "tsrInsDt", insertable = false, updatable = false, nullable = false, length = 19)
     public Date getTsrInsDt() {
         return this.tsrInsDt;
     }
 
+    /**
+     * Set tsrInsDt.
+     * @param tsrInsDt tsrInsDt
+     */
     public void setTsrInsDt(Date tsrInsDt) {
         this.tsrInsDt = tsrInsDt;
     }
 
+    /**
+     * Get tsrUpDt.
+     * @return tsrUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "tsrUpDt", insertable = false, updatable = false, nullable = false, length = 19)
     public Date getTsrUpDt() {
         return this.tsrUpDt;
     }
 
+    /**
+     * Set tsrUpDt.
+     * @param tsrUpDt tsrUpDt
+     */
     public void setTsrUpDt(Date tsrUpDt) {
         this.tsrUpDt = tsrUpDt;
     }
 
     /* =============================================== */
 
+    /**
+     * Get editable.
+     * @return editable
+     */
     @Transient
     public boolean getEditable() {
         return editable;
     }
 
+    /**
+     * Set editable.
+     * @param editable editable
+     */
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
 
+    /**
+     * Get total.
+     * @return total.
+     */
     @Transient
     public BigDecimal getTotal() {
         this.total = new BigDecimal(0);
@@ -343,6 +540,10 @@ public class Tsrow implements java.io.Serializable {
         return total;
     }
 
+    /**
+     * Set total.
+     * @param total total
+     */
     public void setTotal(BigDecimal total) {
         this.total = total;
     }

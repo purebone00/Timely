@@ -21,39 +21,66 @@ public class TimesheetId implements java.io.Serializable {
      */
     private String tsWkEnd;
 
+    /**
+     * Default ctor.
+     */
     public TimesheetId() {
     }
 
+    /**
+     * Create a timesheet id.
+     * @param tsEmpId employee id
+     * @param tsWkEnd week end string
+     */
     public TimesheetId(int tsEmpId, String tsWkEnd) {
         this.tsEmpId = tsEmpId;
         this.tsWkEnd = tsWkEnd;
     }
 
+    /**
+     * Get tsEmpId.
+     * @return tsEmpId
+     */
     @Column(name = "tsEmpID", nullable = false)
     public int getTsEmpId() {
         return this.tsEmpId;
     }
 
+    /**
+     * Set tsEmpId.
+     * @param tsEmpId tsEmpId
+     */
     public void setTsEmpId(int tsEmpId) {
         this.tsEmpId = tsEmpId;
     }
 
+    /**
+     * Get tsWkEnd.
+     * @return tsWkEnd
+     */
     @Column(name = "tsWkEnd", nullable = false, length = 8)
     public String getTsWkEnd() {
         return this.tsWkEnd;
     }
 
+    /**
+     * Set tsWkEnd.
+     * @param tsWkEnd tsWkEnd
+     */
     public void setTsWkEnd(String tsWkEnd) {
         this.tsWkEnd = tsWkEnd;
     }
 
     public boolean equals(Object other) {
-        if ((this == other))
+        if ((this == other)) {            
             return true;
-        if ((other == null))
+        }
+        if ((other == null)) {            
             return false;
-        if (!(other instanceof TimesheetId))
+        }
+        if (!(other instanceof TimesheetId)) {            
             return false;
+        }
         TimesheetId castOther = (TimesheetId) other;
 
         return (this.getTsEmpId() == castOther.getTsEmpId())

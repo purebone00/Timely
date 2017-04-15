@@ -21,39 +21,69 @@ public class EmptitleId implements java.io.Serializable {
      */
     private short etTitId;
 
+    /**
+     * Default ctor.
+     */
     public EmptitleId() {
     }
 
+    /**
+     * Create an EmptitleId.
+     * @param etEmpId EmpId.
+     * @param etTitId TitleId.
+     */
     public EmptitleId(int etEmpId, short etTitId) {
         this.etEmpId = etEmpId;
         this.etTitId = etTitId;
     }
 
+    /**
+     * Get etEmpId.
+     * @return etEmpId
+     */
     @Column(name = "etEmpID", nullable = false)
     public int getEtEmpId() {
         return this.etEmpId;
     }
 
+    /**
+     * Set etEmpId.
+     * @param etEmpId etEmpId
+     */
     public void setEtEmpId(int etEmpId) {
         this.etEmpId = etEmpId;
     }
 
+    /**
+     * Get etTitId. 
+     * @return etTitId
+     */
     @Column(name = "etTitID", nullable = false)
     public short getEtTitId() {
         return this.etTitId;
     }
 
+    /**
+     * Set etTitId.
+     * @param etTitId etTitId
+     */
     public void setEtTitId(short etTitId) {
         this.etTitId = etTitId;
     }
 
+    /**
+     * Equals method.
+     */
     public boolean equals(Object other) {
-        if ((this == other))
+        if ((this == other)) {            
             return true;
-        if ((other == null))
+        }
+        if ((other == null)) {            
             return false;
-        if (!(other instanceof EmptitleId))
+        }
+        if (!(other instanceof EmptitleId)) {            
             return false;
+        }
         EmptitleId castOther = (EmptitleId) other;
 
         return (this.getEtEmpId() == castOther.getEtEmpId()) && (this.getEtTitId() == castOther.getEtTitId());

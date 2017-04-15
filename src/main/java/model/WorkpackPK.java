@@ -23,17 +23,40 @@ public class WorkpackPK implements Serializable {
 	 */
 	private String wpNo;
 
+	/**
+	 * Default ctor. 
+	 */
 	public WorkpackPK() {
 	}
+	
+	/**
+	 * Get wpProjNo.
+	 * @return wpProjNo
+	 */
 	public int getWpProjNo() {
 		return this.wpProjNo;
 	}
+	
+	/**
+	 * Set wpProjNo.
+	 * @param wpProjNo wpProjNo
+	 */
 	public void setWpProjNo(int wpProjNo) {
 		this.wpProjNo = wpProjNo;
 	}
+	
+	/**
+	 * Get wpNo.
+	 * @return wpNo
+	 */
 	public String getWpNo() {
 		return this.wpNo;
 	}
+	
+	/**
+	 * Set wpNo.
+	 * @param wpNo wpNo
+	 */
 	public void setWpNo(String wpNo) {
 		this.wpNo = wpNo;
 	}
@@ -45,7 +68,7 @@ public class WorkpackPK implements Serializable {
 		if (!(other instanceof WorkpackPK)) {
 			return false;
 		}
-		WorkpackPK castOther = (WorkpackPK)other;
+		WorkpackPK castOther = (WorkpackPK) other;
 		return 
 			(this.wpProjNo == castOther.wpProjNo)
 			&& this.wpNo.equals(castOther.wpNo);

@@ -30,29 +30,56 @@ public class EmpwpPK implements Serializable {
     @Column(insertable = false, updatable = false)
     private String ewWpNo;
 
+    /**
+     * Default ctor.
+     */
     public EmpwpPK() {
     }
 
+    /**
+     * Get ewEmpID.
+     * @return ewEmpID
+     */
     public int getEwEmpID() {
         return this.ewEmpID;
     }
 
+    /**
+     * Set ewEmpID.
+     * @param ewEmpID ewEmpID
+     */
     public void setEwEmpID(int ewEmpID) {
         this.ewEmpID = ewEmpID;
     }
 
+    /**
+     * Get ewProjNo.
+     * @return ewProjNo
+     */
     public int getEwProjNo() {
         return this.ewProjNo;
     }
 
+    /**
+     * Set ewProjNo.
+     * @param ewProjNo ewProjNo
+     */
     public void setEwProjNo(int ewProjNo) {
         this.ewProjNo = ewProjNo;
     }
 
+    /**
+     * Get ewWpNo.
+     * @return ewWpNo
+     */
     public String getEwWpNo() {
         return this.ewWpNo;
     }
 
+    /**
+     * Set ewWpNo.
+     * @param ewWpNo ewWpNo
+     */
     public void setEwWpNo(String ewWpNo) {
         this.ewWpNo = ewWpNo;
     }

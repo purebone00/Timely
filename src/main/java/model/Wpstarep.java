@@ -80,9 +80,20 @@ public class Wpstarep implements java.io.Serializable {
      */
     private Date wsrUpDt;
 
+    /**
+     * Default ctor.
+     */
     public Wpstarep() {
     }
 
+    /**
+     * Create a wp status report.
+     * @param id WpstarepId.
+     * @param wsrSubmit submit flag
+     * @param wsrDel delete flag
+     * @param wsrInsDt insert date
+     * @param wsrUpDt update date
+     */
     public Wpstarep(WpstarepId id, short wsrSubmit, short wsrDel, Date wsrInsDt, Date wsrUpDt) {
         this.id = id;
         this.wsrSubmit = wsrSubmit;
@@ -91,6 +102,21 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrUpDt = wsrUpDt;
     }
 
+    /**
+     * Create a wp status report.
+     * @param id WpstarepId.
+     * @param wsrWriter report writer
+     * @param wsrProgLw unused
+     * @param wsrProbLw problems last week
+     * @param wsrProgNw unused
+     * @param wsrProbNw anticipated problems
+     * @param wsrEstWrh estimated hours
+     * @param wsrEstDes labourgrade:hours
+     * @param wsrSubmit submit flag
+     * @param wsrDel delete flag
+     * @param wsrInsDt insert date
+     * @param wsrUpDt update date
+     */
     public Wpstarep(WpstarepId id, Integer wsrWriter, BigDecimal wsrProgLw, String wsrProbLw,
             BigDecimal wsrProgNw, String wsrProbNw, BigDecimal wsrEstWrh, String wsrEstDes, short wsrSubmit,
             short wsrDel, Date wsrInsDt, Date wsrUpDt) {
@@ -108,6 +134,10 @@ public class Wpstarep implements java.io.Serializable {
         this.wsrUpDt = wsrUpDt;
     }
 
+    /**
+     * Get id.
+     * @return id
+     */
     @EmbeddedId
 
     @AttributeOverrides({
@@ -118,107 +148,199 @@ public class Wpstarep implements java.io.Serializable {
         return this.id;
     }
 
+    /**
+     * Set id.
+     * @param id id
+     */
     public void setId(WpstarepId id) {
         this.id = id;
     }
 
+    /**
+     * Get wsrWriter.
+     * @return wsrWriter
+     */
     @Column(name = "wsrWriter")
     public Integer getWsrWriter() {
         return this.wsrWriter;
     }
 
+    /**
+     * Set wsrWriter.
+     * @param wsrWriter wsrWriter
+     */
     public void setWsrWriter(Integer wsrWriter) {
         this.wsrWriter = wsrWriter;
     }
 
+    /**
+     * Get wsrProgLw.
+     * @return wsrProgLw
+     */
     @Column(name = "wsrProgLW", precision = 5)
     public BigDecimal getWsrProgLw() {
         return this.wsrProgLw;
     }
 
+    /**
+     * Set wsrProgLw.
+     * @param wsrProgLw wsrProgLw
+     */
     public void setWsrProgLw(BigDecimal wsrProgLw) {
         this.wsrProgLw = wsrProgLw;
     }
 
+    /**
+     * Get wsrProbLw.
+     * @return wsrProbLw
+     */
     @Column(name = "wsrProbLW")
     public String getWsrProbLw() {
         return this.wsrProbLw;
     }
 
+    /**
+     * Set wsrProbLw.
+     * @param wsrProbLw wsrProbLw
+     */
     public void setWsrProbLw(String wsrProbLw) {
         this.wsrProbLw = wsrProbLw;
     }
 
+    /**
+     * Get wsrProgNw.
+     * @return wsrProgNw
+     */
     @Column(name = "wsrProgNW", precision = 5)
     public BigDecimal getWsrProgNw() {
         return this.wsrProgNw;
     }
 
+    /**
+     * Set wsrProgNw.
+     * @param wsrProgNw wsrProgNw
+     */
     public void setWsrProgNw(BigDecimal wsrProgNw) {
         this.wsrProgNw = wsrProgNw;
     }
 
+    /**
+     * Get wsrProbNw.
+     * @return wsrProbNw
+     */
     @Column(name = "wsrProbNW")
     public String getWsrProbNw() {
         return this.wsrProbNw;
     }
 
+    /**
+     * Set wsrProbNw.
+     * @param wsrProbNw wsrProbNw
+     */
     public void setWsrProbNw(String wsrProbNw) {
         this.wsrProbNw = wsrProbNw;
     }
 
+    /**
+     * Get wsrEstWrh.
+     * @return wsrEstWrh
+     */
     @Column(name = "wsrEstWRH", precision = 5)
     public BigDecimal getWsrEstWrh() {
         return this.wsrEstWrh;
     }
 
+    /**
+     * Set wsrEstWrh.
+     * @param wsrEstWrh wsrEstWrh
+     */
     public void setWsrEstWrh(BigDecimal wsrEstWrh) {
         this.wsrEstWrh = wsrEstWrh;
     }
     
+    /**
+     * Get getWsrEstDes.
+     * @return getWsrEstDes
+     */
     @Column(name = "wsrEstDes")
     public String getWsrEstDes() {
     	return this.wsrEstDes;
     }
     
+    /**
+     * Set getWsrEstDes.
+     * @param wsrEstDes getWsrEstDes
+     */
     public void setWsrEstDes(String wsrEstDes) {
     	this.wsrEstDes = wsrEstDes;
     }
 
+    /**
+     * Get wsrSubmit.
+     * @return wsrSubmit
+     */
     @Column(name = "wsrSubmit", nullable = false)
     public short getWsrSubmit() {
         return this.wsrSubmit;
     }
 
+    /**
+     * Set wsrSubmit.
+     * @param wsrSubmit wsrSubmit
+     */
     public void setWsrSubmit(short wsrSubmit) {
         this.wsrSubmit = wsrSubmit;
     }
 
+    /**
+     * Get wsrDel.
+     * @return wsrDel
+     */
     @Column(name = "wsrDel", nullable = false)
     public short getWsrDel() {
         return this.wsrDel;
     }
 
+    /**
+     * Set wsrDel.
+     * @param wsrDel wsrDel
+     */
     public void setWsrDel(short wsrDel) {
         this.wsrDel = wsrDel;
     }
 
+    /**
+     * Get wsrInsDt.
+     * @return wsrInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "wsrInsDt", insertable=false, nullable = false, length = 19)
     public Date getWsrInsDt() {
         return this.wsrInsDt;
     }
 
+    /**
+     * Set wsrInsDt.
+     * @param wsrInsDt wsrInsDt
+     */
     public void setWsrInsDt(Date wsrInsDt) {
         this.wsrInsDt = wsrInsDt;
     }
 
+    /**
+     * Get wsrUpDt.
+     * @return wsrUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "wsrUpDt", insertable=false, nullable = false, length = 19)
     public Date getWsrUpDt() {
         return this.wsrUpDt;
     }
 
+    /**
+     * Set wsrUpDt.
+     * @param wsrUpDt wsrUpDt
+     */
     public void setWsrUpDt(Date wsrUpDt) {
         this.wsrUpDt = wsrUpDt;
     }

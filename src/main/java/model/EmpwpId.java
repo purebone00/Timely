@@ -26,49 +26,85 @@ public class EmpwpId implements java.io.Serializable {
      */
     private String ewWpNo;
 
+    /**
+     * Default ctor.
+     */
     public EmpwpId() {
     }
 
+    /**
+     * Create a Empwp.
+     * @param ewEmpId empid
+     * @param ewProjNo proj number
+     * @param ewWpNo wp number
+     */
     public EmpwpId(int ewEmpId, int ewProjNo, String ewWpNo) {
         this.ewEmpId = ewEmpId;
         this.ewProjNo = ewProjNo;
         this.ewWpNo = ewWpNo;
     }
 
+    /**
+     * Get ewEmpId.
+     * @return ewEmpId
+     */
     @Column(name = "ewEmpID", nullable = false)
     public int getEwEmpId() {
         return this.ewEmpId;
     }
 
+    /**
+     * Set ewEmpId.
+     * @param ewEmpId ewEmpId
+     */
     public void setEwEmpId(int ewEmpId) {
         this.ewEmpId = ewEmpId;
     }
 
+    /**
+     * Get ewProjNo.
+     * @return ewProjNo
+     */
     @Column(name = "ewProjNo", nullable = false)
     public int getEwProjNo() {
         return this.ewProjNo;
     }
 
+    /**
+     * Set ewProjNo. 
+     * @param ewProjNo ewProjNo
+     */
     public void setEwProjNo(int ewProjNo) {
         this.ewProjNo = ewProjNo;
     }
 
+    /**
+     * Get ewWpNo.
+     * @return ewWpNo
+     */
     @Column(name = "ewWpNo", nullable = false, length = 8)
     public String getEwWpNo() {
         return this.ewWpNo;
     }
 
+    /**
+     * Set ewWpNo.
+     * @param ewWpNo ewWpNo
+     */
     public void setEwWpNo(String ewWpNo) {
         this.ewWpNo = ewWpNo;
     }
 
     public boolean equals(Object other) {
-        if ((this == other))
+        if ((this == other)) {            
             return true;
-        if ((other == null))
+        }
+        if ((other == null)) {            
             return false;
-        if (!(other instanceof EmpwpId))
+        }
+        if (!(other instanceof EmpwpId)) {            
             return false;
+        }
         EmpwpId castOther = (EmpwpId) other;
 
         return (this.getEwEmpId() == castOther.getEwEmpId()) && (this.getEwProjNo() == castOther.getEwProjNo())

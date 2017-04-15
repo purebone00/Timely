@@ -21,39 +21,66 @@ public class WorkpackId implements java.io.Serializable {
      */
     private String wpNo;
 
+    /**
+     * Default ctor.
+     */
     public WorkpackId() {
     }
 
+    /**
+     * Create a workpack id.
+     * @param wpProjNo project number
+     * @param wpNo wp number.
+     */
     public WorkpackId(int wpProjNo, String wpNo) {
         this.wpProjNo = wpProjNo;
         this.wpNo = wpNo;
     }
 
+    /**
+     * Get wpProjNo.
+     * @return
+     */
     @Column(name = "wpProjNo", nullable = false)
     public int getWpProjNo() {
         return this.wpProjNo;
     }
 
+    /**
+     * Set wpProjNo.
+     * @param wpProjNo wpProjNo
+     */
     public void setWpProjNo(int wpProjNo) {
         this.wpProjNo = wpProjNo;
     }
 
+    /**
+     * Get wpNo.
+     * @return wpNo
+     */
     @Column(name = "wpNo", nullable = false, length = 8)
     public String getWpNo() {
         return this.wpNo;
     }
 
+    /**
+     * Set wpNo.
+     * @param wpNo wpNo
+     */
     public void setWpNo(String wpNo) {
         this.wpNo = wpNo;
     }
 
     public boolean equals(Object other) {
-        if ((this == other))
+        if ((this == other)) {            
             return true;
-        if ((other == null))
+        }
+        if ((other == null)) {            
             return false;
-        if (!(other instanceof WorkpackId))
+        }
+        if (!(other instanceof WorkpackId)) {            
             return false;
+        }
         WorkpackId castOther = (WorkpackId) other;
 
         return (this.getWpProjNo() == castOther.getWpProjNo())

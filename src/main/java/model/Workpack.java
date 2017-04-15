@@ -117,9 +117,25 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
      */
     private Set<Employee> employees;
 
+    /**
+     * Wplabs.
+     */
+    private Set<Wplab> wplabs;
+
+    /**
+     * Default ctor.
+     */
     public Workpack() {
     }
 
+    /**
+     * Create a workpack
+     * @param id workpackid
+     * @param wpNm name
+     * @param wpDel delete flag
+     * @param wpInsDt insert date
+     * @param wpUpDt update date
+     */
     public Workpack(WorkpackId id, String wpNm, short wpDel, Date wpInsDt, Date wpUpDt) {
         this.id = id;
         this.wpNm = wpNm;
@@ -128,6 +144,19 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
         this.wpUpDt = wpUpDt;
     }
 
+    /**
+     * Create a workpack
+     * @param id workpackid
+     * @param wpNm name
+     * @param wpDesc description
+     * @param wpResEng responsible engineer
+     * @param wpStatus status flag
+     * @param wpStaDt start date
+     * @param wpEndDt end date
+     * @param wpDel delete flag
+     * @param wpInsDt insert date
+     * @param wpUpDt update date
+     */
     public Workpack(WorkpackId id, String wpNm, String wpDesc, Integer wpResEng,
             Short wpStatus, Date wpStaDt, Date wpEndDt, 
             short wpDel, Date wpInsDt, Date wpUpDt) {
@@ -143,8 +172,10 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
         this.wpUpDt = wpUpDt;
     }
     
-    private Set<Wplab> wplabs;
-    
+    /**
+     * Get wplabs.
+     * @return wplabs
+     */
     @OneToMany(fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
     @JoinColumns({@JoinColumn(name = "wlProjNo", referencedColumnName = "wpProjNo"),
     	@JoinColumn(name = "wlWpNo", referencedColumnName = "wpNo")})
@@ -153,10 +184,18 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
     	return wplabs;
     }
     
+    /**
+     * Set wplabs.
+     * @param wplabs wplabs
+     */
     public void setWplabs(Set<Wplab> wplabs) {
     	this.wplabs = wplabs;
     }
 
+    /**
+     * Get id.
+     * @return id
+     */
     @EmbeddedId
 
     @AttributeOverrides({ @AttributeOverride(name = "wpProjNo", column = @Column(name = "wpProjNo", nullable = false)),
@@ -165,100 +204,184 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
         return this.id;
     }
 
+    /**
+     * Set id.
+     * @param id id
+     */
     public void setId(WorkpackId id) {
         this.id = id;
     }
 
+    /**
+     * Get wpNm.
+     * @return wpNm
+     */
     @Column(name = "wpNm", nullable = false, length = 64)
     public String getWpNm() {
         return this.wpNm;
     }
 
+    /**
+     * Set wpNm.
+     * @param wpNm wpNm
+     */
     public void setWpNm(String wpNm) {
         this.wpNm = wpNm;
     }
 
+    /**
+     * Get wpDesc.
+     * @return wpDesc
+     */
     @Column(name = "wpDesc")
     public String getWpDesc() {
         return this.wpDesc;
     }
 
+    /**
+     * Set wpDesc.
+     * @param wpDesc wpDesc
+     */
     public void setWpDesc(String wpDesc) {
         this.wpDesc = wpDesc;
     }
 
+    /**
+     * Get wpResEng.
+     * @return wpResEng
+     */
     @Column(name = "wpResEng", nullable = true)
     public Integer getWpResEng() {
         return this.wpResEng;
     }
 
+    /**
+     * Set wpResEng.
+     * @param wpResEng wpResEng
+     */
     public void setWpResEng(Integer wpResEng) {
         this.wpResEng = wpResEng;
     }
 
+    /**
+     * Get wpStatus.
+     * @return wpStatus
+     */
     @Column(name = "wpStatus")
     public Short getWpStatus() {
         return this.wpStatus;
     }
 
+    /**
+     * Set wpStatus.
+     * @param wpStatus wpStatus
+     */
     public void setWpStatus(Short wpStatus) {
         this.wpStatus = wpStatus;
     }
 
+    /**
+     * Get wpStaDt. 
+     * @return wpStaDt
+     */
     @Temporal(TemporalType.DATE)
     @Column(name = "wpStaDt", length = 10)
     public Date getWpStaDt() {
         return this.wpStaDt;
     }
 
+    /**
+     * Set wpStaDt.
+     * @param wpStaDt wpStaDt
+     */
     public void setWpStaDt(Date wpStaDt) {
         this.wpStaDt = wpStaDt;
     }
 
+    /**
+     * Get wpEndDt.
+     * @return wpEndDt
+     */
     @Temporal(TemporalType.DATE)
     @Column(name = "wpEndDt", length = 10)
     public Date getWpEndDt() {
         return this.wpEndDt;
     }
 
+    /**
+     * Set wpEndDt.
+     * @param wpEndDt wpEndDt
+     */
     public void setWpEndDt(Date wpEndDt) {
         this.wpEndDt = wpEndDt;
     }
 
+    /**
+     * Get wpDel.
+     * @return wpDel
+     */
     @Column(name = "wpDel", nullable = false)
     public short getWpDel() {
         return this.wpDel;
     }
 
+    /**
+     * Set wpDel.
+     * @param wpDel wpDel
+     */
     public void setWpDel(short wpDel) {
         this.wpDel = wpDel;
     }
 
+    /**
+     * Get wpInsDt.
+     * @return wpInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "wpInsDt", insertable = false, nullable = false, length = 19)
     public Date getWpInsDt() {
         return this.wpInsDt;
     }
 
+    /**
+     * Set wpInsDt.
+     * @param wpInsDt wpInsDt
+     */
     public void setWpInsDt(Date wpInsDt) {
         this.wpInsDt = wpInsDt;
     }
 
+    /**
+     * Get wpUpDt.
+     * @return wpUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "wpUpDt", insertable = false, nullable = false, length = 19)
     public Date getWpUpDt() {
         return this.wpUpDt;
     }
 
+    /**
+     * Set wpUpDt.
+     * @param wpUpDt wpUpDt
+     */
     public void setWpUpDt(Date wpUpDt) {
         this.wpUpDt = wpUpDt;
     }
     
+    /**
+     * Get employees.
+     * @return employees
+     */
     @ManyToMany(mappedBy="workpackages", fetch=FetchType.EAGER)
     public Set<Employee> getEmployees() {
         return this.employees;
     }
     
+    /**
+     * Set employees.
+     * @param employees employees
+     */
     public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
     }
@@ -278,12 +401,15 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
     
     @Override
     public boolean equals(Object other) {
-    	if ((this == other))
-            return true;
-        if ((other == null))
+    	if ((this == other)) {    	    
+    	    return true;
+    	}
+        if ((other == null)) {            
             return false;
-        if (!(other instanceof Workpack))
+        }
+        if (!(other instanceof Workpack)) {            
             return false;
+        }
         Workpack castOther = (Workpack) other;
 
         return (this.getId().equals(castOther.getId()));
@@ -291,69 +417,129 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	
 	/* =============================================== */
 	
+    /**
+     * Get removeWplabs.
+     * @return removeWplabs
+     */
 	@Transient
     public boolean getRemoveWplabs() {
         return removeWplabs;
     }
 	
+	/**
+	 * Set removeWplabs.
+	 * @param removeWplabs removeWplabs
+	 */
 	public void setRemoveWplabs(boolean removeWplabs) {
 		this.removeWplabs = removeWplabs;
 	}
 	
+	/**
+	 * Get totalCost.
+	 * @return totalCost
+	 */
 	@Transient
 	public BigDecimal getTotalCost() {
 		return this.totalCost;
 	}
 	
+	/**
+	 * Set totalCost.
+	 * @param totalCost totalCost
+	 */
 	public void setTotalCost(BigDecimal totalCost) {
 		this.totalCost = totalCost;
 	}
 	
+	/**
+	 * Get totalDays.
+	 * @return totalDays
+	 */
 	@Transient
 	public BigDecimal getTotalDays() {
 		return this.totalDays;
 	}
 	
+	/**
+	 * Set totalDays.
+	 * @param totalDays totalDays
+	 */
 	public void setTotalDays(BigDecimal totalDays) {
 		this.totalDays = totalDays;
 	}
 	
+	/**
+	 * Get childName.
+	 * @return childName
+	 */
 	@Transient
 	public String getChildName() {
 	    return this.childName;
 	}
 	
+	/**
+	 * Set childName.
+	 * @param childName childName
+	 */
 	public void setChildName(String childName) {
 	    this.childName = childName;
 	}
 	
+	/**
+	 * Get the name prefix of the work package.
+	 * @return the name prefix
+	 */
 	@Transient
 	public String getNamePrefix() {
 	    return this.getId().getWpNo().replaceAll("0", "");
 	}
 	
+	/**
+	 * Set the name prefix.
+	 * @param namePrefix
+	 */
 	public void setNamePrefix(String namePrefix) {
 	}
 	
+	/**
+	 * Get initialEst.
+	 * @return initialEst
+	 */
 	@Transient
 	public HashMap<String, BigDecimal> getInitialEst() {
 	    return this.initialEst;
 	}
 	
+	/**
+	 * Set initialEst.
+	 * @param initialEst initialEst
+	 */
 	public void setInitialEst(HashMap<String, BigDecimal> initialEst) {
 	    this.initialEst = initialEst;
 	}
 	
+	/**
+	 * Get charged.
+	 * @return charged
+	 */
 	@Transient
 	public boolean getCharged() {
 	    return this.charged;
 	}
 	
+	/**
+	 * Get whether this is the lowest level wp.
+	 * @return true if it is, else false
+	 */
 	@Transient
 	public boolean getNotLowestLevel() {
 	    return this.getId().getWpNo().replaceAll("0", "").length() != 6;
 	}
 	
+	/**
+	 * Set charged.
+	 * @param charged charged
+	 */
 	public void setCharged(boolean charged) {
 	    this.charged = charged;
 	}

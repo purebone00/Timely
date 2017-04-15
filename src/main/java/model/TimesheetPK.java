@@ -21,15 +21,34 @@ public class TimesheetPK implements Serializable {
 	 */
 	private String tsWkEnd;
 
+	/**
+	 * Get tsEmpID.
+	 * @return tsEmpID
+	 */
 	public int getTsEmpID() {
 		return this.tsEmpID;
 	}
+	
+	/**
+	 * Set tsEmpID.
+	 * @param tsEmpID tsEmpID
+	 */
 	public void setTsEmpID(int tsEmpID) {
 		this.tsEmpID = tsEmpID;
 	}
+	
+	/**
+	 * Get tsWkEnd.
+	 * @return tsWkEnd
+	 */
 	public String getTsWkEnd() {
 		return this.tsWkEnd;
 	}
+	
+	/**
+	 * Set tsWkEnd.
+	 * @param tsWkEnd tsWkEnd
+	 */
 	public void setTsWkEnd(String tsWkEnd) {
 		this.tsWkEnd = tsWkEnd;
 	}
@@ -41,7 +60,7 @@ public class TimesheetPK implements Serializable {
 		if (!(other instanceof TimesheetPK)) {
 			return false;
 		}
-		TimesheetPK castOther = (TimesheetPK)other;
+		TimesheetPK castOther = (TimesheetPK) other;
 		return 
 			(this.tsEmpID == castOther.tsEmpID)
 			&& this.tsWkEnd.equals(castOther.tsWkEnd);
