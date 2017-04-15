@@ -1,109 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  version="3.0"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-  <display-name>Timely</display-name>
+	version="3.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>Timely</display-name>
 
+	<listener>
+		<listener-class>utility.SessionListener</listener-class>
+	</listener>
 
-  <filter>
-    <filter-name>NoCacheFilter</filter-name>
-    <filter-class>utility.filters.NoCacheFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>NoCacheFilter</filter-name>
-    <url-pattern>/faces/*</url-pattern>
-  </filter-mapping>
+	<filter>
+		<filter-name>NoCacheFilter</filter-name>
+		<filter-class>utility.filters.NoCacheFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>/faces/*</url-pattern>
+	</filter-mapping>
 
-  <filter>
-    <filter-name>AdminFilter</filter-name>
-    <filter-class>utility.filters.AdminFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>AdminFilter</filter-name>
-    <url-pattern>/faces/admin/*</url-pattern>
-  </filter-mapping>
+	<filter>
+		<filter-name>AdminFilter</filter-name>
+		<filter-class>utility.filters.AdminFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AdminFilter</filter-name>
+		<url-pattern>/faces/admin/*</url-pattern>
+	</filter-mapping>
 
-  <filter>
-    <filter-name>ApproverFilter</filter-name>
-    <filter-class>utility.filters.ApproverFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ApproverFilter</filter-name>
-    <url-pattern>/faces/approver/*</url-pattern>
-  </filter-mapping>
-    
-  <filter>
-    <filter-name>EngineerFilter</filter-name>
-    <filter-class>utility.filters.EngineerFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>EngineerFilter</filter-name>
-    <url-pattern>/faces/engineer/*</url-pattern>
-  </filter-mapping>
-  
-   <filter>
-    <filter-name>ManagerFilter</filter-name>
-    <filter-class>utility.filters.ManagerFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ManagerFilter</filter-name>
-    <url-pattern>/faces/manager/*</url-pattern>
-  </filter-mapping>
-  
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.jsf</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.faces</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>/faces/*</url-pattern>
-  </servlet-mapping>
+	<filter>
+		<filter-name>ApproverFilter</filter-name>
+		<filter-class>utility.filters.ApproverFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ApproverFilter</filter-name>
+		<url-pattern>/faces/approver/*</url-pattern>
+	</filter-mapping>
 
-  <welcome-file-list>
-    <welcome-file>/faces/login.xhtml</welcome-file>
-  </welcome-file-list>
+	<filter>
+		<filter-name>EngineerFilter</filter-name>
+		<filter-class>utility.filters.EngineerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EngineerFilter</filter-name>
+		<url-pattern>/faces/engineer/*</url-pattern>
+	</filter-mapping>
 
-  <error-page>
-    <exception-type>java.lang.NullPointerException</exception-type>
-    <location>/error.xhtml</location>
-  </error-page>
+	<filter>
+		<filter-name>ManagerFilter</filter-name>
+		<filter-class>utility.filters.ManagerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ManagerFilter</filter-name>
+		<url-pattern>/faces/manager/*</url-pattern>
+	</filter-mapping>
 
-  <context-param>
-    <param-name>javax.faces.PROJECT_STAGE</param-name>
-    <param-value>Development</param-value>
-  </context-param>
-  <context-param>
-    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-    <param-value>server</param-value>
-  </context-param>
-  <context-param>
-    <param-name>facelets.SKIP_COMMENTS</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  <context-param>
-    <param-name>BootsFaces_THEME</param-name>
-    <param-value>cerulean</param-value>
-  </context-param>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.faces</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
 
-  <session-config>
-    <session-timeout>30</session-timeout>
-  </session-config>
-  <mime-mapping>
-    <extension>ico</extension>
-    <mime-type>image/x-icon</mime-type>
-  </mime-mapping>
+	<welcome-file-list>
+		<welcome-file>/faces/login.xhtml</welcome-file>
+	</welcome-file-list>
 
-  <context-param>
-    <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
-    <param-value>true</param-value>
-  </context-param>
+	<error-page>
+		<exception-type>java.lang.NullPointerException</exception-type>
+		<location>/error.xhtml</location>
+	</error-page>
+	
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/login.xhtml</location>
+	</error-page>
+
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+	<context-param>
+		<param-name>facelets.SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>BootsFaces_THEME</param-name>
+		<param-value>cerulean</param-value>
+	</context-param>
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	<mime-mapping>
+		<extension>ico</extension>
+		<mime-type>image/x-icon</mime-type>
+	</mime-mapping>
+
+	<context-param>
+		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+		<param-value>true</param-value>
+	</context-param>
 </web-app>

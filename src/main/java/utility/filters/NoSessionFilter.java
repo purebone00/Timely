@@ -19,18 +19,15 @@ public class NoSessionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        System.out.println("Dod dododododododododododododododod");
+        
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         
         try {
             HttpSession ses = req.getSession(false);
-            System.out.println("Bruh bruh bruh bruh bruh");
             if (ses != null) {
-                System.out.println("umnnnnn");
                 chain.doFilter(req, res);
             } else {
-                System.out.println("what");
                 res.sendRedirect(req.getContextPath() + "/faces/error.xhtml");
             }
         } catch (NullPointerException e) {

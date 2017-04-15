@@ -78,12 +78,8 @@ public class LoginController implements Serializable {
             if (currentEmployee.getCurrentEmployee() != null)
                 authenticated = true;
         }
-               
-        
         return (authenticated) ? currentEmployee.getCurrentEmployee() : null;
     }
-    
-    
 
     public Integer getUserName() {
         return userName;

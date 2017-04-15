@@ -15,6 +15,10 @@
     <h:outputStylesheet library="css" name="site.css" />
 	<h:outputStylesheet library="css" name="animate.css" />
     <title><ui:insert name="title" /></title>
+    
+    <meta http-equiv="refresh" content="${pageContext.session.maxInactiveInterval};url=login.xhtml"></meta>
+    
+    
 </h:head>
 
 <h:body style="padding-top: 60px">

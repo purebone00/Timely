@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -20,9 +21,11 @@ import java.util.Set;
 
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 import manager.EmployeeManager;
 import manager.ProjectManager;
@@ -474,12 +477,16 @@ public class EmployeeController implements Serializable {
         return null;
     }
     public boolean isSubmitted() {
-        return curTimesheet.getTsSubmit() == 2;
+        return curTimesheet.getTsSubmit() == 2 || curTimesheet.getTsSubmit() == 1;
     }
     
     public int getApprovedTs() {
         
         int count = 0;
+                
+        if(tsList == null)
+            return count;
+        
         for(Timesheet t : tsList) {
             if(t.getTsSubmit() == 2)
                 count++;
@@ -490,6 +497,10 @@ public class EmployeeController implements Serializable {
     public int getRejectedTs() {
         
         int count = 0;
+                
+        if(tsList == null)
+            return count;
+        
         for(Timesheet t : tsList) {
             if(t.getTsSubmit() == 3)
                 count++;
@@ -500,6 +511,10 @@ public class EmployeeController implements Serializable {
     public int getPendingTs() {
 
         int count = 0;
+        
+        if(tsList == null)
+            return count;
+        
         for(Timesheet t : tsList) {
             if(t.getTsSubmit() == 1)
                 count++;
@@ -509,11 +524,16 @@ public class EmployeeController implements Serializable {
     
     public int getTsSize() {
         getTsList();
-        return tsList.size();
+        return (tsList!=null)?tsList.size() : 0;
     }
     
     public List<Timesheet> approvedTsList() {
         List<Timesheet> approvedList = new ArrayList<>();
+        
+        if(tsList == null) 
+            return approvedList;
+        
+        
         for(Timesheet t : tsList) {
             if(t.getTsSubmit() == 2)
                 approvedList.add(t);
@@ -523,6 +543,10 @@ public class EmployeeController implements Serializable {
     
     public List<Timesheet> rejectedTsList() {
         List<Timesheet> rejectedList = new ArrayList<>();
+        
+        if(tsList == null)
+            return rejectedList;
+        
         for(Timesheet t : tsList) {
             if(t.getTsSubmit() == 3)
                 rejectedList.add(t);
@@ -532,6 +556,10 @@ public class EmployeeController implements Serializable {
     
     public List<Timesheet> pendingTsList() {
         List<Timesheet> pendingList = new ArrayList<>();
+        
+        if(tsList == null)
+            return pendingList;
+        
         for(Timesheet t : tsList) {
             if(t.getTsSubmit() == 1)
                 pendingList.add(t);
@@ -551,8 +579,7 @@ public class EmployeeController implements Serializable {
         
         approver = employeeManager.find(getTaApprover());
         curTimesheet.setTsApprover(approver);
-        //tManager.updateTsApproverId(emp.getEmpId(), getTaApprover().intValue(), curTimesheet.getId().getTsWkEnd());
-        //curTimesheet.setTsApprId(Integer.parseInt(getTaApprover()));
+        
         tManager.merge(curTimesheet);
         tManager.flush();
     

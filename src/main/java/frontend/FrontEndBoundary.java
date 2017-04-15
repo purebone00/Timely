@@ -13,6 +13,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
+
 import controller.AdminController;
 import controller.EmployeeController;
 import controller.LoginController;
@@ -53,8 +55,8 @@ public class FrontEndBoundary implements Serializable {
         employee.setEmp(null);
 
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+       
         ec.invalidateSession();
-
         return "/login.xhtml?faces-redirect=true&expired=true";
     }
 
@@ -99,9 +101,6 @@ public class FrontEndBoundary implements Serializable {
 
     public String goToChangePassword() {
         return "changepassword";
-    }
-
-    public void generateAllFeatures() {
     }
 
     public String changePassword() {
