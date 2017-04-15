@@ -547,5 +547,11 @@ public class Tsrow implements java.io.Serializable {
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
+    
+    public boolean equals(Object entityObject) {
+        Tsrow entity = (Tsrow) entityObject;
+        return this.getTsrWpNo().equals(entity.getTsrWpNo())
+                && this.getTsrProjNo() == entity.getTsrProjNo(); 
+    }
 
 }

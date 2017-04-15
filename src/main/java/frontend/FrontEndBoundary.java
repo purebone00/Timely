@@ -60,10 +60,6 @@ public class FrontEndBoundary implements Serializable {
         return "/login.xhtml?faces-redirect=true&expired=true";
     }
 
-    public FrontEndBoundary() {
-
-    }
-
     public String authenticate() {
         Employee curEmp;
         if ((curEmp = login.authUser()) != null) {

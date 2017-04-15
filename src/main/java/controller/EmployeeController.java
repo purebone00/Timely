@@ -351,12 +351,28 @@ public class EmployeeController implements Serializable {
         return null;
     }
 
+    public boolean checkDuplicateRows(int count, Tsrow row) {
+        for (Tsrow r : tsrList) {
+            if (row.equals(r)) {
+                count++;
+                if (count >= 2) {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_FATAL, "Duplicate Rows", "Please Try Again!"));
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     /**
      * Saves timesheet information inputted into form fields.
      * @return String navigation string that refreshes current page. 
      */
     public String saveAction() {
+        
         for (Tsrow row : tsrList) {
+            int count = 0;
             row.setEditable(false);
             row.setTimesheet(getCurTimesheet());
             row.setTimesheet(curTimesheet);
@@ -365,6 +381,10 @@ public class EmployeeController implements Serializable {
                 continue;
                   
             if (row.getTsrProjNo() != 0 && !row.getTsrWpNo().isEmpty()) {
+                
+                if(checkDuplicateRows(count, row))
+                    return null;
+                
                 
                 if(wpManager.find(new WorkpackId(row.getTsrProjNo(),row.getTsrWpNo())) != null)
                     trManager.merge(row);
