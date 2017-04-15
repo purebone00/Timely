@@ -26,49 +26,85 @@ public class WpstarepId implements java.io.Serializable {
      */
     private String wsrRepDt;
 
+    /**
+     * Default ctor.
+     */
     public WpstarepId() {
     }
 
+    /**
+     * Create a wpstarepid
+     * @param wsrProjNo project number
+     * @param wsrWpNo wp number
+     * @param wsrRepDt report date
+     */
     public WpstarepId(int wsrProjNo, String wsrWpNo, String wsrRepDt) {
         this.wsrProjNo = wsrProjNo;
         this.wsrWpNo = wsrWpNo;
         this.wsrRepDt = wsrRepDt;
     }
 
+    /**
+     * Get wsrProjNo. 
+     * @return wsrProjNo
+     */
     @Column(name = "wsrProjNo", nullable = false)
     public int getWsrProjNo() {
         return this.wsrProjNo;
     }
 
+    /**
+     * Set wsrProjNo.
+     * @param wsrProjNo wsrProjNo
+     */
     public void setWsrProjNo(int wsrProjNo) {
         this.wsrProjNo = wsrProjNo;
     }
 
+    /**
+     * Get wsrWpNo.
+     * @return wsrWpNo
+     */
     @Column(name = "wsrWpNo", nullable = false, length = 8)
     public String getWsrWpNo() {
         return this.wsrWpNo;
     }
 
+    /**
+     * Set wsrWpNo.
+     * @param wsrWpNo wsrWpNo
+     */
     public void setWsrWpNo(String wsrWpNo) {
         this.wsrWpNo = wsrWpNo;
     }
 
+    /**
+     * Get wsrRepDt.
+     * @return wsrRepDt
+     */
     @Column(name = "wsrRepDt")
     public String getWsrRepDt() {
         return this.wsrRepDt;
     }
 
+    /**
+     * Set wsrRepDt.
+     * @param wsrRepDt wsrRepDt
+     */
     public void setWsrRepDt(String wsrRepDt) {
         this.wsrRepDt = wsrRepDt;
     }
 
     public boolean equals(Object other) {
-        if ((this == other))
+        if ((this == other)) {            
             return true;
-        if ((other == null))
+        }
+        if ((other == null)) {            
             return false;
-        if (!(other instanceof WpstarepId))
+        }
+        if (!(other instanceof WpstarepId)) {            
             return false;
+        }
         WpstarepId castOther = (WpstarepId) other;
 
         return (this.getWsrProjNo() == castOther.getWsrProjNo())

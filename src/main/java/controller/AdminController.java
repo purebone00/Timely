@@ -6,10 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import manager.EmployeeManager;
+import manager.EmployeeTitleManager;
 import manager.LabourGradeManager;
 import manager.ProjectManager;
 import manager.TitleManager;
@@ -95,6 +98,12 @@ public class AdminController implements Serializable {
     private TitleManager titleManager;
     
     /**
+     * Used for accessing Emptitle data in database (Emptitle table).
+     */
+    @Inject
+    private EmployeeTitleManager emptitleManager;
+    
+    /**
      * Represents the currently selected supervisor to display details on.
      * @HasGetter
      * @HasSetter
@@ -147,7 +156,7 @@ public class AdminController implements Serializable {
         employeeManager.persist(newEmployee);
         projectManager.update(defaultProj);
         workpackManager.merge(flex);
-        employeeController.refreshList();
+        employeeController.resetList();
         return "admin";
     }
 
@@ -185,11 +194,24 @@ public class AdminController implements Serializable {
      * @return String navigation string for refreshing the current page.
      */
     public String delete(Employee e) {
-
+        if(e.getEmpId().intValue() < 3){
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                    "Deleting Admin account is not permitted",
+                    "Please Try Again!"));
+            return null;
+        }
         employeeManager.delete(e);
-
         employeeManager.merge(e);
         // employeeManager.flush();
+        
+        employeeManager.removeSupervisorReferences(e);
+        projectManager.removeProjManReferences(e);
+        workpackManager.removeResEngReferences(e);
+        emptitleManager.removeAllTitles(e);
+        
+        employeeController.resetList();
 
         // return to current page
         return null;
@@ -275,11 +297,20 @@ public class AdminController implements Serializable {
         return employeeManager.getEmpNotSup(selectedSup);
     }
     
+    /**
+     * Assigns given employee to the currently selected supervisor.
+     * @param e employee to be given a supervisor
+     */
     public void assignEmployeeToSup(Employee e){
         e.setEmpSupId(selectedSup.getEmpId());
         employeeManager.merge(e);
     }
     
+    /**
+     * Removes given employees supervisor
+     * @param e Employee to be acted upon
+     * @return null to refresh the page
+     */
     public String removeEmpFromSup(Employee e){
         e.setEmpSupId(null);
         employeeManager.merge(e);

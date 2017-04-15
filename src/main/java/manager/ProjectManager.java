@@ -126,6 +126,17 @@ public class ProjectManager implements Serializable{
     	}
     	
     }
+    
+    /**
+     * Removes all references to the given employee as a project manager.
+     * @param projMan
+     */
+    public void removeProjManReferences(Employee projMan) {
+        for (Project p : getManagedProjects(projMan.getEmpId())) {
+            p.setProjMan(null);
+            merge(p);
+        }
+    }
    
     
 }

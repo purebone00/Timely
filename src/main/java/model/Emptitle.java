@@ -37,9 +37,19 @@ public class Emptitle implements java.io.Serializable {
      */
     private Date etUpDt;
 
+    /**
+     * Default ctor.
+     */
     public Emptitle() {
     }
 
+    /**
+     * Create an Emptitle.
+     * @param id EmptitleId
+     * @param etDel delete flag
+     * @param etInsDt insert date
+     * @param etUpDt update date
+     */
     public Emptitle(EmptitleId id, short etDel, Date etInsDt, Date etUpDt) {
         this.id = id;
         this.etDel = etDel;
@@ -47,6 +57,10 @@ public class Emptitle implements java.io.Serializable {
         this.etUpDt = etUpDt;
     }
 
+    /**
+     * Get id.
+     * @return id
+     */
     @EmbeddedId
 
     @AttributeOverrides({ @AttributeOverride(name = "etEmpId", column = @Column(name = "etEmpID", nullable = false)),
@@ -55,35 +69,63 @@ public class Emptitle implements java.io.Serializable {
         return this.id;
     }
 
+    /**
+     * Set id.
+     * @param id id
+     */
     public void setId(EmptitleId id) {
         this.id = id;
     }
 
+    /**
+     * Get etDel.
+     * @return etDel
+     */
     @Column(name = "etDel", nullable = false)
     public short getEtDel() {
         return this.etDel;
     }
 
+    /**
+     * Set etDel.
+     * @param etDel etDel
+     */
     public void setEtDel(short etDel) {
         this.etDel = etDel;
     }
 
+    /**
+     * Get etInsDt.
+     * @return etInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "etInsDt", nullable = false, length = 19)
     public Date getEtInsDt() {
         return this.etInsDt;
     }
 
+    /**
+     * Set etInsDt.
+     * @param etInsDt etInsDt
+     */
     public void setEtInsDt(Date etInsDt) {
         this.etInsDt = etInsDt;
     }
 
+    /**
+     * Get etUpDt.
+     * @return etUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "etUpDt", nullable = false, length = 19)
     public Date getEtUpDt() {
         return this.etUpDt;
     }
 
+    /**
+     * Set etUpDt.
+     * @param etUpDt etUpDt
+     */
     public void setEtUpDt(Date etUpDt) {
         this.etUpDt = etUpDt;
     }

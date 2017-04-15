@@ -27,6 +27,9 @@ import javax.persistence.Transient;
 @Table(name = "Timesheet")
 public class Timesheet implements java.io.Serializable {
 
+    /**
+     * Timesheet id.
+     */
     private TimesheetId id;
     
     /**
@@ -98,50 +101,95 @@ public class Timesheet implements java.io.Serializable {
      * Timesheet approver.
      */
     private Employee tsApprover;
+    
+    /**
+     * Rows in this timesheet.
+     */
+    private Set<Tsrow> tsrow;
     /* ============================================== */
+    /**
+     * Get isApprove.
+     * @return isApprove
+     */
     @Transient
     public Boolean getIsApprove() {
         return isApprove;
     }
 
+    /**
+     * Set isApprove.
+     * @param isApprove isApprove
+     */
     public void setIsApprove(Boolean isApprove) {
         this.isApprove = isApprove;
     }
     /* ============================================== */
+    /**
+     * Get employee.
+     * @return employee
+     */
     @ManyToOne
     @JoinColumn(name = "tsEmpId", insertable = false, updatable = false)
     public Employee getEmployee() {
         return employee;
     }
 
+    /**
+     * Set employee.
+     * @param employee employee
+     */
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
+    /**
+     * Get tsApprover.
+     * @return tsApprover
+     */
     @ManyToOne(optional = false)
     @JoinColumn(name = "tsApprID", referencedColumnName="empId")
     public Employee getTsApprover() {
         return tsApprover;
     }
 
+    /**
+     * Set tsApprover.
+     * @param tsApprover tsApprover
+     */
     public void setTsApprover(Employee tsApprover) {
         this.tsApprover = tsApprover;
     }
 
-    private Set<Tsrow> tsrow;
-
+    /**
+     * Get tsrow.
+     * @return tsrow
+     */
     @OneToMany(mappedBy = "timesheet", fetch = FetchType.EAGER)
     public Set<Tsrow> getTsrow() {
         return tsrow;
     }
 
+    /**
+     * Set tsrow.
+     * @param tsrow tsrow
+     */
     public void setTsrow(Set<Tsrow> tsrow) {
         this.tsrow = tsrow;
     }
 
+    /**
+     * Default ctor.
+     */
     public Timesheet() {
     }
 
+    /**
+     * Create a timesheet.
+     * @param id timesheet id.
+     * @param tsDel delete flag
+     * @param tsInsDt insert date
+     * @param tsUpDt update date
+     */
     public Timesheet(TimesheetId id, short tsDel, Date tsInsDt, Date tsUpDt) {
         this.id = id;
         this.tsDel = tsDel;
@@ -149,6 +197,20 @@ public class Timesheet implements java.io.Serializable {
         this.tsUpDt = tsUpDt;
     }
 
+    /**
+     * Create a timesheet.
+     * @param id timesheet id.
+     * @param tsTotal total hours
+     * @param tsOverTm overtime
+     * @param tsFlexTm flextime
+     * @param tsSignDt sign date
+     * @param tsSubmit submit flag
+     * @param tsApprDt approve date
+     * @param tsApprId approver id
+     * @param tsDel delete flag
+     * @param tsInsDt insert date
+     * @param tsUpDt update date
+     */
     public Timesheet(TimesheetId id, BigDecimal tsTotal, BigDecimal tsOverTm, BigDecimal tsFlexTm, Date tsSignDt,
             Short tsSubmit, Date tsApprDt, Integer tsApprId, short tsDel, Date tsInsDt, Date tsUpDt) {
         this.id = id;
@@ -164,6 +226,10 @@ public class Timesheet implements java.io.Serializable {
         this.tsUpDt = tsUpDt;
     }
 
+    /**
+     * Get id.
+     * @return id
+     */
     @EmbeddedId
     @AttributeOverrides({ @AttributeOverride(name = "tsEmpId", column = @Column(name = "tsEmpID", nullable = false)),
             @AttributeOverride(name = "tsWkEnd", column = @Column(name = "tsWkEnd", nullable = false, length = 8)) })
@@ -171,110 +237,202 @@ public class Timesheet implements java.io.Serializable {
         return this.id;
     }
 
+    /**
+     * Set id.
+     * @param id id
+     */
     public void setId(TimesheetId id) {
         this.id = id;
     }
 
+    /**
+     * Get tsTotal.
+     * @return tsTotal
+     */
     @Column(name = "tsTotal", precision = 5)
     public BigDecimal getTsTotal() {
         return this.tsTotal;
     }
 
+    /**
+     * Set tsTotal. 
+     * @param tsTotal tsTotal
+     */
     public void setTsTotal(BigDecimal tsTotal) {
         this.tsTotal = tsTotal;
     }
 
+    /**
+     * Get tsOverTm.
+     * @return tsOverTm
+     */
     @Column(name = "tsOverTm", precision = 4)
     public BigDecimal getTsOverTm() {
         return this.tsOverTm;
     }
 
+    /**
+     * Set tsOverTm.
+     * @param tsOverTm tsOverTm
+     */
     public void setTsOverTm(BigDecimal tsOverTm) {
         this.tsOverTm = tsOverTm;
     }
 
+    /**
+     * Get tsFlexTm.
+     * @return tsFlexTm
+     */
     @Column(name = "tsFlexTm", precision = 4)
     public BigDecimal getTsFlexTm() {
         return this.tsFlexTm;
     }
 
+    /**
+     * Set tsFlexTm.
+     * @param tsFlexTm tsFlexTm
+     */
     public void setTsFlexTm(BigDecimal tsFlexTm) {
         this.tsFlexTm = tsFlexTm;
     }
 
+    /**
+     * Get tsSignDt.
+     * @return tsSignDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "tsSignDt", length = 19)
     public Date getTsSignDt() {
         return this.tsSignDt;
     }
 
+    /**
+     * Set tsSignDt.
+     * @param tsSignDt tsSignDt
+     */
     public void setTsSignDt(Date tsSignDt) {
         this.tsSignDt = tsSignDt;
     }
 
+    /**
+     * Get tsSubmit.
+     * @return tsSubmit
+     */
     @Column(name = "tsSubmit")
     public Short getTsSubmit() {
         return this.tsSubmit;
     }
 
+    /**
+     * Set tsSubmit.
+     * @param tsSubmit tsSubmit
+     */
     public void setTsSubmit(Short tsSubmit) {
         this.tsSubmit = tsSubmit;
     }
 
+    /**
+     * Get tsPayGrade.
+     * @return tsPayGrade
+     */
     @ManyToOne
     @JoinColumn(name = "tsPayGrade")
     public Labgrd getTsPayGrade() {
         return tsPayGrade;
     }
 
+    /**
+     * Set tsPayGrade.
+     * @param tsPayGrade tsPayGrade
+     */
     public void setTsPayGrade(Labgrd tsPayGrade) {
         this.tsPayGrade = tsPayGrade;
     }
 
+    /**
+     * Get tsApprDt.
+     * @return tsApprDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "tsApprDt", length = 19)
     public Date getTsApprDt() {
         return this.tsApprDt;
     }
 
+    /**
+     * Set tsApprDt.
+     * @param tsApprDt tsApprDt
+     */
     public void setTsApprDt(Date tsApprDt) {
         this.tsApprDt = tsApprDt;
     }
 
+    /**
+     * Get tsApprId.
+     * @return tsApprId
+     */
     @Column(name = "tsApprID", insertable = false, updatable = false)
     public Integer getTsApprId() {
         return this.tsApprId;
     }
 
+    /**
+     * Set tsApprId.
+     * @param tsApprId tsApprId
+     */
     public void setTsApprId(Integer tsApprId) {
         this.tsApprId = tsApprId;
     }
 
+    /**
+     * Get tsDel.
+     * @return tsDel
+     */
     @Column(name = "tsDel", nullable = false)
     public short getTsDel() {
         return this.tsDel;
     }
 
+    /**
+     * Set tsDel.
+     * @param tsDel tsDel
+     */
     public void setTsDel(short tsDel) {
         this.tsDel = tsDel;
     }
 
+    /**
+     * Get tsInsDt. 
+     * @return tsInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "tsInsDt", length = 19, insertable = false)
     public Date getTsInsDt() {
         return this.tsInsDt;
     }
 
+    /**
+     * Set tsInsDt.
+     * @param tsInsDt tsInsDt
+     */
     public void setTsInsDt(Date tsInsDt) {
         this.tsInsDt = tsInsDt;
     }
 
+    /**
+     * Get tsUpDt.
+     * @return tsUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "tsUpDt", length = 19, insertable = false)
     public Date getTsUpDt() {
         return this.tsUpDt;
     }
 
+    /**
+     * Set tsUpDt.
+     * @param tsUpDt tsUpDt
+     */
     public void setTsUpDt(Date tsUpDt) {
         this.tsUpDt = tsUpDt;
     }

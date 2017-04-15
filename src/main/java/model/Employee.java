@@ -45,8 +45,19 @@ public class Employee implements java.io.Serializable {
      */
     private String oldPassword;
 
+    /**
+     * Project number.
+     */
     private String projectNo;
+    
+    /**
+     * Work package number.
+     */
     private String wpNo;
+    
+    /**
+     * Title.
+     */
     private String title;
 
     /**
@@ -122,7 +133,7 @@ public class Employee implements java.io.Serializable {
     /**
      * If model is editable.
      */
-    boolean editable;
+    private boolean editable;
 
     /**
      * Projects employee is in.
@@ -149,71 +160,131 @@ public class Employee implements java.io.Serializable {
      */
     private Set<Timesheet> timesheetsToApprove;
 
+    /**
+     * Get oldPassword.
+     * @return oldPassword
+     */
     @Transient
     public String getOldPassword() {
         return oldPassword;
     }
 
+    /**
+     * Set oldPassword
+     * @param oldPassword oldPassword
+     */
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
 
+    /**
+     * Get newPasswordConfirm.
+     * @return newPasswordConfirm
+     */
     @Transient
     public String getNewPasswordConfirm() {
         return newPasswordConfirm;
     }
 
+    /**
+     * Set newPasswordConfirm.
+     * @param newPasswordConfirm newPasswordConfirm
+     */
     public void setNewPasswordConfirm(String newPasswordConfirm) {
         this.newPasswordConfirm = newPasswordConfirm;
     }
 
+    /**
+     * Get newPassword.
+     * @return newPassword
+     */
     @Transient
     public String getNewPassword() {
         return newPassword;
     }
 
+    /**
+     * newPassword
+     * @param newPassword newPassword
+     */
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
 
+    /**
+     * Get title.
+     * @return title
+     */
     @Transient
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Set title.
+     * @param title title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Get wpNo.
+     * @return wpNo
+     */
     @Transient
     public String getWpNo() {
         return wpNo;
     }
 
+    /**
+     * Set wpNo.
+     * @param wpNo wpNo
+     */
     public void setWpNo(String wpNo) {
         this.wpNo = wpNo;
     }
 
+    /**
+     * Get projectNo.
+     * @return projectNo
+     */
     @Transient
     public String getProjectNo() {
         return projectNo;
     }
 
+    /**
+     * Set projectNo.
+     * @param projectNo projectNo
+     */
     public void setProjectNo(String projectNo) {
         this.projectNo = projectNo;
     }
 
+    /**
+     * Get editable.
+     * @return editable
+     */
     @Transient
     public boolean isEditable() {
         return editable;
     }
 
+    /**
+     * Set editable.
+     * @param editable editable
+     */
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
 
     /* ================================================== */
 
+    /**
+     * Get projects.
+     * @return projects
+     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Empproj", joinColumns = {
             @JoinColumn(name = "epEmpId", referencedColumnName = "empID") }, inverseJoinColumns = {
@@ -222,10 +293,18 @@ public class Employee implements java.io.Serializable {
         return projects;
     }
 
+    /**
+     * Set projects.
+     * @param projects projects
+     */
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 
+    /**
+     * Get workpackages.
+     * @return workpackages
+     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Empwp", joinColumns = {
             @JoinColumn(name = "ewEmpId", referencedColumnName = "empID") }, inverseJoinColumns = {
@@ -235,11 +314,19 @@ public class Employee implements java.io.Serializable {
         return workpackages;
     }
 
+    /**
+     * Set workpackages.
+     * @param workpackages workpackages
+     */
     public void setWorkpackages(Set<Workpack> workpackages) {
         this.workpackages = workpackages;
 
     }
 
+    /**
+     * Get titles.
+     * @return titles
+     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Emptitle", joinColumns = {
             @JoinColumn(name = "etEmpID", referencedColumnName = "empID") }, inverseJoinColumns = {
@@ -248,31 +335,63 @@ public class Employee implements java.io.Serializable {
         return titles;
     }
 
+    /**
+     * Set titles.
+     * @param titles titles
+     */
     public void setTitles(Set<Title> titles) {
         this.titles = titles;
     }
 
+    /**
+     * Get timesheet.
+     * @return timesheet
+     */
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     public Set<Timesheet> getTimesheet() {
         return timesheet;
     }
 
+    /**
+     * Set timesheet.
+     * @param timesheet timesheet
+     */
     public void setTimesheet(Set<Timesheet> timesheet) {
         this.timesheet = timesheet;
     }
 
+    /**
+     * Deafult ctor for employee.
+     */
     public Employee() {
     }
 
+    /**
+     * Get timesheetsToApprove.
+     * @return timesheetsToApprove
+     */
     @OneToMany(mappedBy = "tsApprover", fetch = FetchType.EAGER)
     public Set<Timesheet> getTimesheetsToApprove() {
         return timesheetsToApprove;
     }
 
+    /**
+     * Set timesheetsToApprove.
+     * @param timesheetsToApprove timesheetsToApprove
+     */
     public void setTimesheetsToApprove(Set<Timesheet> timesheetsToApprove) {
         this.timesheetsToApprove = timesheetsToApprove;
     }
 
+    /**
+     * Create an Employee.
+     * @param empPw password
+     * @param empFnm first name
+     * @param empLnm last name
+     * @param empDel delete flag
+     * @param empInsDt insert date
+     * @param empUpDt update date
+     */
     public Employee(String empPw, String empFnm, String empLnm, short empDel, Date empInsDt, Date empUpDt) {
         this.empPw = empPw;
         this.empFnm = empFnm;
@@ -282,6 +401,20 @@ public class Employee implements java.io.Serializable {
         this.empUpDt = empUpDt;
     }
 
+    /**
+     * Create an Employee.
+     * @param empPw password
+     * @param empFnm firstname
+     * @param empLnm lastname
+     * @param empDept department
+     * @param empSig signature
+     * @param empFlxTm flextime
+     * @param empLabGrd labour grade
+     * @param empSupId supervisor id
+     * @param empDel delete flag
+     * @param empInsDt insert date
+     * @param empUpDt update date
+     */
     public Employee(String empPw, String empFnm, String empLnm, String empDept, String empSig, BigDecimal empFlxTm,
             Labgrd empLabGrd, Integer empSupId, short empDel, Date empInsDt, Date empUpDt) {
         this.empPw = empPw;
@@ -297,6 +430,10 @@ public class Employee implements java.io.Serializable {
         this.empUpDt = empUpDt;
     }
 
+    /**
+     * Get empID.
+     * @return empID
+     */
     @Id
     @GeneratedValue(strategy = IDENTITY)
 
@@ -306,126 +443,234 @@ public class Employee implements java.io.Serializable {
         return this.empId;
     }
 
+    /**
+     * Set empID.
+     * @param empId empID
+     */
     public void setEmpId(Integer empId) {
         this.empId = empId;
     }
 
+    /**
+     * Get empPw.
+     * @return empPw
+     */
     @Column(name = "empPw", nullable = false, length = 16)
     public String getEmpPw() {
         return this.empPw;
     }
 
+    /**
+     * Set empPw.
+     * @param empPw empPw
+     */
     public void setEmpPw(String empPw) {
         this.empPw = empPw;
     }
 
+    /**
+     * Get empFnm.
+     * @return empFnm
+     */
     @Column(name = "empFnm", nullable = false, length = 32)
     public String getEmpFnm() {
         return this.empFnm;
     }
 
+    /**
+     * Set empFnm.
+     * @param empFnm empFnm
+     */
     public void setEmpFnm(String empFnm) {
         this.empFnm = empFnm;
     }
 
+    /**
+     * Get empLnm.
+     * @return empLnm
+     */
     @Column(name = "empLnm", nullable = false, length = 32)
     public String getEmpLnm() {
         return this.empLnm;
     }
 
+    /**
+     * Set empLnm.
+     * @param empLnm empLnm
+     */
     public void setEmpLnm(String empLnm) {
         this.empLnm = empLnm;
     }
 
+    /**
+     * Get empDept.
+     * @return empDept
+     */
     @Column(name = "empDept", length = 16)
     public String getEmpDept() {
         return this.empDept;
     }
 
+    /**
+     * Set empDept.
+     * @param empDept empDept
+     */
     public void setEmpDept(String empDept) {
         this.empDept = empDept;
     }
 
+    /**
+     * Get empSig.
+     * @return empSig
+     */
     @Column(name = "empSig", length = 128)
     public String getEmpSig() {
         return this.empSig;
     }
 
+    /**
+     * Set empSig.
+     * @param empSig empSig
+     */
     public void setEmpSig(String empSig) {
         this.empSig = empSig;
     }
 
+    /**
+     * Get empFlxTm.
+     * @return empFlxTm
+     */
     @Column(name = "empFlxTm", precision = 4)
     public BigDecimal getEmpFlxTm() {
         return this.empFlxTm;
     }
 
+    /**
+     * Set empFlxTm.
+     * @param empFlxTm empFlxTm
+     */
     public void setEmpFlxTm(BigDecimal empFlxTm) {
         this.empFlxTm = empFlxTm;
     }
 
+    /**
+     * Get empLabGrd.
+     * @return empLabGrd
+     */
     @ManyToOne
     @JoinColumn(name = "empLabGrd")
     public Labgrd getEmpLabGrd() {
         return this.empLabGrd;
     }
 
+    /**
+     * Set empLabGrd.
+     * @param empLabGrd empLabGrd
+     */
     public void setEmpLabGrd(Labgrd empLabGrd) {
         this.empLabGrd = empLabGrd;
     }
 
+    /**
+     * Get empSupId.
+     * @return empSupId
+     */
     @Column(name = "empSupID")
     public Integer getEmpSupId() {
         return this.empSupId;
     }
 
+    /**
+     * Set empSupId.
+     * @param empSupId empSupId
+     */
     public void setEmpSupId(Integer empSupId) {
         this.empSupId = empSupId;
     }
 
+    /**
+     * Get empDel.
+     * @return empDel
+     */
     @Column(name = "empDel", nullable = false)
     public short getEmpDel() {
         return this.empDel;
     }
 
+    /**
+     * Set empDel.
+     * @param empDel empDel
+     */
     public void setEmpDel(short empDel) {
         this.empDel = empDel;
     }
 
+    /**
+     * Get empInsDt.
+     * @return empInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "empInsDt", insertable = false, nullable = false, length = 19)
     public Date getEmpInsDt() {
         return this.empInsDt;
     }
 
+    /**
+     * Set empInsDt.
+     * @param empInsDt empInsDt
+     */
     public void setEmpInsDt(Date empInsDt) {
         this.empInsDt = empInsDt;
     }
 
+    /**
+     * Get empUpDt.
+     * @return empUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "empUpDt", insertable = false, nullable = false, length = 19)
     public Date getEmpUpDt() {
         return this.empUpDt;
     }
 
+    /**
+     * Set empUpDt.
+     * @param empUpDt empUpDt
+     */
     public void setEmpUpDt(Date empUpDt) {
         this.empUpDt = empUpDt;
     }
 
+    /**
+     * Get empLastVisitedWeekReport.
+     * @return empLastVisitedWeekReport
+     */
     @Column(name="empLastVisitedWeekReport",  nullable = true)
     public String getEmpLastVisitedWeekReport() {
         return empLastVisitedWeekReport;
     }
 
+    /**
+     * Set empLastVisitedWeekReport.
+     * @param empLastVisitedWeekReport empLastVisitedWeekReport
+     */
     public void setEmpLastVisitedWeekReport(String empLastVisitedWeekReport) {
         this.empLastVisitedWeekReport = empLastVisitedWeekReport;
     }
 
+    /**
+     * Get empLastVisitedMonthReport.
+     * @return empLastVisitedMonthReport
+     */
     @Column(name="empLastVisitedMonthReport",  nullable = true)
     public String getEmpLastVisitedMonthReport() {
         return empLastVisitedMonthReport;
     }
 
+    /**
+     * Set empLastVisitedMonthReport.
+     * @param empLastVisitedMonthReport empLastVisitedMonthReport
+     */
     public void setEmpLastVisitedMonthReport(String empLastVisitedMonthReport) {
         this.empLastVisitedMonthReport = empLastVisitedMonthReport;
     }

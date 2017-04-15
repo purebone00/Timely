@@ -44,9 +44,19 @@ public class Title implements java.io.Serializable {
      */
     private Date titUpDt;
 
+    /**
+     * Default ctor.
+     */
     public Title() {
     }
 
+    /**
+     * Create a title.
+     * @param titNm title name.
+     * @param titDel delete flag
+     * @param titInsDt insert date
+     * @param titUpDt update date
+     */
     public Title(String titNm, short titDel, Date titInsDt, Date titUpDt) {
         this.titNm = titNm;
         this.titDel = titDel;
@@ -54,6 +64,10 @@ public class Title implements java.io.Serializable {
         this.titUpDt = titUpDt;
     }
 
+    /**
+     * Get titId.
+     * @return titId
+     */
     @Id
     @GeneratedValue(strategy = IDENTITY)
 
@@ -62,44 +76,80 @@ public class Title implements java.io.Serializable {
         return this.titId;
     }
 
+    /**
+     * Set titId.
+     * @param titId titId
+     */
     public void setTitId(short titId) {
         this.titId = titId;
     }
 
+    /**
+     * Get titNm. 
+     * @return titNm
+     */
     @Column(name = "titNm", nullable = false, length = 32)
     public String getTitNm() {
         return this.titNm;
     }
 
+    /**
+     * Set titNm.
+     * @param titNm titNm
+     */
     public void setTitNm(String titNm) {
         this.titNm = titNm;
     }
 
+    /**
+     * Get titDel.
+     * @return titDel
+     */
     @Column(name = "titDel", nullable = false)
     public short getTitDel() {
         return this.titDel;
     }
 
+    /**
+     * Set titDel.
+     * @param titDel titDel
+     */
     public void setTitDel(short titDel) {
         this.titDel = titDel;
     }
 
+    /**
+     * Get titInsDt.
+     * @return titInsDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "titInsDt", nullable = false, length = 19)
     public Date getTitInsDt() {
         return this.titInsDt;
     }
 
+    /**
+     * Set titInsDt.
+     * @param titInsDt titInsDt
+     */
     public void setTitInsDt(Date titInsDt) {
         this.titInsDt = titInsDt;
     }
 
+    /**
+     * Get titUpDt.
+     * @return titUpDt
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "titUpDt", nullable = false, length = 19)
     public Date getTitUpDt() {
         return this.titUpDt;
     }
 
+    /**
+     * Set titUpDt.
+     * @param titUpDt titUpDt
+     */
     public void setTitUpDt(Date titUpDt) {
         this.titUpDt = titUpDt;
     }
