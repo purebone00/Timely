@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -154,7 +156,7 @@ public class AdminController implements Serializable {
         employeeManager.persist(newEmployee);
         projectManager.update(defaultProj);
         workpackManager.merge(flex);
-        employeeController.refreshList();
+        employeeController.resetList();
         return "admin";
     }
 
@@ -192,9 +194,15 @@ public class AdminController implements Serializable {
      * @return String navigation string for refreshing the current page.
      */
     public String delete(Employee e) {
-
+        if(e.getEmpId().intValue() < 3){
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                    "Deleting Admin account is not permitted",
+                    "Please Try Again!"));
+            return null;
+        }
         employeeManager.delete(e);
-
         employeeManager.merge(e);
         // employeeManager.flush();
         
@@ -202,6 +210,8 @@ public class AdminController implements Serializable {
         projectManager.removeProjManReferences(e);
         workpackManager.removeResEngReferences(e);
         emptitleManager.removeAllTitles(e);
+        
+        employeeController.resetList();
 
         // return to current page
         return null;
