@@ -85,70 +85,138 @@ public class WeeklyReport implements Serializable {
         }
     }
 
+    /**
+     * Get curTotalCosts.
+     * @return curTotalCosts
+     */
     public BigDecimal getCurTotalCosts() {
         return curTotalCosts;
     }
 
+    /**
+     * Set curTotalCosts.
+     * @param curTotalCosts curTotalCosts
+     */
     public void setCurTotalCosts(BigDecimal curTotalCosts) {
         this.curTotalCosts = curTotalCosts;
     }
 
+    /**
+     * Get curTotalHours.
+     * @return curTotalHours
+     */
     public BigDecimal getCurTotalHours() {
         return curTotalHours;
     }
 
+    /**
+     * Set curTotalHours.
+     * @param curTotalHours curTotalHours
+     */
     public void setCurTotalHours(BigDecimal curTotalHours) {
         this.curTotalHours = curTotalHours;
     }
     
+    /**
+     * Get getCurTotalDays.
+     * @return getCurTotalDays
+     */
     public BigDecimal getCurTotalDays() {
         return this.getCurTotalHours().divide(new BigDecimal(8));
     }
     
+    /**
+     * Set getCurTotalDays.
+     * @param curTotalDays getCurTotalDays
+     */
     public void setCurTotalDays(BigDecimal curTotalDays) {
         this.setCurTotalHours(curTotalDays.multiply(new BigDecimal(8)));
     }
 
+    /**
+     * Get estCostsRemaining.
+     * @return estCostsRemaining
+     */
     public BigDecimal getEstCostsRemaining() {
         return estCostsRemaining;
     }
 
+    /**
+     * Set estCostsRemaining.
+     * @param estCostsRemaining estCostsRemaining
+     */
     public void setEstCostsRemaining(BigDecimal estCostsRemaining) {
         this.estCostsRemaining = estCostsRemaining;
     }
 
+    /**
+     * Get estHoursRemaining.
+     * @return estHoursRemaining
+     */
     public BigDecimal getEstHoursRemaining() {
         return estHoursRemaining;
     }
 
+    /**
+     * Set estHoursRemaining.
+     * @param estHoursRemaining estHoursRemaining
+     */
     public void setEstHoursRemaining(BigDecimal estHoursRemaining) {
         this.estHoursRemaining = estHoursRemaining;
     }
     
+    /**
+     * Get getEstDaysRemaining.
+     * @return getEstDaysRemaining
+     */
     public BigDecimal getEstDaysRemaining() {
         return this.getEstHoursRemaining() == null ? null : this.getEstHoursRemaining().divide(new BigDecimal(8));
     }
     
+    /**
+     * Set getEstDaysRemaining.
+     * @param estDaysRemaining getEstDaysRemaining
+     */
     public void setEstDaysRemaining(BigDecimal estDaysRemaining) {
         this.setEstHoursRemaining(estDaysRemaining.multiply(new BigDecimal(8)));
     }
     
+    /**
+     * Get getOvertimeHrs.
+     * @return getOvertimeHrs
+     */
     public BigDecimal getOvertimeHrs() {
         return overtimeHrs;
     }
 
+    /**
+     * Set getOvertimeHrs.
+     * @param overtimeHrs getOvertimeHrs
+     */
     public void setOvertimeHrs(BigDecimal overtimeHrs) {
         this.overtimeHrs = overtimeHrs;
     }
     
+    /**
+     * Get getOvertimeDays.
+     * @return getOvertimeDays
+     */
     public BigDecimal getOvertimeDays() {
         return this.getOvertimeHrs().divide(new BigDecimal(8));
     }
 
+    /**
+     * Get visited.
+     * @return visited
+     */
     public int getVisited() {
         return this.visited;
     }
     
+    /**
+     * Set visited.
+     * @param visited visited
+     */
     public void setVisited(int visited) {
         this.visited = visited;
     }

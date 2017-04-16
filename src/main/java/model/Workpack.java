@@ -544,7 +544,7 @@ public class Workpack implements java.io.Serializable, Comparable<Workpack> {
 	    this.charged = charged;
 	}
     
-    public String toString(){
+    public String toString() {
     	return this.id.getWpNo();
     }
 

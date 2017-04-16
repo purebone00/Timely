@@ -24,6 +24,9 @@ import model.WorkpackId;
 @Dependent
 @Stateless
 public class WorkPackageManager {
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
@@ -130,7 +133,7 @@ public class WorkPackageManager {
     
     /**
      * Removes all references to the given employee as a responsible engineer.
-     * @param resEng
+     * @param resEng responsible engineer
      */
     public void removeResEngReferences(Employee resEng) {
         for (Workpack w : getResponsibleWorkPackages(resEng.getEmpId())) {

@@ -19,7 +19,7 @@ import manager.EmployeeManager;
 @ManagedBean
 @RequestScoped
 @FacesConverter(value="TaApproverConverter")
-public class TaApproverConverter implements Converter{
+public class TaApproverConverter implements Converter {
     
     /**
      * Manager for employees.

@@ -25,6 +25,9 @@ import model.Workpack;
 @Dependent
 @Stateless
 public class TsrowManager {
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 

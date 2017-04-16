@@ -18,6 +18,8 @@ import model.Tsrow;
 
 /**
  * Contains methods used by timesheet approvers.
+ * @author Timely
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 @Stateful
@@ -71,7 +73,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Set current employee.
      * 
-     * @param emp
+     * @param emp emp
      */
     public void setEmp(Employee emp) {
         this.emp = emp;
@@ -80,7 +82,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Current employee.
      * 
-     * @return
+     * @return emp
      */
     public Employee getEmp() {
         return emp;
@@ -88,6 +90,7 @@ public class TimesheetApproverController implements Serializable {
 
     /**
      * List of approved timesheets.
+     * @return approved timesheets
      */
     public Set<Timesheet> getListOfApproved() {
         if (listOfApproved == null) {
@@ -98,6 +101,7 @@ public class TimesheetApproverController implements Serializable {
 
     /**
      * Sets list of approved timesheets.
+     * @param listOfApproved approved timesheets
      */
     public void setListOfApproved(Set<Timesheet> listOfApproved) {
         this.listOfApproved = listOfApproved;
@@ -119,7 +123,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * List of approved employee timesheets.
      * 
-     * @return
+     * @return timesheets to be approved
      */
     public Set<Timesheet> getListToBeApproved() {
         if (listToBeApproved == null) {
@@ -131,7 +135,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * List of timesheets to be approved.
      * 
-     * @param listToBeApproved
+     * @param listToBeApproved timesheets to be approved
      */
     public void setListToBeApproved(Set<Timesheet> listToBeApproved) {
         this.listToBeApproved = listToBeApproved;
@@ -154,7 +158,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Lazily load timesheets.
      * 
-     * @return
+     * @return list of timesheets
      */
     public Set<Timesheet> getListOfts() {
         if (listOfts == null) {
@@ -166,7 +170,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Sets timesheets approved.
      * 
-     * @param tsToApproveList
+     * @param tsToApproveList approved timesheets
      */
     public void setListOfts(Set<Timesheet> tsToApproveList) {
         this.listOfts = tsToApproveList;
@@ -186,7 +190,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Reviewed timesheet.
      * 
-     * @return
+     * @return reviewed timesheet
      */
     public Timesheet getReviewTimesheet() {
         return reviewTimesheet;
@@ -195,7 +199,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Set reviewed timesheet.
      * 
-     * @param reviewTimesheet
+     * @param reviewTimesheet reviewed timesheet
      */
     public void setReviewTimesheet(Timesheet reviewTimesheet) {
         this.reviewTimesheet = reviewTimesheet;
@@ -204,7 +208,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Currently reviewed employee.
      * 
-     * @return
+     * @return reviewed employee
      */
     public Employee getEmployeeReviewed() {
         return employeeReviewed;
@@ -213,7 +217,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Set employee being reviewed.
      * 
-     * @param e
+     * @param e reviewed employee
      */
     public void setEmployeeReviewed(Employee e) {
         this.employeeReviewed = e;
@@ -223,7 +227,7 @@ public class TimesheetApproverController implements Serializable {
      * Go to review sheet.
      * 
      * @param selectedTimesheet
-     * @return
+     * @return navigation string
      */
     public String goToReviewTimesheet(Timesheet selectedTimesheet) {
         this.setReviewTimesheet(selectedTimesheet);
@@ -235,7 +239,7 @@ public class TimesheetApproverController implements Serializable {
      * View timesheets.
      * 
      * @param selectedTimesheet
-     * @return
+     * @return navigation string
      */
     public String viewTimesheet(Timesheet selectedTimesheet) {
         this.setReviewTimesheet(selectedTimesheet);
@@ -264,7 +268,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Accept timesheet.
      * 
-     * @return
+     * @return navigation string
      */
     public String accept() {
         tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short) 2);
@@ -277,7 +281,7 @@ public class TimesheetApproverController implements Serializable {
     /**
      * Reject timesheet.1
      * 
-     * @return
+     * @return navigation string
      */
     public String reject() {
         tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short) 3);

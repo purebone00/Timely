@@ -22,7 +22,10 @@ import model.Workpack;
 @SuppressWarnings("serial")
 @Dependent
 @Stateless
-public class ProjectManager implements Serializable{
+public class ProjectManager implements Serializable {
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName="Timely-persistence-unit") EntityManager em;
 
     /**
@@ -128,7 +131,7 @@ public class ProjectManager implements Serializable{
     
     /**
      * Removes all references to the given employee as a project manager.
-     * @param projMan
+     * @param projMan project manager
      */
     public void removeProjManReferences(Employee projMan) {
         for (Project p : getManagedProjects(projMan.getEmpId())) {

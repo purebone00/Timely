@@ -26,6 +26,8 @@ import model.WorkpackId;
 
 /**
  * Contains methods used by admin to alter employee roster.
+ * @author Timely
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 @SessionScoped
@@ -110,26 +112,50 @@ public class AdminController implements Serializable {
      */
     private Employee selectedSup;
 
+    /**
+     * Get selectedSup.
+     * @return selectedSup
+     */
     public Employee getSelectedSup() {
         return selectedSup;
     }
 
+    /**
+     * Set selectedSup.
+     * @param selectedSup selectedSup
+     */
     public void setSelectedSup(Employee selectedSup) {
         this.selectedSup = selectedSup;
     }
 
+    /**
+     * Get employeeController.
+     * @return employeeController
+     */
     public EmployeeController getEmployeeController() {
         return employeeController;
     }
 
+    /**
+     * Set employeeController.
+     * @param employeeController employeeController
+     */
     public void setEmployeeController(EmployeeController employeeController) {
         this.employeeController = employeeController;
     }
 
+    /**
+     * Get newEmployee.
+     * @return newEmployee
+     */
     public Employee getNewEmployee() {
         return newEmployee;
     }
 
+    /**
+     * Set newEmployee.
+     * @param employee newEmployee
+     */
     public void setNewEmployee(Employee employee) {
         newEmployee = employee;
     }
@@ -160,6 +186,10 @@ public class AdminController implements Serializable {
         return "admin";
     }
 
+    /**
+     * Get all labour grades.
+     * @return labour grades.
+     */
     public List<Labgrd> getLabourGrades() {
         return labourGradeManager.getAll();
     }
@@ -167,6 +197,7 @@ public class AdminController implements Serializable {
     /**
      * Generated editable form fields for making changes 
      * to an employee's information.
+     * @param employee employee
      * @return String null navigation string for refreshing the current page.
      */
     public String editAction(Employee employee) {
@@ -176,6 +207,7 @@ public class AdminController implements Serializable {
 
     /**
      * Saves employee information inputted into form fields.
+     * @param e employee
      * @return String navigation string that refreshes current page. 
      */
     public String saveAction(Employee e) {
@@ -194,7 +226,7 @@ public class AdminController implements Serializable {
      * @return String navigation string for refreshing the current page.
      */
     public String delete(Employee e) {
-        if(e.getEmpId().intValue() < 3){
+        if (e.getEmpId().intValue() < 3) {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_FATAL,
@@ -234,45 +266,48 @@ public class AdminController implements Serializable {
     }
     
     /**
-     * Promotes given employee into a supervisor
+     * Promotes given employee into a supervisor.
      * @param e employee to promote 
+     * @return null string
      */
     public String makeSup(Employee e) {
         
-        e.getTitles().add(titleManager.find((short)1));
+        e.getTitles().add(titleManager.find((short) 1));
         employeeManager.merge(e);
         employeeManager.flush();
         return null;
     }
     
     /**
-     * Checks if given employee is a supervisor
+     * Checks if given employee is a supervisor.
      * @param e employee being checked
      * @return true if employee is a supervisor false otherwise
      */
-    public boolean checkSup(Employee e){
-        for(Title t: e.getTitles()){
-            if(t.getTitId() == 1)
+    public boolean checkSup(Employee e) {
+        for (Title t: e.getTitles()) {
+            if (t.getTitId() == 1) {                
                 return true;
+            }
         }
         return false;
     }
     
     /**
-     * Removes given employee from being a supervisor
+     * Removes given employee from being a supervisor.
      * @param e employee to demote 
+     * @return null string
      */
     public String removeSup(Employee e) {
-        employeeManager.removeTitle(e, titleManager.find((short)1));
+        employeeManager.removeTitle(e, titleManager.find((short) 1));
         employeeManager.flush();
         employeeController.resetList();
         return null;
     }
     
     /**
-     * Action method to move to assignEmpToSup.xhtml
-     * @param e
-     * @return
+     * Action method to move to assignEmpToSup.xhtml.
+     * @param e employee
+     * @return navigation string
      */
     public String selectSupForAssign(Employee e) {
         setSelectedSup(e);
@@ -280,19 +315,19 @@ public class AdminController implements Serializable {
     }
     
     /**
-     * Gets a list of employees supervised by selected supervisor
+     * Gets a list of employees supervised by selected supervisor.
      * @return list of employees
      */
-    public List<Employee> getSupEmp(){
+    public List<Employee> getSupEmp() {
         
         return employeeManager.getEmpSup(selectedSup);
     }
     
     /**
-     * Gets a list of employees not supervised by selected supervisor
+     * Gets a list of employees not supervised by selected supervisor.
      * @return list of employees
      */
-    public List<Employee> getNotSupEmp(){
+    public List<Employee> getNotSupEmp() {
         
         return employeeManager.getEmpNotSup(selectedSup);
     }
@@ -301,17 +336,17 @@ public class AdminController implements Serializable {
      * Assigns given employee to the currently selected supervisor.
      * @param e employee to be given a supervisor
      */
-    public void assignEmployeeToSup(Employee e){
+    public void assignEmployeeToSup(Employee e) {
         e.setEmpSupId(selectedSup.getEmpId());
         employeeManager.merge(e);
     }
     
     /**
-     * Removes given employees supervisor
+     * Removes given employees supervisor.
      * @param e Employee to be acted upon
      * @return null to refresh the page
      */
-    public String removeEmpFromSup(Employee e){
+    public String removeEmpFromSup(Employee e) {
         e.setEmpSupId(null);
         employeeManager.merge(e);
         return null;

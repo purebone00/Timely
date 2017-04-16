@@ -170,7 +170,7 @@ public class Employee implements java.io.Serializable {
     }
 
     /**
-     * Set oldPassword
+     * Set oldPassword.
      * @param oldPassword oldPassword
      */
     public void setOldPassword(String oldPassword) {
@@ -204,7 +204,7 @@ public class Employee implements java.io.Serializable {
     }
 
     /**
-     * newPassword
+     * Set newPassword.
      * @param newPassword newPassword
      */
     public void setNewPassword(String newPassword) {

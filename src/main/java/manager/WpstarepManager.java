@@ -19,6 +19,9 @@ import model.Wpstarep;
 @Dependent
 @Stateless
 public class WpstarepManager {
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 

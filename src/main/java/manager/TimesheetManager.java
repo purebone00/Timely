@@ -20,6 +20,9 @@ import model.TimesheetId;
 @Dependent
 @Stateless
 public class TimesheetManager {
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 

@@ -15,6 +15,8 @@ import model.Employee;
 /**
  * Checks whether inputted username and password combination is valid. Session
  * begins if valid. Sends user to admin panel if the user is the admin.
+ * @author Timely
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 @Named("Login")
@@ -57,6 +59,9 @@ public class LoginController implements Serializable {
      */
     private Map<Integer, Employee> empMap;
 
+    /**
+     * Default ctor.
+     */
     public LoginController() {
 
     }
@@ -64,42 +69,69 @@ public class LoginController implements Serializable {
     /**
      * Populates list of employees and iterates through them to check username
      * and password provided. Returns authenticated employee or null.
+     * @return authenticated employee or null
      */
     public Employee authUser() {
         empMap = empManager.getActiveEmpMap();
         boolean authenticated = false;
 
         Employee employee = empMap.get(userName);
-        if (employee == null)
+        if (employee == null) {            
             return null;
+        }
         if (employee.getEmpPw().equals(password)) {
             currentEmployee.setCurrentEmployee(employee);
-            if (currentEmployee.getCurrentEmployee() != null)
+            if (currentEmployee.getCurrentEmployee() != null) {                
                 authenticated = true;
+            }
         }
         return (authenticated) ? currentEmployee.getCurrentEmployee() : null;
     }
 
+    /**
+     * Get userName.
+     * @return userName
+     */
     public Integer getUserName() {
         return userName;
     }
 
+    /**
+     * Set userName.
+     * @param userName userName
+     */
     public void setUserName(Integer userName) {
         this.userName = userName;
     }
 
+    /**
+     * Get password.
+     * @return password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Set password.
+     * @param password password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Get list.
+     * @return list
+     */
     public List<Employee> getList() {
         return list;
     }
 
+    /**
+     * Set list.
+     * @param newList list
+     */
     public void setList(List<Employee> newList) {
         this.list = newList;
     }
@@ -118,7 +150,7 @@ public class LoginController implements Serializable {
     /**
      * Current employee profile.
      * 
-     * @return
+     * @return currentEmployee
      */
     public EmployeeProfile getCurrentEmployee() {
         return currentEmployee;
@@ -127,7 +159,7 @@ public class LoginController implements Serializable {
     /**
      * Set current employee profile.
      * 
-     * @param currentEmployee
+     * @param currentEmployee currentEmployee
      */
     public void setCurrentEmployee(EmployeeProfile currentEmployee) {
         this.currentEmployee = currentEmployee;

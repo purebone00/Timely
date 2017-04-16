@@ -23,6 +23,9 @@ import model.WplabId;
 @Dependent
 @Stateless
 public class WplabManager {
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 

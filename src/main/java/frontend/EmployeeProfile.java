@@ -30,7 +30,7 @@ public class EmployeeProfile implements Serializable {
 
     /**
      * Gets the current employee.
-     * @return
+     * @return current employee
      */
     public Employee getCurrentEmployee() {
         return employee;
@@ -38,7 +38,7 @@ public class EmployeeProfile implements Serializable {
 
     /**
      * Sets the current employee.
-     * @param currentEmployee
+     * @param currentEmployee current employee
      */
     public void setCurrentEmployee(Employee currentEmployee) {
         this.employee = currentEmployee;
@@ -46,7 +46,7 @@ public class EmployeeProfile implements Serializable {
 
     /**
      * Get list of employee titles.
-     * @return
+     * @return employee titles
      */
     public List<Title> getEmployeeTitles() {
         return employeeTitles;
@@ -54,7 +54,7 @@ public class EmployeeProfile implements Serializable {
 
     /**
      * Set list of employee titles.
-     * @param employeeTitles
+     * @param employeeTitles employee titles
      */
     public void setEmployeeTitles(List<Title> employeeTitles) {
         this.employeeTitles = employeeTitles;

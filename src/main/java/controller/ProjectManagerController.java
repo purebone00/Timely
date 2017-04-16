@@ -726,7 +726,7 @@ public class ProjectManagerController {
 	 * @param projectID id of the project
 	 * @return String navigation string
 	 */
-	public String assignEmployeeToProject(int projectID){
+	public String assignEmployeeToProject(int projectID) {
 		setSelectedProject(projectManager.find(projectID));
 		setSelectedProjectForViewing(projectManager.find(projectID));
 		return "assignEmployees";
@@ -738,7 +738,7 @@ public class ProjectManagerController {
      * @return String navigation string.
      * @param empID ID of employee to put on project.
      * */
-    public String assignEmployeeToProject2(String empID){
+    public String assignEmployeeToProject2(String empID) {
     	Employee empl = employeeManager.find(Integer.parseInt(empID));
         selectedProject.getEmployees().add(empl);
         // update on employee side
@@ -931,7 +931,7 @@ public class ProjectManagerController {
      * Gets a list of employees in the given work package.
      * @return list of employees
      */
-    public List<Employee> allEmpInWP(){
+    public List<Employee> allEmpInWP() {
     	
     	 //return selectedProject.getEmployees();
     	return employeeManager.getEmpWP(selectedWorkPackage);
@@ -941,7 +941,7 @@ public class ProjectManagerController {
      * Gets a list of employees not in the given work package but in the selected project.
      * @return list of employees
      */
-    public List<Employee> notEmpInWP(){
+    public List<Employee> notEmpInWP() {
     	List<Employee> empNotInWp = employeeManager.getEmpNotWP(selectedWorkPackage);
     	List<Employee> empInProjNotInWp = new ArrayList<Employee>();
     	

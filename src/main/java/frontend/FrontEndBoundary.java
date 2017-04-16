@@ -29,6 +29,7 @@ import utility.models.MonthlyReport;
  * Navigation cases and main interaction from front end to business logic.
  * 
  * @author Timely
+ * @version 1.0
  *
  */
 @SuppressWarnings("serial")
@@ -79,7 +80,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Ends current session.
      * 
-     * @return
+     * @return navigation string
      */
     public String finish() {
         employee.setEmp(null);
@@ -93,7 +94,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Authenticate current user.
      * 
-     * @return
+     * @return navigation string
      */
     public String authenticate() {
         Employee curEmp;
@@ -122,7 +123,7 @@ public class FrontEndBoundary implements Serializable {
      * 
      * @param wkEnd
      *            from datatable.
-     * @return
+     * @return navigation string
      */
     public String goToTimesheet(String wkEnd) {
         employee.setTsId(employee.getEmp().getEmpId(), wkEnd);
@@ -132,7 +133,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Logs out user.
      * 
-     * @return
+     * @return navigation string
      * @throws IOException
      */
     public String logout() throws IOException {
@@ -143,7 +144,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Navigate to page for changing password.
      * 
-     * @return
+     * @return navigation string
      */
     public String goToChangePassword() {
         return "changepassword";
@@ -152,7 +153,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Holds logic for changing password for an employee.
      * 
-     * @return
+     * @return navigation string
      */
     public String changePassword() {
         Employee emp = employee.getEmp();
@@ -160,11 +161,13 @@ public class FrontEndBoundary implements Serializable {
         String currentPassword = emp.getOldPassword();
         String confirmNewPassword = emp.getNewPasswordConfirm();
 
-        if (!confirmNewPassword.equals(newPassword))
+        if (!confirmNewPassword.equals(newPassword)) {            
             return null;
+        }
 
-        if (!currentPassword.equals(emp.getEmpPw()))
+        if (!currentPassword.equals(emp.getEmpPw())) {            
             return null;
+        }
 
         emp.setEmpPw(newPassword);
         employeeManager.merge(emp);
@@ -175,7 +178,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * String of notifications for a user.
      * 
-     * @return
+     * @return notification string
      */
     public String getNotifications() {
         int monthState = 0, weekState = 0;
@@ -211,7 +214,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Show current supervisor features.
      * 
-     * @return
+     * @return if role exists in session map
      */
     public boolean showSupervisor() {
         try {
@@ -224,7 +227,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Show current project manager features.
      * 
-     * @return
+     * @return if role exists in session map
      */
     public boolean showProjectManager() {
         try {
@@ -237,7 +240,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Show current responsible engineer features.
      * 
-     * @return
+     * @return if role exists in session map
      */
     public boolean showResponsibleEngineer() {
         try {
@@ -250,7 +253,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Show current timesheet approver features.
      * 
-     * @return
+     * @return if role exists in session map
      */
     public boolean showTimesheetApprover() {
         try {
@@ -263,7 +266,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Show admin features
      * 
-     * @return
+     * @return if role exists in session map
      */
     public boolean showAdmin() {
         try {
@@ -277,7 +280,7 @@ public class FrontEndBoundary implements Serializable {
      * Checks all the titles a user has, then adds them into the sessionmap for
      * us to check later on.
      * 
-     * @param title
+     * @param title title to check
      */
     public void checkTitle(Title title) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(title.getTitNm(), true);
@@ -286,7 +289,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Get supervisor controller.
      * 
-     * @return
+     * @return supMan
      */
     public SupervisorController getSupMan() {
         return supMan;
@@ -295,7 +298,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Set supervisor controller.
      * 
-     * @param supMan
+     * @param supMan supMan
      */
     public void setSupMan(SupervisorController supMan) {
         this.supMan = supMan;
@@ -304,7 +307,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Get login controller.
      * 
-     * @return
+     * @return login
      */
     public LoginController getLogin() {
         return login;
@@ -313,7 +316,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Get current employee.
      * 
-     * @return
+     * @return employee
      */
     public EmployeeController getEmployee() {
         return employee;
@@ -322,7 +325,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Set current employee.
      * 
-     * @param employee
+     * @param employee employee
      */
     public void setEmployee(EmployeeController employee) {
         this.employee = employee;
@@ -331,7 +334,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Set login controller.
      * 
-     * @param login
+     * @param login login
      */
     public void setLogin(LoginController login) {
         this.login = login;
@@ -340,7 +343,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Get controller for responsible engineer.
      * 
-     * @return
+     * @return resEng
      */
     public ResponsibleEngineerController getResEng() {
         return resEng;
@@ -349,7 +352,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Set controller for responsible engineer.
      * 
-     * @param resEng
+     * @param resEng resEng
      */
     public void setResEng(ResponsibleEngineerController resEng) {
         this.resEng = resEng;
@@ -358,7 +361,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Get current admin.
      * 
-     * @return
+     * @return admin
      */
     public AdminController getAdmin() {
         return admin;
@@ -367,7 +370,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Set a new admin.
      * 
-     * @param admin
+     * @param admin admin
      */
     public void setAdmin(AdminController admin) {
         this.admin = admin;
@@ -376,7 +379,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Get a project manager controller.
      * 
-     * @return
+     * @return projMan
      */
     public ProjectManagerController getProjMan() {
         return projMan;
@@ -385,7 +388,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Set a new project manager controller
      * 
-     * @param projMan
+     * @param projMan projMan
      */
     public void setProjMan(ProjectManagerController projMan) {
         this.projMan = projMan;
@@ -394,7 +397,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Get the timesheet approver controller.
      * 
-     * @return
+     * @return taApprover
      */
     public TimesheetApproverController getTaApprover() {
         return taApprover;
@@ -403,7 +406,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Set a new timesheet approver controller.
      * 
-     * @param taApprover
+     * @param taApprover taApprover
      */
     public void setTaApprover(TimesheetApproverController taApprover) {
         this.taApprover = taApprover;
@@ -412,7 +415,7 @@ public class FrontEndBoundary implements Serializable {
     /**
      * Sets the session context roles.
      * 
-     * @return
+     * @return session map
      */
     public Map<String, Object> getCurrentSessonMap() {
         return FacesContext.getCurrentInstance().getExternalContext().getSessionMap();

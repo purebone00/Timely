@@ -13,6 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Filter for session things.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 // Must match <servlet-name> of your FacesServlet.
 public class NoSessionFilter implements Filter {
 

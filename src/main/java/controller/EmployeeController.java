@@ -39,6 +39,7 @@ import utility.DateTimeUtility;
 /**
  * Contains methods used by employees to interact with their timesheets.
  * @author Timely
+ * @version 1.0
  *
  */
 @SuppressWarnings("serial")
@@ -152,6 +153,7 @@ public class EmployeeController implements Serializable {
     /**
      * For determining whether or not button for adding a new timesheet row is
      * displayed. Returns true (button is rendered in view) if
+     * @return true if button should be displayed
      */
     public boolean showAddButton() {
         try {
@@ -185,7 +187,7 @@ public class EmployeeController implements Serializable {
     /**
      * Sets the employee.
      * 
-     * @param emp
+     * @param emp employee
      */
     public void setEmp(Employee emp) {
         this.emp = emp;
@@ -214,6 +216,10 @@ public class EmployeeController implements Serializable {
      */
     private BigDecimal[] dailyTotals;
 
+    /**
+     * Get daily totals.
+     * @return daily totals.
+     */
     public BigDecimal[] getDailyTotals() {
         dailyTotals = new BigDecimal[DAYS_IN_WEEK_AND_TOTAL];
         for (int i = 0; i < dailyTotals.length; i++) {
@@ -254,7 +260,7 @@ public class EmployeeController implements Serializable {
     /**
      * Sets daily totals.
      * 
-     * @param dailyTotals
+     * @param dailyTotals daily totals
      */
     public void setDailyTotals(BigDecimal[] dailyTotals) {
         this.dailyTotals = dailyTotals;
@@ -263,7 +269,7 @@ public class EmployeeController implements Serializable {
     /**
      * Return current timesheet.
      * 
-     * @return
+     * @return current timesheet.
      */
     public Timesheet getCurTimesheet() {
         curTimesheet = tManager.find(tsId);
@@ -273,7 +279,7 @@ public class EmployeeController implements Serializable {
     /**
      * Set current timesheet.
      * 
-     * @param curTimesheet
+     * @param curTimesheet current timesheet
      */
     public void setCurTimesheet(Timesheet curTimesheet) {
         this.curTimesheet = curTimesheet;
@@ -282,7 +288,7 @@ public class EmployeeController implements Serializable {
     /**
      * Return a list of timesheets.
      * 
-     * @return
+     * @return timesheet list
      */
     public Set<Timesheet> getTsList() {
         if (tsList == null) {
@@ -323,6 +329,7 @@ public class EmployeeController implements Serializable {
      *            the updated timesheet row list
      * @param id
      *            ID of the timesheet whose rows are being fetched
+     * @return timesheet row list
      */
     public Set<Tsrow> refreshTsrList(Set<Tsrow> tsrList, TimesheetId id) {
         int remainder = 0;
@@ -387,7 +394,7 @@ public class EmployeeController implements Serializable {
     /**
      * Return a list of employees.
      * 
-     * @return
+     * @return list of employees
      */
     public List<Employee> getList() {
         refreshList();
@@ -399,12 +406,13 @@ public class EmployeeController implements Serializable {
      * Retrieves updated list of all employees.
      */
     public void refreshList() {
-        if (list == null)
+        if (list == null) {            
             list = employeeManager.getAll();
+        }
     }
 
     /**
-     * Updates the list with a new one from the database
+     * Updates the list with a new one from the database.
      */
     public void resetList() {
         list = employeeManager.getAll();
@@ -459,17 +467,19 @@ public class EmployeeController implements Serializable {
             row.setTimesheet(getCurTimesheet());
             row.setTimesheet(curTimesheet);
 
-            if (row.getTsrWpNo().isEmpty())
+            if (row.getTsrWpNo().isEmpty()) {                
                 continue;
+            }
 
             if (row.getTsrProjNo() != 0 && !row.getTsrWpNo().isEmpty()) {
 
-                if (checkDuplicateRows(count, row))
+                if (checkDuplicateRows(count, row)) {                    
                     return null;
+                }
 
-                if (wpManager.find(new WorkpackId(row.getTsrProjNo(), row.getTsrWpNo())) != null)
+                if (wpManager.find(new WorkpackId(row.getTsrProjNo(), row.getTsrWpNo())) != null) {                    
                     trManager.merge(row);
-                else {
+                } else {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
                             "Project Number and Work Package Number do not match.", "Please Try Again!"));
                     row.setTsrWpNo("");
@@ -497,6 +507,7 @@ public class EmployeeController implements Serializable {
 
     /**
      * Adds a row to the current timesheet.
+     * @return null string
      */
     public String addTsrow() {
         Tsrow row = new Tsrow();
@@ -508,7 +519,7 @@ public class EmployeeController implements Serializable {
     /**
      * Generate current weeks number.
      * 
-     * @return
+     * @return week number
      * @throws ParseException
      */
     public int getWeekNumber() throws ParseException {
@@ -531,28 +542,28 @@ public class EmployeeController implements Serializable {
      * @return List<Integer> list of project IDs
      */
     public List<Integer> projectIntegerList() {
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> listt = new ArrayList<Integer>();
         for (Project p : emp.getProjects()) {
-            list.add(p.getProjNo());
+            listt.add(p.getProjNo());
         }
-        return list;
+        return listt;
     }
 
     /**
-     * List of work packages
+     * List of work packages.
      * 
      * @return list of workpackages based on their work package number.
      */
     public List<String> workPackList() {
-        List<String> list = new ArrayList<String>();
-        list.add("");
+        List<String> listt = new ArrayList<String>();
+        listt.add("");
         for (Workpack w : emp.getWorkpackages()) {
             // only get open WP's
             if (w.getWpStatus() != null && w.getWpStatus() != 1) {
-                list.add(w.getId().getWpNo());
+                listt.add(w.getId().getWpNo());
             }
         }
-        return list;
+        return listt;
     }
 
     /**
@@ -588,7 +599,7 @@ public class EmployeeController implements Serializable {
     /**
      * Check if current timesheet is submitted.
      * 
-     * @return
+     * @return true if submitted
      */
     public boolean isSubmitted() {
         return curTimesheet.getTsSubmit() == 2 || curTimesheet.getTsSubmit() == 1;
@@ -603,12 +614,14 @@ public class EmployeeController implements Serializable {
 
         int count = 0;
 
-        if (tsList == null)
+        if (tsList == null) {            
             return count;
+        }
 
         for (Timesheet t : tsList) {
-            if (t.getTsSubmit() == 2)
+            if (t.getTsSubmit() == 2) {                
                 count++;
+            }
         }
         return count;
     }
@@ -622,12 +635,14 @@ public class EmployeeController implements Serializable {
 
         int count = 0;
 
-        if (tsList == null)
+        if (tsList == null) {            
             return count;
+        }
 
         for (Timesheet t : tsList) {
-            if (t.getTsSubmit() == 3)
+            if (t.getTsSubmit() == 3) {                
                 count++;
+            }
         }
         return count;
     }
@@ -641,12 +656,14 @@ public class EmployeeController implements Serializable {
 
         int count = 0;
 
-        if (tsList == null)
+        if (tsList == null) {            
             return count;
+        }
 
         for (Timesheet t : tsList) {
-            if (t.getTsSubmit() == 1)
+            if (t.getTsSubmit() == 1) {                
                 count++;
+            }
         }
         return count;
     }
@@ -654,7 +671,7 @@ public class EmployeeController implements Serializable {
     /**
      * Current size of all timesheets for the current employee.
      * 
-     * @return
+     * @return size of timesheet list
      */
     public int getTsSize() {
         getTsList();
@@ -664,17 +681,19 @@ public class EmployeeController implements Serializable {
     /**
      * List of approved timesheets.
      * 
-     * @return
+     * @return approved timesheets
      */
     public List<Timesheet> approvedTsList() {
         List<Timesheet> approvedList = new ArrayList<>();
 
-        if (tsList == null)
+        if (tsList == null) {            
             return approvedList;
+        }
 
         for (Timesheet t : tsList) {
-            if (t.getTsSubmit() == 2)
+            if (t.getTsSubmit() == 2) {                
                 approvedList.add(t);
+            }
         }
         return approvedList;
     }
@@ -682,17 +701,19 @@ public class EmployeeController implements Serializable {
     /**
      * List of rejected timesheets.
      * 
-     * @return
+     * @return rejected timesheets
      */
     public List<Timesheet> rejectedTsList() {
         List<Timesheet> rejectedList = new ArrayList<>();
 
-        if (tsList == null)
+        if (tsList == null) {            
             return rejectedList;
+        }
 
         for (Timesheet t : tsList) {
-            if (t.getTsSubmit() == 3)
+            if (t.getTsSubmit() == 3)  {                
                 rejectedList.add(t);
+            }
         }
         return rejectedList;
     }
@@ -700,17 +721,19 @@ public class EmployeeController implements Serializable {
     /**
      * List of pending timesheets.
      * 
-     * @return
+     * @return pending timesheets
      */
     public List<Timesheet> pendingTsList() {
         List<Timesheet> pendingList = new ArrayList<>();
 
-        if (tsList == null)
+        if (tsList == null) {            
             return pendingList;
+        }
 
         for (Timesheet t : tsList) {
-            if (t.getTsSubmit() == 1)
+            if (t.getTsSubmit() == 1) {                
                 pendingList.add(t);
+            }
         }
         return pendingList;
     }
@@ -737,7 +760,7 @@ public class EmployeeController implements Serializable {
     /**
      * Map of time sheet approvers.
      * 
-     * @return
+     * @return ta approver name map
      */
     public Map<String, Integer> getTaApproverNames() {
         getTimesheetApprovers();
@@ -752,9 +775,9 @@ public class EmployeeController implements Serializable {
     /**
      * Checks if key exists based on value.
      * 
-     * @param map
-     * @param value
-     * @return
+     * @param map map
+     * @param value value
+     * @return te
      */
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
         for (Entry<T, E> entry : map.entrySet()) {
@@ -768,20 +791,21 @@ public class EmployeeController implements Serializable {
     /**
      * Returns the name of timesheet approver.
      * 
-     * @param tsApprId
-     * @return
+     * @param tsApprId approver id
+     * @return name
      */
     public String getTaApproverName(Integer tsApprId) {
         String fullName = "TBD";
-        if (getTaApproverNames().containsValue(tsApprId))
+        if (getTaApproverNames().containsValue(tsApprId)) {            
             fullName = getKeyByValue(getTaApproverNames(), tsApprId);
+        }
         return fullName;
     }
 
     /**
      * Get Timesheet approver number.
      * 
-     * @return
+     * @return ta approver number
      */
     public Integer getTaApprover() {
         return taApprover;
@@ -790,7 +814,7 @@ public class EmployeeController implements Serializable {
     /**
      * Set Timesheet approver number.
      * 
-     * @param taApprover
+     * @param taApprover ta approver number
      */
     public void setTaApprover(Integer taApprover) {
         this.taApprover = taApprover;
@@ -799,7 +823,7 @@ public class EmployeeController implements Serializable {
     /**
      * List of timesheet approvers.
      * 
-     * @return
+     * @return list of timesheet approvers
      */
     public List<Employee> getTimesheetApprovers() {
         timesheetApprovers = employeeManager.getTaApprovers();
@@ -809,7 +833,7 @@ public class EmployeeController implements Serializable {
     /**
      * Set timesheet approvers.
      * 
-     * @param timesheetApprovers
+     * @param timesheetApprovers timesheet approvers
      */
     public void setTimesheetApprovers(List<Employee> timesheetApprovers) {
         this.timesheetApprovers = timesheetApprovers;
@@ -818,7 +842,7 @@ public class EmployeeController implements Serializable {
     /**
      * Get overtime value.
      * 
-     * @return
+     * @return overtime
      */
     public BigDecimal getOvertime() {
         return overtime;
@@ -827,7 +851,7 @@ public class EmployeeController implements Serializable {
     /**
      * Set overtime value.
      * 
-     * @param overtime
+     * @param overtime overtime
      */
     public void setOvertime(BigDecimal overtime) {
         this.overtime = overtime;
@@ -836,7 +860,7 @@ public class EmployeeController implements Serializable {
     /**
      * Get flextime value.
      * 
-     * @return
+     * @return flextime
      */
     public BigDecimal getFlextime() {
         return flextime;
@@ -845,7 +869,7 @@ public class EmployeeController implements Serializable {
     /**
      * Set flextime value.
      * 
-     * @param flextime
+     * @param flextime flextime
      */
     public void setFlextime(BigDecimal flextime) {
         this.flextime = flextime;
@@ -854,7 +878,7 @@ public class EmployeeController implements Serializable {
     /**
      * Edit overtime.
      * 
-     * @return
+     * @return is overtime editable
      */
     public boolean isOvertimeEditable() {
         return overtimeEditable;
@@ -863,7 +887,7 @@ public class EmployeeController implements Serializable {
     /**
      * Set editing overtime boolean.
      * 
-     * @param overtimeEditable
+     * @param overtimeEditable is overtime editable
      */
     public void setOvertimeEditable(boolean overtimeEditable) {
         this.overtimeEditable = overtimeEditable;

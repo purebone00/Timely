@@ -20,6 +20,9 @@ import model.Title;
 @Stateless
 public class TitleManager implements Serializable {
 
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
     

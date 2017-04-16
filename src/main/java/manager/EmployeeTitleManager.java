@@ -25,6 +25,9 @@ import model.EmptitleId;
 @Stateless
 public class EmployeeTitleManager implements Serializable {
 
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
@@ -85,19 +88,19 @@ public class EmployeeTitleManager implements Serializable {
     /**
      * List of employee titles.
      * @param e
-     * @return
+     * @return all employee titles
      */
     public List<Emptitle> getAllEmptitles(Employee e) {
         TypedQuery<Emptitle> query = em.createQuery("select s from Emptitle s where s.id.etEmpId=:code", Emptitle.class);
         query.setParameter("code", e.getEmpId());
         List<Emptitle> emptitles = query.getResultList();
 
-        return (emptitles != null) ? emptitles: new ArrayList<Emptitle>();
+        return (emptitles != null) ? emptitles : new ArrayList<Emptitle>();
     }
     
     /**
      * Remove all employee titles.
-     * @param e
+     * @param e employee 
      */
     public void removeAllTitles(Employee e) {
         for (Emptitle et : getAllEmptitles(e)) {

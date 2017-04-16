@@ -13,6 +13,12 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Filter for cache things.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 // Must match <servlet-name> of your FacesServlet.
 @WebFilter("/faces/*")
 public class NoCacheFilter implements Filter {

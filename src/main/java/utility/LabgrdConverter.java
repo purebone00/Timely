@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import manager.LabourGradeManager;
 
 /**
- * Converter for Labgrds
+ * Converter for Labgrds.
  * @author Timely
  * @version 1.0
  *

@@ -14,6 +14,12 @@ import model.Wplab;
 import model.Wpstarep;
 import utility.DateTimeUtility;
 
+/**
+ * Represents a row of a monthly report.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @SuppressWarnings("serial")
 public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportRow> {
 
@@ -77,6 +83,9 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
      */
     private boolean aggregate;
 
+    /**
+     * Default ctor.
+     */
     public MonthlyReportRow() {
         budgetTotalHours = BigDecimal.ZERO;
         budgetTotalCosts = BigDecimal.ZERO;
@@ -188,126 +197,250 @@ public class MonthlyReportRow implements Serializable, Comparable<MonthlyReportR
         }
     }
 
+    /**
+     * Get workpack.
+     * @return workpack
+     */
     public Workpack getWorkpack() {
         return this.workpack;
     }
 
+    /**
+     * Set workpack.
+     * @param workpack workpack
+     */
     public void setWorkpack(Workpack workpack) {
         this.workpack = workpack;
     }
 
+    /**
+     * Get budgetTotalHours.
+     * @return budgetTotalHours
+     */
     public BigDecimal getBudgetTotalHours() {
         return budgetTotalHours;
     }
 
+    /**
+     * Set budgetTotalHours.
+     * @param budgetTotalHours budgetTotalHours
+     */
     public void setBudgetTotalHours(BigDecimal budgetTotalHours) {
         this.budgetTotalHours = budgetTotalHours;
     }
 
+    /**
+     * Get getBudgetTotalDays.
+     * @return getBudgetTotalDays
+     */
     public BigDecimal getBudgetTotalDays() {
         return this.getBudgetTotalHours().divide(new BigDecimal(8));
     }
 
+    /**
+     * Set getBudgetTotalDays.
+     * @param budgetTotalDays getBudgetTotalDays
+     */
     public void setBudgetTotalDays(BigDecimal budgetTotalDays) {
         this.setBudgetTotalHours(budgetTotalDays.multiply(new BigDecimal(8)));
     }
 
+    /**
+     * Get budgetTotalCosts.
+     * @return budgetTotalCosts
+     */
     public BigDecimal getBudgetTotalCosts() {
         return budgetTotalCosts;
     }
 
+    /**
+     * Set budgetTotalCosts.
+     * @param budgetTotalCosts budgetTotalCosts
+     */
     public void setBudgetTotalCosts(BigDecimal budgetTotalCosts) {
         this.budgetTotalCosts = budgetTotalCosts;
     }
 
+    /**
+     * Get curTotalHours.
+     * @return curTotalHours
+     */
     public BigDecimal getCurTotalHours() {
         return curTotalHours;
     }
 
+    /**
+     * Set curTotalHours.
+     * @param curTotalHours curTotalHours
+     */
     public void setCurTotalHours(BigDecimal curTotalHours) {
         this.curTotalHours = curTotalHours;
     }
 
+    /**
+     * Get getCurTotalDays.
+     * @return getCurTotalDays
+     */
     public BigDecimal getCurTotalDays() {
         return this.getCurTotalHours().divide(new BigDecimal(8));
     }
 
+    /**
+     * Set getCurTotalDays.
+     * @param curTotalDays getCurTotalDays
+     */
     public void setCurTotalDays(BigDecimal curTotalDays) {
         this.setCurTotalHours(curTotalDays.multiply(new BigDecimal(8)));
     }
 
+    /**
+     * Get curTotalCosts.
+     * @return curTotalCosts
+     */
     public BigDecimal getCurTotalCosts() {
         return curTotalCosts;
     }
 
+    /**
+     * Set curTotalCosts.
+     * @param curTotalCosts curTotalCosts
+     */
     public void setCurTotalCosts(BigDecimal curTotalCosts) {
         this.curTotalCosts = curTotalCosts;
     }
 
+    /**
+     * Get projTotalHours.
+     * @return projTotalHours
+     */
     public BigDecimal getProjTotalHours() {
         return projTotalHours;
     }
 
+    /**
+     * Set projTotalHours.
+     * @param projTotalHours projTotalHours
+     */
     public void setProjTotalHours(BigDecimal projTotalHours) {
         this.projTotalHours = projTotalHours;
     }
 
+    /**
+     * Get getProjTotalDays.
+     * @return getProjTotalDays
+     */
     public BigDecimal getProjTotalDays() {
         return this.getProjTotalHours() == null ? null : this.getProjTotalHours().divide(new BigDecimal(8));
     }
 
+    /**
+     * Set getProjTotalDays.
+     * @param projTotalDays getProjTotalDays
+     */
     public void setProjTotalDays(BigDecimal projTotalDays) {
         this.setProjTotalHours(projTotalDays.multiply(new BigDecimal(8)));
     }
 
+    /**
+     * Get projTotalCosts.
+     * @return projTotalCosts
+     */
     public BigDecimal getProjTotalCosts() {
         return projTotalCosts;
     }
 
+    /**
+     * Set projTotalCosts.
+     * @param projTotalCosts projTotalCosts
+     */
     public void setProjTotalCosts(BigDecimal projTotalCosts) {
         this.projTotalCosts = projTotalCosts;
     }
 
+    /**
+     * Get varTime.
+     * @return varTime
+     */
     public BigDecimal getVarTime() {
         return varTime;
     }
 
+    /**
+     * Set varTime.
+     * @param varTime varTime
+     */
     public void setVarTime(BigDecimal varTime) {
         this.varTime = varTime;
     }
 
+    /**
+     * Get varCosts. 
+     * @return varCosts
+     */
     public BigDecimal getVarCosts() {
         return varCosts;
     }
 
+    /**
+     * Set varCosts.
+     * @param varCosts varCosts
+     */
     public void setVarCosts(BigDecimal varCosts) {
         this.varCosts = varCosts;
     }
 
+    /**
+     * Get overtimeHrs.
+     * @return overtimeHrs
+     */
     public BigDecimal getOvertimeHrs() {
         return overtimeHrs;
     }
 
+    /**
+     * Set overtimeHrs
+     * @param overtimeHrs overtimeHrs
+     */
     public void setOvertimeHrs(BigDecimal overtimeHrs) {
         this.overtimeHrs = overtimeHrs;
     }
     
+    /**
+     * Get getOvertimeDays.
+     * @return getOvertimeDays
+     */
     public BigDecimal getOvertimeDays() {
         return this.overtimeHrs.divide(new BigDecimal(8));
     }
 
+    /**
+     * Get visited.
+     * @return visited
+     */
     public int getVisited() {
         return this.visited;
     }
 
+    /**
+     * Set visited.
+     * @param visited visited
+     */
     public void setVisited(int visited) {
         this.visited = visited;
     }
 
+    /**
+     * Get aggregate.
+     * @return aggregate
+     */
     public boolean getAggregate() {
         return this.aggregate;
     }
 
+    /**
+     * Set aggregate.
+     * @param aggregate aggregate
+     */
     public void setAggregate(boolean aggregate) {
         this.aggregate = aggregate;
     }

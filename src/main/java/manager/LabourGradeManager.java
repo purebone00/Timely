@@ -22,6 +22,9 @@ import model.Labgrd;
 @Dependent
 @Stateless
 public class LabourGradeManager implements Serializable {
+    /**
+     * Entity manager.
+     */
     @PersistenceContext(unitName = "Timely-persistence-unit")
     EntityManager em;
 
