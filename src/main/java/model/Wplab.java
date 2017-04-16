@@ -14,6 +14,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+/**
+ * Entities for Wplab table.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "Wplab")

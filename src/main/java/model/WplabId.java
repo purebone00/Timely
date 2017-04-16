@@ -5,6 +5,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * Wplab id's.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @SuppressWarnings("serial")
 @Embeddable
 public class WplabId implements Serializable {

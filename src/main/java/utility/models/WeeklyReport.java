@@ -8,6 +8,12 @@ import java.util.List;
 import model.Tsrow;
 import model.Wpstarep;
 
+/**
+ * Represents a weekly report.
+ * @author Timely
+ * @version 1.0
+ *
+ */
 @SuppressWarnings("serial")
 public class WeeklyReport implements Serializable {
     
