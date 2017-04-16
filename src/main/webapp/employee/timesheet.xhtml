@@ -1,261 +1,203 @@
 <ui:composition template="/template/master_page.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:b="http://bootsfaces.net/ui">
-    <ui:define name="title">Timesheets</ui:define>
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+	<ui:define name="title">Timesheets</ui:define>
 
-    <ui:define name="content">
-        <div class="ui segment grid">
-            <b:row>
-                <b:column>
-                    <div class="jumbotron text-center">
-                        <h1>Timesheets</h1>
-                        <span></span>
-                    </div>
+	<ui:define name="content">
+		<div class="ui segment grid">
+			<b:row>
+				<b:column>
+					<div class="jumbotron text-center">
+						<h1>Timesheets</h1>
+						<span></span>
+					</div>
 
-                    <div class="container">
-                        <b:row>
-	                        <b:panelGrid colSpans="6,6" size="md">
-							    <h4>EmployeeID:
-                                    #{Master.employee.emp.empId}</h4>
-                                <h4>Employee Name:
-                                    #{Master.employee.emp.empFnm}
-                                    #{Master.employee.emp.empLnm}</h4>
-                                <h4>Week Number:
-                                    #{Master.employee.weekNumber}</h4>
-                                <h4>Week End:
-                                    #{Master.employee.curTimesheet.id.tsWkEnd}</h4>
+					<div class="container">
+						<b:row>
+							<b:panelGrid colSpans="6,6" size="md">
+								<h4>EmployeeID: #{Master.employee.emp.empId}</h4>
+								<h4>Employee Name: #{Master.employee.emp.empFnm}
+									#{Master.employee.emp.empLnm}</h4>
+								<h4>Week Number: #{Master.employee.weekNumber}</h4>
+								<h4>Week End: #{Master.employee.curTimesheet.id.tsWkEnd}</h4>
 							</b:panelGrid>
-                        </b:row>
-                    </div>
+						</b:row>
+					</div>
 
-                    <div class="container">
-                        <b:row>
-                            <b:form>
-                                <b:row>
-                                    <b:dataTable responsive="false"
-                                        searching="false"
-                                        paginated="false" span="1"
-                                        value="#{Master.employee.tsrList}"
-                                        var="s" class="editableTable table-inverse">
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Project No.</f:facet>
-                                            <!--  <b:inputText value="#{s.tsrProjNo}" size="10" rendered="#{s.editable}" /> -->
-                                            <b:selectOneMenu
-                                                class="form-control"
-                                                value="#{s.tsrProjNo}"
-                                                rendered="#{s.editable}">
-                                                <f:selectItems
-                                                    class="selectpicker"
-                                                    value="#{Master.employee.projectIntegerList()}" />
-                                            </b:selectOneMenu>
-                                            <h:outputText
-                                                class="ProjectNo"
-                                                value="#{s.tsrProjNo}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">Total</f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn order="desc">
-                                            <f:facet name="header">WP No.</f:facet>
-                                            <h:outputText
-                                                value="#{s.tsrWpNo}"
-                                                rendered="#{not s.editable}" /> 
+					<div class="container">
+						<b:row>
+							<b:form>
+								<b:row>
+									<b:dataTable responsive="false" searching="false"
+										paginated="false" span="1" value="#{Master.employee.tsrList}"
+										var="s" class="editableTable table-inverse">
+										<b:dataTableColumn>
+											<f:facet name="header">Project No.</f:facet>
+											<!--  <b:inputText value="#{s.tsrProjNo}" size="10" rendered="#{s.editable}" /> -->
+											<b:selectOneMenu class="form-control" value="#{s.tsrProjNo}"
+												rendered="#{s.editable}">
+												<f:selectItems class="selectpicker"
+													value="#{Master.employee.projectIntegerList()}" />
+											</b:selectOneMenu>
+											<h:outputText class="ProjectNo" value="#{s.tsrProjNo}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">Total</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn order="desc">
+											<f:facet name="header">WP No.</f:facet>
+											<h:outputText value="#{s.tsrWpNo}"
+												rendered="#{not s.editable}" />
 											<b:selectOneMenu class="form-control" value="#{s.tsrWpNo}"
 												rendered="#{s.editable}">
 												<f:selectItems class="selectpicker"
 													value="#{Master.employee.workPackList()}" />
 											</b:selectOneMenu>
 										</b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Totals</f:facet>
-                                            <h:outputText
-                                                class="TotalNo"
-                                                value="#{s.total}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[7]}</f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Saturday</f:facet>
-                                            <b:inputText
-                                            	id="satHours"
-                                                value="#{s.tsrSat}"
-                                                size="10"
-                                                rendered="#{s.editable}"
-                                                validatorMessage="Hours worked on Saturday must be between 0 and 24"
-                                                converterMessage="Must follow the #00.0 format and be between 0 and 24">
-                                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-                                                <f:convertNumber pattern="#00.0" />
-                                            </b:inputText>
-                                            <h:outputText
-                                                value="#{s.tsrSat}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[5]}</f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Sunday</f:facet>
-                                            <b:inputText
-                                            	id="sunHours"
-                                                value="#{s.tsrSun}"
-                                                size="10"
-                                                rendered="#{s.editable}"
-                                                validatorMessage="Hours worked on Sunday must be between 0 and 24"
-                                                converterMessage="Must follow the #00.0 format and be between 0 and 24">
-                                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-                                                <f:convertNumber pattern="#00.0" />
-                                            </b:inputText>
-                                            <h:outputText
-                                                value="#{s.tsrSun}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[6]}</f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Monday</f:facet>
-                                            <b:inputText
-                                            	id="monHours"
-                                                value="#{s.tsrMon}"
-                                                size="10"
-                                                rendered="#{s.editable}"
-                                                validatorMessage="Hours worked on Monday must be between 0 and 24"
-                                                converterMessage="Must follow the #00.0 format and be between 0 and 24">
-                                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-                                                <f:convertNumber pattern="#00.0" />
-                                            </b:inputText>
-                                            <h:outputText
-                                                value="#{s.tsrMon}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[0]}
+										<b:dataTableColumn>
+											<f:facet name="header">Totals</f:facet>
+											<h:outputText class="TotalNo" value="#{s.total}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[7]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Saturday</f:facet>
+											<b:inputText id="satHours" value="#{s.tsrSat}" size="10"
+												rendered="#{s.editable}"
+												validatorMessage="Hours worked on Saturday must be between 0 and 24"
+												converterMessage="Must follow the #00.0 format and be between 0 and 24">
+												<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+												<f:convertNumber pattern="#00.0" />
+											</b:inputText>
+											<h:outputText value="#{s.tsrSat}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[5]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Sunday</f:facet>
+											<b:inputText id="sunHours" value="#{s.tsrSun}" size="10"
+												rendered="#{s.editable}"
+												validatorMessage="Hours worked on Sunday must be between 0 and 24"
+												converterMessage="Must follow the #00.0 format and be between 0 and 24">
+												<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+												<f:convertNumber pattern="#00.0" />
+											</b:inputText>
+											<h:outputText value="#{s.tsrSun}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[6]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Monday</f:facet>
+											<b:inputText id="monHours" value="#{s.tsrMon}" size="10"
+												rendered="#{s.editable}"
+												validatorMessage="Hours worked on Monday must be between 0 and 24"
+												converterMessage="Must follow the #00.0 format and be between 0 and 24">
+												<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+												<f:convertNumber pattern="#00.0" />
+											</b:inputText>
+											<h:outputText value="#{s.tsrMon}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[0]}
 	                                        
 	                                        </f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Tuesday</f:facet>
-                                            <b:inputText
-                                            	id="tuesHours"
-                                                value="#{s.tsrTue}"
-                                                size="10"
-                                                rendered="#{s.editable}"
-                                                validatorMessage="Hours worked on Tuesday must be between 0 and 24"
-                                                converterMessage="Must follow the #00.0 format and be between 0 and 24">
-                                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-                                                <f:convertNumber pattern="#00.0" />
-                                            </b:inputText>
-                                            <h:outputText
-                                                value="#{s.tsrTue}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[1]}</f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Wednesday</f:facet>
-                                            <b:inputText
-                                            	id="wedHours"
-                                                value="#{s.tsrWed}"
-                                                size="10"
-                                                rendered="#{s.editable}"
-                                                validatorMessage="Hours worked on Wednesday must be between 0 and 24"
-                                                converterMessage="Must follow the #00.0 format and be between 0 and 24">
-                                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-                                                <f:convertNumber pattern="#00.0" />
-                                            </b:inputText>
-                                            <h:outputText
-                                                value="#{s.tsrWed}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[2]}</f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Thursday</f:facet>
-                                            <b:inputText
-                                            	id="thursHours"
-                                                value="#{s.tsrThu}"
-                                                size="10"
-                                                rendered="#{s.editable}" 
-                                                validatorMessage="Hours worked on Thursday must be between 0 and 24"
-                                                converterMessage="Must follow the #00.0 format and be between 0 and 24">
-                                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-                                                <f:convertNumber pattern="#00.0" />
-                                            </b:inputText>
-                                            <h:outputText
-                                                value="#{s.tsrThu}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[3]}</f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Friday</f:facet>
-                                            <b:inputText
-                                            	id="friHours"
-                                                value="#{s.tsrFri}"
-                                                size="10"
-                                                rendered="#{s.editable}"
-                                                validatorMessage="Hours worked on Saturday must be between 0 and 24"
-                                                converterMessage="Must follow the #00.0 format and be between 0 and 24">
-                                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-                                                <f:convertNumber pattern="#00.0" />
-                                            </b:inputText>
-                                            <h:outputText
-                                                value="#{s.tsrFri}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[4]}
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Tuesday</f:facet>
+											<b:inputText id="tuesHours" value="#{s.tsrTue}" size="10"
+												rendered="#{s.editable}"
+												validatorMessage="Hours worked on Tuesday must be between 0 and 24"
+												converterMessage="Must follow the #00.0 format and be between 0 and 24">
+												<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+												<f:convertNumber pattern="#00.0" />
+											</b:inputText>
+											<h:outputText value="#{s.tsrTue}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[1]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Wednesday</f:facet>
+											<b:inputText id="wedHours" value="#{s.tsrWed}" size="10"
+												rendered="#{s.editable}"
+												validatorMessage="Hours worked on Wednesday must be between 0 and 24"
+												converterMessage="Must follow the #00.0 format and be between 0 and 24">
+												<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+												<f:convertNumber pattern="#00.0" />
+											</b:inputText>
+											<h:outputText value="#{s.tsrWed}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[2]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Thursday</f:facet>
+											<b:inputText id="thursHours" value="#{s.tsrThu}" size="10"
+												rendered="#{s.editable}"
+												validatorMessage="Hours worked on Thursday must be between 0 and 24"
+												converterMessage="Must follow the #00.0 format and be between 0 and 24">
+												<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+												<f:convertNumber pattern="#00.0" />
+											</b:inputText>
+											<h:outputText value="#{s.tsrThu}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[3]}</f:facet>
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Friday</f:facet>
+											<b:inputText id="friHours" value="#{s.tsrFri}" size="10"
+												rendered="#{s.editable}"
+												validatorMessage="Hours worked on Saturday must be between 0 and 24"
+												converterMessage="Must follow the #00.0 format and be between 0 and 24">
+												<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+												<f:convertNumber pattern="#00.0" />
+											</b:inputText>
+											<h:outputText value="#{s.tsrFri}"
+												rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[4]}
 	                                        </f:facet>
-                                        </b:dataTableColumn>
-                                         <b:dataTableColumn>
-                                            <f:facet name="header">Overtime</f:facet>
-                                            <h:inputText
-                                                value="#{s.tsrOt}"
-                                                size="10"
-                                                rendered="#{s.editable}" />
-                                            <h:outputText
-                                                value="#{s.tsrOt}"
-                                                rendered="#{not s.editable}" />
-                                            <f:facet name="footer">#{Master.employee.dailyTotals[8]}
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Overtime</f:facet>
+											<h:inputText value="#{s.tsrOt}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrOt}" rendered="#{not s.editable}" />
+											<f:facet name="footer">#{Master.employee.dailyTotals[8]}
 	                                        </f:facet>
-                                        </b:dataTableColumn>
-                                        <b:dataTableColumn>
-                                            <f:facet name="header">Notes</f:facet>
-                                            <h:inputText
-                                                value="#{s.tsrNote}"
-                                                size="10"
-                                                rendered="#{s.editable}" />
-                                            <h:outputText
-                                                value="#{s.tsrNote}"
-                                                rendered="#{not s.editable}" />
-                                        </b:dataTableColumn>
-                                    </b:dataTable>
-                                </b:row>
-                                <b:row>
-                                    <b:column col-md="6">
-                                        <b:buttonGroup>
-                                            <b:commandButton
-                                                value="Save Changes"
-                                                look="success"
-                                                action="#{Master.employee.saveAction}" 
-                                                disabled = "#{Master.employee.isSubmitted()}"/>
-                                            <b:commandButton
-                                                value="Edit"
-                                                look="warning"
-                                                icon="edit"
-                                                action="#{Master.employee.editAction()}"
-                                                rendered="#{not s.editable}" 
-                                                disabled = "#{Master.employee.isSubmitted()}"/>
-                                            <b:commandButton
-                                                value="Add Row"
-                                                look="info"
-                                                action="#{Master.employee.addTsrow}" 
-                                                disabled = "#{Master.employee.isSubmitted()}"/>
-                                                
+										</b:dataTableColumn>
+										<b:dataTableColumn>
+											<f:facet name="header">Notes</f:facet>
+											<h:inputText value="#{s.tsrNote}" size="10"
+												rendered="#{s.editable}" />
+											<h:outputText value="#{s.tsrNote}"
+												rendered="#{not s.editable}" />
+										</b:dataTableColumn>
+									</b:dataTable>
+								</b:row>
+								<b:row>
+									<b:column col-md="6">
+										<b:buttonGroup>
+											<b:commandButton value="Save Changes" look="success"
+												action="#{Master.employee.saveAction}"
+												disabled="#{Master.employee.isSubmitted()}" />
+											<b:commandButton value="Edit" look="warning" icon="edit"
+												action="#{Master.employee.editAction()}"
+												rendered="#{not s.editable}"
+												disabled="#{Master.employee.isSubmitted()}" />
+											<b:commandButton value="Add Row" look="info"
+												action="#{Master.employee.addTsrow}"
+												disabled="#{Master.employee.isSubmitted()}" />
+
 											<b:button value="Submit Timesheet" look="danger"
 												onclick="$('.modalPseudoClass').modal();return false;"
-												size="md" 
-												disabled = "#{Master.employee.isSubmitted()}"/>
+												size="md" disabled="#{Master.employee.isSubmitted()}" />
 
 
 											<b:modal id="amodal" title="Timesheet Approver"
 												styleClass="modalPseudoClass" closable="false"
 												close-on-escape="false" backdrop="false">
-												<p>Choose your Timesheet Approver: </p>
-												<h:selectOneMenu
-												 class="form-control"
-												 value="#{Master.employee.taApprover}">
+												<p>Choose your Timesheet Approver:</p>
+												<h:selectOneMenu class="form-control"
+													value="#{Master.employee.taApprover}">
 													<f:selectItems class="selectpicker"
 														value="#{Master.employee.getTaApproverNames()}" />
 												</h:selectOneMenu>
@@ -264,41 +206,41 @@
 														onclick="return false;" />
 													<b:commandButton value="Ok" look="primary"
 														action="#{Master.employee.submitTimesheet}"
-														dismiss="modal"/>
+														dismiss="modal" />
 													<!-- <b:button value="Ok" look="primary" dismiss="modal"
 														onclick="return false;" />  -->
 												</f:facet>
 											</b:modal>
 										</b:buttonGroup>
-                                    </b:column>
-                                    <b:column col-md="2" offset="2">
-                                        <b:panel>
-                                            <p>
-                                                <b>Flextime: </b> 
-                                                <b:inputText value="#{Master.employee.flextime}" 
-                                                	rendered="#{Master.employee.overtimeEditable}" />
-                                                <h:outputText value="#{Master.employee.flextime}" 
-                                                	rendered="#{not Master.employee.overtimeEditable 
+									</b:column>
+									<b:column col-md="2" offset="2">
+										<b:panel>
+											<p>
+												<b>Flextime: </b>
+												<b:inputText value="#{Master.employee.flextime}"
+													rendered="#{Master.employee.overtimeEditable}" />
+												<h:outputText value="#{Master.employee.flextime}"
+													rendered="#{not Master.employee.overtimeEditable 
                                                 		and Master.employee.flextime != null}" />
-                                                <h:outputText value="0.0" 
-                                                	rendered="#{not Master.employee.overtimeEditable
+												<h:outputText value="0.0"
+													rendered="#{not Master.employee.overtimeEditable
                                                 		and Master.employee.flextime == null}" />
-                                            </p>
-                                            
-                                        </b:panel>
-                                    </b:column>
-                                </b:row>
-                                <b:row>
-                                	<b:messages />
-                                </b:row>
-                            </b:form>
-                        </b:row>
-                    </div>
-                </b:column>
-            </b:row>
-        </div>
+											</p>
+
+										</b:panel>
+									</b:column>
+								</b:row>
+								<b:row>
+									<b:messages />
+								</b:row>
+							</b:form>
+						</b:row>
+					</div>
+				</b:column>
+			</b:row>
+		</div>
 
 
-    </ui:define>
+	</ui:define>
 </ui:composition>
 

@@ -9,15 +9,12 @@ import java.util.TreeMap;
 import java.util.Set;
 
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
-import model.Labgrd;
 import model.Project;
 import model.Title;
 import model.Workpack;

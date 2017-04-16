@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
-import model.Labgrd;
 import model.Project;
 import model.Workpack;
 

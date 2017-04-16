@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.ejb.Stateful;
-import javax.faces.application.ViewExpiredException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -15,19 +14,18 @@ import manager.EmployeeManager;
 import manager.TimesheetManager;
 import model.Employee;
 import model.Timesheet;
-import model.TimesheetId;
 import model.Tsrow;
 
 /**
- * Contains methods used by timesheet approvers. 
+ * Contains methods used by timesheet approvers.
  */
 @SuppressWarnings("serial")
 @Stateful
 @Named("taApprover")
 public class TimesheetApproverController implements Serializable {
-	/**
-	 * Project that contains SICK/VACATION/FLEX work packages.
-	 */
+    /**
+     * Project that contains SICK/VACATION/FLEX work packages.
+     */
     public static final int FLEX_PROJ_NO = 1111;
     /**
      * Work package id for flex time.
@@ -66,19 +64,30 @@ public class TimesheetApproverController implements Serializable {
      */
     private Set<Timesheet> listOfApproved;
     /**
-     * Collection of timesheets that have not been approved yet. 
+     * Collection of timesheets that have not been approved yet.
      */
     private Set<Timesheet> listToBeApproved;
 
+    /**
+     * Set current employee.
+     * 
+     * @param emp
+     */
     public void setEmp(Employee emp) {
         this.emp = emp;
     }
 
+    /**
+     * Current employee.
+     * 
+     * @return
+     */
     public Employee getEmp() {
         return emp;
     }
+
     /**
-     * 
+     * List of approved timesheets.
      */
     public Set<Timesheet> getListOfApproved() {
         if (listOfApproved == null) {
@@ -86,14 +95,16 @@ public class TimesheetApproverController implements Serializable {
         }
         return listOfApproved;
     }
+
     /**
-     * 
+     * Sets list of approved timesheets.
      */
     public void setListOfApproved(Set<Timesheet> listOfApproved) {
         this.listOfApproved = listOfApproved;
     }
+
     /**
-     * 
+     * Lazily refresh list of approved timesheets.
      */
     public void refreshApprovedList() {
         Set<Timesheet> temp = new HashSet<>();
@@ -104,8 +115,11 @@ public class TimesheetApproverController implements Serializable {
         });
         listOfApproved = temp;
     }
+
     /**
+     * List of approved employee timesheets.
      * 
+     * @return
      */
     public Set<Timesheet> getListToBeApproved() {
         if (listToBeApproved == null) {
@@ -113,14 +127,18 @@ public class TimesheetApproverController implements Serializable {
         }
         return listToBeApproved;
     }
+
     /**
+     * List of timesheets to be approved.
      * 
+     * @param listToBeApproved
      */
     public void setListToBeApproved(Set<Timesheet> listToBeApproved) {
         this.listToBeApproved = listToBeApproved;
     }
+
     /**
-     * 
+     * List of timesheets with status symbol 1.
      */
     public void refreshToBeApprovedList() {
 
@@ -133,6 +151,11 @@ public class TimesheetApproverController implements Serializable {
         listToBeApproved = temp;
     }
 
+    /**
+     * Lazily load timesheets.
+     * 
+     * @return
+     */
     public Set<Timesheet> getListOfts() {
         if (listOfts == null) {
             refreshList();
@@ -140,12 +163,17 @@ public class TimesheetApproverController implements Serializable {
         return listOfts;
     }
 
+    /**
+     * Sets timesheets approved.
+     * 
+     * @param tsToApproveList
+     */
     public void setListOfts(Set<Timesheet> tsToApproveList) {
         this.listOfts = tsToApproveList;
     }
 
     /**
-     * Retrieves list of timesheets the approver has yet to review. 
+     * Retrieves list of timesheets the approver has yet to review.
      */
     public void refreshList() {
         try {
@@ -155,35 +183,69 @@ public class TimesheetApproverController implements Serializable {
         }
     }
 
+    /**
+     * Reviewed timesheet.
+     * 
+     * @return
+     */
     public Timesheet getReviewTimesheet() {
         return reviewTimesheet;
     }
 
+    /**
+     * Set reviewed timesheet.
+     * 
+     * @param reviewTimesheet
+     */
     public void setReviewTimesheet(Timesheet reviewTimesheet) {
         this.reviewTimesheet = reviewTimesheet;
     }
 
+    /**
+     * Currently reviewed employee.
+     * 
+     * @return
+     */
     public Employee getEmployeeReviewed() {
         return employeeReviewed;
     }
 
+    /**
+     * Set employee being reviewed.
+     * 
+     * @param e
+     */
     public void setEmployeeReviewed(Employee e) {
         this.employeeReviewed = e;
     }
 
+    /**
+     * Go to review sheet.
+     * 
+     * @param selectedTimesheet
+     * @return
+     */
     public String goToReviewTimesheet(Timesheet selectedTimesheet) {
         this.setReviewTimesheet(selectedTimesheet);
         this.setEmployeeReviewed(selectedTimesheet.getEmployee());
         return "review";
     }
 
+    /**
+     * View timesheets.
+     * 
+     * @param selectedTimesheet
+     * @return
+     */
     public String viewTimesheet(Timesheet selectedTimesheet) {
         this.setReviewTimesheet(selectedTimesheet);
         this.setEmployeeReviewed(selectedTimesheet.getEmployee());
         return "view";
     }
+
     /**
      * Method for bulk approving of timesheets.
+     * 
      * @return String navigation string
      */
     public String approveAllTimesheet() {
@@ -191,7 +253,7 @@ public class TimesheetApproverController implements Serializable {
             if (t.getIsApprove() == true) {
                 t.setTsApprDt(new Date());
                 t.setTsApprover(emp);
-                //t.setTsApprId(emp.getEmpId());
+                // t.setTsApprId(emp.getEmpId());
                 tManager.merge(t);
                 listOfts.remove(t);
             }
@@ -199,6 +261,11 @@ public class TimesheetApproverController implements Serializable {
         return "success";
     }
 
+    /**
+     * Accept timesheet.
+     * 
+     * @return
+     */
     public String accept() {
         tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short) 2);
         processFlextime();
@@ -207,29 +274,37 @@ public class TimesheetApproverController implements Serializable {
         return "approver";
     }
 
+    /**
+     * Reject timesheet.1
+     * 
+     * @return
+     */
     public String reject() {
         tManager.find(this.getReviewTimesheet().getId()).setTsSubmit((short) 3);
         refreshApprovedList();
         refreshToBeApprovedList();
         return "approver";
     }
-    
+
+    /**
+     * Process flex time.
+     */
     private void processFlextime() {
         Timesheet t = tManager.find(this.getReviewTimesheet().getId());
         Employee e = t.getEmployee();
         BigDecimal flextimeAdd = t.getTsFlexTm() == null ? BigDecimal.ZERO : t.getTsFlexTm();
         BigDecimal flextimeSub = BigDecimal.ZERO;
-        
+
         for (Tsrow ts : t.getTsrow()) {
             if (ts.getTsrProjNo() == FLEX_PROJ_NO && ts.getTsrWpNo().equals(FLEX_WP_NO)) {
                 flextimeSub = ts.getTotal();
                 break;
             }
         }
-        
+
         BigDecimal curFlextime = e.getEmpFlxTm() == null ? BigDecimal.ZERO : e.getEmpFlxTm();
         e.setEmpFlxTm(curFlextime.add(flextimeAdd).subtract(flextimeSub));
         empManager.merge(e);
     }
- 
+
 }

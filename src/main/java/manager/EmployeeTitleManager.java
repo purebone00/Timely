@@ -82,6 +82,11 @@ public class EmployeeTitleManager implements Serializable {
         em.remove(empTitle);
     }
     
+    /**
+     * List of employee titles.
+     * @param e
+     * @return
+     */
     public List<Emptitle> getAllEmptitles(Employee e) {
         TypedQuery<Emptitle> query = em.createQuery("select s from Emptitle s where s.id.etEmpId=:code", Emptitle.class);
         query.setParameter("code", e.getEmpId());
@@ -90,6 +95,10 @@ public class EmployeeTitleManager implements Serializable {
         return (emptitles != null) ? emptitles: new ArrayList<Emptitle>();
     }
     
+    /**
+     * Remove all employee titles.
+     * @param e
+     */
     public void removeAllTitles(Employee e) {
         for (Emptitle et : getAllEmptitles(e)) {
             remove(et);

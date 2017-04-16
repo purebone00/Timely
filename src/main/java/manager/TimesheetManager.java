@@ -7,10 +7,8 @@ import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import model.Employee;
 import model.Timesheet;
 import model.TimesheetId;
 

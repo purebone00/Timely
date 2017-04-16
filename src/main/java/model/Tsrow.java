@@ -30,7 +30,7 @@ public class Tsrow implements java.io.Serializable {
      * If row is editable or not.
      */
     private boolean editable;
-    
+
     /**
      * Total of the row.
      */
@@ -45,77 +45,77 @@ public class Tsrow implements java.io.Serializable {
      * Employee id of owner of timesheet row.
      */
     private int tsrEmpId;
-    
+
     /**
      * Week this timesheet row is for.
      */
     private String tsrWkEnd;
-    
+
     /**
      * Project of timesheet row.
      */
     private int tsrProjNo;
-    
+
     /**
      * Work package of timesheet row.
      */
     private String tsrWpNo;
-    
+
     /**
      * Hours for Saturday.
      */
     private BigDecimal tsrSat;
-    
+
     /**
      * Hours for Sunday.
      */
     private BigDecimal tsrSun;
-    
+
     /**
      * Hours for Monday.
      */
     private BigDecimal tsrMon;
-    
+
     /**
      * Hours for Tuesday.
      */
     private BigDecimal tsrTue;
-    
+
     /**
      * Hours for Wednesday.
      */
     private BigDecimal tsrWed;
-    
+
     /**
      * Hours for Thursday.
      */
     private BigDecimal tsrThu;
-    
+
     /**
      * Hours for Friday.
      */
     private BigDecimal tsrFri;
-    
+
     /**
      * Hours for overtime.
      */
     private BigDecimal tsrOt;
-    
+
     /**
      * Notes column.
      */
     private String tsrNote;
-    
+
     /**
      * Row deleted flag.
      */
     private short tsrDel;
-    
+
     /**
      * Insert date.
      */
     private Date tsrInsDt;
-    
+
     /**
      * Update date.
      */
@@ -128,6 +128,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get timesheet.
+     * 
      * @return timesheet
      */
     @ManyToOne
@@ -139,7 +140,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set timesheet.
-     * @param timesheet timesheet
+     * 
+     * @param timesheet
+     *            timesheet
      */
     public void setTimesheet(Timesheet timesheet) {
         this.timesheet = timesheet;
@@ -154,13 +157,21 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Create a tsrow.
-     * @param tsrEmpId employee id
-     * @param tsrWkEnd week end string
-     * @param tsrProjNo project number
-     * @param tsrWpNo wp number
-     * @param tsrDel delete flag
-     * @param tsrInsDt insert date
-     * @param tsrUpDt update date
+     * 
+     * @param tsrEmpId
+     *            employee id
+     * @param tsrWkEnd
+     *            week end string
+     * @param tsrProjNo
+     *            project number
+     * @param tsrWpNo
+     *            wp number
+     * @param tsrDel
+     *            delete flag
+     * @param tsrInsDt
+     *            insert date
+     * @param tsrUpDt
+     *            update date
      */
     public Tsrow(int tsrEmpId, String tsrWkEnd, int tsrProjNo, String tsrWpNo, short tsrDel, Date tsrInsDt,
             Date tsrUpDt) {
@@ -175,21 +186,37 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Create a Tsrow
-     * @param tsrEmpId employee id
-     * @param tsrWkEnd week end string
-     * @param tsrProjNo project number
-     * @param tsrWpNo wp number
-     * @param tsrSat sat hours
-     * @param tsrSun sun hours
-     * @param tsrMon mon hours
-     * @param tsrTue tue hours
-     * @param tsrWed wed hours
-     * @param tsrThu thu hours
-     * @param tsrFri fri hours
-     * @param tsrNote note
-     * @param tsrDel delete flag 
-     * @param tsrInsDt insert date
-     * @param tsrUpDt update date
+     * 
+     * @param tsrEmpId
+     *            employee id
+     * @param tsrWkEnd
+     *            week end string
+     * @param tsrProjNo
+     *            project number
+     * @param tsrWpNo
+     *            wp number
+     * @param tsrSat
+     *            sat hours
+     * @param tsrSun
+     *            sun hours
+     * @param tsrMon
+     *            mon hours
+     * @param tsrTue
+     *            tue hours
+     * @param tsrWed
+     *            wed hours
+     * @param tsrThu
+     *            thu hours
+     * @param tsrFri
+     *            fri hours
+     * @param tsrNote
+     *            note
+     * @param tsrDel
+     *            delete flag
+     * @param tsrInsDt
+     *            insert date
+     * @param tsrUpDt
+     *            update date
      */
     public Tsrow(int tsrEmpId, String tsrWkEnd, int tsrProjNo, String tsrWpNo, BigDecimal tsrSat, BigDecimal tsrSun,
             BigDecimal tsrMon, BigDecimal tsrTue, BigDecimal tsrWed, BigDecimal tsrThu, BigDecimal tsrFri,
@@ -213,6 +240,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsr_id.
+     * 
      * @return tsr_id
      */
     @Id
@@ -223,8 +251,10 @@ public class Tsrow implements java.io.Serializable {
     }
 
     /**
-     * Set tsr_id. 
-     * @param id tsr_id
+     * Set tsr_id.
+     * 
+     * @param id
+     *            tsr_id
      */
     public void setId(Long id) {
         this.tsr_id = id;
@@ -232,6 +262,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrEmpId.
+     * 
      * @return tsrEmpId
      */
     @Column(name = "tsrEmpID", insertable = false, updatable = false, nullable = false)
@@ -241,7 +272,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrEmpId.
-     * @param tsrEmpId tsrEmpId
+     * 
+     * @param tsrEmpId
+     *            tsrEmpId
      */
     public void setTsrEmpId(int tsrEmpId) {
         this.tsrEmpId = tsrEmpId;
@@ -249,6 +282,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrWkEnd.
+     * 
      * @return tsrWkEnd
      */
     @Column(name = "tsrWkEnd", insertable = false, updatable = false, nullable = false, length = 8)
@@ -258,7 +292,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrWkEnd.
-     * @param tsrWkEnd tsrWkEnd
+     * 
+     * @param tsrWkEnd
+     *            tsrWkEnd
      */
     public void setTsrWkEnd(String tsrWkEnd) {
         this.tsrWkEnd = tsrWkEnd;
@@ -266,6 +302,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrProjNo.
+     * 
      * @return tsrProjNo
      */
     @Column(name = "tsrProjNo", nullable = false)
@@ -275,7 +312,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrProjNo.
-     * @param tsrProjNo tsrProjNo
+     * 
+     * @param tsrProjNo
+     *            tsrProjNo
      */
     public void setTsrProjNo(int tsrProjNo) {
         this.tsrProjNo = tsrProjNo;
@@ -283,6 +322,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrWpNo.
+     * 
      * @return tsrWpNo
      */
     @Column(name = "tsrWpNo", nullable = false, length = 8)
@@ -292,7 +332,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrWpNo.
-     * @param tsrWpNo tsrWpNo
+     * 
+     * @param tsrWpNo
+     *            tsrWpNo
      */
     public void setTsrWpNo(String tsrWpNo) {
         this.tsrWpNo = tsrWpNo;
@@ -300,6 +342,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrSat.
+     * 
      * @return tsrSat
      */
     @Column(name = "tsrSat", precision = 4)
@@ -309,7 +352,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrSat.
-     * @param tsrSat tsrSat
+     * 
+     * @param tsrSat
+     *            tsrSat
      */
     public void setTsrSat(BigDecimal tsrSat) {
         this.tsrSat = tsrSat;
@@ -317,6 +362,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrSun.
+     * 
      * @return tsrSun
      */
     @Column(name = "tsrSun", precision = 4)
@@ -326,7 +372,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrSun.
-     * @param tsrSun tsrSun
+     * 
+     * @param tsrSun
+     *            tsrSun
      */
     public void setTsrSun(BigDecimal tsrSun) {
         this.tsrSun = tsrSun;
@@ -334,6 +382,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrMon.
+     * 
      * @return tsrMon
      */
     @Column(name = "tsrMon", precision = 4)
@@ -343,7 +392,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrMon.
-     * @param tsrMon tsrMon
+     * 
+     * @param tsrMon
+     *            tsrMon
      */
     public void setTsrMon(BigDecimal tsrMon) {
         this.tsrMon = tsrMon;
@@ -351,6 +402,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrTue.
+     * 
      * @return tsrTue
      */
     @Column(name = "tsrTue", precision = 4)
@@ -360,7 +412,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrTue.
-     * @param tsrTue tsrTue
+     * 
+     * @param tsrTue
+     *            tsrTue
      */
     public void setTsrTue(BigDecimal tsrTue) {
         this.tsrTue = tsrTue;
@@ -368,6 +422,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrWed.
+     * 
      * @return tsrWed
      */
     @Column(name = "tsrWed", precision = 4)
@@ -377,7 +432,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrWed.
-     * @param tsrWed tsrWed
+     * 
+     * @param tsrWed
+     *            tsrWed
      */
     public void setTsrWed(BigDecimal tsrWed) {
         this.tsrWed = tsrWed;
@@ -385,6 +442,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrThu.
+     * 
      * @return tsrThu
      */
     @Column(name = "tsrThu", precision = 4)
@@ -394,7 +452,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrThu.
-     * @param tsrThu tsrThu
+     * 
+     * @param tsrThu
+     *            tsrThu
      */
     public void setTsrThu(BigDecimal tsrThu) {
         this.tsrThu = tsrThu;
@@ -402,6 +462,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrFri.
+     * 
      * @return tsrFri
      */
     @Column(name = "tsrFri", precision = 4)
@@ -411,14 +472,17 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrFri.
-     * @param tsrFri tsrFri
+     * 
+     * @param tsrFri
+     *            tsrFri
      */
     public void setTsrFri(BigDecimal tsrFri) {
         this.tsrFri = tsrFri;
     }
-    
+
     /**
      * Get tsrOt.
+     * 
      * @return tsrOt
      */
     @Column(name = "tsrOt", precision = 4)
@@ -427,8 +491,10 @@ public class Tsrow implements java.io.Serializable {
     }
 
     /**
-     * Set tsrOt. 
-     * @param tsrOt tsrOt
+     * Set tsrOt.
+     * 
+     * @param tsrOt
+     *            tsrOt
      */
     public void setTsrOt(BigDecimal tsrOt) {
         this.tsrOt = tsrOt;
@@ -436,6 +502,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrNote.
+     * 
      * @return tsrNote
      */
     @Column(name = "tsrNote")
@@ -445,7 +512,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrNote.
-     * @param tsrNote tsrNote
+     * 
+     * @param tsrNote
+     *            tsrNote
      */
     public void setTsrNote(String tsrNote) {
         this.tsrNote = tsrNote;
@@ -453,6 +522,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrDel.
+     * 
      * @return tsrDel
      */
     @Column(name = "tsrDel", nullable = false)
@@ -462,7 +532,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrDel.
-     * @param tsrDel tsrDel
+     * 
+     * @param tsrDel
+     *            tsrDel
      */
     public void setTsrDel(short tsrDel) {
         this.tsrDel = tsrDel;
@@ -470,6 +542,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrInsDt.
+     * 
      * @return tsrInsDt
      */
     @Temporal(TemporalType.TIMESTAMP)
@@ -480,7 +553,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrInsDt.
-     * @param tsrInsDt tsrInsDt
+     * 
+     * @param tsrInsDt
+     *            tsrInsDt
      */
     public void setTsrInsDt(Date tsrInsDt) {
         this.tsrInsDt = tsrInsDt;
@@ -488,6 +563,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get tsrUpDt.
+     * 
      * @return tsrUpDt
      */
     @Temporal(TemporalType.TIMESTAMP)
@@ -498,7 +574,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set tsrUpDt.
-     * @param tsrUpDt tsrUpDt
+     * 
+     * @param tsrUpDt
+     *            tsrUpDt
      */
     public void setTsrUpDt(Date tsrUpDt) {
         this.tsrUpDt = tsrUpDt;
@@ -508,6 +586,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get editable.
+     * 
      * @return editable
      */
     @Transient
@@ -517,7 +596,9 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set editable.
-     * @param editable editable
+     * 
+     * @param editable
+     *            editable
      */
     public void setEditable(boolean editable) {
         this.editable = editable;
@@ -525,6 +606,7 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Get total.
+     * 
      * @return total.
      */
     @Transient
@@ -542,16 +624,17 @@ public class Tsrow implements java.io.Serializable {
 
     /**
      * Set total.
-     * @param total total
+     * 
+     * @param total
+     *            total
      */
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
-    
+
     public boolean equals(Object entityObject) {
         Tsrow entity = (Tsrow) entityObject;
-        return this.getTsrWpNo().equals(entity.getTsrWpNo())
-                && this.getTsrProjNo() == entity.getTsrProjNo(); 
+        return this.getTsrWpNo().equals(entity.getTsrWpNo()) && this.getTsrProjNo() == entity.getTsrProjNo();
     }
 
 }

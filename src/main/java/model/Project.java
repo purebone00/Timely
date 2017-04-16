@@ -32,47 +32,47 @@ public class Project implements java.io.Serializable {
      * Project number.
      */
     private Integer projNo;
-    
+
     /**
      * Project name.
      */
     private String projNm;
-    
+
     /**
      * Project description.
      */
     private String projDesc;
-    
+
     /**
      * Project manager.
      */
     private Integer projMan;
-    
+
     /**
      * Project start date.
      */
     private Date projStaDt;
-    
+
     /**
      * Project end date.
      */
     private Date projEndDt;
-    
+
     /**
      * Project status.
      */
     private short projStatus;
-    
+
     /**
      * Project deleted flag.
      */
     private short projDel;
-    
+
     /**
      * Insert date.
      */
     private Date projInsDt;
-    
+
     /**
      * Update date.
      */
@@ -96,12 +96,19 @@ public class Project implements java.io.Serializable {
 
     /**
      * Create a project.
-     * @param projNm project number
-     * @param projMan project manager
-     * @param projStatus project status
-     * @param projDel delete flag
-     * @param projInsDt insert date
-     * @param projUdDt update date
+     * 
+     * @param projNm
+     *            project number
+     * @param projMan
+     *            project manager
+     * @param projStatus
+     *            project status
+     * @param projDel
+     *            delete flag
+     * @param projInsDt
+     *            insert date
+     * @param projUdDt
+     *            update date
      */
     public Project(String projNm, int projMan, short projStatus, short projDel, Date projInsDt, Date projUdDt) {
         this.projNm = projNm;
@@ -114,15 +121,25 @@ public class Project implements java.io.Serializable {
 
     /**
      * Create a project.
-     * @param projNm project number
-     * @param projDesc project description
-     * @param projMan project manager
-     * @param projStaDt start date
-     * @param projEndDt end date
-     * @param projStatus status
-     * @param projDel delete flag
-     * @param projInsDt insert date
-     * @param projUdDt update date
+     * 
+     * @param projNm
+     *            project number
+     * @param projDesc
+     *            project description
+     * @param projMan
+     *            project manager
+     * @param projStaDt
+     *            start date
+     * @param projEndDt
+     *            end date
+     * @param projStatus
+     *            status
+     * @param projDel
+     *            delete flag
+     * @param projInsDt
+     *            insert date
+     * @param projUdDt
+     *            update date
      */
     public Project(String projNm, String projDesc, int projMan, Date projStaDt, Date projEndDt, short projStatus,
             short projDel, Date projInsDt, Date projUdDt) {
@@ -136,45 +153,52 @@ public class Project implements java.io.Serializable {
         this.projInsDt = projInsDt;
         this.projUdDt = projUdDt;
     }
-    
+
     /**
      * Get workPackages.
+     * 
      * @return workPackages
      */
-    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
-    @JoinColumn(name="wpProjNo", referencedColumnName="projNo")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "wpProjNo", referencedColumnName = "projNo")
     @OrderBy("id.wpNo ASC")
     public SortedSet<Workpack> getWorkPackages() {
-    	return this.workPackages;
+        return this.workPackages;
     }
-    
+
     /**
      * Set workPackages.
-     * @param workpackages workPackages
+     * 
+     * @param workpackages
+     *            workPackages
      */
     public void setWorkPackages(SortedSet<Workpack> workpackages) {
-    	this.workPackages = workpackages;
+        this.workPackages = workpackages;
     }
-    
+
     /**
      * Get employees.
+     * 
      * @return employees
      */
-    @ManyToMany(mappedBy="projects", fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy = "projects", fetch = FetchType.EAGER)
     public Set<Employee> getEmployees() {
-    	return this.employees;
+        return this.employees;
     }
-    
+
     /**
      * Set employees.
-     * @param employees employees
+     * 
+     * @param employees
+     *            employees
      */
     public void setEmployees(Set<Employee> employees) {
-    	this.employees = employees;
+        this.employees = employees;
     }
 
     /**
      * Get projNo.
+     * 
      * @return projNo
      */
     @Id
@@ -186,7 +210,9 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projNo.
-     * @param projNo projNo
+     * 
+     * @param projNo
+     *            projNo
      */
     public void setProjNo(Integer projNo) {
         this.projNo = projNo;
@@ -194,6 +220,7 @@ public class Project implements java.io.Serializable {
 
     /**
      * Get projNm.
+     * 
      * @return projNm
      */
     @Column(name = "projNm", nullable = false, length = 64)
@@ -203,7 +230,9 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projNm.
-     * @param projNm projNm
+     * 
+     * @param projNm
+     *            projNm
      */
     public void setProjNm(String projNm) {
         this.projNm = projNm;
@@ -211,6 +240,7 @@ public class Project implements java.io.Serializable {
 
     /**
      * Get projDesc.
+     * 
      * @return projDesc
      */
     @Column(name = "projDesc")
@@ -220,7 +250,9 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projDesc.
-     * @param projDesc projDesc
+     * 
+     * @param projDesc
+     *            projDesc
      */
     public void setProjDesc(String projDesc) {
         this.projDesc = projDesc;
@@ -228,6 +260,7 @@ public class Project implements java.io.Serializable {
 
     /**
      * Get projMan.
+     * 
      * @return projMan
      */
     @Column(name = "projMan")
@@ -237,7 +270,9 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projMan.
-     * @param projMan projMan
+     * 
+     * @param projMan
+     *            projMan
      */
     public void setProjMan(Integer projMan) {
         this.projMan = projMan;
@@ -245,6 +280,7 @@ public class Project implements java.io.Serializable {
 
     /**
      * Get projStaDt.
+     * 
      * @return projStaDt
      */
     @Temporal(TemporalType.DATE)
@@ -255,7 +291,9 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projStaDt.
-     * @param projStaDt projStaDt
+     * 
+     * @param projStaDt
+     *            projStaDt
      */
     public void setProjStaDt(Date projStaDt) {
         this.projStaDt = projStaDt;
@@ -263,6 +301,7 @@ public class Project implements java.io.Serializable {
 
     /**
      * Get projEndDt.
+     * 
      * @return projEndDt
      */
     @Temporal(TemporalType.DATE)
@@ -273,14 +312,17 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projEndDt.
-     * @param projEndDt projEndDt
+     * 
+     * @param projEndDt
+     *            projEndDt
      */
     public void setProjEndDt(Date projEndDt) {
         this.projEndDt = projEndDt;
     }
 
     /**
-     * Get projStatus. 
+     * Get projStatus.
+     * 
      * @return projStatus
      */
     @Column(name = "projStatus", nullable = false)
@@ -290,7 +332,9 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projStatus.
-     * @param projStatus projStatus
+     * 
+     * @param projStatus
+     *            projStatus
      */
     public void setProjStatus(short projStatus) {
         this.projStatus = projStatus;
@@ -298,6 +342,7 @@ public class Project implements java.io.Serializable {
 
     /**
      * Get projDel.
+     * 
      * @return projDel
      */
     @Column(name = "projDel", nullable = false)
@@ -307,7 +352,9 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projDel.
-     * @param projDel projDel
+     * 
+     * @param projDel
+     *            projDel
      */
     public void setProjDel(short projDel) {
         this.projDel = projDel;
@@ -315,6 +362,7 @@ public class Project implements java.io.Serializable {
 
     /**
      * Get projInsDt.
+     * 
      * @return projInsDt
      */
     @Temporal(TemporalType.TIMESTAMP)
@@ -325,7 +373,9 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projInsDt.
-     * @param projInsDt projInsDt
+     * 
+     * @param projInsDt
+     *            projInsDt
      */
     public void setProjInsDt(Date projInsDt) {
         this.projInsDt = projInsDt;
@@ -333,6 +383,7 @@ public class Project implements java.io.Serializable {
 
     /**
      * Get projUdDt.
+     * 
      * @return projUdDt
      */
     @Temporal(TemporalType.TIMESTAMP)
@@ -343,14 +394,16 @@ public class Project implements java.io.Serializable {
 
     /**
      * Set projUdDt.
-     * @param projUdDt projUdDt
+     * 
+     * @param projUdDt
+     *            projUdDt
      */
     public void setProjUdDt(Date projUdDt) {
         this.projUdDt = projUdDt;
     }
-    
+
     public String toString() {
-    	return this.projNo.toString();
+        return this.projNo.toString();
     }
 
     /* =========================================== */
@@ -358,5 +411,5 @@ public class Project implements java.io.Serializable {
         Project entity = (Project) entityObject;
         return this.getProjNo().equals(entity.getProjNo());
     }
-    
+
 }

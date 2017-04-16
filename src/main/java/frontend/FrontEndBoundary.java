@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
 import controller.AdminController;
 import controller.EmployeeController;
@@ -28,38 +25,76 @@ import model.Project;
 import model.Title;
 import utility.models.MonthlyReport;
 
+/**
+ * Navigation cases and main interaction from front end to business logic.
+ * 
+ * @author Timely
+ *
+ */
 @SuppressWarnings("serial")
 @Named("Master")
 @SessionScoped
 public class FrontEndBoundary implements Serializable {
+    /**
+     * Holds login logic.
+     */
     @Inject
     LoginController login;
+    /**
+     * Holds responsible engineer logic.
+     */
     @Inject
     ResponsibleEngineerController resEng;
+    /**
+     * Holds admin logic.
+     */
     @Inject
     AdminController admin;
+    /**
+     * Holds employee logic.
+     */
     @Inject
     EmployeeController employee;
+    /**
+     * Holds project manager logic.
+     */
     @Inject
     ProjectManagerController projMan;
+    /**
+     * Holds timesheet approver logic.
+     */
     @Inject
     TimesheetApproverController taApprover;
+    /**
+     * Holds employee manager logic.
+     */
     @Inject
     private EmployeeManager employeeManager;
+    /**
+     * Holds supervisor logic.
+     */
     @Inject
     SupervisorController supMan;
 
-    
-
+    /**
+     * Ends current session.
+     * 
+     * @return
+     */
     public String finish() {
         employee.setEmp(null);
 
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-       
+
         ec.invalidateSession();
         return "/login.xhtml?faces-redirect=true&expired=true";
     }
 
+    /**
+     * Authenticate current user.
+     * 
+     * @return
+     */
     public String authenticate() {
         Employee curEmp;
         if ((curEmp = login.authUser()) != null) {
@@ -75,39 +110,59 @@ public class FrontEndBoundary implements Serializable {
             }
             return "login";
         } else {
-	        FacesContext.getCurrentInstance().addMessage(
-	                null,
-	                new FacesMessage(FacesMessage.SEVERITY_FATAL,
-	                "Invalid Login!",
-	                "Please Try Again!"));
-	
-	        return null;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL, "Invalid Login!", "Please Try Again!"));
+
+            return null;
         }
     }
 
+    /**
+     * Navigate to timesheet view.
+     * 
+     * @param wkEnd
+     *            from datatable.
+     * @return
+     */
     public String goToTimesheet(String wkEnd) {
         employee.setTsId(employee.getEmp().getEmpId(), wkEnd);
         return "timesheet";
     }
 
+    /**
+     * Logs out user.
+     * 
+     * @return
+     * @throws IOException
+     */
     public String logout() throws IOException {
         finish();
         return "logout";
     }
 
+    /**
+     * Navigate to page for changing password.
+     * 
+     * @return
+     */
     public String goToChangePassword() {
         return "changepassword";
     }
 
+    /**
+     * Holds logic for changing password for an employee.
+     * 
+     * @return
+     */
     public String changePassword() {
         Employee emp = employee.getEmp();
         String newPassword = emp.getNewPassword();
         String currentPassword = emp.getOldPassword();
         String confirmNewPassword = emp.getNewPasswordConfirm();
-        
+
         if (!confirmNewPassword.equals(newPassword))
             return null;
-        
+
         if (!currentPassword.equals(emp.getEmpPw()))
             return null;
 
@@ -117,6 +172,11 @@ public class FrontEndBoundary implements Serializable {
         return "success";
     }
 
+    /**
+     * String of notifications for a user.
+     * 
+     * @return
+     */
     public String getNotifications() {
         int monthState = 0, weekState = 0;
         StringBuilder notification = new StringBuilder();
@@ -147,119 +207,213 @@ public class FrontEndBoundary implements Serializable {
         projMan.setSelectedProject(projMan.getSelectedProjectForViewing());
         return notification.toString();
     }
-    
-    
 
+    /**
+     * Show current supervisor features.
+     * 
+     * @return
+     */
     public boolean showSupervisor() {
         try {
-            return ((boolean)getCurrentSessonMap().get("Supervisor"));
+            return ((boolean) getCurrentSessonMap().get("Supervisor"));
         } catch (NullPointerException e) {
             return false;
         }
     }
-    
+
+    /**
+     * Show current project manager features.
+     * 
+     * @return
+     */
     public boolean showProjectManager() {
         try {
-            return ((boolean)getCurrentSessonMap().get("Project Manager"));
+            return ((boolean) getCurrentSessonMap().get("Project Manager"));
         } catch (NullPointerException e) {
             return false;
         }
     }
-    
+
+    /**
+     * Show current responsible engineer features.
+     * 
+     * @return
+     */
     public boolean showResponsibleEngineer() {
         try {
-            return ((boolean)getCurrentSessonMap().get("Responsible Engineer"));
+            return ((boolean) getCurrentSessonMap().get("Responsible Engineer"));
         } catch (NullPointerException e) {
             return false;
         }
     }
-    
+
+    /**
+     * Show current timesheet approver features.
+     * 
+     * @return
+     */
     public boolean showTimesheetApprover() {
         try {
-            return ((boolean)getCurrentSessonMap().get("Timesheet Approver"));
+            return ((boolean) getCurrentSessonMap().get("Timesheet Approver"));
         } catch (NullPointerException e) {
             return false;
         }
     }
-    
+
+    /**
+     * Show admin features
+     * 
+     * @return
+     */
     public boolean showAdmin() {
         try {
-            return ((boolean)getCurrentSessonMap().get("Admin"));
+            return ((boolean) getCurrentSessonMap().get("Admin"));
         } catch (NullPointerException e) {
             return false;
         }
     }
-    
+
     /**
-     * Checks all the titles a user has, then adds them 
-     * into the sessionmap for us to check later on.
+     * Checks all the titles a user has, then adds them into the sessionmap for
+     * us to check later on.
+     * 
      * @param title
      */
     public void checkTitle(Title title) {
-        FacesContext.getCurrentInstance()
-            .getExternalContext()
-            .getSessionMap()
-            .put(title.getTitNm(),true);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(title.getTitNm(), true);
     }
-    
-    //Getter and Setters
-    
+
+    /**
+     * Get supervisor controller.
+     * 
+     * @return
+     */
     public SupervisorController getSupMan() {
         return supMan;
     }
 
+    /**
+     * Set supervisor controller.
+     * 
+     * @param supMan
+     */
     public void setSupMan(SupervisorController supMan) {
         this.supMan = supMan;
     }
 
+    /**
+     * Get login controller.
+     * 
+     * @return
+     */
     public LoginController getLogin() {
         return login;
     }
 
+    /**
+     * Get current employee.
+     * 
+     * @return
+     */
     public EmployeeController getEmployee() {
         return employee;
     }
 
+    /**
+     * Set current employee.
+     * 
+     * @param employee
+     */
     public void setEmployee(EmployeeController employee) {
         this.employee = employee;
     }
 
+    /**
+     * Set login controller.
+     * 
+     * @param login
+     */
     public void setLogin(LoginController login) {
         this.login = login;
     }
 
+    /**
+     * Get controller for responsible engineer.
+     * 
+     * @return
+     */
     public ResponsibleEngineerController getResEng() {
         return resEng;
     }
 
+    /**
+     * Set controller for responsible engineer.
+     * 
+     * @param resEng
+     */
     public void setResEng(ResponsibleEngineerController resEng) {
         this.resEng = resEng;
     }
 
+    /**
+     * Get current admin.
+     * 
+     * @return
+     */
     public AdminController getAdmin() {
         return admin;
     }
 
+    /**
+     * Set a new admin.
+     * 
+     * @param admin
+     */
     public void setAdmin(AdminController admin) {
         this.admin = admin;
     }
 
+    /**
+     * Get a project manager controller.
+     * 
+     * @return
+     */
     public ProjectManagerController getProjMan() {
         return projMan;
     }
 
+    /**
+     * Set a new project manager controller
+     * 
+     * @param projMan
+     */
     public void setProjMan(ProjectManagerController projMan) {
         this.projMan = projMan;
     }
 
+    /**
+     * Get the timesheet approver controller.
+     * 
+     * @return
+     */
     public TimesheetApproverController getTaApprover() {
         return taApprover;
     }
 
+    /**
+     * Set a new timesheet approver controller.
+     * 
+     * @param taApprover
+     */
     public void setTaApprover(TimesheetApproverController taApprover) {
         this.taApprover = taApprover;
     }
-    
+
+    /**
+     * Sets the session context roles.
+     * 
+     * @return
+     */
     public Map<String, Object> getCurrentSessonMap() {
         return FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
     }
